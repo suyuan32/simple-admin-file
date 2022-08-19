@@ -1,0 +1,85 @@
+syntax = "v1"
+
+info(
+	title: "uploader api management"
+	desc: "uploader api management"
+	author: "ryansu"
+	email: "yuansu.china.work@gmail.com"
+	version: "v1.0"
+)
+
+import "base.api"
+
+type (
+	UploadResp {
+		Msg  string `json:"msg"`
+		Name string `json:"name"`
+		Path string `json:"path"`
+	}
+
+	UpdateFileReq {
+		ID   int64  `json:"id"`
+		Name string `json:"name"`
+	}
+
+	FileListReq {
+		Page      uint64 `json:"page"`
+		PageSize  uint64 `json:"pageSize"`
+		FileType  string `json:"fileType"`
+		FileName  string `json:"fileName"`
+		BeginDate int64  `json:"beginDate"`
+		EndDate   int64  `json:"endDate"`
+	}
+
+	FileInfo {
+		ID       int64  `json:"id"`
+		UUID     string `json:"UUID"`
+		UserUUID string `json:"userUUID"`
+		Name     string `json:"name"`
+		FileType string `json:"fileType"`
+		Size     int64  `json:"size"`
+		Path     string `json:"path"`
+	}
+
+	FileListResp {
+		PageList
+		Data []FileInfo `json:"data"`
+	}
+
+	ChangeStatusReq {
+		ID     uint64 `json:"id"`
+		Status bool   `json:"status"`
+	}
+)
+
+@server(
+	group: file
+)
+
+service file {
+	// initialize database
+	@handler initDatabaseHandler
+	get /init/database returns (SimpleMsg)
+}
+
+@server(
+	jwt: Auth
+	group: file
+)
+service file {
+	// base file manage service
+	@handler uploadHandler
+	post /upload returns (UploadResp)
+	
+	@handler fileListHandler
+	post /file/list (FileListReq) returns (FileListResp)
+	
+	@handler updateFileHandler
+	post /file (UpdateFileReq) returns (SimpleMsg)
+	
+	@handler deleteFileHandler
+	delete /file (IdReq) returns (SimpleMsg)
+	
+	@handler changePublicStatusHandler
+	post /file/status (ChangeStatusReq) returns (SimpleMsg)
+}
