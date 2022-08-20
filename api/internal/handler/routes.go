@@ -48,6 +48,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/file/status",
 				Handler: file.ChangePublicStatusHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/file/download/:id",
+				Handler: file.DownloadFileHandler(serverCtx),
+			},
 		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 	)

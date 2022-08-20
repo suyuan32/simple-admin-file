@@ -13,22 +13,23 @@ type UpdateFileReq struct {
 }
 
 type FileListReq struct {
-	Page      uint64 `json:"page"`
-	PageSize  uint64 `json:"pageSize"`
-	FileType  string `json:"fileType"`
-	FileName  string `json:"fileName"`
-	BeginDate int64  `json:"beginDate"`
-	EndDate   int64  `json:"endDate"`
+	Page     uint64   `json:"page"`
+	PageSize uint64   `json:"pageSize"`
+	FileType string   `json:"fileType"`
+	FileName string   `json:"fileName"`
+	Period   []string `json:"period,optinal"`
 }
 
 type FileInfo struct {
-	ID       int64  `json:"id"`
-	UUID     string `json:"UUID"`
-	UserUUID string `json:"userUUID"`
-	Name     string `json:"name"`
-	FileType string `json:"fileType"`
-	Size     int64  `json:"size"`
-	Path     string `json:"path"`
+	ID        int64  `json:"id"`
+	UUID      string `json:"UUID"`
+	UserUUID  string `json:"userUUID"`
+	Name      string `json:"name"`
+	FileType  string `json:"fileType"`
+	Size      int64  `json:"size"`
+	Path      string `json:"path"`
+	Status    bool   `json:"status"`
+	CreatedAt int64  `json:"createdAt"`
 }
 
 type FileListResp struct {
@@ -39,6 +40,10 @@ type FileListResp struct {
 type ChangeStatusReq struct {
 	ID     uint64 `json:"id"`
 	Status bool   `json:"status"`
+}
+
+type DownloadReq struct {
+	Id int64 `path:"id"`
 }
 
 type BaseMsg struct {

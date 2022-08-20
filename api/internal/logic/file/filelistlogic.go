@@ -2,16 +2,17 @@ package file
 
 import (
 	"context"
-	"github.com/suyuan32/simple-admin-core/api/common/errorx"
-	"github.com/suyuan32/simple-admin-file/api/internal/model"
-	"github.com/zeromicro/go-zero/rest/httpx"
+	"encoding/json"
 	"net/http"
 	"time"
 
+	"github.com/suyuan32/simple-admin-file/api/internal/model"
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
 
+	"github.com/zeromicro/go-zero/core/errorx"
 	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
 type FileListLogic struct {
@@ -29,6 +30,11 @@ func NewFileListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FileList
 }
 
 func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListResp, err error) {
+	// only admin can view the list
+	if l.ctx.Value("roleId").(json.Number).String() != "1" {
+		return nil, httpx.NewApiErrorWithoutMsg(http.StatusUnauthorized)
+	}
+
 	db := l.svcCtx.DB.Model(&model.FileInfo{})
 
 	if req.FileName != "" {
@@ -39,13 +45,22 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 		db = db.Where("file_type = ?", req.FileType)
 	}
 
-	if req.BeginDate != 0 && req.EndDate != 0 {
-		db = db.Where("create_at between ? and ?", time.UnixMilli(req.BeginDate), time.UnixMilli(req.EndDate))
+	if req.Period[0] != "" && req.Period[1] != "" {
+		begin, err := time.Parse("2006-01-02 15:04:05", req.Period[0])
+		if err != nil {
+			return nil, httpx.NewApiErrorWithoutMsg(http.StatusBadRequest)
+		}
+		end, err := time.Parse("2006-01-02 15:04:05", req.Period[1])
+		if err != nil {
+			return nil, httpx.NewApiErrorWithoutMsg(http.StatusBadRequest)
+		}
+
+		db = db.Where("created_at between ? and ?", begin, end)
 	}
 
 	var fileInfos []model.FileInfo
 	result := db.Limit(int(req.PageSize)).Offset(int((req.Page - 1) * req.PageSize)).
-		Order("create_at desc").Find(&fileInfos)
+		Order("created_at desc").Find(&fileInfos)
 
 	if result.Error != nil {
 		return nil, httpx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
@@ -56,13 +71,15 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 
 	for _, v := range fileInfos {
 		resp.Data = append(resp.Data, types.FileInfo{
-			ID:       int64(v.ID),
-			UUID:     v.UUID,
-			UserUUID: v.UserUUID,
-			Name:     v.Name,
-			FileType: v.FileType,
-			Size:     v.Size,
-			Path:     v.Path,
+			ID:        int64(v.ID),
+			UUID:      v.UUID,
+			UserUUID:  v.UserUUID,
+			Name:      v.Name,
+			FileType:  v.FileType,
+			Size:      v.Size,
+			Path:      v.Path,
+			Status:    v.Status,
+			CreatedAt: v.CreatedAt.UnixMilli(),
 		})
 	}
 

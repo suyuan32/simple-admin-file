@@ -4,12 +4,11 @@ go 1.18
 
 require (
 	github.com/google/uuid v1.3.0
-	github.com/suyuan32/simple-admin-core v0.0.0-20220816051626-aa916031f9e8
 	github.com/zeromicro/go-zero v1.4.0
 	gorm.io/gorm v1.23.8
 )
 
-replace github.com/zeromicro/go-zero v1.4.0 => github.com/suyuan32/simple-admin-tools v0.0.0-20220818071359-5994d5345aa4
+replace github.com/zeromicro/go-zero v1.4.0 => github.com/suyuan32/simple-admin-tools v0.0.0-20220819082850-bbed5a0b0473
 
 require (
 	github.com/Knetic/govaluate v3.0.1-0.20171022003610-9aa49832a739+incompatible // indirect
