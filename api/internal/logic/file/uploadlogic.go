@@ -85,9 +85,9 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 	// generate path
 	// 生成路径
 
-	// judge if the file directory exists, if not create it. Both private and public need
-	// to be created in order to move files when status changed
-	// 判断文件夹是否已创建, 同时创建好私人和公开文件夹防止文件状态改变时无法移动
+	//judge if the file directory exists, if not create it. Both private and public need
+	//to be created in order to move files when status changed
+	//判断文件夹是否已创建, 同时创建好私人和公开文件夹防止文件状态改变时无法移动
 
 	_, err = os.Stat(path.Join(l.svcCtx.Config.UploadConf.PublicStorePath,
 		l.svcCtx.Config.Name, fileType, timeString))
