@@ -1,10 +1,11 @@
 module github.com/suyuan32/simple-admin-file
 
-go 1.18
+go 1.19
 
 require (
 	github.com/google/uuid v1.3.0
 	github.com/zeromicro/go-zero v1.4.0
+	github.com/zeromicro/zero-contrib/logx/zapx v0.0.0-20220708020647-d13169872f75
 	gorm.io/gorm v1.23.8
 )
 
@@ -55,7 +56,10 @@ require (
 	go.opentelemetry.io/otel/exporters/zipkin v1.9.0 // indirect
 	go.opentelemetry.io/otel/sdk v1.9.0 // indirect
 	go.opentelemetry.io/otel/trace v1.9.0 // indirect
+	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/automaxprocs v1.5.1 // indirect
+	go.uber.org/multierr v1.8.0 // indirect
+	go.uber.org/zap v1.21.0 // indirect
 	golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa // indirect
 	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect
 	golang.org/x/text v0.3.7 // indirect

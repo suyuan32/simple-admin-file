@@ -2,7 +2,9 @@ package svc
 
 import (
 	"github.com/suyuan32/simple-admin-file/api/internal/config"
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/redis"
+	"github.com/zeromicro/zero-contrib/logx/zapx"
 	"gorm.io/gorm"
 	"log"
 )
@@ -14,6 +16,13 @@ type ServiceContext struct {
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
+	// initialize logx
+	writer, err := zapx.NewZapWriter()
+	logx.Must(err)
+	logx.SetWriter(writer)
+	logx.MustSetup(c.Log)
+
+	logx.Info("test log")
 	db, err := c.DB.NewGORM()
 	if err != nil {
 		log.Fatal(err.Error())

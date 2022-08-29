@@ -3,6 +3,7 @@ package file
 import (
 	"context"
 	"encoding/json"
+	"github.com/suyuan32/simple-admin-file/api/internal/util/logmessage"
 	"net/http"
 
 	"github.com/suyuan32/simple-admin-file/api/internal/model"
@@ -29,26 +30,34 @@ func NewUpdateFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 func (l *UpdateFileLogic) UpdateFile(req *types.UpdateFileReq) (resp *types.SimpleMsg, err error) {
-	// judge the user is admin or owner
-	// 只有管理员和拥有者能更新信息
 	var target model.FileInfo
 	check := l.svcCtx.DB.Where("id = ?", req.ID).First(&target)
 	if check.Error != nil {
+		logx.Errorw(logmessage.DatabaseError, logx.Field("Detail", check.Error.Error()))
 		return nil, httpx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 	if check.RowsAffected == 0 {
+		logx.Errorw("File does not found", logx.Field("FileId", req.ID))
 		return nil, httpx.NewApiErrorWithoutMsg(http.StatusNotFound)
 	}
-	if l.ctx.Value("roleId").(json.Number).String() != "1" && l.ctx.Value("userId").(string) != target.UserUUID {
+
+	// only admin and owner can do it
+	roleId := l.ctx.Value("roleId").(json.Number).String()
+	userId := l.ctx.Value("userId").(string)
+	if roleId != "1" && userId != target.UserUUID {
+		logx.Errorw(logmessage.OperationNotAllow, logx.Field("RoleId", roleId),
+			logx.Field("UserId", userId))
 		return nil, httpx.NewApiErrorWithoutMsg(http.StatusUnauthorized)
 	}
 
 	// update data
 	result := l.svcCtx.DB.Model(&model.FileInfo{}).Where("id = ?", req.ID).Update("name", req.Name)
 	if result.Error != nil {
+		logx.Errorw(logmessage.DatabaseError, logx.Field("Detail", result.Error.Error()))
 		return nil, httpx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 	if result.RowsAffected == 0 {
+		logx.Errorw("Fail to update the file", logx.Field("Detail", req))
 		return &types.SimpleMsg{Msg: errorx.UpdateFailed}, nil
 	}
 	return &types.SimpleMsg{Msg: errorx.UpdateSuccess}, nil

@@ -121,6 +121,7 @@ service file {
 	jwt : Auth
 	group: file
 )
+
 service file {
 	// swagger:route POST /upload file upload
 	// Upload file | 上传文件

@@ -3,6 +3,7 @@ package file
 import (
 	"context"
 	"encoding/json"
+	"github.com/suyuan32/simple-admin-file/api/internal/util/logmessage"
 	"net/http"
 	"path"
 
@@ -38,15 +39,23 @@ func (l *DownloadFileLogic) DownloadFile(req *types.DownloadReq) (filePath strin
 	if check.RowsAffected == 0 {
 		return "", httpx.NewApiErrorWithoutMsg(http.StatusNotFound)
 	}
-	// judge the user is admin or owner
-	// 只有管理员和拥有者能下载文件
-	if l.ctx.Value("roleId").(json.Number).String() != "1" && l.ctx.Value("userId").(string) != target.UserUUID {
+
+	// only admin and owner can do it
+	roleId := l.ctx.Value("roleId").(json.Number).String()
+	userId := l.ctx.Value("userId").(string)
+	if roleId != "1" && userId != target.UserUUID {
+		logx.Errorw(logmessage.OperationNotAllow, logx.Field("RoleId", roleId),
+			logx.Field("UserId", userId))
 		return "", httpx.NewApiErrorWithoutMsg(http.StatusUnauthorized)
 	}
 
 	if target.Status {
+		logx.Infow("Public download", logx.Field("FileName", target.Name), logx.Field("UserId", userId),
+			logx.Field("FilePath", target.Path))
 		return path.Join(l.svcCtx.Config.UploadConf.PublicStorePath, target.Path), nil
 	} else {
+		logx.Infow("Private download", logx.Field("FileName", target.Name), logx.Field("UserId", userId),
+			logx.Field("FilePath", target.Path))
 		return path.Join(l.svcCtx.Config.UploadConf.PrivateStorePath, target.Path), nil
 	}
 }

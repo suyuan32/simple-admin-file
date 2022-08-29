@@ -3,6 +3,7 @@ package file
 import (
 	"context"
 	"encoding/json"
+	"github.com/suyuan32/simple-admin-file/api/internal/util/logmessage"
 	"net/http"
 	"time"
 
@@ -63,6 +64,7 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 		Order("created_at desc").Find(&fileInfos)
 
 	if result.Error != nil {
+		logx.Errorw(logmessage.DatabaseError, logx.Field("Detail", result.Error.Error()))
 		return nil, httpx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 
