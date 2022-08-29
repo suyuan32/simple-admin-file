@@ -18,10 +18,10 @@ type Config struct {
 }
 
 type UploadConf struct {
-	MaxImageSize    int64  `json:"MaxImageSize" yaml:"MaxImageSize"`
-	MaxVideoSize    int64  `json:"MaxVideoSize" yaml:"MaxVideoSize"`
-	MaxAudioSize    int64  `json:"MaxAudioSize" yaml:"MaxAudioSize"`
-	MaxOtherSize    int64  `json:"MaxOtherSize" yaml:"MaxOtherSize"`
-	StorePath       string `json:"StorePath" yaml:"StorePath"`
-	PublicStorePath string `json:"PublicStorePath" yaml:"PublicStorePath"`
+	MaxImageSize     int64  `json:"MaxImageSize" yaml:"MaxImageSize"`
+	MaxVideoSize     int64  `json:"MaxVideoSize" yaml:"MaxVideoSize"`
+	MaxAudioSize     int64  `json:"MaxAudioSize" yaml:"MaxAudioSize"`
+	MaxOtherSize     int64  `json:"MaxOtherSize" yaml:"MaxOtherSize"`
+	PrivateStorePath string `json:"PrivateStorePath" yaml:"PrivateStorePath"`
+	PublicStorePath  string `json:"PublicStorePath" yaml:"PublicStorePath"`
 }
