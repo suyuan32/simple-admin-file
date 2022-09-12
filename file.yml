@@ -1,3 +1,6 @@
+basePath: /
+consumes:
+    - application/json
 definitions:
     ChangeStatusReq:
         description: The request params of setting file status | 设置文件状态参数
@@ -165,7 +168,13 @@ definitions:
             - name
         type: object
         x-go-package: github.com/suyuan32/simple-admin-file/api/internal/types
-info: {}
+host: localhost:8502
+info:
+    contact:
+        email: yuansu.china.work@gmail.com
+    description: This is simple admin file manager api doc
+    title: Simple Admin File
+    version: 0.0.1
 paths:
     /core/init/database:
         get:
@@ -261,6 +270,8 @@ paths:
                     $ref: '#/responses/SimpleMsg'
             tags:
                 - file
+produces:
+    - application/json
 responses:
     BaseInfo:
         description: The base response data | 基础信息
@@ -365,4 +376,15 @@ responses:
             path:
                 description: File path | 文件路径
                 type: string
+schemes:
+    - http
+    - https
+security:
+    - Token:
+        - '[]'
+securityDefinitions:
+    Token:
+        in: header
+        name: Authorization
+        type: apiKey
 swagger: "2.0"
