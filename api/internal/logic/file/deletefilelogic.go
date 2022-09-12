@@ -30,7 +30,7 @@ func NewDeleteFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 	}
 }
 
-func (l *DeleteFileLogic) DeleteFile(req *types.IdReq) (resp *types.SimpleMsg, err error) {
+func (l *DeleteFileLogic) DeleteFile(req *types.IDReq) (resp *types.SimpleMsg, err error) {
 	var target model.FileInfo
 	result := l.svcCtx.DB.Where("id = ?", req.ID).First(&target)
 	if result.Error != nil {

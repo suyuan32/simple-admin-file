@@ -11,6 +11,11 @@ import (
 
 // swagger:route POST /file/list file updateFile
 // Update file information | 更新文件信息
+// Parameters:
+//  + name: body
+//    require: true
+//    in: body
+//    type: UpdateFileReq
 // Responses:
 //   200: SimpleMsg
 //   401: SimpleMsg

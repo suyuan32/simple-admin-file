@@ -12,8 +12,8 @@ type UploadResp struct {
 	Path string `json:"path"`
 }
 
-// swagger:parameters updateFile
 // Update file information params | 更新文件信息参数
+// swagger:model UpdateFileReq
 type UpdateFileReq struct {
 	// ID
 	// Required : true
@@ -23,8 +23,8 @@ type UpdateFileReq struct {
 	Name string `json:"name"`
 }
 
-// swagger:parameters fileList
 // Get file list params | 获取文件列表参数
+// swagger:model FileListReq
 type FileListReq struct {
 	PageInfo
 	// File type | 文件类型
@@ -72,8 +72,8 @@ type FileListResp struct {
 	Data []FileInfo `json:"data"`
 }
 
-// swagger:parameters changePublicStatus
 // The request params of setting file status | 设置文件状态参数
+// swagger:model ChangeStatusReq
 type ChangeStatusReq struct {
 	// ID
 	// Required : true
@@ -84,8 +84,8 @@ type ChangeStatusReq struct {
 	Status bool `json:"status"`
 }
 
-// swagger:parameters downloadFile
 // The request params of download file | 下载文件参数
+// swagger:parameters DownloadReq
 type DownloadReq struct {
 	// ID
 	// Required : true
@@ -114,8 +114,8 @@ type SimpleMsg struct {
 	Msg string `json:"msg"`
 }
 
-// The page request parameters | 列表请求参数
 // swagger:model PageInfo
+// The page request parameters | 列表请求参数
 type PageInfo struct {
 	// Page number | 第几页
 	// Required: true
@@ -134,20 +134,28 @@ type PageList struct {
 	Data []string `json:"data"`
 }
 
-// swagger:parameters deleteFile
 // Basic id request | 基础id参数请求
-type IdReq struct {
+// swagger:model IDReq
+type IDReq struct {
 	// ID
 	// Required: true
 	ID uint `json:"id"`
 }
 
-// swagger:parameters deleteUser
+// Basic id request | 基础id参数请求
+// swagger:model IDPathReq
+type IDPathReq struct {
+	// ID
+	// Required: true
+	ID uint `path:"id"`
+}
+
 // Basic UUID request | 基础UUID参数请求
+// swagger:model UUIDReq
 type UUIDReq struct {
 	// UUID
 	// Required: true
-	UUID string `json:"uuid"`
+	UUID string `json:"UUID" path:"UUID"`
 }
 
 // The base response data | 基础信息

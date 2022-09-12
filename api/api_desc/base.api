@@ -30,8 +30,8 @@ type SimpleMsg {
     Msg string `json:"msg"`
 }
 
-// The page request parameters | 列表请求参数
 // swagger:model PageInfo
+// The page request parameters | 列表请求参数
 type PageInfo {
     // Page number | 第几页
     // Required: true
@@ -50,20 +50,29 @@ type PageList {
     Data     []string    `json:"data"`
 }
 
-// swagger:parameters deleteFile
 // Basic id request | 基础id参数请求
-type IdReq {
+// swagger:model IDReq
+type IDReq {
     // ID
     // Required: true
     ID  uint `json:"id"`
 }
 
-// swagger:parameters deleteUser
+
+// Basic id request | 基础id参数请求
+// swagger:model IDPathReq
+type IDPathReq {
+    // ID
+    // Required: true
+    ID  uint `path:"id"`
+}
+
 // Basic UUID request | 基础UUID参数请求
+// swagger:model UUIDReq
 type UUIDReq {
     // UUID
     // Required: true
-    UUID string `json:"uuid"`
+    UUID string `json:"UUID" path:"UUID"`
 }
 
 // The base response data | 基础信息

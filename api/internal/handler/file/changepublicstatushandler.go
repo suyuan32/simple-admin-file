@@ -11,6 +11,11 @@ import (
 
 // swagger:route POST /file/status file changePublicStatus
 // Change file public status | 改变文件公开状态
+// Parameters:
+//  + name: body
+//    require: true
+//    in: body
+//    type: ChangeStatusReq
 // Responses:
 //   200: SimpleMsg
 //   401: SimpleMsg

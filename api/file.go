@@ -1,20 +1,30 @@
-//  Simple Admin File
+// Simple Admin File
 //
-//  This is simple admin file manager api doc
+// This is simple admin file manager api doc
 //
-//  Schemes: http, https
-//  Host: localhost
-//  BasePath: /api
-//  Version: 0.0.1
-//  Contact: yuansu.china.work@gmail.com
+// Schemes: http, https
+// Host: localhost:8502
+// BasePath: /
+// Version: 0.0.1
+// Contact: yuansu.china.work@gmail.com
+// securityDefinitions:
 //
-//  Consumes:
-//    - application/json
+//	 Token:
+//		type: apiKey
+//		name: Authorization
+//		in: header
 //
-//  Produces:
-//    - application/json
+// security:
+//   - Token: []
 //
-// swagger:meta
+// Consumes:
+//   - application/json
+//
+// Produces:
+//   - application/json
+//
+//swagger:meta
+
 package main
 
 import (

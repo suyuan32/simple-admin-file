@@ -11,6 +11,11 @@ import (
 
 // swagger:route POST /file/list file fileList
 // Get file list | 获取文件列表
+// Parameters:
+//  + name: body
+//    require: true
+//    in: body
+//    type: FileListReq
 // Responses:
 //   200: FileListResp
 //   401: SimpleMsg
