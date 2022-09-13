@@ -8,7 +8,7 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-// swagger:route get /core/init/database core initDatabase
+// swagger:route GET /init/database file initDatabase
 // Initialize database | 初始化数据库
 // Responses:
 //   200: SimpleMsg

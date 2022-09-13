@@ -84,14 +84,6 @@ type ChangeStatusReq struct {
 	Status bool `json:"status"`
 }
 
-// The request params of download file | 下载文件参数
-// swagger:parameters DownloadReq
-type DownloadReq struct {
-	// ID
-	// Required : true
-	Id int64 `path:"id"`
-}
-
 // The basic response with data | 基础带数据信息
 // swagger:response BaseMsg
 type BaseMsg struct {

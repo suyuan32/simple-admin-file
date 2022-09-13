@@ -176,17 +176,6 @@ info:
     title: Simple Admin File
     version: 0.0.1
 paths:
-    /core/init/database:
-        get:
-            description: Initialize database | 初始化数据库
-            operationId: initDatabase
-            responses:
-                "200":
-                    $ref: '#/responses/SimpleMsg'
-                "500":
-                    $ref: '#/responses/SimpleMsg'
-            tags:
-                - core
     /file:
         delete:
             description: Delete file information | 删除文件信息
@@ -206,10 +195,13 @@ paths:
                     $ref: '#/responses/SimpleMsg'
             tags:
                 - file
-    /file/download:
+    /file/download/{id}:
         get:
             description: Download file | 下载文件
             operationId: downloadFile
+            parameters:
+                - in: path
+                  name: id
             responses:
                 "200":
                     $ref: '#/responses/SimpleMsg'
@@ -252,6 +244,17 @@ paths:
                 "200":
                     $ref: '#/responses/SimpleMsg'
                 "401":
+                    $ref: '#/responses/SimpleMsg'
+                "500":
+                    $ref: '#/responses/SimpleMsg'
+            tags:
+                - file
+    /init/database:
+        get:
+            description: Initialize database | 初始化数据库
+            operationId: initDatabase
+            responses:
+                "200":
                     $ref: '#/responses/SimpleMsg'
                 "500":
                     $ref: '#/responses/SimpleMsg'

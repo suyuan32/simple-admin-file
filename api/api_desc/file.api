@@ -3,7 +3,7 @@ syntax = "v1"
 info(
 	title: "uploader api management"
 	desc: "uploader api management"
-	author: "ryansu"
+	author: "Ryan SU"
 	email: "yuansu.china.work@gmail.com"
 	version: "v1.0"
 )
@@ -93,14 +93,6 @@ type (
 		// Required : true
 		Status bool `json:"status"`
 	}
-
-	// The request params of download file | 下载文件参数
-	// swagger:parameters DownloadReq
-	DownloadReq {
-		// ID
-		// Required : true
-		Id int64 `path:"id"`
-	}
 )
 
 @server(
@@ -108,7 +100,7 @@ type (
 )
 
 service file {
-	// swagger:route get /core/init/database core initDatabase
+	// swagger:route GET /init/database file initDatabase
 	// Initialize database | 初始化数据库
 	// Responses:
 	//   200: SimpleMsg
@@ -188,12 +180,16 @@ service file {
 	@handler changePublicStatus
 	post /file/status (ChangeStatusReq) returns (SimpleMsg)
 	
-	// swagger:route GET /file/download file downloadFile
+	// swagger:route GET /file/download/{id} file downloadFile
 	// Download file | 下载文件
+	// Parameters:
+	//  + name: id
+	//    require: true
+	//    in: path
 	// Responses:
 	//   200: SimpleMsg
 	//   401: SimpleMsg
 	//   500: SimpleMsg
 	@handler downloadFile
-	get /file/download/:id (DownloadReq)
+	get /file/download/:id (IDPathReq)
 }

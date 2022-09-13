@@ -30,9 +30,9 @@ func NewDownloadFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Down
 	}
 }
 
-func (l *DownloadFileLogic) DownloadFile(req *types.DownloadReq) (filePath string, err error) {
+func (l *DownloadFileLogic) DownloadFile(req *types.IDPathReq) (filePath string, err error) {
 	var target model.FileInfo
-	check := l.svcCtx.DB.Where("id = ?", req.Id).First(&target)
+	check := l.svcCtx.DB.Where("id = ?", req.ID).First(&target)
 	if check.Error != nil {
 		return "", httpx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
