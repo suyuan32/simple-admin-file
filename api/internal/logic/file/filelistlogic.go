@@ -3,17 +3,16 @@ package file
 import (
 	"context"
 	"encoding/json"
-	"github.com/suyuan32/simple-admin-file/api/internal/util/logmessage"
 	"net/http"
 	"time"
 
 	"github.com/suyuan32/simple-admin-file/api/internal/model"
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
+	"github.com/suyuan32/simple-admin-file/api/internal/util/logmessage"
 
 	"github.com/zeromicro/go-zero/core/errorx"
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
 type FileListLogic struct {
@@ -33,7 +32,7 @@ func NewFileListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FileList
 func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListResp, err error) {
 	// only admin can view the list
 	if l.ctx.Value("roleId").(json.Number).String() != "1" {
-		return nil, httpx.NewApiErrorWithoutMsg(http.StatusUnauthorized)
+		return nil, errorx.NewApiErrorWithoutMsg(http.StatusUnauthorized)
 	}
 
 	db := l.svcCtx.DB.Model(&model.FileInfo{})
@@ -49,11 +48,11 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 	if req.Period[0] != "" && req.Period[1] != "" {
 		begin, err := time.Parse("2006-01-02 15:04:05", req.Period[0])
 		if err != nil {
-			return nil, httpx.NewApiErrorWithoutMsg(http.StatusBadRequest)
+			return nil, errorx.NewApiErrorWithoutMsg(http.StatusBadRequest)
 		}
 		end, err := time.Parse("2006-01-02 15:04:05", req.Period[1])
 		if err != nil {
-			return nil, httpx.NewApiErrorWithoutMsg(http.StatusBadRequest)
+			return nil, errorx.NewApiErrorWithoutMsg(http.StatusBadRequest)
 		}
 
 		db = db.Where("created_at between ? and ?", begin, end)
@@ -65,7 +64,7 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 
 	if result.Error != nil {
 		logx.Errorw(logmessage.DatabaseError, logx.Field("Detail", result.Error.Error()))
-		return nil, httpx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
+		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 
 	resp = &types.FileListResp{}

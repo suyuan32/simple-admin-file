@@ -3,7 +3,6 @@ package file
 import (
 	"context"
 	"fmt"
-	"github.com/suyuan32/simple-admin-file/api/internal/util/logmessage"
 	"io"
 	"net/http"
 	"os"
@@ -15,12 +14,12 @@ import (
 	"github.com/suyuan32/simple-admin-file/api/internal/model"
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
+	"github.com/suyuan32/simple-admin-file/api/internal/util/logmessage"
 	"github.com/suyuan32/simple-admin-file/api/internal/util/message"
 
 	"github.com/google/uuid"
 	"github.com/zeromicro/go-zero/core/errorx"
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/rest/httpx"
 	"gorm.io/gorm"
 )
 
@@ -44,12 +43,12 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 	err = l.r.ParseMultipartForm(l.svcCtx.Config.UploadConf.MaxVideoSize)
 	if err != nil {
 		logx.Error("Fail to parse the multipart form")
-		return nil, httpx.NewApiError(http.StatusBadRequest, "sys.api.apiRequestFailed")
+		return nil, errorx.NewApiError(http.StatusBadRequest, "sys.api.apiRequestFailed")
 	}
 	file, handler, err := l.r.FormFile("file")
 	if err != nil {
 		logx.Error("The value of file cannot be found")
-		return nil, httpx.NewApiError(http.StatusBadRequest, "sys.api.apiRequestFailed")
+		return nil, errorx.NewApiError(http.StatusBadRequest, "sys.api.apiRequestFailed")
 	}
 	defer file.Close()
 
@@ -60,7 +59,7 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 	// 拒绝无后缀文件
 	if len(nameData) < 2 {
 		logx.Errorw("Reject the file which does not have suffix")
-		return nil, httpx.NewApiError(http.StatusBadRequest, "file_manager.wrongTypeError")
+		return nil, errorx.NewApiError(http.StatusBadRequest, "file_manager.wrongTypeError")
 	}
 
 	fileName, fileSuffix := nameData[0], nameData[1]
@@ -77,23 +76,23 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 		logx.Errorw("The file is over size", logx.Field("Type", "image"),
 			logx.Field("UserId", userId), logx.Field("Size", handler.Size),
 			logx.Field("FileName", handler.Filename))
-		return nil, httpx.NewApiError(http.StatusBadRequest, message.OverSizeError)
+		return nil, errorx.NewApiError(http.StatusBadRequest, message.OverSizeError)
 	} else if fileType == "video" && handler.Size > l.svcCtx.Config.UploadConf.MaxVideoSize {
 		logx.Errorw("The file is over size", logx.Field("Type", "video"),
 			logx.Field("UserId", userId), logx.Field("Size", handler.Size),
 			logx.Field("FileName", handler.Filename))
-		return nil, httpx.NewApiError(http.StatusBadRequest, message.OverSizeError)
+		return nil, errorx.NewApiError(http.StatusBadRequest, message.OverSizeError)
 	} else if fileType == "audio" && handler.Size > l.svcCtx.Config.UploadConf.MaxAudioSize {
 		logx.Errorw("The file is over size", logx.Field("Type", "audio"),
 			logx.Field("UserId", userId), logx.Field("Size", handler.Size),
 			logx.Field("FileName", handler.Filename))
-		return nil, httpx.NewApiError(http.StatusBadRequest, message.OverSizeError)
+		return nil, errorx.NewApiError(http.StatusBadRequest, message.OverSizeError)
 	} else if fileType != "image" && fileType != "video" && fileType != "audio" &&
 		handler.Size > l.svcCtx.Config.UploadConf.MaxOtherSize {
 		logx.Errorw("The file is over size", logx.Field("Type", "other"),
 			logx.Field("UserId", userId), logx.Field("Size", handler.Size),
 			logx.Field("FileName", handler.Filename))
-		return nil, httpx.NewApiError(http.StatusBadRequest, message.OverSizeError)
+		return nil, errorx.NewApiError(http.StatusBadRequest, message.OverSizeError)
 	}
 	if fileType != "image" && fileType != "video" && fileType != "audio" {
 		fileType = "other"
@@ -117,7 +116,7 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 		if err != nil {
 			logx.Errorw("Fail to make directory", logx.Field("Path", path.Join(l.svcCtx.Config.UploadConf.PublicStorePath,
 				l.svcCtx.Config.Name, fileType, timeString)))
-			return nil, httpx.NewApiErrorWithoutMsg(http.StatusInternalServerError)
+			return nil, errorx.NewApiErrorWithoutMsg(http.StatusInternalServerError)
 		}
 	}
 
@@ -132,7 +131,7 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 		if err != nil {
 			logx.Errorw("Fail to create directory", logx.Field("Path", path.Join(l.svcCtx.Config.UploadConf.PublicStorePath,
 				l.svcCtx.Config.Name, fileType, timeString)))
-			return nil, httpx.NewApiErrorWithoutMsg(http.StatusInternalServerError)
+			return nil, errorx.NewApiErrorWithoutMsg(http.StatusInternalServerError)
 		}
 	}
 
@@ -143,13 +142,13 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 	if err != nil {
 		logx.Errorw("Fail to create directory", logx.Field("Path", path.Join(l.svcCtx.Config.UploadConf.PublicStorePath,
 			l.svcCtx.Config.Name, fileType, timeString, storeFileName)))
-		return nil, httpx.NewApiErrorWithoutMsg(http.StatusInternalServerError)
+		return nil, errorx.NewApiErrorWithoutMsg(http.StatusInternalServerError)
 	}
 	_, err = io.Copy(targetFile, file)
 	if err != nil {
 		logx.Errorw("Fail to create file", logx.Field("Path", path.Join(l.svcCtx.Config.UploadConf.PublicStorePath,
 			l.svcCtx.Config.Name, fileType, timeString, storeFileName)))
-		return nil, httpx.NewApiErrorWithoutMsg(http.StatusInternalServerError)
+		return nil, errorx.NewApiErrorWithoutMsg(http.StatusInternalServerError)
 	}
 
 	// store in database
@@ -172,7 +171,7 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 
 	if result.Error != nil {
 		logx.Errorw(logmessage.DatabaseError, logx.Field("Detail", result.Error.Error()))
-		return nil, httpx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
+		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 
 	logx.Infow("Create file successfully", logx.Field("Detail", fileInfo))

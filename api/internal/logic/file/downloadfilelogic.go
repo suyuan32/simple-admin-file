@@ -3,17 +3,16 @@ package file
 import (
 	"context"
 	"encoding/json"
-	"github.com/suyuan32/simple-admin-file/api/internal/util/logmessage"
 	"net/http"
 	"path"
 
 	"github.com/suyuan32/simple-admin-file/api/internal/model"
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
+	"github.com/suyuan32/simple-admin-file/api/internal/util/logmessage"
 
 	"github.com/zeromicro/go-zero/core/errorx"
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
 type DownloadFileLogic struct {
@@ -34,10 +33,10 @@ func (l *DownloadFileLogic) DownloadFile(req *types.IDPathReq) (filePath string,
 	var target model.FileInfo
 	check := l.svcCtx.DB.Where("id = ?", req.ID).First(&target)
 	if check.Error != nil {
-		return "", httpx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
+		return "", errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 	if check.RowsAffected == 0 {
-		return "", httpx.NewApiErrorWithoutMsg(http.StatusNotFound)
+		return "", errorx.NewApiErrorWithoutMsg(http.StatusNotFound)
 	}
 
 	// only admin and owner can do it
@@ -46,7 +45,7 @@ func (l *DownloadFileLogic) DownloadFile(req *types.IDPathReq) (filePath string,
 	if roleId != "1" && userId != target.UserUUID {
 		logx.Errorw(logmessage.OperationNotAllow, logx.Field("RoleId", roleId),
 			logx.Field("UserId", userId))
-		return "", httpx.NewApiErrorWithoutMsg(http.StatusUnauthorized)
+		return "", errorx.NewApiErrorWithoutMsg(http.StatusUnauthorized)
 	}
 
 	if target.Status {

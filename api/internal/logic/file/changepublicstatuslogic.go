@@ -3,7 +3,6 @@ package file
 import (
 	"context"
 	"encoding/json"
-	"github.com/suyuan32/simple-admin-file/api/internal/util/logmessage"
 	"net/http"
 	"os"
 	"path"
@@ -11,10 +10,10 @@ import (
 	"github.com/suyuan32/simple-admin-file/api/internal/model"
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
+	"github.com/suyuan32/simple-admin-file/api/internal/util/logmessage"
 
 	"github.com/zeromicro/go-zero/core/errorx"
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
 type ChangePublicStatusLogic struct {
@@ -36,11 +35,11 @@ func (l *ChangePublicStatusLogic) ChangePublicStatus(req *types.ChangeStatusReq)
 	result := l.svcCtx.DB.Where("id = ?", req.ID).First(&origin)
 	if result.Error != nil {
 		logx.Errorw(logmessage.DatabaseError, logx.Field("Detail", result.Error.Error()))
-		return nil, httpx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
+		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 	if result.RowsAffected == 0 {
 		logx.Errorw("File dose not find", logx.Field("FileId", req.ID))
-		return nil, httpx.NewApiErrorWithoutMsg(http.StatusNotFound)
+		return nil, errorx.NewApiErrorWithoutMsg(http.StatusNotFound)
 	}
 
 	// only admin and owner can do it
@@ -49,7 +48,7 @@ func (l *ChangePublicStatusLogic) ChangePublicStatus(req *types.ChangeStatusReq)
 	if roleId != "1" && userId != origin.UserUUID {
 		logx.Errorw(logmessage.OperationNotAllow, logx.Field("RoleId", roleId),
 			logx.Field("UserId", userId))
-		return nil, httpx.NewApiErrorWithoutMsg(http.StatusUnauthorized)
+		return nil, errorx.NewApiErrorWithoutMsg(http.StatusUnauthorized)
 	}
 
 	if req.Status {
@@ -57,20 +56,20 @@ func (l *ChangePublicStatusLogic) ChangePublicStatus(req *types.ChangeStatusReq)
 			path.Join(l.svcCtx.Config.UploadConf.PublicStorePath, origin.Path))
 		if err != nil {
 			logx.Errorw("Fail to change the path of file", logx.Field("Detail", err.Error()))
-			return nil, httpx.NewApiErrorWithoutMsg(http.StatusInternalServerError)
+			return nil, errorx.NewApiErrorWithoutMsg(http.StatusInternalServerError)
 		}
 	} else {
 		err = os.Rename(path.Join(l.svcCtx.Config.UploadConf.PublicStorePath, origin.Path),
 			path.Join(l.svcCtx.Config.UploadConf.PrivateStorePath, origin.Path))
 		if err != nil {
 			logx.Errorw("Fail to change the path of file", logx.Field("Detail", err.Error()))
-			return nil, httpx.NewApiErrorWithoutMsg(http.StatusInternalServerError)
+			return nil, errorx.NewApiErrorWithoutMsg(http.StatusInternalServerError)
 		}
 	}
 	result = l.svcCtx.DB.Model(&model.FileInfo{}).Where("id = ?", req.ID).Update("status", req.Status)
 	if result.Error != nil {
 		logx.Errorw(logmessage.DatabaseError, logx.Field("Detail", result.Error.Error()))
-		return nil, httpx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
+		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 
 	if result.RowsAffected == 0 {

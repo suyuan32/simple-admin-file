@@ -7,6 +7,8 @@ import (
 	"github.com/suyuan32/simple-admin-file/api/internal/logic/file"
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
+
+	"github.com/zeromicro/go-zero/core/errorx"
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
@@ -37,7 +39,7 @@ func DownloadFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		} else {
 			body, err := os.ReadFile(filePath)
 			if err != nil {
-				httpx.Error(w, httpx.NewApiError(http.StatusInternalServerError, err.Error()))
+				httpx.Error(w, errorx.NewApiError(http.StatusInternalServerError, err.Error()))
 				return
 			}
 			w.Header().Set("Accept-Encoding", "identity;q=1, *;q=0")
