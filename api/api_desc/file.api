@@ -30,7 +30,8 @@ type (
 		ID int64 `json:"id"`
 		// File name | 文件名
 		// Required : true
-		Name string `json:"name"`
+		// Max length: 50
+		Name string `json:"name" validate:"max=50"`
 	}
 
 	// Get file list params | 获取文件列表参数
@@ -39,10 +40,12 @@ type (
 		PageInfo
 		// File type | 文件类型
 		// Required : true
-		FileType string `json:"fileType"`
+		// Max length: 10
+		FileType string `json:"fileType" validate:"omitempty,alpha,max=10"`
 		// File name | 文件名
 		// Required : true
-		FileName string `json:"fileName"`
+		// Max length: 50
+		FileName string `json:"fileName" validate:"max=50"`
 		// Create date period | 创建日期时间段
 		// Required : true
 		Period []string `json:"period"`
@@ -88,10 +91,10 @@ type (
 		// ID
 		// Required : true
 		ID uint64 `json:"id"`
-		// File public staus | 文件公开状态
+		// File public status | 文件公开状态
 		// false private true public | false 私人, true公开
 		// Required : true
-		Status bool `json:"status"`
+		Status bool `json:"status" validate:"boolean"`
 	}
 )
 

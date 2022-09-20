@@ -20,7 +20,8 @@ type UpdateFileReq struct {
 	ID int64 `json:"id"`
 	// File name | 文件名
 	// Required : true
-	Name string `json:"name"`
+	// Max length: 50
+	Name string `json:"name" validate:"max=50"`
 }
 
 // Get file list params | 获取文件列表参数
@@ -29,10 +30,12 @@ type FileListReq struct {
 	PageInfo
 	// File type | 文件类型
 	// Required : true
-	FileType string `json:"fileType"`
+	// Max length: 10
+	FileType string `json:"fileType" validate:"omitempty,alpha,max=10"`
 	// File name | 文件名
 	// Required : true
-	FileName string `json:"fileName"`
+	// Max length: 50
+	FileName string `json:"fileName" validate:"max=50"`
 	// Create date period | 创建日期时间段
 	// Required : true
 	Period []string `json:"period"`
@@ -78,10 +81,10 @@ type ChangeStatusReq struct {
 	// ID
 	// Required : true
 	ID uint64 `json:"id"`
-	// File public staus | 文件公开状态
+	// File public status | 文件公开状态
 	// false private true public | false 私人, true公开
 	// Required : true
-	Status bool `json:"status"`
+	Status bool `json:"status" validate:"boolean"`
 }
 
 // The basic response with data | 基础带数据信息
@@ -111,10 +114,11 @@ type SimpleMsg struct {
 type PageInfo struct {
 	// Page number | 第几页
 	// Required: true
-	Page uint64 `json:"page"`
+	Page uint64 `json:"page" validate:"number"`
 	// Page size | 单页数据行数
 	// Required: true
-	PageSize uint64 `json:"pageSize"`
+	// Maximum: 100000
+	PageSize uint64 `json:"pageSize" validate:"number,max=100000"`
 }
 
 // The page response data model | 列表返回信息
@@ -131,7 +135,7 @@ type PageList struct {
 type IDReq struct {
 	// ID
 	// Required: true
-	ID uint `json:"id"`
+	ID uint `json:"id" validate:"number"`
 }
 
 // Basic id request | 基础id参数请求
@@ -147,7 +151,8 @@ type IDPathReq struct {
 type UUIDReq struct {
 	// UUID
 	// Required: true
-	UUID string `json:"UUID" path:"UUID"`
+	// Max length: 36
+	UUID string `json:"UUID" path:"UUID" validate:"len=36"`
 }
 
 // The base response data | 基础信息
