@@ -16,8 +16,10 @@ type (
 	UploadResp {
 		// Message | 信息
 		Msg string `json:"msg"`
+
 		// File name | 文件名称
 		Name string `json:"name"`
+
 		// File path | 文件路径
 		Path string `json:"path"`
 	}
@@ -28,6 +30,7 @@ type (
 		// ID
 		// Required : true
 		ID int64 `json:"id"`
+
 		// File name | 文件名
 		// Required : true
 		// Max length: 50
@@ -42,10 +45,12 @@ type (
 		// Required : true
 		// Max length: 10
 		FileType string `json:"fileType" validate:"omitempty,alpha,max=10"`
+
 		// File name | 文件名
 		// Required : true
 		// Max length: 50
 		FileName string `json:"fileName" validate:"max=50"`
+
 		// Create date period | 创建日期时间段
 		// Required : true
 		Period []string `json:"period"`
@@ -60,17 +65,22 @@ type (
 		UUID string `json:"UUID"`
 		// User's UUID | 用户的UUID
 		UserUUID string `json:"userUUID"`
+
 		// File name | 文件名
 		Name string `json:"name"`
 		// File type | 文件类型
 		FileType string `json:"fileType"`
+
 		// File size | 文件大小
 		Size int64 `json:"size"`
+
 		// File path | 文件路径
 		Path string `json:"path"`
+
 		// File public staus | 文件公开状态
 		// false private true public | false 私人, true公开
 		Status bool `json:"status"`
+
 		// Create date | 创建日期
 		CreatedAt int64 `json:"createdAt"`
 	}
@@ -80,6 +90,7 @@ type (
 	FileListResp {
 		// The total number of data | 数据总数
 		Total uint64 `json:"total"`
+
 		// The file list data | 文件信息列表数据
 		// in: body
 		Data []FileInfo `json:"data"`
@@ -91,6 +102,7 @@ type (
 		// ID
 		// Required : true
 		ID uint64 `json:"id"`
+
 		// File public status | 文件公开状态
 		// false private true public | false 私人, true公开
 		// Required : true
