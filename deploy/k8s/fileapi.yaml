@@ -1,0 +1,114 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fileapi
+  namespace: simple-admin
+  labels:
+    app: fileapi
+spec:
+  replicas: 3
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: fileapi
+  template:
+    metadata:
+      labels:
+        app: fileapi
+    spec:
+      serviceAccountName: endpoints-finder
+      containers:
+      - name: fileapi
+        image: ryanpower/fileapi:0.0.19
+        ports:
+        - containerPort: 9102
+        readinessProbe:
+          tcpSocket:
+            port: 9102
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 9102
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 1000m
+            memory: 1024Mi
+        volumeMounts:
+        - name: timezone
+          mountPath: /etc/localtime
+      volumes:
+        - name: timezone
+          hostPath:
+            path: /usr/share/zoneinfo/Asia/Shanghai
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: fileapi-svc
+  namespace: simple-admin
+spec:
+  type: NodePort
+  ports:
+  - port: 9102
+    targetPort: 9102
+    nodePort: 30100
+    name: http
+    protocol: TCP
+  selector:
+    app: fileapi
+
+---
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: fileapi-hpa-c
+  namespace: simple-admin
+  labels:
+    app: fileapi-hpa-c
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: fileapi
+  minReplicas: 3
+  maxReplicas: 4
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+
+---
+
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: fileapi-hpa-m
+  namespace: simple-admin
+  labels:
+    app: fileapi-hpa-m
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: fileapi
+  minReplicas: 3
+  maxReplicas: 4
+  metrics:
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80

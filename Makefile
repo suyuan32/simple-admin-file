@@ -1,6 +1,6 @@
-version := 0.0.8
 docker:
-	sudo docker build -f Dockerfile -t fileapi:$(version) .
+	sudo docker build -f Dockerfile -t ${DOCKER_USERNAME}/fileapi:${VERSION} .
 
-run-docker:
-	sudo docker run -d --name fileapi-$(version) --network docker-compose_simple-admin --network-alias fileapi -p 9101:9101 fileapi:$(version)
+publish-docker:
+	echo "${DOCKER_PASSWORD}" | docker login --username ${DOCKER_USERNAME} --password-stdin http://${REPO}
+	docker push ${REPO}/${DOCKER_USERNAME}/fileapi:${VERSION}

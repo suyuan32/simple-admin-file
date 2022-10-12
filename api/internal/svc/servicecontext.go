@@ -1,10 +1,11 @@
 package svc
 
 import (
-	"github.com/suyuan32/simple-admin-file/api/internal/config"
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/redis"
 	"gorm.io/gorm"
-	"log"
+
+	"github.com/suyuan32/simple-admin-file/api/internal/config"
 )
 
 type ServiceContext struct {
@@ -14,10 +15,9 @@ type ServiceContext struct {
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
-	db, err := c.DB.NewGORM()
-	if err != nil {
-		log.Fatal(err.Error())
-	}
+	db, err := c.DatabaseConf.NewGORM()
+	logx.Must(err)
+
 	rds := c.RedisConf.NewRedis()
 	return &ServiceContext{
 		Config: c,
