@@ -6,13 +6,13 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/suyuan32/simple-message/core/log"
+	"github.com/zeromicro/go-zero/core/errorx"
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/suyuan32/simple-admin-file/api/internal/model"
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
-	"github.com/suyuan32/simple-admin-file/api/internal/util/logmessage"
-
-	"github.com/zeromicro/go-zero/core/errorx"
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type DeleteFileLogic struct {
@@ -33,7 +33,7 @@ func (l *DeleteFileLogic) DeleteFile(req *types.IDReq) (resp *types.SimpleMsg, e
 	var target model.FileInfo
 	result := l.svcCtx.DB.Where("id = ?", req.ID).First(&target)
 	if result.Error != nil {
-		logx.Errorw(logmessage.DatabaseError, logx.Field("Detail", result.Error.Error()))
+		logx.Errorw(log.DatabaseError, logx.Field("Detail", result.Error.Error()))
 		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 	if result.RowsAffected == 0 {
@@ -45,7 +45,7 @@ func (l *DeleteFileLogic) DeleteFile(req *types.IDReq) (resp *types.SimpleMsg, e
 	roleId := l.ctx.Value("roleId").(json.Number).String()
 	userId := l.ctx.Value("userId").(string)
 	if roleId != "1" && userId != target.UserUUID {
-		logx.Errorw(logmessage.OperationNotAllow, logx.Field("RoleId", roleId),
+		logx.Errorw(log.OperationNotAllow, logx.Field("RoleId", roleId),
 			logx.Field("UserId", userId))
 		return nil, errorx.NewApiErrorWithoutMsg(http.StatusUnauthorized)
 	}
@@ -68,7 +68,7 @@ func (l *DeleteFileLogic) DeleteFile(req *types.IDReq) (resp *types.SimpleMsg, e
 
 	result = l.svcCtx.DB.Delete(&target)
 	if result.Error != nil {
-		logx.Errorw(logmessage.DatabaseError, logx.Field("Detail", result.Error.Error()))
+		logx.Errorw(log.DatabaseError, logx.Field("Detail", result.Error.Error()))
 		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 

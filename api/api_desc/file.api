@@ -1,8 +1,8 @@
 syntax = "v1"
 
 info(
-	title: "uploader api management"
-	desc: "uploader api management"
+	title: "file management"
+	desc: "file management"
 	author: "Ryan SU"
 	email: "yuansu.china.work@gmail.com"
 	version: "v1.0"
@@ -115,11 +115,7 @@ type (
 )
 
 service file {
-	// swagger:route GET /init/database file initDatabase
 	// Initialize database | 初始化数据库
-	// Responses:
-	//   200: SimpleMsg
-	//   500: SimpleMsg
 	@handler initDatabaseHandler
 	get /init/database returns (SimpleMsg)
 }
@@ -127,84 +123,31 @@ service file {
 @server(
 	jwt : Auth
 	group: file
+	middleware: Authority
 )
 
 service file {
-	// swagger:route POST /upload file upload
 	// Upload file | 上传文件
-	// Responses:
-	//   200: UploadResp
-	//   401: SimpleMsg
-	//   500: SimpleMsg
 	@handler upload
 	post /upload returns (UploadResp)
 	
-	// swagger:route POST /file/list file fileList
 	// Get file list | 获取文件列表
-	// Parameters:
-	//  + name: body
-	//    require: true
-	//    in: body
-	//    type: FileListReq
-	// Responses:
-	//   200: FileListResp
-	//   401: SimpleMsg
-	//   500: SimpleMsg
 	@handler fileList
 	post /file/list (FileListReq) returns (FileListResp)
 	
-	// swagger:route POST /file/list file updateFile
 	// Update file information | 更新文件信息
-	// Parameters:
-	//  + name: body
-	//    require: true
-	//    in: body
-	//    type: UpdateFileReq
-	// Responses:
-	//   200: SimpleMsg
-	//   401: SimpleMsg
-	//   500: SimpleMsg
 	@handler updateFile
 	post /file (UpdateFileReq) returns (SimpleMsg)
 	
-	// swagger:route DELETE /file file deleteFile
 	// Delete file information | 删除文件信息
-	// Parameters:
-	//  + name: body
-	//    require: true
-	//    in: body
-	//    type: IDReq
-	// Responses:
-	//   200: SimpleMsg
-	//   401: SimpleMsg
-	//   500: SimpleMsg
 	@handler deleteFile
 	delete /file (IDReq) returns (SimpleMsg)
 	
-	// swagger:route POST /file/status file changePublicStatus
 	// Change file public status | 改变文件公开状态
-	// Parameters:
-	//  + name: body
-	//    require: true
-	//    in: body
-	//    type: ChangeStatusReq
-	// Responses:
-	//   200: SimpleMsg
-	//   401: SimpleMsg
-	//   500: SimpleMsg
 	@handler changePublicStatus
 	post /file/status (ChangeStatusReq) returns (SimpleMsg)
 	
-	// swagger:route GET /file/download/{id} file downloadFile
 	// Download file | 下载文件
-	// Parameters:
-	//  + name: id
-	//    require: true
-	//    in: path
-	// Responses:
-	//   200: SimpleMsg
-	//   401: SimpleMsg
-	//   500: SimpleMsg
 	@handler downloadFile
 	get /file/download/:id (IDPathReq)
 }

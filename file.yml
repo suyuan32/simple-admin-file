@@ -185,7 +185,7 @@ paths:
     /file:
         delete:
             description: Delete file information | 删除文件信息
-            operationId: deleteFile
+            operationId: DeleteFile
             parameters:
                 - in: body
                   name: body
@@ -199,28 +199,12 @@ paths:
                     $ref: '#/responses/SimpleMsg'
                 "500":
                     $ref: '#/responses/SimpleMsg'
+            summary: Delete file information | 删除文件信息
             tags:
                 - file
-    /file/download/{id}:
-        get:
-            description: Download file | 下载文件
-            operationId: downloadFile
-            parameters:
-                - in: path
-                  name: id
-            responses:
-                "200":
-                    $ref: '#/responses/SimpleMsg'
-                "401":
-                    $ref: '#/responses/SimpleMsg'
-                "500":
-                    $ref: '#/responses/SimpleMsg'
-            tags:
-                - file
-    /file/list:
         post:
             description: Update file information | 更新文件信息
-            operationId: updateFile
+            operationId: UpdateFile
             parameters:
                 - in: body
                   name: body
@@ -234,12 +218,43 @@ paths:
                     $ref: '#/responses/SimpleMsg'
                 "500":
                     $ref: '#/responses/SimpleMsg'
+            summary: Update file information | 更新文件信息
+            tags:
+                - file
+    /file/download/{id}:
+        get:
+            description: Download file | 下载文件
+            operationId: DownloadFile
+            parameters:
+                - in: path
+                  name: id
+            summary: Download file | 下载文件
+            tags:
+                - file
+    /file/list:
+        post:
+            description: Get file list | 获取文件列表
+            operationId: FileList
+            parameters:
+                - in: body
+                  name: body
+                  schema:
+                    $ref: '#/definitions/FileListReq'
+                    type: object
+            responses:
+                "200":
+                    $ref: '#/responses/FileListResp'
+                "401":
+                    $ref: '#/responses/SimpleMsg'
+                "500":
+                    $ref: '#/responses/SimpleMsg'
+            summary: Get file list | 获取文件列表
             tags:
                 - file
     /file/status:
         post:
             description: Change file public status | 改变文件公开状态
-            operationId: changePublicStatus
+            operationId: ChangePublicStatus
             parameters:
                 - in: body
                   name: body
@@ -253,23 +268,27 @@ paths:
                     $ref: '#/responses/SimpleMsg'
                 "500":
                     $ref: '#/responses/SimpleMsg'
+            summary: Change file public status | 改变文件公开状态
             tags:
                 - file
     /init/database:
         get:
             description: Initialize database | 初始化数据库
-            operationId: initDatabase
+            operationId: InitDatabase
             responses:
                 "200":
                     $ref: '#/responses/SimpleMsg'
+                "401":
+                    $ref: '#/responses/SimpleMsg'
                 "500":
                     $ref: '#/responses/SimpleMsg'
+            summary: Initialize database | 初始化数据库
             tags:
                 - file
     /upload:
         post:
             description: Upload file | 上传文件
-            operationId: upload
+            operationId: Upload
             responses:
                 "200":
                     $ref: '#/responses/UploadResp'
@@ -277,6 +296,7 @@ paths:
                     $ref: '#/responses/SimpleMsg'
                 "500":
                     $ref: '#/responses/SimpleMsg'
+            summary: Upload file | 上传文件
             tags:
                 - file
 produces:

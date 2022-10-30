@@ -22,38 +22,41 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/upload",
-				Handler: file.UploadHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/file/list",
-				Handler: file.FileListHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/file",
-				Handler: file.UpdateFileHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodDelete,
-				Path:    "/file",
-				Handler: file.DeleteFileHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/file/status",
-				Handler: file.ChangePublicStatusHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/file/download/:id",
-				Handler: file.DownloadFileHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Authority},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/upload",
+					Handler: file.UploadHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/file/list",
+					Handler: file.FileListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/file",
+					Handler: file.UpdateFileHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodDelete,
+					Path:    "/file",
+					Handler: file.DeleteFileHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/file/status",
+					Handler: file.ChangePublicStatusHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/file/download/:id",
+					Handler: file.DownloadFileHandler(serverCtx),
+				},
+			}...,
+		),
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 	)
 }

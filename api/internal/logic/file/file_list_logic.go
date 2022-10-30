@@ -6,13 +6,13 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/suyuan32/simple-message/core/log"
+	"github.com/zeromicro/go-zero/core/errorx"
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/suyuan32/simple-admin-file/api/internal/model"
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
-	"github.com/suyuan32/simple-admin-file/api/internal/util/logmessage"
-
-	"github.com/zeromicro/go-zero/core/errorx"
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type FileListLogic struct {
@@ -63,7 +63,7 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 		Order("created_at desc").Find(&fileInfos)
 
 	if result.Error != nil {
-		logx.Errorw(logmessage.DatabaseError, logx.Field("Detail", result.Error.Error()))
+		logx.Errorw(log.DatabaseError, logx.Field("Detail", result.Error.Error()))
 		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 

@@ -5,13 +5,13 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/suyuan32/simple-message/core/log"
+	"github.com/zeromicro/go-zero/core/errorx"
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/suyuan32/simple-admin-file/api/internal/model"
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
-	"github.com/suyuan32/simple-admin-file/api/internal/util/logmessage"
-
-	"github.com/zeromicro/go-zero/core/errorx"
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type UpdateFileLogic struct {
@@ -32,7 +32,7 @@ func (l *UpdateFileLogic) UpdateFile(req *types.UpdateFileReq) (resp *types.Simp
 	var target model.FileInfo
 	check := l.svcCtx.DB.Where("id = ?", req.ID).First(&target)
 	if check.Error != nil {
-		logx.Errorw(logmessage.DatabaseError, logx.Field("Detail", check.Error.Error()))
+		logx.Errorw(log.DatabaseError, logx.Field("Detail", check.Error.Error()))
 		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 	if check.RowsAffected == 0 {
@@ -44,7 +44,7 @@ func (l *UpdateFileLogic) UpdateFile(req *types.UpdateFileReq) (resp *types.Simp
 	roleId := l.ctx.Value("roleId").(json.Number).String()
 	userId := l.ctx.Value("userId").(string)
 	if roleId != "1" && userId != target.UserUUID {
-		logx.Errorw(logmessage.OperationNotAllow, logx.Field("RoleId", roleId),
+		logx.Errorw(log.OperationNotAllow, logx.Field("RoleId", roleId),
 			logx.Field("UserId", userId))
 		return nil, errorx.NewApiErrorWithoutMsg(http.StatusUnauthorized)
 	}
@@ -52,7 +52,7 @@ func (l *UpdateFileLogic) UpdateFile(req *types.UpdateFileReq) (resp *types.Simp
 	// update data
 	result := l.svcCtx.DB.Model(&model.FileInfo{}).Where("id = ?", req.ID).Update("name", req.Name)
 	if result.Error != nil {
-		logx.Errorw(logmessage.DatabaseError, logx.Field("Detail", result.Error.Error()))
+		logx.Errorw(log.DatabaseError, logx.Field("Detail", result.Error.Error()))
 		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 	if result.RowsAffected == 0 {

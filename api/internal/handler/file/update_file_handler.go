@@ -9,28 +9,33 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-// swagger:route DELETE /file file deleteFile
-// Delete file information | 删除文件信息
+// swagger:route post /file file UpdateFile
+//
+// Update file information | 更新文件信息
+//
+// Update file information | 更新文件信息
+//
 // Parameters:
 //  + name: body
 //    require: true
 //    in: body
-//    type: IDReq
+//    type: UpdateFileReq
+//
 // Responses:
-//   200: SimpleMsg
-//   401: SimpleMsg
-//   500: SimpleMsg
+//  200: SimpleMsg
+//  401: SimpleMsg
+//  500: SimpleMsg
 
-func DeleteFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func UpdateFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.IDReq
+		var req types.UpdateFileReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.Error(w, err)
 			return
 		}
 
-		l := file.NewDeleteFileLogic(r.Context(), svcCtx)
-		resp, err := l.DeleteFile(&req)
+		l := file.NewUpdateFileLogic(r.Context(), svcCtx)
+		resp, err := l.UpdateFile(&req)
 		if err != nil {
 			httpx.Error(w, err)
 		} else {

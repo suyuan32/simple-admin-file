@@ -1,4 +1,4 @@
-package message
+package msg
 
 const (
 	// OverSizeError
@@ -7,7 +7,7 @@ const (
 	OverSizeError string = "file_manager.overSizeError"
 
 	// WrongTypeError
-	// EN: The file is a illegal type
+	// EN: The file type is illegal
 	// ZH_CN: 文件类型不合法
 	WrongTypeError string = "file_manager.wrongTypeError"
 )

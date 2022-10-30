@@ -7,10 +7,11 @@ import (
 	"os"
 	"path"
 
+	"github.com/suyuan32/simple-message/core/log"
+
 	"github.com/suyuan32/simple-admin-file/api/internal/model"
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
-	"github.com/suyuan32/simple-admin-file/api/internal/util/logmessage"
 
 	"github.com/zeromicro/go-zero/core/errorx"
 	"github.com/zeromicro/go-zero/core/logx"
@@ -34,7 +35,7 @@ func (l *ChangePublicStatusLogic) ChangePublicStatus(req *types.ChangeStatusReq)
 	var origin model.FileInfo
 	result := l.svcCtx.DB.Where("id = ?", req.ID).First(&origin)
 	if result.Error != nil {
-		logx.Errorw(logmessage.DatabaseError, logx.Field("Detail", result.Error.Error()))
+		logx.Errorw(log.DatabaseError, logx.Field("Detail", result.Error.Error()))
 		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 	if result.RowsAffected == 0 {
@@ -46,7 +47,7 @@ func (l *ChangePublicStatusLogic) ChangePublicStatus(req *types.ChangeStatusReq)
 	roleId := l.ctx.Value("roleId").(json.Number).String()
 	userId := l.ctx.Value("userId").(string)
 	if roleId != "1" && userId != origin.UserUUID {
-		logx.Errorw(logmessage.OperationNotAllow, logx.Field("RoleId", roleId),
+		logx.Errorw(log.OperationNotAllow, logx.Field("RoleId", roleId),
 			logx.Field("UserId", userId))
 		return nil, errorx.NewApiErrorWithoutMsg(http.StatusUnauthorized)
 	}
@@ -68,7 +69,7 @@ func (l *ChangePublicStatusLogic) ChangePublicStatus(req *types.ChangeStatusReq)
 	}
 	result = l.svcCtx.DB.Model(&model.FileInfo{}).Where("id = ?", req.ID).Update("status", req.Status)
 	if result.Error != nil {
-		logx.Errorw(logmessage.DatabaseError, logx.Field("Detail", result.Error.Error()))
+		logx.Errorw(log.DatabaseError, logx.Field("Detail", result.Error.Error()))
 		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 

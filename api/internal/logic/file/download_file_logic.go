@@ -6,13 +6,13 @@ import (
 	"net/http"
 	"path"
 
+	"github.com/suyuan32/simple-message/core/log"
+	"github.com/zeromicro/go-zero/core/errorx"
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/suyuan32/simple-admin-file/api/internal/model"
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
-	"github.com/suyuan32/simple-admin-file/api/internal/util/logmessage"
-
-	"github.com/zeromicro/go-zero/core/errorx"
-	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type DownloadFileLogic struct {
@@ -43,7 +43,7 @@ func (l *DownloadFileLogic) DownloadFile(req *types.IDPathReq) (filePath string,
 	roleId := l.ctx.Value("roleId").(json.Number).String()
 	userId := l.ctx.Value("userId").(string)
 	if roleId != "1" && userId != target.UserUUID {
-		logx.Errorw(logmessage.OperationNotAllow, logx.Field("RoleId", roleId),
+		logx.Errorw(log.OperationNotAllow, logx.Field("RoleId", roleId),
 			logx.Field("UserId", userId))
 		return "", errorx.NewApiErrorWithoutMsg(http.StatusUnauthorized)
 	}

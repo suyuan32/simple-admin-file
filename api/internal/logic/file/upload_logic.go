@@ -11,11 +11,12 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/suyuan32/simple-message/core/log"
+
 	"github.com/suyuan32/simple-admin-file/api/internal/model"
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
-	"github.com/suyuan32/simple-admin-file/api/internal/util/logmessage"
-	"github.com/suyuan32/simple-admin-file/api/internal/util/message"
+	"github.com/suyuan32/simple-admin-file/api/internal/util/msg"
 
 	"github.com/google/uuid"
 	"github.com/zeromicro/go-zero/core/errorx"
@@ -76,23 +77,23 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 		logx.Errorw("The file is over size", logx.Field("Type", "image"),
 			logx.Field("UserId", userId), logx.Field("Size", handler.Size),
 			logx.Field("FileName", handler.Filename))
-		return nil, errorx.NewApiError(http.StatusBadRequest, message.OverSizeError)
+		return nil, errorx.NewApiError(http.StatusBadRequest, msg.OverSizeError)
 	} else if fileType == "video" && handler.Size > l.svcCtx.Config.UploadConf.MaxVideoSize {
 		logx.Errorw("The file is over size", logx.Field("Type", "video"),
 			logx.Field("UserId", userId), logx.Field("Size", handler.Size),
 			logx.Field("FileName", handler.Filename))
-		return nil, errorx.NewApiError(http.StatusBadRequest, message.OverSizeError)
+		return nil, errorx.NewApiError(http.StatusBadRequest, msg.OverSizeError)
 	} else if fileType == "audio" && handler.Size > l.svcCtx.Config.UploadConf.MaxAudioSize {
 		logx.Errorw("The file is over size", logx.Field("Type", "audio"),
 			logx.Field("UserId", userId), logx.Field("Size", handler.Size),
 			logx.Field("FileName", handler.Filename))
-		return nil, errorx.NewApiError(http.StatusBadRequest, message.OverSizeError)
+		return nil, errorx.NewApiError(http.StatusBadRequest, msg.OverSizeError)
 	} else if fileType != "image" && fileType != "video" && fileType != "audio" &&
 		handler.Size > l.svcCtx.Config.UploadConf.MaxOtherSize {
 		logx.Errorw("The file is over size", logx.Field("Type", "other"),
 			logx.Field("UserId", userId), logx.Field("Size", handler.Size),
 			logx.Field("FileName", handler.Filename))
-		return nil, errorx.NewApiError(http.StatusBadRequest, message.OverSizeError)
+		return nil, errorx.NewApiError(http.StatusBadRequest, msg.OverSizeError)
 	}
 	if fileType != "image" && fileType != "video" && fileType != "audio" {
 		fileType = "other"
@@ -170,7 +171,7 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 	result := l.svcCtx.DB.Create(&fileInfo)
 
 	if result.Error != nil {
-		logx.Errorw(logmessage.DatabaseError, logx.Field("Detail", result.Error.Error()))
+		logx.Errorw(log.DatabaseError, logx.Field("Detail", result.Error.Error()))
 		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 
