@@ -41,7 +41,7 @@ func (l *InitDatabaseLogic) InitDatabase() (resp *types.SimpleMsg, err error) {
 
 	err = l.svcCtx.DB.AutoMigrate(&model.FileInfo{})
 	if err != nil {
-		logx.Errorw("Initialize database error", logx.Field("Detail", err.Error()))
+		logx.Errorw("initialize database error", logx.Field("detail", err.Error()))
 		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 
@@ -51,7 +51,7 @@ func (l *InitDatabaseLogic) InitDatabase() (resp *types.SimpleMsg, err error) {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	logx.Infow("Initialize database successfully")
+	logx.Infow("initialize database successfully")
 	return &types.SimpleMsg{Msg: errorx.Success}, nil
 }
 

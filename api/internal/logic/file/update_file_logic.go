@@ -32,11 +32,11 @@ func (l *UpdateFileLogic) UpdateFile(req *types.UpdateFileReq) (resp *types.Simp
 	var target model.FileInfo
 	check := l.svcCtx.DB.Where("id = ?", req.ID).First(&target)
 	if check.Error != nil {
-		logx.Errorw(log.DatabaseError, logx.Field("Detail", check.Error.Error()))
+		logx.Errorw(log.DatabaseError, logx.Field("detail", check.Error.Error()))
 		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 	if check.RowsAffected == 0 {
-		logx.Errorw("File does not found", logx.Field("FileId", req.ID))
+		logx.Errorw("file does not found", logx.Field("FileId", req.ID))
 		return nil, errorx.NewApiErrorWithoutMsg(http.StatusNotFound)
 	}
 
@@ -45,18 +45,18 @@ func (l *UpdateFileLogic) UpdateFile(req *types.UpdateFileReq) (resp *types.Simp
 	userId := l.ctx.Value("userId").(string)
 	if roleId != "1" && userId != target.UserUUID {
 		logx.Errorw(log.OperationNotAllow, logx.Field("RoleId", roleId),
-			logx.Field("UserId", userId))
+			logx.Field("userId", userId))
 		return nil, errorx.NewApiErrorWithoutMsg(http.StatusUnauthorized)
 	}
 
 	// update data
 	result := l.svcCtx.DB.Model(&model.FileInfo{}).Where("id = ?", req.ID).Update("name", req.Name)
 	if result.Error != nil {
-		logx.Errorw(log.DatabaseError, logx.Field("Detail", result.Error.Error()))
+		logx.Errorw(log.DatabaseError, logx.Field("detail", result.Error.Error()))
 		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 	if result.RowsAffected == 0 {
-		logx.Errorw("Fail to update the file", logx.Field("Detail", req))
+		logx.Errorw("fail to update the file", logx.Field("detail", req))
 		return &types.SimpleMsg{Msg: errorx.UpdateFailed}, nil
 	}
 	return &types.SimpleMsg{Msg: errorx.UpdateSuccess}, nil

@@ -33,11 +33,11 @@ func (l *DeleteFileLogic) DeleteFile(req *types.IDReq) (resp *types.SimpleMsg, e
 	var target model.FileInfo
 	result := l.svcCtx.DB.Where("id = ?", req.ID).First(&target)
 	if result.Error != nil {
-		logx.Errorw(log.DatabaseError, logx.Field("Detail", result.Error.Error()))
+		logx.Errorw(log.DatabaseError, logx.Field("detail", result.Error.Error()))
 		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 	if result.RowsAffected == 0 {
-		logx.Errorw("File does not find", logx.Field("FileId", req.ID))
+		logx.Errorw("file cannot be found", logx.Field("fileId", req.ID))
 		return nil, errorx.NewApiErrorWithoutMsg(http.StatusNotFound)
 	}
 
@@ -45,33 +45,33 @@ func (l *DeleteFileLogic) DeleteFile(req *types.IDReq) (resp *types.SimpleMsg, e
 	roleId := l.ctx.Value("roleId").(json.Number).String()
 	userId := l.ctx.Value("userId").(string)
 	if roleId != "1" && userId != target.UserUUID {
-		logx.Errorw(log.OperationNotAllow, logx.Field("RoleId", roleId),
-			logx.Field("UserId", userId))
+		logx.Errorw(log.OperationNotAllow, logx.Field("roleId", roleId),
+			logx.Field("userId", userId))
 		return nil, errorx.NewApiErrorWithoutMsg(http.StatusUnauthorized)
 	}
 
 	if target.Status {
 		err = os.RemoveAll(l.svcCtx.Config.UploadConf.PublicStorePath + target.Path)
 		if err != nil {
-			logx.Errorw("Fail to remove the file", logx.Field("Path",
-				l.svcCtx.Config.UploadConf.PublicStorePath+target.Path), logx.Field("Detail", err.Error()))
+			logx.Errorw("fail to remove the file", logx.Field("path",
+				l.svcCtx.Config.UploadConf.PublicStorePath+target.Path), logx.Field("detail", err.Error()))
 			return nil, errorx.NewApiErrorWithoutMsg(http.StatusInternalServerError)
 		}
 	} else {
 		err = os.RemoveAll(l.svcCtx.Config.UploadConf.PrivateStorePath + target.Path)
 		if err != nil {
-			logx.Errorw("Fail to remove the file", logx.Field("Path",
-				l.svcCtx.Config.UploadConf.PrivateStorePath+target.Path), logx.Field("Detail", err.Error()))
+			logx.Errorw("fail to remove the file", logx.Field("path",
+				l.svcCtx.Config.UploadConf.PrivateStorePath+target.Path), logx.Field("detail", err.Error()))
 			return nil, errorx.NewApiErrorWithoutMsg(http.StatusInternalServerError)
 		}
 	}
 
 	result = l.svcCtx.DB.Delete(&target)
 	if result.Error != nil {
-		logx.Errorw(log.DatabaseError, logx.Field("Detail", result.Error.Error()))
+		logx.Errorw(log.DatabaseError, logx.Field("detail", result.Error.Error()))
 		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 
-	logx.Infow("Delete file successfully", logx.Field("Detail", target))
+	logx.Infow("delete file successfully", logx.Field("detail", target))
 	return &types.SimpleMsg{Msg: errorx.DeleteSuccess}, nil
 }

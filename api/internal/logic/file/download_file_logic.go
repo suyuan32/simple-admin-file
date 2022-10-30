@@ -43,18 +43,18 @@ func (l *DownloadFileLogic) DownloadFile(req *types.IDPathReq) (filePath string,
 	roleId := l.ctx.Value("roleId").(json.Number).String()
 	userId := l.ctx.Value("userId").(string)
 	if roleId != "1" && userId != target.UserUUID {
-		logx.Errorw(log.OperationNotAllow, logx.Field("RoleId", roleId),
-			logx.Field("UserId", userId))
+		logx.Errorw(log.OperationNotAllow, logx.Field("roleId", roleId),
+			logx.Field("userId", userId))
 		return "", errorx.NewApiErrorWithoutMsg(http.StatusUnauthorized)
 	}
 
 	if target.Status {
-		logx.Infow("Public download", logx.Field("FileName", target.Name), logx.Field("UserId", userId),
-			logx.Field("FilePath", target.Path))
+		logx.Infow("public download", logx.Field("fileName", target.Name), logx.Field("userId", userId),
+			logx.Field("filePath", target.Path))
 		return path.Join(l.svcCtx.Config.UploadConf.PublicStorePath, target.Path), nil
 	} else {
-		logx.Infow("Private download", logx.Field("FileName", target.Name), logx.Field("UserId", userId),
-			logx.Field("FilePath", target.Path))
+		logx.Infow("private download", logx.Field("fileName", target.Name), logx.Field("userId", userId),
+			logx.Field("filePath", target.Path))
 		return path.Join(l.svcCtx.Config.UploadConf.PrivateStorePath, target.Path), nil
 	}
 }

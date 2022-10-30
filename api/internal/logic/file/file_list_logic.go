@@ -38,7 +38,7 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 	db := l.svcCtx.DB.Model(&model.FileInfo{})
 
 	if req.FileName != "" {
-		db = db.Where("name like ?", req.FileName)
+		db = db.Where("name like %?%", req.FileName)
 	}
 
 	if req.FileType != "" {
@@ -63,7 +63,7 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 		Order("created_at desc").Find(&fileInfos)
 
 	if result.Error != nil {
-		logx.Errorw(log.DatabaseError, logx.Field("Detail", result.Error.Error()))
+		logx.Errorw(log.DatabaseError, logx.Field("detail", result.Error.Error()))
 		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
 	}
 
