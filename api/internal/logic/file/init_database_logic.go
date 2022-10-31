@@ -60,37 +60,37 @@ func (l *InitDatabaseLogic) insertApiData() error {
 		// user
 		{
 			Path:        "/upload",
-			Description: "api_desc.uploadFile",
+			Description: "apiDesc.uploadFile",
 			ApiGroup:    "file",
 			Method:      "POST",
 		},
 		{
 			Path:        "/file/list",
-			Description: "api_desc.fileList",
+			Description: "apiDesc.fileList",
 			ApiGroup:    "file",
 			Method:      "POST",
 		},
 		{
 			Path:        "/file",
-			Description: "api_desc.updateFileInfo",
+			Description: "apiDesc.updateFileInfo",
 			ApiGroup:    "file",
 			Method:      "POST",
 		},
 		{
 			Path:        "/file/status",
-			Description: "api_desc.setPublicStatus",
+			Description: "apiDesc.setPublicStatus",
 			ApiGroup:    "file",
 			Method:      "POST",
 		},
 		{
 			Path:        "/file",
-			Description: "api_desc.deleteFile",
+			Description: "apiDesc.deleteFile",
 			ApiGroup:    "file",
 			Method:      "DELETE",
 		},
 		{
 			Path:        "/file/download",
-			Description: "api_desc.downloadFile",
+			Description: "apiDesc.downloadFile",
 			ApiGroup:    "file",
 			Method:      "GET",
 		},

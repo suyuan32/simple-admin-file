@@ -60,7 +60,7 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 	// 拒绝无后缀文件
 	if len(nameData) < 2 {
 		logx.Errorw("reject the file which does not have suffix")
-		return nil, errorx.NewApiError(http.StatusBadRequest, "file_manager.wrongTypeError")
+		return nil, errorx.NewApiError(http.StatusBadRequest, msg.WrongTypeError)
 	}
 
 	fileName, fileSuffix := nameData[0], nameData[1]
