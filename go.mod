@@ -7,7 +7,7 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/suyuan32/simple-admin-core v0.1.2
 	github.com/suyuan32/simple-message v0.0.0-20221030040811-750524039f2a
-	github.com/suyuan32/simple-models v0.0.1
+	github.com/suyuan32/simple-models v0.0.2
 	github.com/suyuan32/simple-utils v0.0.0-20221030083412-db46af4d3a28
 	github.com/zeromicro/go-zero v1.4.2
 	google.golang.org/grpc v1.50.1

@@ -595,8 +595,8 @@ github.com/suyuan32/simple-admin-tools v0.0.7 h1:akf/SPviqQFB8WwnNN2CSJSSySSMysH
 github.com/suyuan32/simple-admin-tools v0.0.7/go.mod h1:Us410nZyZIgVM2mjsrsfXm73Xck+UyVPIzQF87LjlVQ=
 github.com/suyuan32/simple-message v0.0.0-20221030040811-750524039f2a h1:BlW4pEsxGk68+qNGt6RlYGrQy4VWa7EjsTMxaNETwTY=
 github.com/suyuan32/simple-message v0.0.0-20221030040811-750524039f2a/go.mod h1:hPXRgRCav7gZ+nP6FKQk/+g8365xV640ylN3ECvPemU=
-github.com/suyuan32/simple-models v0.0.1 h1:0UAQeo5pZ8lqL+aelnloEB9DP+Y1ia3N9b3U+L2GvlI=
-github.com/suyuan32/simple-models v0.0.1/go.mod h1:NN2Sfv9OSU6lQPHObFhCJVDFcw+555s25KlD/6uEx9U=
+github.com/suyuan32/simple-models v0.0.2 h1:AYHBGZIir2RtBm6Foqfi7rUoE16Jdtq/Y5JQdOSS2wU=
+github.com/suyuan32/simple-models v0.0.2/go.mod h1:NN2Sfv9OSU6lQPHObFhCJVDFcw+555s25KlD/6uEx9U=
 github.com/suyuan32/simple-utils v0.0.0-20221030083412-db46af4d3a28 h1:uvSor2QfOFdKmDP4SpNmiYf70beeNExligmLNSKoNOY=
 github.com/suyuan32/simple-utils v0.0.0-20221030083412-db46af4d3a28/go.mod h1:Y/0ei8HHZwBFxyY5raGw6YRit6Yoa9DFwdVi2mLrZjU=
 github.com/tidwall/pretty v1.0.0/go.mod h1:XNkn88O1ChpSDQmQeStsy+sBenx6DDtFZJxhVysOjyk=

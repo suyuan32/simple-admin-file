@@ -6,7 +6,7 @@ import (
 
 	"github.com/suyuan32/simple-admin-core/common/logmessage"
 	"github.com/suyuan32/simple-message/core/log"
-	model2 "github.com/suyuan32/simple-models/model"
+	"github.com/suyuan32/simple-models/model/core"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
@@ -56,7 +56,7 @@ func (l *InitDatabaseLogic) InitDatabase() (resp *types.SimpleMsg, err error) {
 }
 
 func (l *InitDatabaseLogic) insertApiData() error {
-	apis := []model2.Api{
+	apis := []core.Api{
 		// user
 		{
 			Path:        "/upload",
