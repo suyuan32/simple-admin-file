@@ -4,7 +4,6 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/suyuan32/simple-admin-core/common/logmessage"
 	"github.com/suyuan32/simple-message/core/log"
 	"github.com/suyuan32/simple-models/model/core"
 	"google.golang.org/grpc/codes"
@@ -47,7 +46,7 @@ func (l *InitDatabaseLogic) InitDatabase() (resp *types.SimpleMsg, err error) {
 
 	err = l.insertApiData()
 	if err != nil {
-		logx.Errorw(logmessage.DatabaseError, logx.Field("detail", err.Error()))
+		logx.Errorw(log.DatabaseError, logx.Field("detail", err.Error()))
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 

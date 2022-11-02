@@ -5,7 +5,6 @@ go 1.19
 require (
 	github.com/casbin/casbin/v2 v2.56.0
 	github.com/google/uuid v1.3.0
-	github.com/suyuan32/simple-admin-core v0.1.2
 	github.com/suyuan32/simple-message v0.0.0-20221030040811-750524039f2a
 	github.com/suyuan32/simple-models v0.0.2
 	github.com/suyuan32/simple-utils v0.0.0-20221030083412-db46af4d3a28
@@ -61,6 +60,7 @@ require (
 	github.com/prometheus/procfs v0.8.0 // indirect
 	github.com/remyoudompheng/bigfft v0.0.0-20200410134404-eec4a21b6bb0 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
+	github.com/suyuan32/simple-admin-core v0.1.2 // indirect
 	go.opentelemetry.io/otel v1.11.0 // indirect
 	go.opentelemetry.io/otel/exporters/jaeger v1.11.0 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/internal/retry v1.11.0 // indirect
