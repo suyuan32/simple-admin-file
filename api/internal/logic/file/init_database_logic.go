@@ -4,16 +4,18 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/suyuan32/simple-message/core/log"
-	"github.com/suyuan32/simple-models/model/core"
+	"entgo.io/ent/dialect/sql/schema"
+	"github.com/suyuan32/simple-admin-core/pkg/enum"
+	"github.com/suyuan32/simple-admin-core/pkg/i18n"
+	"github.com/suyuan32/simple-admin-core/pkg/msg/logmsg"
+	"github.com/suyuan32/simple-admin-core/rpc/types/core"
+	"github.com/zeromicro/go-zero/core/errorx"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	"github.com/suyuan32/simple-admin-file/api/internal/model"
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
 
-	"github.com/zeromicro/go-zero/core/errorx"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -21,85 +23,124 @@ type InitDatabaseLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	lang   string
 }
 
-func NewInitDatabaseLogic(ctx context.Context, svcCtx *svc.ServiceContext) *InitDatabaseLogic {
+func NewInitDatabaseLogic(r *http.Request, svcCtx *svc.ServiceContext) *InitDatabaseLogic {
 	return &InitDatabaseLogic{
-		Logger: logx.WithContext(ctx),
-		ctx:    ctx,
+		Logger: logx.WithContext(r.Context()),
+		ctx:    r.Context(),
 		svcCtx: svcCtx,
+		lang:   r.Header.Get("Accept-Language"),
 	}
 }
 
-func (l *InitDatabaseLogic) InitDatabase() (resp *types.SimpleMsg, err error) {
-	var file model.FileInfo
-	check := l.svcCtx.DB.First(&file)
-	if check.RowsAffected != 0 {
-		return &types.SimpleMsg{Msg: errorx.AlreadyInit}, nil
-	}
-
-	err = l.svcCtx.DB.AutoMigrate(&model.FileInfo{})
+func (l *InitDatabaseLogic) InitDatabase() (resp *types.BaseMsgResp, err error) {
+	err = l.initApi()
 	if err != nil {
-		logx.Errorw("initialize database error", logx.Field("detail", err.Error()))
-		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
+		if status.Code(err) == codes.InvalidArgument {
+			return nil, errorx.NewCodeError(enum.InvalidArgument,
+				l.svcCtx.Trans.Trans(l.lang, "init.alreadyInit"))
+		}
+		return nil, err
 	}
 
-	err = l.insertApiData()
-	if err != nil {
-		logx.Errorw(log.DatabaseError, logx.Field("detail", err.Error()))
-		return nil, status.Error(codes.Internal, err.Error())
+	if err := l.svcCtx.DB.Schema.Create(l.ctx, schema.WithForeignKeys(false)); err != nil {
+		logx.Errorw(logmsg.DatabaseError, logx.Field("detail", err.Error()))
+		return nil, errorx.NewCodeError(enum.Internal, err.Error())
 	}
 
-	logx.Infow("initialize database successfully")
-	return &types.SimpleMsg{Msg: errorx.Success}, nil
+	return &types.BaseMsgResp{
+		Code: 0,
+		Msg:  l.svcCtx.Trans.Trans(l.lang, i18n.Success),
+	}, nil
 }
 
-func (l *InitDatabaseLogic) insertApiData() error {
-	apis := []core.Api{
-		// user
-		{
-			Path:        "/upload",
-			Description: "apiDesc.uploadFile",
-			ApiGroup:    "file",
-			Method:      "POST",
-		},
-		{
-			Path:        "/file/list",
-			Description: "apiDesc.fileList",
-			ApiGroup:    "file",
-			Method:      "POST",
-		},
-		{
-			Path:        "/file",
-			Description: "apiDesc.updateFileInfo",
-			ApiGroup:    "file",
-			Method:      "POST",
-		},
-		{
-			Path:        "/file/status",
-			Description: "apiDesc.setPublicStatus",
-			ApiGroup:    "file",
-			Method:      "POST",
-		},
-		{
-			Path:        "/file",
-			Description: "apiDesc.deleteFile",
-			ApiGroup:    "file",
-			Method:      "DELETE",
-		},
-		{
-			Path:        "/file/download",
-			Description: "apiDesc.downloadFile",
-			ApiGroup:    "file",
-			Method:      "GET",
-		},
+func (l *InitDatabaseLogic) initApi() error {
+	// create API in core service
+	_, err := l.svcCtx.CoreRpc.CreateOrUpdateApi(l.ctx, &core.ApiInfo{
+		Id:          0,
+		CreatedAt:   0,
+		UpdatedAt:   0,
+		Path:        "/upload",
+		Description: "apiDesc.uploadFile",
+		Group:       "file",
+		Method:      "POST",
+	})
+
+	if err != nil {
+		return err
 	}
 
-	result := l.svcCtx.DB.CreateInBatches(apis, 100)
-	if result.Error != nil {
-		logx.Errorw(log.DatabaseError, logx.Field("detail", result.Error.Error()))
-		return status.Error(codes.Internal, result.Error.Error())
-	} else {
-		return nil
+	_, err = l.svcCtx.CoreRpc.CreateOrUpdateApi(l.ctx, &core.ApiInfo{
+		Id:          0,
+		CreatedAt:   0,
+		UpdatedAt:   0,
+		Path:        "/file/list",
+		Description: "apiDesc.fileList",
+		Group:       "file",
+		Method:      "POST",
+	})
+
+	if err != nil {
+		return err
 	}
+
+	_, err = l.svcCtx.CoreRpc.CreateOrUpdateApi(l.ctx, &core.ApiInfo{
+		Id:          0,
+		CreatedAt:   0,
+		UpdatedAt:   0,
+		Path:        "/file",
+		Description: "apiDesc.updateFileInfo",
+		Group:       "file",
+		Method:      "POST",
+	})
+
+	if err != nil {
+		return err
+	}
+
+	_, err = l.svcCtx.CoreRpc.CreateOrUpdateApi(l.ctx, &core.ApiInfo{
+		Id:          0,
+		CreatedAt:   0,
+		UpdatedAt:   0,
+		Path:        "/file/status",
+		Description: "apiDesc.setPublicStatus",
+		Group:       "file",
+		Method:      "POST",
+	})
+
+	if err != nil {
+		return err
+	}
+
+	_, err = l.svcCtx.CoreRpc.CreateOrUpdateApi(l.ctx, &core.ApiInfo{
+		Id:          0,
+		CreatedAt:   0,
+		UpdatedAt:   0,
+		Path:        "/file",
+		Description: "apiDesc.deleteFile",
+		Group:       "file",
+		Method:      "DELETE",
+	})
+
+	if err != nil {
+		return err
+	}
+
+	_, err = l.svcCtx.CoreRpc.CreateOrUpdateApi(l.ctx, &core.ApiInfo{
+		Id:          0,
+		CreatedAt:   0,
+		UpdatedAt:   0,
+		Path:        "/file/download/:id",
+		Description: "apiDesc.downloadFile",
+		Group:       "file",
+		Method:      "GET",
+	})
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

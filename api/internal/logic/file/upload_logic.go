@@ -11,32 +11,33 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/suyuan32/simple-message/core/log"
-
-	"github.com/suyuan32/simple-admin-file/api/internal/model"
-	"github.com/suyuan32/simple-admin-file/api/internal/svc"
-	"github.com/suyuan32/simple-admin-file/api/internal/types"
-	"github.com/suyuan32/simple-admin-file/api/internal/util/msg"
-
 	"github.com/google/uuid"
+	"github.com/suyuan32/simple-admin-core/pkg/enum"
+	"github.com/suyuan32/simple-admin-core/pkg/i18n"
 	"github.com/zeromicro/go-zero/core/errorx"
 	"github.com/zeromicro/go-zero/core/logx"
-	"gorm.io/gorm"
+
+	"github.com/suyuan32/simple-admin-file/api/internal/svc"
+	"github.com/suyuan32/simple-admin-file/api/internal/types"
+	"github.com/suyuan32/simple-admin-file/pkg/ent"
+	enum2 "github.com/suyuan32/simple-admin-file/pkg/enum"
 )
 
 type UploadLogic struct {
 	logx.Logger
-	r      *http.Request
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	lang   string
+	r      *http.Request
 }
 
 func NewUploadLogic(r *http.Request, svcCtx *svc.ServiceContext) *UploadLogic {
 	return &UploadLogic{
 		Logger: logx.WithContext(r.Context()),
 		ctx:    r.Context(),
-		r:      r,
 		svcCtx: svcCtx,
+		r:      r,
+		lang:   r.Header.Get("Accept-Language"),
 	}
 }
 
@@ -44,12 +45,15 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 	err = l.r.ParseMultipartForm(l.svcCtx.Config.UploadConf.MaxVideoSize)
 	if err != nil {
 		logx.Error("fail to parse the multipart form")
-		return nil, errorx.NewApiError(http.StatusBadRequest, "sys.api.apiRequestFailed")
+		return nil, errorx.NewCodeError(enum.InvalidArgument,
+			l.svcCtx.Trans.Trans(l.lang, "file.parseFormFailed"))
 	}
+
 	file, handler, err := l.r.FormFile("file")
 	if err != nil {
 		logx.Error("the value of file cannot be found")
-		return nil, errorx.NewApiError(http.StatusBadRequest, "sys.api.apiRequestFailed")
+		return nil, errorx.NewCodeError(enum.InvalidArgument,
+			l.svcCtx.Trans.Trans(l.lang, "file.parseFormFailed"))
 	}
 	defer file.Close()
 
@@ -60,7 +64,8 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 	// 拒绝无后缀文件
 	if len(nameData) < 2 {
 		logx.Errorw("reject the file which does not have suffix")
-		return nil, errorx.NewApiError(http.StatusBadRequest, msg.WrongTypeError)
+		return nil, errorx.NewCodeError(enum.InvalidArgument,
+			l.svcCtx.Trans.Trans(l.lang, "file.wrongTypeError"))
 	}
 
 	fileName, fileSuffix := nameData[0], nameData[1]
@@ -77,26 +82,44 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 		logx.Errorw("the file is over size", logx.Field("type", "image"),
 			logx.Field("userId", userId), logx.Field("size", handler.Size),
 			logx.Field("fileName", handler.Filename))
-		return nil, errorx.NewApiError(http.StatusBadRequest, msg.OverSizeError)
+		return nil, errorx.NewCodeError(enum.InvalidArgument,
+			l.svcCtx.Trans.Trans(l.lang, "file.overSizeError"))
 	} else if fileType == "video" && handler.Size > l.svcCtx.Config.UploadConf.MaxVideoSize {
 		logx.Errorw("the file is over size", logx.Field("type", "video"),
 			logx.Field("userId", userId), logx.Field("size", handler.Size),
 			logx.Field("fileName", handler.Filename))
-		return nil, errorx.NewApiError(http.StatusBadRequest, msg.OverSizeError)
+		return nil, errorx.NewCodeError(enum.InvalidArgument,
+			l.svcCtx.Trans.Trans(l.lang, "file.overSizeError"))
 	} else if fileType == "audio" && handler.Size > l.svcCtx.Config.UploadConf.MaxAudioSize {
 		logx.Errorw("the file is over size", logx.Field("type", "audio"),
 			logx.Field("userId", userId), logx.Field("size", handler.Size),
 			logx.Field("fileName", handler.Filename))
-		return nil, errorx.NewApiError(http.StatusBadRequest, msg.OverSizeError)
+		return nil, errorx.NewCodeError(enum.InvalidArgument,
+			l.svcCtx.Trans.Trans(l.lang, "file.overSizeError"))
 	} else if fileType != "image" && fileType != "video" && fileType != "audio" &&
 		handler.Size > l.svcCtx.Config.UploadConf.MaxOtherSize {
 		logx.Errorw("the file is over size", logx.Field("type", "other"),
 			logx.Field("userId", userId), logx.Field("size", handler.Size),
 			logx.Field("fileName", handler.Filename))
-		return nil, errorx.NewApiError(http.StatusBadRequest, msg.OverSizeError)
+		return nil, errorx.NewCodeError(enum.InvalidArgument,
+			l.svcCtx.Trans.Trans(l.lang, "file.overSizeError"))
 	}
 	if fileType != "image" && fileType != "video" && fileType != "audio" {
 		fileType = "other"
+	}
+
+	var fileTypeCode uint8
+	switch fileType {
+	case "other":
+		fileTypeCode = enum2.Other
+	case "image":
+		fileTypeCode = enum2.Image
+	case "video":
+		fileTypeCode = enum2.Video
+	case "audio":
+		fileTypeCode = enum2.Audio
+	default:
+		fileTypeCode = enum2.Other
 	}
 
 	// generate path
@@ -117,7 +140,8 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 		if err != nil {
 			logx.Errorw("fail to make directory", logx.Field("path", path.Join(l.svcCtx.Config.UploadConf.PublicStorePath,
 				l.svcCtx.Config.Name, fileType, timeString)))
-			return nil, errorx.NewApiErrorWithoutMsg(http.StatusInternalServerError)
+			return nil, errorx.NewCodeError(enum.Internal,
+				l.svcCtx.Trans.Trans(l.lang, i18n.Failed))
 		}
 	}
 
@@ -132,7 +156,8 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 		if err != nil {
 			logx.Errorw("fail to create directory", logx.Field("Path", path.Join(l.svcCtx.Config.UploadConf.PublicStorePath,
 				l.svcCtx.Config.Name, fileType, timeString)))
-			return nil, errorx.NewApiErrorWithoutMsg(http.StatusInternalServerError)
+			return nil, errorx.NewCodeError(enum.Internal,
+				l.svcCtx.Trans.Trans(l.lang, i18n.Failed))
 		}
 	}
 
@@ -143,42 +168,46 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 	if err != nil {
 		logx.Errorw("fail to create directory", logx.Field("path", path.Join(l.svcCtx.Config.UploadConf.PublicStorePath,
 			l.svcCtx.Config.Name, fileType, timeString, storeFileName)))
-		return nil, errorx.NewApiErrorWithoutMsg(http.StatusInternalServerError)
+		return nil, errorx.NewCodeError(enum.Internal,
+			l.svcCtx.Trans.Trans(l.lang, i18n.Failed))
 	}
 	_, err = io.Copy(targetFile, file)
 	if err != nil {
 		logx.Errorw("fail to create file", logx.Field("path", path.Join(l.svcCtx.Config.UploadConf.PublicStorePath,
 			l.svcCtx.Config.Name, fileType, timeString, storeFileName)))
-		return nil, errorx.NewApiErrorWithoutMsg(http.StatusInternalServerError)
+		return nil, errorx.NewCodeError(enum.Internal,
+			l.svcCtx.Trans.Trans(l.lang, i18n.Failed))
 	}
 
 	// store in database
 	// 提交数据库
 	relativePath := fmt.Sprintf("/%s/%s/%s/%s", l.svcCtx.Config.Name,
 		fileType, timeString, storeFileName)
-	var fileInfo model.FileInfo
-	fileInfo = model.FileInfo{
-		Model:    gorm.Model{},
-		UUID:     fileUUID,
-		Name:     fileName,
-		FileType: fileType,
-		Size:     handler.Size,
-		Path:     relativePath,
-		UserUUID: userId,
-		Md5:      l.r.MultipartForm.Value["md5"][0],
-		Status:   true,
-	}
-	result := l.svcCtx.DB.Create(&fileInfo)
 
-	if result.Error != nil {
-		logx.Errorw(log.DatabaseError, logx.Field("detail", result.Error.Error()))
-		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
+	err = l.svcCtx.DB.File.Create().
+		SetUUID(fileUUID).
+		SetName(fileName).
+		SetFileType(fileTypeCode).
+		SetPath(relativePath).
+		SetUserUUID(userId).
+		SetMd5(l.r.MultipartForm.Value["md5"][0]).
+		SetStatus(1).
+		SetSize(uint64(handler.Size)).
+		Exec(l.ctx)
+
+	if err != nil {
+		switch {
+		case ent.IsConstraintError(err):
+			logx.Errorw(err.Error(), logx.Field("detail", fileName))
+			return nil, errorx.NewCodeError(enum.InvalidArgument, i18n.CreateFailed)
+		default:
+			logx.Errorw(i18n.DatabaseError, logx.Field("detail", err.Error()))
+			return nil, errorx.NewCodeError(enum.Internal, i18n.DatabaseError)
+		}
 	}
 
-	logx.Infow("create file successfully", logx.Field("detail", fileInfo))
 	return &types.UploadResp{
-		Msg:  "ok",
-		Name: handler.Filename,
-		Path: relativePath,
+		BaseDataInfo: types.BaseDataInfo{Msg: l.svcCtx.Trans.Trans(l.lang, i18n.Success)},
+		Data:         types.UploadInfo{Name: handler.Filename, Url: relativePath},
 	}, nil
 }

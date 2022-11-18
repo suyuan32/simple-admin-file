@@ -32,11 +32,11 @@ func DownloadFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := file.NewDownloadFileLogic(r.Context(), svcCtx)
+		l := file.NewDownloadFileLogic(r, svcCtx)
 		filePath, err := l.DownloadFile(&req)
 		if err != nil {
+			err = svcCtx.Trans.TransError(r.Header.Get("Accept-Language"), err)
 			httpx.Error(w, err)
-			return
 		} else {
 			body, err := os.ReadFile(filePath)
 			if err != nil {
