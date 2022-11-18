@@ -1,0 +1,26 @@
+{
+	"common": {
+		"success": "成功",
+		"failed": "失败",
+		"updateSuccess": "更新成功",
+		"updateFailed": "更新失败",
+		"createSuccess": "新建成功",
+		"createFailed": "新建失败",
+		"deleteSuccess": "删除成功",
+		"deleteFailed": "删除失败",
+		"changeStatusSuccess": "状态修改成功",
+		"changeStatusFailed": "状态修改失败",
+		"targetNotExist": "目标不存在",
+		"databaseError": "数据库错误",
+		"redisError": "Redis 错误"
+	},
+	"file": {
+		"overSizeError": "文件大小超过限定值",
+		"wrongTypeError": "错误的文件类型",
+		"parseFormFailed": "无法处理提交数据"
+	},
+	"init": {
+		"initializeIsRunning": "正在初始化...",
+		"alreadyInit": "数据库已被初始化"
+	}
+}

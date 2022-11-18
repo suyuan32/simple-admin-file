@@ -2,18 +2,20 @@ package file
 
 import (
 	"context"
-	"encoding/json"
 	"net/http"
 	"os"
 	"path"
 
-	"github.com/suyuan32/simple-message/core/log"
+	"github.com/suyuan32/simple-admin-core/pkg/enum"
+	"github.com/suyuan32/simple-admin-core/pkg/i18n"
+	"github.com/suyuan32/simple-admin-core/pkg/msg/logmsg"
+	"github.com/zeromicro/go-zero/core/errorx"
 
-	"github.com/suyuan32/simple-admin-file/api/internal/model"
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
+	"github.com/suyuan32/simple-admin-file/pkg/ent"
+	"github.com/suyuan32/simple-admin-file/pkg/utils"
 
-	"github.com/zeromicro/go-zero/core/errorx"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -21,61 +23,59 @@ type ChangePublicStatusLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	lang   string
 }
 
-func NewChangePublicStatusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ChangePublicStatusLogic {
+func NewChangePublicStatusLogic(r *http.Request, svcCtx *svc.ServiceContext) *ChangePublicStatusLogic {
 	return &ChangePublicStatusLogic{
-		Logger: logx.WithContext(ctx),
-		ctx:    ctx,
+		Logger: logx.WithContext(r.Context()),
+		ctx:    r.Context(),
 		svcCtx: svcCtx,
+		lang:   r.Header.Get("Accept-Language"),
 	}
 }
 
-func (l *ChangePublicStatusLogic) ChangePublicStatus(req *types.ChangeStatusReq) (resp *types.SimpleMsg, err error) {
-	var origin model.FileInfo
-	result := l.svcCtx.DB.Where("id = ?", req.ID).First(&origin)
-	if result.Error != nil {
-		logx.Errorw(log.DatabaseError, logx.Field("detail", result.Error.Error()))
-		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
-	}
-	if result.RowsAffected == 0 {
-		logx.Errorw("file dose not find", logx.Field("fileId", req.ID))
-		return nil, errorx.NewApiErrorWithoutMsg(http.StatusNotFound)
-	}
+func (l *ChangePublicStatusLogic) ChangePublicStatus(req *types.StatusCodeReq) (resp *types.BaseMsgResp, err error) {
+	err = utils.WithTx(l.ctx, l.svcCtx.DB, func(tx *ent.Tx) error {
+		file, err := tx.File.UpdateOneID(req.Id).SetStatus(uint8(req.Status)).Save(l.ctx)
 
-	// only admin and owner can do it
-	roleId := l.ctx.Value("roleId").(json.Number).String()
-	userId := l.ctx.Value("userId").(string)
-	if roleId != "1" && userId != origin.UserUUID {
-		logx.Errorw(log.OperationNotAllow, logx.Field("roleId", roleId),
-			logx.Field("userId", userId))
-		return nil, errorx.NewApiErrorWithoutMsg(http.StatusUnauthorized)
-	}
-
-	if req.Status {
-		err = os.Rename(path.Join(l.svcCtx.Config.UploadConf.PrivateStorePath, origin.Path),
-			path.Join(l.svcCtx.Config.UploadConf.PublicStorePath, origin.Path))
 		if err != nil {
-			logx.Errorw("fail to change the path of file", logx.Field("detail", err.Error()))
-			return nil, errorx.NewApiErrorWithoutMsg(http.StatusInternalServerError)
+			switch {
+			case ent.IsNotFound(err):
+				logx.Errorw(err.Error(), logx.Field("detail", req))
+				return err
+			default:
+				logx.Errorw(logmsg.DatabaseError, logx.Field("detail", err.Error()))
+				return err
+			}
 		}
-	} else {
-		err = os.Rename(path.Join(l.svcCtx.Config.UploadConf.PublicStorePath, origin.Path),
-			path.Join(l.svcCtx.Config.UploadConf.PrivateStorePath, origin.Path))
-		if err != nil {
-			logx.Errorw("fail to change the path of file", logx.Field("detail", err.Error()))
-			return nil, errorx.NewApiErrorWithoutMsg(http.StatusInternalServerError)
+
+		if req.Status == 1 {
+			err = os.Rename(path.Join(l.svcCtx.Config.UploadConf.PrivateStorePath, file.Path),
+				path.Join(l.svcCtx.Config.UploadConf.PublicStorePath, file.Path))
+			if err != nil {
+				logx.Errorw("fail to change the path of file", logx.Field("detail", err.Error()))
+				return err
+			}
+		} else {
+			err = os.Rename(path.Join(l.svcCtx.Config.UploadConf.PublicStorePath, file.Path),
+				path.Join(l.svcCtx.Config.UploadConf.PrivateStorePath, file.Path))
+			if err != nil {
+				logx.Errorw("fail to change the path of file", logx.Field("detail", err.Error()))
+				return err
+			}
 		}
-	}
-	result = l.svcCtx.DB.Model(&model.FileInfo{}).Where("id = ?", req.ID).Update("status", req.Status)
-	if result.Error != nil {
-		logx.Errorw(log.DatabaseError, logx.Field("detail", result.Error.Error()))
-		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
+
+		return nil
+	})
+
+	if err != nil {
+		logx.Errorf("update menu authority failed, error : %s", err.Error())
+		return nil, errorx.NewCodeError(enum.Internal, i18n.DatabaseError)
 	}
 
-	if result.RowsAffected == 0 {
-		logx.Errorw("update file status fail", logx.Field("detail", req))
-		return &types.SimpleMsg{Msg: errorx.UpdateFailed}, nil
-	}
-	return &types.SimpleMsg{Msg: errorx.UpdateSuccess}, nil
+	return &types.BaseMsgResp{
+		Code: 0,
+		Msg:  l.svcCtx.Trans.Trans(l.lang, i18n.Success),
+	}, nil
 }

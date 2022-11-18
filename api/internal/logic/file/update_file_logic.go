@@ -2,62 +2,53 @@ package file
 
 import (
 	"context"
-	"encoding/json"
 	"net/http"
 
-	"github.com/suyuan32/simple-message/core/log"
-	"github.com/zeromicro/go-zero/core/errorx"
-	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/suyuan32/simple-admin-core/pkg/i18n"
+	"github.com/suyuan32/simple-admin-core/pkg/statuserr"
 
-	"github.com/suyuan32/simple-admin-file/api/internal/model"
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
+	"github.com/suyuan32/simple-admin-file/pkg/ent"
+
+	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type UpdateFileLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	lang   string
 }
 
-func NewUpdateFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateFileLogic {
+func NewUpdateFileLogic(r *http.Request, svcCtx *svc.ServiceContext) *UpdateFileLogic {
 	return &UpdateFileLogic{
-		Logger: logx.WithContext(ctx),
-		ctx:    ctx,
+		Logger: logx.WithContext(r.Context()),
+		ctx:    r.Context(),
 		svcCtx: svcCtx,
+		lang:   r.Header.Get("Accept-Language"),
 	}
 }
 
-func (l *UpdateFileLogic) UpdateFile(req *types.UpdateFileReq) (resp *types.SimpleMsg, err error) {
-	var target model.FileInfo
-	check := l.svcCtx.DB.Where("id = ?", req.ID).First(&target)
-	if check.Error != nil {
-		logx.Errorw(log.DatabaseError, logx.Field("detail", check.Error.Error()))
-		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
-	}
-	if check.RowsAffected == 0 {
-		logx.Errorw("file does not found", logx.Field("FileId", req.ID))
-		return nil, errorx.NewApiErrorWithoutMsg(http.StatusNotFound)
+func (l *UpdateFileLogic) UpdateFile(req *types.UpdateFileReq) (resp *types.BaseMsgResp, err error) {
+	err = l.svcCtx.DB.File.UpdateOneID(req.ID).SetName(req.Name).Exec(l.ctx)
+
+	if err != nil {
+		switch {
+		case ent.IsNotFound(err):
+			logx.Errorw(err.Error(), logx.Field("detail", req))
+			return nil, statuserr.NewInvalidArgumentError(i18n.TargetNotFound)
+		case ent.IsConstraintError(err):
+			logx.Errorw(err.Error(), logx.Field("detail", req))
+			return nil, statuserr.NewInvalidArgumentError(i18n.UpdateFailed)
+		default:
+			logx.Errorw(i18n.DatabaseError, logx.Field("detail", err.Error()))
+			return nil, statuserr.NewInternalError(i18n.DatabaseError)
+		}
 	}
 
-	// only admin and owner can do it
-	roleId := l.ctx.Value("roleId").(json.Number).String()
-	userId := l.ctx.Value("userId").(string)
-	if roleId != "1" && userId != target.UserUUID {
-		logx.Errorw(log.OperationNotAllow, logx.Field("RoleId", roleId),
-			logx.Field("userId", userId))
-		return nil, errorx.NewApiErrorWithoutMsg(http.StatusUnauthorized)
-	}
-
-	// update data
-	result := l.svcCtx.DB.Model(&model.FileInfo{}).Where("id = ?", req.ID).Update("name", req.Name)
-	if result.Error != nil {
-		logx.Errorw(log.DatabaseError, logx.Field("detail", result.Error.Error()))
-		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
-	}
-	if result.RowsAffected == 0 {
-		logx.Errorw("fail to update the file", logx.Field("detail", req))
-		return &types.SimpleMsg{Msg: errorx.UpdateFailed}, nil
-	}
-	return &types.SimpleMsg{Msg: errorx.UpdateSuccess}, nil
+	return &types.BaseMsgResp{
+		Code: 0,
+		Msg:  l.svcCtx.Trans.Trans(l.lang, i18n.Success),
+	}, nil
 }

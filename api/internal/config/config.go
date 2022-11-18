@@ -1,17 +1,20 @@
 package config
 
 import (
-	"github.com/zeromicro/go-zero/core/stores/gormsql"
+	"github.com/suyuan32/simple-admin-core/pkg/config"
 	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/rest"
+	"github.com/zeromicro/go-zero/zrpc"
 )
 
 type Config struct {
 	rest.RestConf
 	Auth         rest.AuthConf
 	UploadConf   UploadConf
-	DatabaseConf gormsql.GORMConf
+	DatabaseConf config.DatabaseConf
 	RedisConf    redis.RedisConf
+	CasbinConf   config.CasbinConf
+	CoreRpc      zrpc.RpcClientConf
 }
 
 type UploadConf struct {

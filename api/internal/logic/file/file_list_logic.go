@@ -2,85 +2,93 @@ package file
 
 import (
 	"context"
-	"encoding/json"
 	"net/http"
 	"time"
 
-	"github.com/suyuan32/simple-message/core/log"
+	"github.com/suyuan32/simple-admin-core/pkg/enum"
+	"github.com/suyuan32/simple-admin-core/pkg/i18n"
+	"github.com/suyuan32/simple-admin-core/pkg/statuserr"
 	"github.com/zeromicro/go-zero/core/errorx"
-	"github.com/zeromicro/go-zero/core/logx"
 
-	"github.com/suyuan32/simple-admin-file/api/internal/model"
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
+	"github.com/suyuan32/simple-admin-file/pkg/ent"
+	"github.com/suyuan32/simple-admin-file/pkg/ent/file"
+	"github.com/suyuan32/simple-admin-file/pkg/ent/predicate"
+
+	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type FileListLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
+	lang   string
 }
 
-func NewFileListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FileListLogic {
+func NewFileListLogic(r *http.Request, svcCtx *svc.ServiceContext) *FileListLogic {
 	return &FileListLogic{
-		Logger: logx.WithContext(ctx),
-		ctx:    ctx,
+		Logger: logx.WithContext(r.Context()),
+		ctx:    r.Context(),
 		svcCtx: svcCtx,
+		lang:   r.Header.Get("Accept-Language"),
 	}
 }
 
 func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListResp, err error) {
-	// only admin can view the list
-	if l.ctx.Value("roleId").(json.Number).String() != "1" {
-		return nil, errorx.NewApiErrorWithoutMsg(http.StatusUnauthorized)
-	}
+	var predicates []predicate.File
 
-	db := l.svcCtx.DB.Model(&model.FileInfo{})
+	if req.FileType != 0 {
+		predicates = append(predicates, file.FileTypeEQ(req.FileType))
+	}
 
 	if req.FileName != "" {
-		db = db.Where("name like %?%", req.FileName)
+		predicates = append(predicates, file.NameContains(req.FileName))
 	}
 
-	if req.FileType != "" {
-		db = db.Where("file_type = ?", req.FileType)
-	}
-
-	if req.Period[0] != "" && req.Period[1] != "" {
+	if req.Period != nil {
 		begin, err := time.Parse("2006-01-02 15:04:05", req.Period[0])
 		if err != nil {
-			return nil, errorx.NewApiErrorWithoutMsg(http.StatusBadRequest)
+			return nil, errorx.NewCodeError(enum.InvalidArgument, i18n.Failed)
 		}
 		end, err := time.Parse("2006-01-02 15:04:05", req.Period[1])
 		if err != nil {
-			return nil, errorx.NewApiErrorWithoutMsg(http.StatusBadRequest)
+			return nil, errorx.NewCodeError(enum.InvalidArgument, i18n.Failed)
 		}
-
-		db = db.Where("created_at between ? and ?", begin, end)
+		predicates = append(predicates, file.CreatedAtGT(begin), file.CreatedAtLT(end))
 	}
 
-	var fileInfos []model.FileInfo
-	result := db.Limit(int(req.PageSize)).Offset(int((req.Page - 1) * req.PageSize)).
-		Order("created_at desc").Find(&fileInfos)
+	files, err := l.svcCtx.DB.File.Query().Where(predicates...).Page(l.ctx, req.Page, req.PageSize)
 
-	if result.Error != nil {
-		logx.Errorw(log.DatabaseError, logx.Field("detail", result.Error.Error()))
-		return nil, errorx.NewApiError(http.StatusInternalServerError, errorx.DatabaseError)
+	if err != nil {
+		switch {
+		case ent.IsNotFound(err):
+			logx.Errorw(err.Error(), logx.Field("detail", req))
+			return nil, errorx.NewCodeError(enum.InvalidArgument, i18n.TargetNotFound)
+		default:
+			logx.Errorw(i18n.DatabaseError, logx.Field("detail", err.Error()))
+			return nil, statuserr.NewInternalError(i18n.DatabaseError)
+		}
 	}
 
 	resp = &types.FileListResp{}
-	resp.Total = uint64(result.RowsAffected)
+	resp.Msg = l.svcCtx.Trans.Trans(l.lang, i18n.Success)
+	resp.Data.Total = files.PageDetails.Total
 
-	for _, v := range fileInfos {
-		resp.Data = append(resp.Data, types.FileInfo{
-			ID:        int64(v.ID),
-			UUID:      v.UUID,
-			UserUUID:  v.UserUUID,
-			Name:      v.Name,
-			FileType:  v.FileType,
-			Size:      v.Size,
-			Path:      v.Path,
-			Status:    v.Status,
-			CreatedAt: v.CreatedAt.UnixMilli(),
+	for _, v := range files.List {
+		resp.Data.Data = append(resp.Data.Data, types.FileInfo{
+			BaseInfo: types.BaseInfo{
+				Id:        v.ID,
+				CreatedAt: v.CreatedAt.UnixMilli(),
+				UpdatedAt: v.UpdatedAt.UnixMilli(),
+			},
+			UUID:     v.UUID,
+			UserUUID: v.UserUUID,
+			Name:     v.Name,
+			FileType: v.FileType,
+			Size:     v.Size,
+			Path:     v.Path,
+			Status:   v.Status,
 		})
 	}
 

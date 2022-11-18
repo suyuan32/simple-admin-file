@@ -3,9 +3,9 @@
 //		This is simple admin file manager api doc
 //
 //		Schemes: http, https
-//		Host: localhost:8502
+//		Host: localhost:9102
 //		BasePath: /
-//		Version: 0.0.1
+//		Version: 0.0.2
 //		Contact: yuansu.china.work@gmail.com
 //		securityDefinitions:
 //		  Token:

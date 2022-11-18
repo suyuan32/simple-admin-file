@@ -2,38 +2,58 @@ package svc
 
 import (
 	"github.com/casbin/casbin/v2"
-	"github.com/suyuan32/simple-utils/middleware"
+	"github.com/suyuan32/simple-admin-core/pkg/i18n"
+	"github.com/suyuan32/simple-admin-core/rpc/coreclient"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/redis"
-	"github.com/zeromicro/go-zero/core/utils"
 	"github.com/zeromicro/go-zero/rest"
-	"gorm.io/gorm"
+	"github.com/zeromicro/go-zero/zrpc"
 
 	"github.com/suyuan32/simple-admin-file/api/internal/config"
+	"github.com/suyuan32/simple-admin-file/api/internal/middleware"
+	"github.com/suyuan32/simple-admin-file/pkg/ent"
+	i18n2 "github.com/suyuan32/simple-admin-file/pkg/i18n"
 )
 
 type ServiceContext struct {
 	Config    config.Config
-	DB        *gorm.DB
+	DB        *ent.Client
 	Redis     *redis.Redis
-	Casbin    *casbin.SyncedEnforcer
+	Casbin    *casbin.Enforcer
 	Authority rest.Middleware
+	Trans     *i18n.Translator
+	CoreRpc   coreclient.Core
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
-	db, err := c.DatabaseConf.NewGORM()
-	logx.Must(err)
+	db := ent.NewClient(
+		ent.Log(logx.Info), // logger
+		ent.Driver(c.DatabaseConf.GetCacheDriver(c.RedisConf)),
+		ent.Debug(), // debug mode
+	)
+	logx.Info("Initialize database connection successfully")
 
 	rds := c.RedisConf.NewRedis()
 
-	// initialize casbin
-	cbn := utils.NewCasbin(db)
+	// initialize casbin connection
+	cbn, err := c.CasbinConf.NewCasbin(c.DatabaseConf.Type, c.DatabaseConf.GetDSN())
+	if err != nil {
+		logx.Errorw("Initialize casbin failed", logx.Field("detail", err.Error()))
+		return nil
+	}
+
+	// initialize translator
+	trans := &i18n.Translator{}
+	trans.NewBundle(i18n2.LocaleFS)
+	trans.NewTranslator()
 
 	return &ServiceContext{
 		Config:    c,
 		DB:        db,
 		Redis:     rds,
 		Casbin:    cbn,
+		CoreRpc:   coreclient.NewCore(zrpc.MustNewClient(c.CoreRpc)),
 		Authority: middleware.NewAuthorityMiddleware(cbn, rds).Handle,
+		Trans:     trans,
 	}
 }

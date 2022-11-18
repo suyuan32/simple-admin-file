@@ -24,8 +24,6 @@ import (
 //
 // Responses:
 //  200: FileListResp
-//  401: SimpleMsg
-//  500: SimpleMsg
 
 func FileListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -35,9 +33,10 @@ func FileListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := file.NewFileListLogic(r.Context(), svcCtx)
+		l := file.NewFileListLogic(r, svcCtx)
 		resp, err := l.FileList(&req)
 		if err != nil {
+			err = svcCtx.Trans.TransError(r.Header.Get("Accept-Language"), err)
 			httpx.Error(w, err)
 		} else {
 			httpx.OkJson(w, resp)

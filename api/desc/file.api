@@ -11,25 +11,28 @@ info(
 import "base.api"
 
 type (
-	// The response data when upload finished | 上传完成返回的数据
-	// swagger:response UploadResp
-	UploadResp {
-		// Message | 信息
-		Msg string `json:"msg"`
-
+	// The data when upload finished | 上传完成数据
+	UploadInfo {
 		// File name | 文件名称
 		Name string `json:"name"`
 
 		// File path | 文件路径
-		Path string `json:"path"`
+		Url string `json:"url"`
+	}
+
+	// The response data when upload finished | 上传完成返回的数据
+	UploadResp {
+		BaseDataInfo
+
+		// The  data when upload finished | 上传完成数据
+		Data UploadInfo `json:"data"`
 	}
 
 	// Update file information params | 更新文件信息参数
-	// swagger:model UpdateFileReq
 	UpdateFileReq {
 		// ID
 		// Required : true
-		ID int64 `json:"id"`
+		ID uint64 `json:"id"`
 
 		// File name | 文件名
 		// Required : true
@@ -38,75 +41,63 @@ type (
 	}
 
 	// Get file list params | 获取文件列表参数
-	// swagger:model FileListReq
 	FileListReq {
 		PageInfo
 		// File type | 文件类型
 		// Required : true
 		// Max length: 10
-		FileType string `json:"fileType" validate:"omitempty,alpha,max=10"`
+		FileType uint8 `json:"fileType,optional" validate:"omitempty,alpha,max=10"`
 
 		// File name | 文件名
 		// Required : true
 		// Max length: 50
-		FileName string `json:"fileName" validate:"max=50"`
+		FileName string `json:"fileName,optional" validate:"max=50"`
 
 		// Create date period | 创建日期时间段
 		// Required : true
-		Period []string `json:"period"`
+		Period []string `json:"period,optional"`
 	}
 
 	// The response data of file information | 文件信息数据
-	// swagger:response FileInfo
 	FileInfo {
-		// ID
-		ID int64 `json:"id"`
+		BaseInfo
+
 		// UUID
 		UUID string `json:"UUID"`
+
 		// User's UUID | 用户的UUID
 		UserUUID string `json:"userUUID"`
 
 		// File name | 文件名
 		Name string `json:"name"`
+
 		// File type | 文件类型
-		FileType string `json:"fileType"`
+		FileType uint8 `json:"fileType"`
 
 		// File size | 文件大小
-		Size int64 `json:"size"`
+		Size uint64 `json:"size"`
 
 		// File path | 文件路径
 		Path string `json:"path"`
 
-		// File public staus | 文件公开状态
+		// File public status | 文件公开状态
 		// false private true public | false 私人, true公开
-		Status bool `json:"status"`
-
-		// Create date | 创建日期
-		CreatedAt int64 `json:"createdAt"`
+		Status uint8 `json:"status"`
 	}
 
 	// The response data of file information list | 文件信息列表数据
-	// swagger:response FileListResp
 	FileListResp {
-		// The total number of data | 数据总数
-		Total uint64 `json:"total"`
+		BaseDataInfo
 
 		// The file list data | 文件信息列表数据
-		// in: body
-		Data []FileInfo `json:"data"`
+		Data FileListInfo `json:"data"`
 	}
 
-	// The request params of setting file status | 设置文件状态参数
-	// swagger:model ChangeStatusReq
-	ChangeStatusReq {
-		// ID
-		// Required : true
-		ID uint64 `json:"id"`
+	FileListInfo {
+		BaseListInfo
 
-		// File public status | 文件公开状态
-		// false private true public | false 私人, true公开
-		// Required : true
-		Status bool `json:"status" validate:"boolean"`
+		// The file list data | 文件信息列表数据
+		Data []FileInfo `json:"data"`
 	}
 )
 
@@ -116,8 +107,8 @@ type (
 
 service file {
 	// Initialize database | 初始化数据库
-	@handler initDatabaseHandler
-	get /init/database returns (SimpleMsg)
+	@handler initDatabase
+	get /init/database returns (BaseMsgResp)
 }
 
 @server(
@@ -137,15 +128,15 @@ service file {
 	
 	// Update file information | 更新文件信息
 	@handler updateFile
-	post /file (UpdateFileReq) returns (SimpleMsg)
+	post /file (UpdateFileReq) returns (BaseMsgResp)
 	
 	// Delete file information | 删除文件信息
 	@handler deleteFile
-	delete /file (IDReq) returns (SimpleMsg)
+	delete /file (IDReq) returns (BaseMsgResp)
 	
 	// Change file public status | 改变文件公开状态
 	@handler changePublicStatus
-	post /file/status (ChangeStatusReq) returns (SimpleMsg)
+	post /file/status (StatusCodeReq) returns (BaseMsgResp)
 	
 	// Download file | 下载文件
 	@handler downloadFile
