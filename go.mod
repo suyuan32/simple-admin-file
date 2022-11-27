@@ -6,8 +6,9 @@ require (
 	entgo.io/ent v0.11.4
 	github.com/casbin/casbin/v2 v2.56.0
 	github.com/google/uuid v1.3.0
-	github.com/suyuan32/simple-admin-core v0.1.6-0.20221118062016-d6fdd46316cd
+	github.com/suyuan32/simple-admin-core v0.1.6
 	github.com/zeromicro/go-zero v1.4.2
+	google.golang.org/grpc v1.50.1
 )
 
 replace github.com/zeromicro/go-zero v1.4.2 => github.com/suyuan32/simple-admin-tools v0.0.9
@@ -112,7 +113,6 @@ require (
 	golang.org/x/time v0.0.0-20220411224347-583f2d630306 // indirect
 	google.golang.org/appengine v1.6.6 // indirect
 	google.golang.org/genproto v0.0.0-20220602131408-e326c6e8e9c8 // indirect
-	google.golang.org/grpc v1.50.1 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect

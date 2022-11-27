@@ -31,18 +31,19 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		ent.Driver(c.DatabaseConf.GetCacheDriver(c.RedisConf)),
 		ent.Debug(), // debug mode
 	)
-	logx.Info("Initialize database connection successfully")
 
 	rds := c.RedisConf.NewRedis()
+	if !rds.Ping() {
+		logx.Error("initialize redis failed")
+		return nil
+	}
 
-	// initialize casbin connection
 	cbn, err := c.CasbinConf.NewCasbin(c.DatabaseConf.Type, c.DatabaseConf.GetDSN())
 	if err != nil {
 		logx.Errorw("Initialize casbin failed", logx.Field("detail", err.Error()))
 		return nil
 	}
 
-	// initialize translator
 	trans := &i18n.Translator{}
 	trans.NewBundle(i18n2.LocaleFS)
 	trans.NewTranslator()

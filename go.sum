@@ -850,10 +850,8 @@ github.com/stretchr/testify v1.7.5/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO
 github.com/stretchr/testify v1.8.0 h1:pSgiaMZlXftHpm5L7V1+rVB+AZJydKsMxsQBIJw4PKk=
 github.com/stretchr/testify v1.8.0/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO+kdMU+MU=
 github.com/subosito/gotenv v1.2.0/go.mod h1:N0PQaV/YGNqwC0u51sEeR/aUtSLEXKX9iv69rRypqCw=
-github.com/suyuan32/simple-admin-core v0.1.6-0.20221117122037-88fca60857c3 h1:ihN0prnvTURtqQWJkSBG/jW+MTOWedkgheiKtSy43WM=
-github.com/suyuan32/simple-admin-core v0.1.6-0.20221117122037-88fca60857c3/go.mod h1:4n0NsUuPHy8KRJDVqWxEYk/L8fSjxjiAMSa7w8abhYk=
-github.com/suyuan32/simple-admin-core v0.1.6-0.20221118062016-d6fdd46316cd h1:8ooXmfy+uc6dTe/qNJdU8T+M0zoIsm5b3Kqa3yLaCpM=
-github.com/suyuan32/simple-admin-core v0.1.6-0.20221118062016-d6fdd46316cd/go.mod h1:4n0NsUuPHy8KRJDVqWxEYk/L8fSjxjiAMSa7w8abhYk=
+github.com/suyuan32/simple-admin-core v0.1.6 h1:M7nBUuWxZx6AwDX0wRrlO/CTXYYTMNeTS9+ZMLAmQ/4=
+github.com/suyuan32/simple-admin-core v0.1.6/go.mod h1:4n0NsUuPHy8KRJDVqWxEYk/L8fSjxjiAMSa7w8abhYk=
 github.com/suyuan32/simple-admin-tools v0.0.9 h1:s6+RTJ7E2GZT0BZtsAIx7Wz83WZ8FDZJ/0qE31iO35Y=
 github.com/suyuan32/simple-admin-tools v0.0.9/go.mod h1:/AGheJnwIhsVrNHsCsCY3JfDKTeUvuon3xBTZv1RnjI=
 github.com/tidwall/gjson v1.13.0/go.mod h1:/wbyibRr2FHMks5tjHJ5F8dMZh3AcwJEMf5vlfC0lxk=
