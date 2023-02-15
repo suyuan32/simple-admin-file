@@ -12,7 +12,8 @@
 		"changeStatusFailed": "状态修改失败",
 		"targetNotExist": "目标不存在",
 		"databaseError": "数据库错误",
-		"redisError": "Redis 错误"
+		"redisError": "Redis 错误",
+		"permissionDeny": "用户无权限访问此接口"
 	},
 	"file": {
 		"overSizeError": "文件大小超过限定值",

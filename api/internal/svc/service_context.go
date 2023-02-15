@@ -32,17 +32,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		ent.Debug(), // debug mode
 	)
 
-	rds := c.RedisConf.NewRedis()
-	if !rds.Ping() {
-		logx.Error("initialize redis failed")
-		return nil
-	}
+	rds := redis.MustNewRedis(c.RedisConf)
 
-	cbn, err := c.CasbinConf.NewCasbin(c.DatabaseConf.Type, c.DatabaseConf.GetDSN())
-	if err != nil {
-		logx.Errorw("Initialize casbin failed", logx.Field("detail", err.Error()))
-		return nil
-	}
+	cbn := c.CasbinConf.MustNewCasbin(c.DatabaseConf.Type, c.DatabaseConf.GetDSN())
 
 	trans := &i18n.Translator{}
 	trans.NewBundle(i18n2.LocaleFS)
@@ -54,7 +46,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Redis:     rds,
 		Casbin:    cbn,
 		CoreRpc:   coreclient.NewCore(zrpc.MustNewClient(c.CoreRpc)),
-		Authority: middleware.NewAuthorityMiddleware(cbn, rds).Handle,
+		Authority: middleware.NewAuthorityMiddleware(cbn, rds, trans).Handle,
 		Trans:     trans,
 	}
 }

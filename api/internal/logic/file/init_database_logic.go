@@ -58,13 +58,10 @@ func (l *InitDatabaseLogic) InitDatabase() (resp *types.BaseMsgResp, err error) 
 
 func (l *InitDatabaseLogic) initApi() error {
 	// create API in core service
-	_, err := l.svcCtx.CoreRpc.CreateOrUpdateApi(l.ctx, &core.ApiInfo{
-		Id:          0,
-		CreatedAt:   0,
-		UpdatedAt:   0,
+	_, err := l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
 		Path:        "/upload",
 		Description: "apiDesc.uploadFile",
-		Group:       "file",
+		ApiGroup:    "file",
 		Method:      "POST",
 	})
 
@@ -72,13 +69,10 @@ func (l *InitDatabaseLogic) initApi() error {
 		return err
 	}
 
-	_, err = l.svcCtx.CoreRpc.CreateOrUpdateApi(l.ctx, &core.ApiInfo{
-		Id:          0,
-		CreatedAt:   0,
-		UpdatedAt:   0,
+	_, err = l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
 		Path:        "/file/list",
 		Description: "apiDesc.fileList",
-		Group:       "file",
+		ApiGroup:    "file",
 		Method:      "POST",
 	})
 
@@ -86,13 +80,10 @@ func (l *InitDatabaseLogic) initApi() error {
 		return err
 	}
 
-	_, err = l.svcCtx.CoreRpc.CreateOrUpdateApi(l.ctx, &core.ApiInfo{
-		Id:          0,
-		CreatedAt:   0,
-		UpdatedAt:   0,
+	_, err = l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
 		Path:        "/file",
 		Description: "apiDesc.updateFileInfo",
-		Group:       "file",
+		ApiGroup:    "file",
 		Method:      "POST",
 	})
 
@@ -100,13 +91,10 @@ func (l *InitDatabaseLogic) initApi() error {
 		return err
 	}
 
-	_, err = l.svcCtx.CoreRpc.CreateOrUpdateApi(l.ctx, &core.ApiInfo{
-		Id:          0,
-		CreatedAt:   0,
-		UpdatedAt:   0,
+	_, err = l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
 		Path:        "/file/status",
 		Description: "apiDesc.setPublicStatus",
-		Group:       "file",
+		ApiGroup:    "file",
 		Method:      "POST",
 	})
 
@@ -114,13 +102,10 @@ func (l *InitDatabaseLogic) initApi() error {
 		return err
 	}
 
-	_, err = l.svcCtx.CoreRpc.CreateOrUpdateApi(l.ctx, &core.ApiInfo{
-		Id:          0,
-		CreatedAt:   0,
-		UpdatedAt:   0,
+	_, err = l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
 		Path:        "/file",
 		Description: "apiDesc.deleteFile",
-		Group:       "file",
+		ApiGroup:    "file",
 		Method:      "DELETE",
 	})
 
@@ -128,13 +113,10 @@ func (l *InitDatabaseLogic) initApi() error {
 		return err
 	}
 
-	_, err = l.svcCtx.CoreRpc.CreateOrUpdateApi(l.ctx, &core.ApiInfo{
-		Id:          0,
-		CreatedAt:   0,
-		UpdatedAt:   0,
+	_, err = l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
 		Path:        "/file/download/:id",
 		Description: "apiDesc.downloadFile",
-		Group:       "file",
+		ApiGroup:    "file",
 		Method:      "GET",
 	})
 
