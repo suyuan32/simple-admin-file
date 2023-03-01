@@ -5,11 +5,10 @@ import (
 	"net/http"
 
 	"github.com/suyuan32/simple-admin-core/pkg/i18n"
-	"github.com/suyuan32/simple-admin-core/pkg/statuserr"
 
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
-	"github.com/suyuan32/simple-admin-file/pkg/ent"
+	"github.com/suyuan32/simple-admin-file/pkg/utils/dberrorhandler"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -34,17 +33,7 @@ func (l *UpdateFileLogic) UpdateFile(req *types.UpdateFileReq) (resp *types.Base
 	err = l.svcCtx.DB.File.UpdateOneID(req.ID).SetName(req.Name).Exec(l.ctx)
 
 	if err != nil {
-		switch {
-		case ent.IsNotFound(err):
-			logx.Errorw(err.Error(), logx.Field("detail", req))
-			return nil, statuserr.NewInvalidArgumentError(i18n.TargetNotFound)
-		case ent.IsConstraintError(err):
-			logx.Errorw(err.Error(), logx.Field("detail", req))
-			return nil, statuserr.NewInvalidArgumentError(i18n.UpdateFailed)
-		default:
-			logx.Errorw(i18n.DatabaseError, logx.Field("detail", err.Error()))
-			return nil, statuserr.NewInternalError(i18n.DatabaseError)
-		}
+		return nil, dberrorhandler.DefaultEntError(err, req)
 	}
 
 	return &types.BaseMsgResp{

@@ -6,15 +6,13 @@ import (
 	"os"
 	"path"
 
-	"github.com/suyuan32/simple-admin-core/pkg/enum"
 	"github.com/suyuan32/simple-admin-core/pkg/i18n"
-	"github.com/suyuan32/simple-admin-core/pkg/msg/logmsg"
-	"github.com/zeromicro/go-zero/core/errorx"
 
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
 	"github.com/suyuan32/simple-admin-file/pkg/ent"
 	"github.com/suyuan32/simple-admin-file/pkg/utils"
+	"github.com/suyuan32/simple-admin-file/pkg/utils/dberrorhandler"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -40,14 +38,7 @@ func (l *ChangePublicStatusLogic) ChangePublicStatus(req *types.StatusCodeReq) (
 		file, err := tx.File.UpdateOneID(req.Id).SetStatus(uint8(req.Status)).Save(l.ctx)
 
 		if err != nil {
-			switch {
-			case ent.IsNotFound(err):
-				logx.Errorw(err.Error(), logx.Field("detail", req))
-				return err
-			default:
-				logx.Errorw(logmsg.DatabaseError, logx.Field("detail", err.Error()))
-				return err
-			}
+			return err
 		}
 
 		if req.Status == 1 {
@@ -70,8 +61,7 @@ func (l *ChangePublicStatusLogic) ChangePublicStatus(req *types.StatusCodeReq) (
 	})
 
 	if err != nil {
-		logx.Errorf("update menu authority failed, error : %s", err.Error())
-		return nil, errorx.NewCodeError(enum.Internal, i18n.DatabaseError)
+		return nil, dberrorhandler.DefaultEntError(err, req)
 	}
 
 	return &types.BaseMsgResp{

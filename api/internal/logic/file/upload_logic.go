@@ -19,8 +19,8 @@ import (
 
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
-	"github.com/suyuan32/simple-admin-file/pkg/ent"
 	enum2 "github.com/suyuan32/simple-admin-file/pkg/enum"
+	"github.com/suyuan32/simple-admin-file/pkg/utils/dberrorhandler"
 )
 
 type UploadLogic struct {
@@ -196,14 +196,7 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 		Exec(l.ctx)
 
 	if err != nil {
-		switch {
-		case ent.IsConstraintError(err):
-			logx.Errorw(err.Error(), logx.Field("detail", fileName))
-			return nil, errorx.NewCodeError(enum.InvalidArgument, i18n.CreateFailed)
-		default:
-			logx.Errorw(i18n.DatabaseError, logx.Field("detail", err.Error()))
-			return nil, errorx.NewCodeError(enum.Internal, i18n.DatabaseError)
-		}
+		return nil, dberrorhandler.DefaultEntError(err, "upload failed")
 	}
 
 	return &types.UploadResp{

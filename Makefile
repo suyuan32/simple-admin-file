@@ -15,7 +15,7 @@ publish-docker:
 	@printf $(GREEN)"[SUCCESS] publish docker successfully"
 
 gen-api:
-	goctls api go --api ./api/desc/file.api --dir ./api --transErr=true
+	goctls api go --api ./api/desc/all.api --dir ./api --trans_err=true
 	swagger generate spec --output=./file.yml --scan-models
 	@printf $(GREEN)"[SUCCESS] generate API successfully"
 

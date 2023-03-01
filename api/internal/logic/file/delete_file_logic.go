@@ -6,13 +6,12 @@ import (
 	"os"
 
 	"github.com/suyuan32/simple-admin-core/pkg/i18n"
-	"github.com/suyuan32/simple-admin-core/pkg/msg/logmsg"
-	"github.com/suyuan32/simple-admin-core/pkg/statuserr"
 
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
 	"github.com/suyuan32/simple-admin-file/pkg/ent"
 	"github.com/suyuan32/simple-admin-file/pkg/utils"
+	"github.com/suyuan32/simple-admin-file/pkg/utils/dberrorhandler"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -38,41 +37,23 @@ func (l *DeleteFileLogic) DeleteFile(req *types.IDReq) (resp *types.BaseMsgResp,
 		file, err := tx.File.Get(l.ctx, req.Id)
 
 		if err != nil {
-			switch {
-			case ent.IsNotFound(err):
-				logx.Errorw(err.Error(), logx.Field("detail", req))
-				return err
-			default:
-				logx.Errorw(logmsg.DatabaseError, logx.Field("detail", err.Error()))
-				return err
-			}
+			return err
 		}
 
 		err = tx.File.DeleteOneID(req.Id).Exec(l.ctx)
 
 		if err != nil {
-			switch {
-			case ent.IsNotFound(err):
-				logx.Errorw(err.Error(), logx.Field("detail", req))
-				return err
-			default:
-				logx.Errorw(logmsg.DatabaseError, logx.Field("detail", err.Error()))
-				return err
-			}
+			return err
 		}
 
 		if file.Status == 1 {
 			err = os.RemoveAll(l.svcCtx.Config.UploadConf.PublicStorePath + file.Path)
 			if err != nil {
-				logx.Errorw("fail to remove the file", logx.Field("path",
-					l.svcCtx.Config.UploadConf.PublicStorePath+file.Path), logx.Field("detail", err.Error()))
 				return err
 			}
 		} else {
 			err = os.RemoveAll(l.svcCtx.Config.UploadConf.PrivateStorePath + file.Path)
 			if err != nil {
-				logx.Errorw("fail to remove the file", logx.Field("path",
-					l.svcCtx.Config.UploadConf.PrivateStorePath+file.Path), logx.Field("detail", err.Error()))
 				return err
 			}
 		}
@@ -81,8 +62,7 @@ func (l *DeleteFileLogic) DeleteFile(req *types.IDReq) (resp *types.BaseMsgResp,
 	})
 
 	if err != nil {
-		logx.Errorf("failed to delete file, error : %s", err.Error())
-		return nil, statuserr.NewInternalError(i18n.DatabaseError)
+		return nil, dberrorhandler.DefaultEntError(err, req)
 	}
 
 	return &types.BaseMsgResp{

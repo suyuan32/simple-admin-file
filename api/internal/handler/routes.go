@@ -4,6 +4,7 @@ package handler
 import (
 	"net/http"
 
+	base "github.com/suyuan32/simple-admin-file/api/internal/handler/base"
 	file "github.com/suyuan32/simple-admin-file/api/internal/handler/file"
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 
@@ -16,7 +17,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			{
 				Method:  http.MethodGet,
 				Path:    "/init/database",
-				Handler: file.InitDatabaseHandler(serverCtx),
+				Handler: base.InitDatabaseHandler(serverCtx),
 			},
 		},
 	)

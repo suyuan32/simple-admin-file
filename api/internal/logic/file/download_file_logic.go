@@ -5,13 +5,9 @@ import (
 	"net/http"
 	"path"
 
-	"github.com/suyuan32/simple-admin-core/pkg/enum"
-	"github.com/suyuan32/simple-admin-core/pkg/i18n"
-	"github.com/zeromicro/go-zero/core/errorx"
-
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
-	"github.com/suyuan32/simple-admin-file/pkg/ent"
+	"github.com/suyuan32/simple-admin-file/pkg/utils/dberrorhandler"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -36,14 +32,7 @@ func (l *DownloadFileLogic) DownloadFile(req *types.IDPathReq) (filePath string,
 	file, err := l.svcCtx.DB.File.Get(l.ctx, req.Id)
 
 	if err != nil {
-		switch {
-		case ent.IsNotFound(err):
-			logx.Errorw(err.Error(), logx.Field("detail", req))
-			return "", errorx.NewCodeError(enum.NotFound, l.svcCtx.Trans.Trans(l.lang, i18n.TargetNotFound))
-		default:
-			logx.Errorw(i18n.DatabaseError, logx.Field("detail", err.Error()))
-			return "nil", errorx.NewCodeError(enum.Internal, l.svcCtx.Trans.Trans(l.lang, i18n.DatabaseError))
-		}
+		return "", dberrorhandler.DefaultEntError(err, req)
 	}
 
 	if file.Status == 1 {

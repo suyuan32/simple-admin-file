@@ -102,3 +102,14 @@ type StatusCodeReq {
     // Required: true
     Status uint64  `json:"status" validate:"number"`
 }
+
+
+@server(
+	group: base
+)
+
+service file {
+	// Initialize database | 初始化数据库
+	@handler initDatabase
+	get /init/database returns (BaseMsgResp)
+}
