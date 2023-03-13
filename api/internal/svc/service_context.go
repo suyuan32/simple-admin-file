@@ -2,17 +2,17 @@ package svc
 
 import (
 	"github.com/casbin/casbin/v2"
-	"github.com/suyuan32/simple-admin-core/pkg/i18n"
+	"github.com/suyuan32/simple-admin-common/i18n"
 	"github.com/suyuan32/simple-admin-core/rpc/coreclient"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 
+	"github.com/suyuan32/simple-admin-file/api/ent"
 	"github.com/suyuan32/simple-admin-file/api/internal/config"
+	i18n2 "github.com/suyuan32/simple-admin-file/api/internal/i18n"
 	"github.com/suyuan32/simple-admin-file/api/internal/middleware"
-	"github.com/suyuan32/simple-admin-file/pkg/ent"
-	i18n2 "github.com/suyuan32/simple-admin-file/pkg/i18n"
 )
 
 type ServiceContext struct {
@@ -34,7 +34,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
 
 	rds := redis.MustNewRedis(c.RedisConf)
 
-	cbn := c.CasbinConf.MustNewCasbinWithRedisWatcher(c.DatabaseConf.Type, c.DatabaseConf.GetDSN(), c.RedisConf)
+	cbn := c.CasbinConf.MustNewCasbinWithRedisWatcher(c.CasbinDatabaseConf.Type,
+		c.CasbinDatabaseConf.GetDSN(), c.RedisConf)
 
 	trans := i18n.NewTranslator(i18n2.LocaleFS)
 

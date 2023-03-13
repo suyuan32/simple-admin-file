@@ -8,26 +8,26 @@ import (
 	"os"
 	"path"
 	"strings"
-	"syscall"
 	"time"
 
-	"github.com/google/uuid"
-	"github.com/suyuan32/simple-admin-core/pkg/enum"
-	"github.com/suyuan32/simple-admin-core/pkg/i18n"
+	"github.com/suyuan32/knife/core/date/format"
+	filex2 "github.com/suyuan32/knife/core/io/filex"
+	"github.com/suyuan32/simple-admin-common/enum/errorcode"
+	"github.com/suyuan32/simple-admin-common/i18n"
+	"github.com/suyuan32/simple-admin-common/utils/uuidx"
 	"github.com/zeromicro/go-zero/core/errorx"
 	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
-	enum2 "github.com/suyuan32/simple-admin-file/pkg/enum"
-	"github.com/suyuan32/simple-admin-file/pkg/utils/dberrorhandler"
+	"github.com/suyuan32/simple-admin-file/api/internal/utils/dberrorhandler"
+	"github.com/suyuan32/simple-admin-file/api/internal/utils/filex"
 )
 
 type UploadLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
-	lang   string
 	r      *http.Request
 }
 
@@ -37,7 +37,6 @@ func NewUploadLogic(r *http.Request, svcCtx *svc.ServiceContext) *UploadLogic {
 		ctx:    r.Context(),
 		svcCtx: svcCtx,
 		r:      r,
-		lang:   r.Header.Get("Accept-Language"),
 	}
 }
 
@@ -45,81 +44,47 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 	err = l.r.ParseMultipartForm(l.svcCtx.Config.UploadConf.MaxVideoSize)
 	if err != nil {
 		logx.Error("fail to parse the multipart form")
-		return nil, errorx.NewCodeError(enum.InvalidArgument,
-			l.svcCtx.Trans.Trans(l.lang, "file.parseFormFailed"))
+		return nil, errorx.NewCodeError(errorcode.InvalidArgument,
+			l.svcCtx.Trans.Trans(l.ctx, "file.parseFormFailed"))
 	}
 
 	file, handler, err := l.r.FormFile("file")
 	if err != nil {
 		logx.Error("the value of file cannot be found")
-		return nil, errorx.NewCodeError(enum.InvalidArgument,
-			l.svcCtx.Trans.Trans(l.lang, "file.parseFormFailed"))
+		return nil, errorx.NewCodeError(errorcode.InvalidArgument,
+			l.svcCtx.Trans.Trans(l.ctx, "file.parseFormFailed"))
 	}
 	defer file.Close()
 
 	// judge if the suffix is legal
 	// 校验后缀是否合法
-	nameData := strings.Split(handler.Filename, ".")
+	commaIndex := strings.LastIndex(handler.Filename, ".")
 	// if there is no suffix, reject it
 	// 拒绝无后缀文件
-	if len(nameData) < 2 {
+	if commaIndex == -1 {
 		logx.Errorw("reject the file which does not have suffix")
-		return nil, errorx.NewCodeError(enum.InvalidArgument,
-			l.svcCtx.Trans.Trans(l.lang, "file.wrongTypeError"))
+		return nil, errorx.NewCodeError(errorcode.InvalidArgument,
+			l.svcCtx.Trans.Trans(l.ctx, "file.wrongTypeError"))
 	}
 
-	fileName, fileSuffix := nameData[0], nameData[1]
-	fileUUID := uuid.NewString()
+	fileName, fileSuffix := handler.Filename[:commaIndex], handler.Filename[commaIndex+1:]
+	fileUUID := uuidx.NewUUID().String()
 	storeFileName := fileUUID + "." + fileSuffix
-	newTime := time.Now()
-	timeString := fmt.Sprintf("%d-%d-%d", newTime.Year(), newTime.Month(), newTime.Day())
+	timeString := time.Now().Format(format.DashYearToDay)
 	userId := l.ctx.Value("userId").(string)
 
 	// judge if the file size is over max size
 	// 判断文件大小是否超过设定值
 	fileType := strings.Split(handler.Header.Get("Content-Type"), "/")[0]
-	if fileType == "image" && handler.Size > l.svcCtx.Config.UploadConf.MaxImageSize {
-		logx.Errorw("the file is over size", logx.Field("type", "image"),
-			logx.Field("userId", userId), logx.Field("size", handler.Size),
-			logx.Field("fileName", handler.Filename))
-		return nil, errorx.NewCodeError(enum.InvalidArgument,
-			l.svcCtx.Trans.Trans(l.lang, "file.overSizeError"))
-	} else if fileType == "video" && handler.Size > l.svcCtx.Config.UploadConf.MaxVideoSize {
-		logx.Errorw("the file is over size", logx.Field("type", "video"),
-			logx.Field("userId", userId), logx.Field("size", handler.Size),
-			logx.Field("fileName", handler.Filename))
-		return nil, errorx.NewCodeError(enum.InvalidArgument,
-			l.svcCtx.Trans.Trans(l.lang, "file.overSizeError"))
-	} else if fileType == "audio" && handler.Size > l.svcCtx.Config.UploadConf.MaxAudioSize {
-		logx.Errorw("the file is over size", logx.Field("type", "audio"),
-			logx.Field("userId", userId), logx.Field("size", handler.Size),
-			logx.Field("fileName", handler.Filename))
-		return nil, errorx.NewCodeError(enum.InvalidArgument,
-			l.svcCtx.Trans.Trans(l.lang, "file.overSizeError"))
-	} else if fileType != "image" && fileType != "video" && fileType != "audio" &&
-		handler.Size > l.svcCtx.Config.UploadConf.MaxOtherSize {
-		logx.Errorw("the file is over size", logx.Field("type", "other"),
-			logx.Field("userId", userId), logx.Field("size", handler.Size),
-			logx.Field("fileName", handler.Filename))
-		return nil, errorx.NewCodeError(enum.InvalidArgument,
-			l.svcCtx.Trans.Trans(l.lang, "file.overSizeError"))
-	}
 	if fileType != "image" && fileType != "video" && fileType != "audio" {
 		fileType = "other"
 	}
-
-	var fileTypeCode uint8
-	switch fileType {
-	case "other":
-		fileTypeCode = enum2.Other
-	case "image":
-		fileTypeCode = enum2.Image
-	case "video":
-		fileTypeCode = enum2.Video
-	case "audio":
-		fileTypeCode = enum2.Audio
-	default:
-		fileTypeCode = enum2.Other
+	err = filex.CheckOverSize(l.ctx, l.svcCtx, fileType, handler.Size)
+	if err != nil {
+		logx.Errorw("the file is over size", logx.Field("type", fileType),
+			logx.Field("userId", userId), logx.Field("size", handler.Size),
+			logx.Field("fileName", handler.Filename))
+		return nil, err
 	}
 
 	// generate path
@@ -129,54 +94,33 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 	//to be created in order to move files when status changed
 	//判断文件夹是否已创建, 同时创建好私人和公开文件夹防止文件状态改变时无法移动
 
-	_, err = os.Stat(path.Join(l.svcCtx.Config.UploadConf.PublicStorePath,
-		l.svcCtx.Config.Name, fileType, timeString))
-	if os.IsNotExist(err) {
-		mask := syscall.Umask(0)
-		defer syscall.Umask(mask)
+	publicStoreDir := path.Join(l.svcCtx.Config.UploadConf.PublicStorePath,
+		l.svcCtx.Config.Name, fileType, timeString)
+	privateStoreDir := path.Join(l.svcCtx.Config.UploadConf.PrivateStorePath,
+		l.svcCtx.Config.Name, fileType, timeString)
 
-		err = os.MkdirAll(path.Join(l.svcCtx.Config.UploadConf.PublicStorePath,
-			l.svcCtx.Config.Name, fileType, timeString), 0777)
-		if err != nil {
-			logx.Errorw("fail to make directory", logx.Field("path", path.Join(l.svcCtx.Config.UploadConf.PublicStorePath,
-				l.svcCtx.Config.Name, fileType, timeString)))
-			return nil, errorx.NewCodeError(enum.Internal,
-				l.svcCtx.Trans.Trans(l.lang, i18n.Failed))
-		}
+	err = filex2.MkdirIfNotExist(publicStoreDir, filex2.SuperPerm)
+	if err != nil {
+		logx.Errorw("failed to create directory for storing public files", logx.Field("path", publicStoreDir))
+		return nil, errorx.NewCodeError(errorcode.Internal,
+			l.svcCtx.Trans.Trans(l.ctx, i18n.Failed))
 	}
 
-	_, err = os.Stat(path.Join(l.svcCtx.Config.UploadConf.PrivateStorePath,
-		l.svcCtx.Config.Name, fileType, timeString))
-	if os.IsNotExist(err) {
-		mask2 := syscall.Umask(0)
-		defer syscall.Umask(mask2)
-
-		err = os.MkdirAll(path.Join(l.svcCtx.Config.UploadConf.PrivateStorePath,
-			l.svcCtx.Config.Name, fileType, timeString), 0777)
-		if err != nil {
-			logx.Errorw("fail to create directory", logx.Field("Path", path.Join(l.svcCtx.Config.UploadConf.PublicStorePath,
-				l.svcCtx.Config.Name, fileType, timeString)))
-			return nil, errorx.NewCodeError(enum.Internal,
-				l.svcCtx.Trans.Trans(l.lang, i18n.Failed))
-		}
+	err = filex2.MkdirIfNotExist(privateStoreDir, filex2.SuperPerm)
+	if err != nil {
+		logx.Errorw("failed to create directory for storing private files", logx.Field("path", privateStoreDir))
+		return nil, errorx.NewCodeError(errorcode.Internal,
+			l.svcCtx.Trans.Trans(l.ctx, i18n.Failed))
 	}
 
 	// default is public
 	// 默认是公开的
-	targetFile, err := os.Create(path.Join(l.svcCtx.Config.UploadConf.PublicStorePath, l.svcCtx.Config.Name,
-		fileType, timeString, storeFileName))
-	if err != nil {
-		logx.Errorw("fail to create directory", logx.Field("path", path.Join(l.svcCtx.Config.UploadConf.PublicStorePath,
-			l.svcCtx.Config.Name, fileType, timeString, storeFileName)))
-		return nil, errorx.NewCodeError(enum.Internal,
-			l.svcCtx.Trans.Trans(l.lang, i18n.Failed))
-	}
+	targetFile, err := os.Create(path.Join(publicStoreDir, storeFileName))
 	_, err = io.Copy(targetFile, file)
 	if err != nil {
-		logx.Errorw("fail to create file", logx.Field("path", path.Join(l.svcCtx.Config.UploadConf.PublicStorePath,
-			l.svcCtx.Config.Name, fileType, timeString, storeFileName)))
-		return nil, errorx.NewCodeError(enum.Internal,
-			l.svcCtx.Trans.Trans(l.lang, i18n.Failed))
+		logx.Errorw("fail to create file", logx.Field("path", path.Join(publicStoreDir, storeFileName)))
+		return nil, errorx.NewCodeError(errorcode.Internal,
+			l.svcCtx.Trans.Trans(l.ctx, i18n.Failed))
 	}
 
 	// store in database
@@ -187,7 +131,7 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 	err = l.svcCtx.DB.File.Create().
 		SetUUID(fileUUID).
 		SetName(fileName).
-		SetFileType(fileTypeCode).
+		SetFileType(filex.ConvertFileTypeToUint8(fileType)).
 		SetPath(relativePath).
 		SetUserUUID(userId).
 		SetMd5(l.r.MultipartForm.Value["md5"][0]).
@@ -196,11 +140,11 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 		Exec(l.ctx)
 
 	if err != nil {
-		return nil, dberrorhandler.DefaultEntError(err, "upload failed")
+		return nil, dberrorhandler.DefaultEntError(l.Logger, err, "upload failed")
 	}
 
 	return &types.UploadResp{
-		BaseDataInfo: types.BaseDataInfo{Msg: l.svcCtx.Trans.Trans(l.lang, i18n.Success)},
+		BaseDataInfo: types.BaseDataInfo{Msg: l.svcCtx.Trans.Trans(l.ctx, i18n.Success)},
 		Data:         types.UploadInfo{Name: handler.Filename, Url: relativePath},
 	}, nil
 }

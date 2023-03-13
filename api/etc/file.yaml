@@ -32,6 +32,17 @@ DatabaseConf:
   SSLMode: disable
   CacheTime: 5
 
+CasbinDatabaseConf:
+  Type: mysql
+  Host: 127.0.0.1
+  Port: 3306
+  DBName: simple_admin
+  Username: # set your username
+  Password: # set your password
+  MaxOpenConn: 100
+  SSLMode: disable
+  CacheTime: 5
+
 UploadConf:
   MaxImageSize: 33554432  # 32 mb
   MaxVideoSize: 1073741824 # 1gb

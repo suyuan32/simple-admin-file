@@ -2,12 +2,12 @@ package file
 
 import (
 	"context"
-	"net/http"
 	"path"
+
+	"github.com/suyuan32/simple-admin-file/api/internal/utils/dberrorhandler"
 
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
-	"github.com/suyuan32/simple-admin-file/pkg/utils/dberrorhandler"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -16,15 +16,13 @@ type DownloadFileLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
-	lang   string
 }
 
-func NewDownloadFileLogic(r *http.Request, svcCtx *svc.ServiceContext) *DownloadFileLogic {
+func NewDownloadFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DownloadFileLogic {
 	return &DownloadFileLogic{
-		Logger: logx.WithContext(r.Context()),
-		ctx:    r.Context(),
+		Logger: logx.WithContext(ctx),
+		ctx:    ctx,
 		svcCtx: svcCtx,
-		lang:   r.Header.Get("Accept-Language"),
 	}
 }
 
@@ -32,7 +30,7 @@ func (l *DownloadFileLogic) DownloadFile(req *types.IDPathReq) (filePath string,
 	file, err := l.svcCtx.DB.File.Get(l.ctx, req.Id)
 
 	if err != nil {
-		return "", dberrorhandler.DefaultEntError(err, req)
+		return "", dberrorhandler.DefaultEntError(l.Logger, err, req)
 	}
 
 	if file.Status == 1 {

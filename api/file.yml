@@ -1,0 +1,443 @@
+basePath: /
+consumes:
+    - application/json
+definitions:
+    BaseDataInfo:
+        description: The basic response with data | 基础带数据信息
+        properties:
+            code:
+                description: Error code | 错误代码
+                format: int64
+                type: integer
+                x-go-name: Code
+            data:
+                description: Data | 数据
+                type: string
+                x-go-name: Data
+            msg:
+                description: Message | 提示信息
+                type: string
+                x-go-name: Msg
+        type: object
+        x-go-package: github.com/suyuan32/simple-admin-file/api/internal/types
+    BaseInfo:
+        description: The base response data | 基础信息
+        properties:
+            createdAt:
+                description: Create date | 创建日期
+                format: int64
+                type: integer
+                x-go-name: CreatedAt
+            id:
+                description: ID
+                format: uint64
+                type: integer
+                x-go-name: Id
+            updatedAt:
+                description: Update date | 更新日期
+                format: int64
+                type: integer
+                x-go-name: UpdatedAt
+        type: object
+        x-go-package: github.com/suyuan32/simple-admin-file/api/internal/types
+    BaseListInfo:
+        description: The basic response with data | 基础带数据信息
+        properties:
+            data:
+                description: Data | 数据
+                type: string
+                x-go-name: Data
+            total:
+                description: The total number of data | 数据总数
+                format: uint64
+                type: integer
+                x-go-name: Total
+        type: object
+        x-go-package: github.com/suyuan32/simple-admin-file/api/internal/types
+    BaseMsgResp:
+        description: The basic response without data | 基础不带数据信息
+        properties:
+            code:
+                description: Error code | 错误代码
+                format: int64
+                type: integer
+                x-go-name: Code
+            msg:
+                description: Message | 提示信息
+                type: string
+                x-go-name: Msg
+        type: object
+        x-go-package: github.com/suyuan32/simple-admin-file/api/internal/types
+    FileInfo:
+        description: The response data of file information | 文件信息数据
+        properties:
+            UUID:
+                description: UUID
+                type: string
+            createdAt:
+                description: Create date | 创建日期
+                format: int64
+                type: integer
+                x-go-name: CreatedAt
+            fileType:
+                description: File type | 文件类型
+                format: uint8
+                type: integer
+                x-go-name: FileType
+            id:
+                description: ID
+                format: uint64
+                type: integer
+                x-go-name: Id
+            name:
+                description: File name | 文件名
+                type: string
+                x-go-name: Name
+            path:
+                description: File path | 文件路径
+                type: string
+                x-go-name: Path
+            size:
+                description: File size | 文件大小
+                format: uint64
+                type: integer
+                x-go-name: Size
+            status:
+                description: |-
+                    File public status | 文件公开状态
+                    false private true public | false 私人, true公开
+                format: uint8
+                type: integer
+                x-go-name: Status
+            updatedAt:
+                description: Update date | 更新日期
+                format: int64
+                type: integer
+                x-go-name: UpdatedAt
+            userUUID:
+                description: User's UUID | 用户的UUID
+                type: string
+                x-go-name: UserUUID
+        type: object
+        x-go-package: github.com/suyuan32/simple-admin-file/api/internal/types
+    FileListInfo:
+        properties:
+            data:
+                description: The file list data | 文件信息列表数据
+                items:
+                    $ref: '#/definitions/FileInfo'
+                type: array
+                x-go-name: Data
+            total:
+                description: The total number of data | 数据总数
+                format: uint64
+                type: integer
+                x-go-name: Total
+        type: object
+        x-go-package: github.com/suyuan32/simple-admin-file/api/internal/types
+    FileListReq:
+        description: Get file list params | 获取文件列表参数
+        properties:
+            fileName:
+                description: File name | 文件名
+                maxLength: 50
+                type: string
+                x-go-name: FileName
+            fileType:
+                description: File type | 文件类型
+                format: uint8
+                maxLength: 10
+                type: integer
+                x-go-name: FileType
+            page:
+                description: Page number | 第几页
+                format: uint64
+                type: integer
+                x-go-name: Page
+            pageSize:
+                description: Page size | 单页数据行数
+                format: uint64
+                maximum: 100000
+                type: integer
+                x-go-name: PageSize
+            period:
+                description: Create date period | 创建日期时间段
+                items:
+                    type: string
+                type: array
+                x-go-name: Period
+        required:
+            - page
+            - pageSize
+            - fileType
+            - fileName
+            - period
+        type: object
+        x-go-package: github.com/suyuan32/simple-admin-file/api/internal/types
+    FileListResp:
+        description: The response data of file information list | 文件信息列表数据
+        properties:
+            code:
+                description: Error code | 错误代码
+                format: int64
+                type: integer
+                x-go-name: Code
+            data:
+                $ref: '#/definitions/FileListInfo'
+                description: Data | 数据
+                type: string
+                x-go-name: Data
+            msg:
+                description: Message | 提示信息
+                type: string
+                x-go-name: Msg
+        type: object
+        x-go-package: github.com/suyuan32/simple-admin-file/api/internal/types
+    IDPathReq:
+        description: Basic ID request in path | 基础ID地址参数请求
+        properties:
+            Id:
+                description: ID
+                format: uint64
+                type: integer
+        required:
+            - Id
+        type: object
+        x-go-package: github.com/suyuan32/simple-admin-file/api/internal/types
+    IDReq:
+        description: Basic ID request | 基础id参数请求
+        properties:
+            id:
+                description: ID
+                format: uint64
+                type: integer
+                x-go-name: Id
+        required:
+            - id
+        type: object
+        x-go-package: github.com/suyuan32/simple-admin-file/api/internal/types
+    PageInfo:
+        description: The page request parameters | 列表请求参数
+        properties:
+            page:
+                description: Page number | 第几页
+                format: uint64
+                type: integer
+                x-go-name: Page
+            pageSize:
+                description: Page size | 单页数据行数
+                format: uint64
+                maximum: 100000
+                type: integer
+                x-go-name: PageSize
+        required:
+            - page
+            - pageSize
+        type: object
+        x-go-package: github.com/suyuan32/simple-admin-file/api/internal/types
+    StatusCodeReq:
+        description: The request params of setting boolean status | 设置状态参数
+        properties:
+            id:
+                description: ID
+                format: uint64
+                type: integer
+                x-go-name: Id
+            status:
+                description: Status code | 状态码
+                format: uint64
+                type: integer
+                x-go-name: Status
+        required:
+            - id
+            - status
+        type: object
+        x-go-package: github.com/suyuan32/simple-admin-file/api/internal/types
+    UUIDReq:
+        description: Basic UUID request | 基础UUID参数请求
+        properties:
+            UUID:
+                description: UUID
+                maxLength: 36
+                type: string
+        required:
+            - UUID
+        type: object
+        x-go-package: github.com/suyuan32/simple-admin-file/api/internal/types
+    UpdateFileReq:
+        description: Update file information params | 更新文件信息参数
+        properties:
+            id:
+                description: ID
+                format: uint64
+                type: integer
+                x-go-name: ID
+            name:
+                description: File name | 文件名
+                maxLength: 50
+                type: string
+                x-go-name: Name
+        required:
+            - id
+            - name
+        type: object
+        x-go-package: github.com/suyuan32/simple-admin-file/api/internal/types
+    UploadInfo:
+        description: The data when upload finished | 上传完成数据
+        properties:
+            name:
+                description: File name | 文件名称
+                type: string
+                x-go-name: Name
+            url:
+                description: File path | 文件路径
+                type: string
+                x-go-name: Url
+        type: object
+        x-go-package: github.com/suyuan32/simple-admin-file/api/internal/types
+    UploadResp:
+        description: The response data when upload finished | 上传完成返回的数据
+        properties:
+            code:
+                description: Error code | 错误代码
+                format: int64
+                type: integer
+                x-go-name: Code
+            data:
+                $ref: '#/definitions/UploadInfo'
+                description: Data | 数据
+                type: string
+                x-go-name: Data
+            msg:
+                description: Message | 提示信息
+                type: string
+                x-go-name: Msg
+        type: object
+        x-go-package: github.com/suyuan32/simple-admin-file/api/internal/types
+host: localhost:9102
+info:
+    contact:
+        email: yuansu.china.work@gmail.com
+    description: This is simple admin file manager api doc
+    title: Simple Admin File
+    version: 0.2.7
+paths:
+    /file:
+        delete:
+            description: Delete file information | 删除文件信息
+            operationId: DeleteFile
+            parameters:
+                - in: body
+                  name: body
+                  schema:
+                    $ref: '#/definitions/IDReq'
+                    type: object
+            responses:
+                "200":
+                    description: BaseMsgResp
+                    schema:
+                        $ref: '#/definitions/BaseMsgResp'
+            summary: Delete file information | 删除文件信息
+            tags:
+                - file
+        post:
+            description: Update file information | 更新文件信息
+            operationId: UpdateFile
+            parameters:
+                - in: body
+                  name: body
+                  schema:
+                    $ref: '#/definitions/UpdateFileReq'
+                    type: object
+            responses:
+                "200":
+                    description: BaseMsgResp
+                    schema:
+                        $ref: '#/definitions/BaseMsgResp'
+            summary: Update file information | 更新文件信息
+            tags:
+                - file
+    /file/download/{id}:
+        get:
+            description: Download file | 下载文件
+            operationId: DownloadFile
+            parameters:
+                - in: path
+                  name: id
+            summary: Download file | 下载文件
+            tags:
+                - file
+    /file/list:
+        post:
+            description: Get file list | 获取文件列表
+            operationId: FileList
+            parameters:
+                - in: body
+                  name: body
+                  schema:
+                    $ref: '#/definitions/FileListReq'
+                    type: object
+            responses:
+                "200":
+                    description: FileListResp
+                    schema:
+                        $ref: '#/definitions/FileListResp'
+            summary: Get file list | 获取文件列表
+            tags:
+                - file
+    /file/status:
+        post:
+            description: Change file public status | 改变文件公开状态
+            operationId: ChangePublicStatus
+            parameters:
+                - in: body
+                  name: body
+                  schema:
+                    $ref: '#/definitions/StatusCodeReq'
+                    type: object
+            responses:
+                "200":
+                    description: BaseMsgResp
+                    schema:
+                        $ref: '#/definitions/BaseMsgResp'
+            summary: Change file public status | 改变文件公开状态
+            tags:
+                - file
+    /init/database:
+        get:
+            description: Initialize database | 初始化数据库
+            operationId: InitDatabase
+            responses:
+                "200":
+                    description: BaseMsgResp
+                    schema:
+                        $ref: '#/definitions/BaseMsgResp'
+            summary: Initialize database | 初始化数据库
+            tags:
+                - base
+    /upload:
+        post:
+            description: Upload file | 上传文件
+            operationId: Upload
+            responses:
+                "200":
+                    description: UploadResp
+                    schema:
+                        $ref: '#/definitions/UploadResp'
+            summary: Upload file | 上传文件
+            tags:
+                - file
+produces:
+    - application/json
+schemes:
+    - http
+    - https
+security:
+    - Token:
+        - '[]'
+securityDefinitions:
+    Token:
+        in: header
+        name: Authorization
+        type: apiKey
+swagger: "2.0"

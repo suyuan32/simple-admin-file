@@ -28,15 +28,15 @@ import (
 func DeleteFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.IDReq
-		if err := httpx.Parse(r, &req, false); err != nil {
+		if err := httpx.Parse(r, &req, true); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := file.NewDeleteFileLogic(r, svcCtx)
+		l := file.NewDeleteFileLogic(r.Context(), svcCtx)
 		resp, err := l.DeleteFile(&req)
 		if err != nil {
-			err = svcCtx.Trans.TransError(r.Header.Get("Accept-Language"), err)
+			err = svcCtx.Trans.TransError(r.Context(), err)
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {
 			httpx.OkJsonCtx(r.Context(), w, resp)

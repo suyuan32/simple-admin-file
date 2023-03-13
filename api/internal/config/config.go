@@ -1,7 +1,8 @@
 package config
 
 import (
-	"github.com/suyuan32/simple-admin-core/pkg/config"
+	"github.com/suyuan32/simple-admin-common/config"
+	"github.com/suyuan32/simple-admin-common/plugins/casbin"
 	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
@@ -9,12 +10,13 @@ import (
 
 type Config struct {
 	rest.RestConf
-	Auth         rest.AuthConf
-	UploadConf   UploadConf
-	DatabaseConf config.DatabaseConf
-	RedisConf    redis.RedisConf
-	CasbinConf   config.CasbinConf
-	CoreRpc      zrpc.RpcClientConf
+	Auth               rest.AuthConf
+	UploadConf         UploadConf
+	DatabaseConf       config.DatabaseConf
+	CasbinDatabaseConf config.DatabaseConf
+	RedisConf          redis.RedisConf
+	CasbinConf         casbin.CasbinConf
+	CoreRpc            zrpc.RpcClientConf
 }
 
 type UploadConf struct {

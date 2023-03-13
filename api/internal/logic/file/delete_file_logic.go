@@ -2,16 +2,16 @@ package file
 
 import (
 	"context"
-	"net/http"
 	"os"
 
-	"github.com/suyuan32/simple-admin-core/pkg/i18n"
+	"github.com/suyuan32/simple-admin-common/i18n"
 
+	"github.com/suyuan32/simple-admin-file/api/internal/utils/dberrorhandler"
+	"github.com/suyuan32/simple-admin-file/api/internal/utils/entx"
+
+	"github.com/suyuan32/simple-admin-file/api/ent"
 	"github.com/suyuan32/simple-admin-file/api/internal/svc"
 	"github.com/suyuan32/simple-admin-file/api/internal/types"
-	"github.com/suyuan32/simple-admin-file/pkg/ent"
-	"github.com/suyuan32/simple-admin-file/pkg/utils"
-	"github.com/suyuan32/simple-admin-file/pkg/utils/dberrorhandler"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -23,17 +23,16 @@ type DeleteFileLogic struct {
 	lang   string
 }
 
-func NewDeleteFileLogic(r *http.Request, svcCtx *svc.ServiceContext) *DeleteFileLogic {
+func NewDeleteFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DeleteFileLogic {
 	return &DeleteFileLogic{
-		Logger: logx.WithContext(r.Context()),
-		ctx:    r.Context(),
+		Logger: logx.WithContext(ctx),
+		ctx:    ctx,
 		svcCtx: svcCtx,
-		lang:   r.Header.Get("Accept-Language"),
 	}
 }
 
 func (l *DeleteFileLogic) DeleteFile(req *types.IDReq) (resp *types.BaseMsgResp, err error) {
-	err = utils.WithTx(l.ctx, l.svcCtx.DB, func(tx *ent.Tx) error {
+	err = entx.WithTx(l.ctx, l.svcCtx.DB, func(tx *ent.Tx) error {
 		file, err := tx.File.Get(l.ctx, req.Id)
 
 		if err != nil {
@@ -62,11 +61,11 @@ func (l *DeleteFileLogic) DeleteFile(req *types.IDReq) (resp *types.BaseMsgResp,
 	})
 
 	if err != nil {
-		return nil, dberrorhandler.DefaultEntError(err, req)
+		return nil, dberrorhandler.DefaultEntError(l.Logger, err, req)
 	}
 
 	return &types.BaseMsgResp{
 		Code: 0,
-		Msg:  l.svcCtx.Trans.Trans(l.lang, i18n.DeleteSuccess),
+		Msg:  l.svcCtx.Trans.Trans(l.ctx, i18n.DeleteSuccess),
 	}, nil
 }

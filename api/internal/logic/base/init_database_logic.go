@@ -2,12 +2,11 @@ package base
 
 import (
 	"context"
-	"net/http"
 
 	"entgo.io/ent/dialect/sql/schema"
-	"github.com/suyuan32/simple-admin-core/pkg/enum"
-	"github.com/suyuan32/simple-admin-core/pkg/i18n"
-	"github.com/suyuan32/simple-admin-core/pkg/msg/logmsg"
+	"github.com/suyuan32/simple-admin-common/enum/errorcode"
+	"github.com/suyuan32/simple-admin-common/i18n"
+	"github.com/suyuan32/simple-admin-common/msg/logmsg"
 	"github.com/suyuan32/simple-admin-core/rpc/types/core"
 	"github.com/zeromicro/go-zero/core/errorx"
 	"google.golang.org/grpc/codes"
@@ -26,12 +25,11 @@ type InitDatabaseLogic struct {
 	lang   string
 }
 
-func NewInitDatabaseLogic(r *http.Request, svcCtx *svc.ServiceContext) *InitDatabaseLogic {
+func NewInitDatabaseLogic(ctx context.Context, svcCtx *svc.ServiceContext) *InitDatabaseLogic {
 	return &InitDatabaseLogic{
-		Logger: logx.WithContext(r.Context()),
-		ctx:    r.Context(),
+		Logger: logx.WithContext(ctx),
+		ctx:    ctx,
 		svcCtx: svcCtx,
-		lang:   r.Header.Get("Accept-Language"),
 	}
 }
 
@@ -39,20 +37,20 @@ func (l *InitDatabaseLogic) InitDatabase() (resp *types.BaseMsgResp, err error) 
 	err = l.initApi()
 	if err != nil {
 		if status.Code(err) == codes.InvalidArgument {
-			return nil, errorx.NewCodeError(enum.InvalidArgument,
-				l.svcCtx.Trans.Trans(l.lang, "init.alreadyInit"))
+			return nil, errorx.NewCodeError(errorcode.InvalidArgument,
+				l.svcCtx.Trans.Trans(l.ctx, "init.alreadyInit"))
 		}
 		return nil, err
 	}
 
 	if err := l.svcCtx.DB.Schema.Create(l.ctx, schema.WithForeignKeys(false)); err != nil {
 		logx.Errorw(logmsg.DatabaseError, logx.Field("detail", err.Error()))
-		return nil, errorx.NewCodeError(enum.Internal, err.Error())
+		return nil, errorx.NewCodeError(errorcode.Internal, err.Error())
 	}
 
 	return &types.BaseMsgResp{
 		Code: 0,
-		Msg:  l.svcCtx.Trans.Trans(l.lang, i18n.Success),
+		Msg:  l.svcCtx.Trans.Trans(l.ctx, i18n.Success),
 	}, nil
 }
 
