@@ -21,6 +21,7 @@ RedisConf:
   Host: 127.0.0.1:6379
   Type: node
 
+# DatabaseConf sets the database of file manager service.
 DatabaseConf:
   Type: mysql
   Host: 127.0.0.1
@@ -32,6 +33,7 @@ DatabaseConf:
   SSLMode: disable
   CacheTime: 5
 
+# CasbinDatabaseConf sets the core database if you use the Casbin of Core.
 CasbinDatabaseConf:
   Type: mysql
   Host: 127.0.0.1
@@ -51,5 +53,7 @@ UploadConf:
   PrivateStorePath: /home/data/file/private  # private
   PublicStorePath: /home/data/file/public  # public path for every one access e.g. nginx path
 
+# You can disable the core rpc if you have already initialized file manager's database.
 CoreRpc:
   Target: k8s://default/core-rpc-svc:9101
+  Enable: true
