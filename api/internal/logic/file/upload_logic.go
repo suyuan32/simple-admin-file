@@ -58,16 +58,16 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 
 	// judge if the suffix is legal
 	// 校验后缀是否合法
-	commaIndex := strings.LastIndex(handler.Filename, ".")
+	dotIndex := strings.LastIndex(handler.Filename, ".")
 	// if there is no suffix, reject it
 	// 拒绝无后缀文件
-	if commaIndex == -1 {
+	if dotIndex == -1 {
 		logx.Errorw("reject the file which does not have suffix")
 		return nil, errorx.NewCodeError(errorcode.InvalidArgument,
 			l.svcCtx.Trans.Trans(l.ctx, "file.wrongTypeError"))
 	}
 
-	fileName, fileSuffix := handler.Filename[:commaIndex], handler.Filename[commaIndex+1:]
+	fileName, fileSuffix := handler.Filename[:dotIndex], handler.Filename[dotIndex+1:]
 	fileUUID := uuidx.NewUUID().String()
 	storeFileName := fileUUID + "." + fileSuffix
 	timeString := time.Now().Format(format.DashYearToDay)
