@@ -4,6 +4,8 @@ package file
 
 import (
 	"time"
+
+	"entgo.io/ent/dialect/sql"
 )
 
 const (
@@ -70,3 +72,61 @@ var (
 	// DefaultStatus holds the default value on creation for the "status" field.
 	DefaultStatus uint8
 )
+
+// Order defines the ordering method for the File queries.
+type Order func(*sql.Selector)
+
+// ByID orders the results by the id field.
+func ByID(opts ...sql.OrderTermOption) Order {
+	return sql.OrderByField(FieldID, opts...).ToFunc()
+}
+
+// ByCreatedAt orders the results by the created_at field.
+func ByCreatedAt(opts ...sql.OrderTermOption) Order {
+	return sql.OrderByField(FieldCreatedAt, opts...).ToFunc()
+}
+
+// ByUpdatedAt orders the results by the updated_at field.
+func ByUpdatedAt(opts ...sql.OrderTermOption) Order {
+	return sql.OrderByField(FieldUpdatedAt, opts...).ToFunc()
+}
+
+// ByStatus orders the results by the status field.
+func ByStatus(opts ...sql.OrderTermOption) Order {
+	return sql.OrderByField(FieldStatus, opts...).ToFunc()
+}
+
+// ByUUID orders the results by the uuid field.
+func ByUUID(opts ...sql.OrderTermOption) Order {
+	return sql.OrderByField(FieldUUID, opts...).ToFunc()
+}
+
+// ByName orders the results by the name field.
+func ByName(opts ...sql.OrderTermOption) Order {
+	return sql.OrderByField(FieldName, opts...).ToFunc()
+}
+
+// ByFileType orders the results by the file_type field.
+func ByFileType(opts ...sql.OrderTermOption) Order {
+	return sql.OrderByField(FieldFileType, opts...).ToFunc()
+}
+
+// BySize orders the results by the size field.
+func BySize(opts ...sql.OrderTermOption) Order {
+	return sql.OrderByField(FieldSize, opts...).ToFunc()
+}
+
+// ByPath orders the results by the path field.
+func ByPath(opts ...sql.OrderTermOption) Order {
+	return sql.OrderByField(FieldPath, opts...).ToFunc()
+}
+
+// ByUserUUID orders the results by the user_uuid field.
+func ByUserUUID(opts ...sql.OrderTermOption) Order {
+	return sql.OrderByField(FieldUserUUID, opts...).ToFunc()
+}
+
+// ByMd5 orders the results by the md5 field.
+func ByMd5(opts ...sql.OrderTermOption) Order {
+	return sql.OrderByField(FieldMd5, opts...).ToFunc()
+}

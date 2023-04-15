@@ -19,18 +19,12 @@ const (
 
 type PageDetails struct {
 	Page  uint64 `json:"page"`
-	Limit uint64 `json:"limit"`
+	Size  uint64 `json:"size"`
 	Total uint64 `json:"total"`
 }
 
 // OrderDirection defines the directions in which to order a list of items.
 type OrderDirection string
-
-// Cursor of an edge type.
-type Cursor struct {
-	ID    uint64
-	Value Value
-}
 
 const (
 	// OrderDirectionAsc specifies an ascending order.
@@ -59,62 +53,33 @@ func (o OrderDirection) reverse() OrderDirection {
 	return OrderDirectionDesc
 }
 
-func (o OrderDirection) orderFunc(field string) OrderFunc {
-	if o == OrderDirectionDesc {
-		return Desc(field)
-	}
-	return Asc(field)
-}
-
 const errInvalidPagination = "INVALID_PAGINATION"
 
-type filePager struct {
-	order  *FileOrder
-	filter func(*FileQuery) (*FileQuery, error)
+type FilePager struct {
+	Order  file.Order
+	Filter func(*FileQuery) (*FileQuery, error)
 }
 
 // FilePaginateOption enables pagination customization.
-type FilePaginateOption func(*filePager) error
-
-// FileOrder defines the ordering of File.
-type FileOrder struct {
-	Direction OrderDirection  `json:"direction"`
-	Field     *FileOrderField `json:"field"`
-}
-
-// FileOrderField defines the ordering field of File.
-type FileOrderField struct {
-	field    string
-	toCursor func(*File) Cursor
-}
+type FilePaginateOption func(*FilePager)
 
 // DefaultFileOrder is the default ordering of File.
-var DefaultFileOrder = &FileOrder{
-	Direction: OrderDirectionAsc,
-	Field: &FileOrderField{
-		field: file.FieldID,
-		toCursor: func(f *File) Cursor {
-			return Cursor{ID: f.ID}
-		},
-	},
-}
+var DefaultFileOrder = Desc(file.FieldID)
 
-func newFilePager(opts []FilePaginateOption) (*filePager, error) {
-	pager := &filePager{}
+func newFilePager(opts []FilePaginateOption) (*FilePager, error) {
+	pager := &FilePager{}
 	for _, opt := range opts {
-		if err := opt(pager); err != nil {
-			return nil, err
-		}
+		opt(pager)
 	}
-	if pager.order == nil {
-		pager.order = DefaultFileOrder
+	if pager.Order == nil {
+		pager.Order = DefaultFileOrder
 	}
 	return pager, nil
 }
 
-func (p *filePager) applyFilter(query *FileQuery) (*FileQuery, error) {
-	if p.filter != nil {
-		return p.filter(query)
+func (p *FilePager) ApplyFilter(query *FileQuery) (*FileQuery, error) {
+	if p.Filter != nil {
+		return p.Filter(query)
 	}
 	return query, nil
 }
@@ -134,15 +99,15 @@ func (f *FileQuery) Page(
 		return nil, err
 	}
 
-	if f, err = pager.applyFilter(f); err != nil {
+	if f, err = pager.ApplyFilter(f); err != nil {
 		return nil, err
 	}
 
 	ret := &FilePageList{}
 
 	ret.PageDetails = &PageDetails{
-		Page:  pageNum,
-		Limit: pageSize,
+		Page: pageNum,
+		Size: pageSize,
 	}
 
 	count, err := f.Clone().Count(ctx)
@@ -153,10 +118,10 @@ func (f *FileQuery) Page(
 
 	ret.PageDetails.Total = uint64(count)
 
-	direction := pager.order.Direction
-	f = f.Order(direction.orderFunc(pager.order.Field.field))
-	if pager.order.Field != DefaultFileOrder.Field {
-		f = f.Order(direction.orderFunc(DefaultFileOrder.Field.field))
+	if pager.Order != nil {
+		f = f.Order(pager.Order)
+	} else {
+		f = f.Order(DefaultFileOrder)
 	}
 
 	f = f.Offset(int((pageNum - 1) * pageSize)).Limit(int(pageSize))

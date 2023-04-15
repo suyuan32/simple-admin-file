@@ -107,7 +107,7 @@ type (
 	middleware: Authority
 )
 
-service file {
+service File {
 	// Upload file | 上传文件
 	@handler upload
 	post /upload returns (UploadResp)

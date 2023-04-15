@@ -7,6 +7,7 @@ import (
 	"strings"
 	"time"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"github.com/suyuan32/simple-admin-file/api/ent/file"
 )
@@ -35,7 +36,8 @@ type File struct {
 	// User's UUID | 用户的 UUID
 	UserUUID string `json:"user_uuid,omitempty"`
 	// The md5 of the file | 文件的 md5
-	Md5 string `json:"md5,omitempty"`
+	Md5          string `json:"md5,omitempty"`
+	selectValues sql.SelectValues
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -50,7 +52,7 @@ func (*File) scanValues(columns []string) ([]any, error) {
 		case file.FieldCreatedAt, file.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
 		default:
-			return nil, fmt.Errorf("unexpected column %q for type File", columns[i])
+			values[i] = new(sql.UnknownType)
 		}
 	}
 	return values, nil
@@ -130,9 +132,17 @@ func (f *File) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				f.Md5 = value.String
 			}
+		default:
+			f.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
+}
+
+// Value returns the ent.Value that was dynamically selected and assigned to the File.
+// This includes values selected through modifiers, order, etc.
+func (f *File) Value(name string) (ent.Value, error) {
+	return f.selectValues.Get(name)
 }
 
 // Update returns a builder for updating this File.

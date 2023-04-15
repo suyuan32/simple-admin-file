@@ -28,7 +28,7 @@ func (File) Fields() []ent.Field {
 
 func (File) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixins.BaseMixin{},
+		mixins.BaseIDMixin{},
 		mixins.StatusMixin{},
 	}
 }

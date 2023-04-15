@@ -1,8 +1,20 @@
-PROJECT=file
+# Custom configuration | 独立配置
+# Service name | 项目名称
+SERVICE=File
+# Service name in specific style | 项目经过style格式化的名称
+SERVICE_STYLE=file
+# Service name in lowercase | 项目名称全小写格式
+SERVICE_LOWER=file
+# Service name in snake format | 项目名称下划线格式
+SERVICE_SNAKE=file
+# Service name in snake format | 项目名称短杠格式
+SERVICE_DASH=file
+
 GO ?= go
 GOFMT ?= gofmt "-s"
 GOFILES := $(shell find . -name "*.go")
 LDFLAGS := -s -w
+VERSION=$(shell git describe --tags --always)
 
 .PHONY: test
 test: # Run test for the project | 运行项目测试
@@ -22,19 +34,19 @@ tools: # Install the necessary tools | 安装必要的工具
 
 .PHONY: docker
 docker: # Build the docker image | 构建 docker 镜像
-	docker build -f Dockerfile -t ${DOCKER_USERNAME}/$(PROJECT)-api:${VERSION} .
+	docker build -f Dockerfile -t ${DOCKER_USERNAME}/$(SERVICE_DASH)-api:${VERSION} .
 	@echo "Build docker successfully"
 
 .PHONY: publish-docker
 publish-docker: # Publish docker image | 发布 docker 镜像
 	echo "${DOCKER_PASSWORD}" | docker login --username ${DOCKER_USERNAME} --password-stdin https://${REPO}
-	docker push ${DOCKER_USERNAME}/$(PROJECT)-api:${VERSION}
+	docker push ${DOCKER_USERNAME}/$(SERVICE_DASH)-api:${VERSION}
 	@echo "Publish docker successfully"
 
 .PHONY: gen-api
 gen-api: # Generate API files | 生成 API 的代码
 	goctls api go --api ./desc/all.api --dir ./ --trans_err=true
-	swagger generate spec --output=./$(PROJECT).yml --scan-models
+	swagger generate spec --output=./$(SERVICE_STYLE).yml --scan-models
 	@echo "Generate API codes successfully"
 
 .PHONY: gen-ent
@@ -44,33 +56,33 @@ gen-ent: # Generate Ent codes | 生成 Ent 的代码
 
 .PHONY: gen-api-ent-logic
 gen-api-ent-logic: # Generate CRUD logic from Ent, need to set model and group | 根据 Ent 生成 CRUD 代码，需要设置 model 和 group
-	goctls api ent --schema=./ent/schema --api_service_name=$(PROJECT) --o=./ --model=$(model) --group=$(group)
+	goctls api ent --schema=./ent/schema --api_service_name=$(SERVICE) --output=./ --model=$(model) --group=$(group)
 	@echo "Generate CRUD codes from Ent successfully"
 
 .PHONY: build-win
 build-win: # Build project for Windows | 构建Windows下的可执行文件
-	env CGO_ENABLED=0 GOOS=windows go build -ldflags "$(LDFLAGS)" -o $(PROJECT).exe $(PROJECT).go
+	env CGO_ENABLED=0 GOOS=windows go build -ldflags "$(LDFLAGS)" -o $(SERVICE_STYLE).exe $(SERVICE_STYLE).go
 	@echo "Build project for Windows successfully"
 
 .PHONY: build-mac
 build-mac: # Build project for MacOS | 构建MacOS下的可执行文件
-	env CGO_ENABLED=0 GOOS=darwin go build -ldflags "$(LDFLAGS)" -o $(PROJECT) $(PROJECT).go
+	env CGO_ENABLED=0 GOOS=darwin go build -ldflags "$(LDFLAGS)" -o $(SERVICE_STYLE) $(SERVICE_STYLE).go
 	@echo "Build project for MacOS successfully"
 
 .PHONY: build-linux
 build-linux: # Build project for Linux | 构建Linux下的可执行文件
-	env CGO_ENABLED=0 GOOS=linux go build -ldflags "$(LDFLAGS)" -o $(PROJECT) $(PROJECT).go
+	env CGO_ENABLED=0 GOOS=linux go build -ldflags "$(LDFLAGS)" -o $(SERVICE_STYLE) $(SERVICE_STYLE).go
 	@echo "Build project for Linux successfully"
 
 .PHONY: gen-swagger
 gen-swagger: # Generate swagger file | 生成 swagger 文件
-	swagger generate spec --output=./$(PROJECT).yml --scan-models
+	swagger generate spec --output=./$(SERVICE_STYLE).yml --scan-models
 	@echo "Generate swagger successfully"
 
 .PHONY: serve-swagger
 serve-swagger: # Run the swagger server | 运行 swagger 服务
 	lsof -i:36666 | awk 'NR!=1 {print $2}' | xargs killall -9 || true
-	swagger serve -F=swagger --port 36666 $(PROJECT).yml
+	swagger serve -F=swagger --port 36666 $(SERVICE_STYLE).yml
 	@echo "Serve swagger-ui successfully"
 
 .PHONY: help
