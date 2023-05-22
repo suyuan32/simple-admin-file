@@ -55,11 +55,12 @@ type IDReq struct {
 }
 
 // Basic ID request in path | 基础ID地址参数请求
-// swagger:model IDPathReq
+// swagger:parameters DownloadFile
 type IDPathReq struct {
 	// ID
 	// Required: true
-	Id uint64 `path:"id"`
+	// in: path
+	Id uint64 `json:"id,optional" path:"id"`
 }
 
 // Basic UUID request | 基础UUID参数请求

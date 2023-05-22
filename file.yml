@@ -191,17 +191,6 @@ definitions:
                 x-go-name: Msg
         type: object
         x-go-package: github.com/suyuan32/simple-admin-file/internal/types
-    IDPathReq:
-        description: Basic ID request in path | 基础ID地址参数请求
-        properties:
-            Id:
-                description: ID
-                format: uint64
-                type: integer
-        required:
-            - Id
-        type: object
-        x-go-package: github.com/suyuan32/simple-admin-file/internal/types
     IDReq:
         description: Basic ID request | 基础id参数请求
         properties:
@@ -355,6 +344,11 @@ paths:
             parameters:
                 - in: path
                   name: id
+            responses:
+                "200":
+                    description: BaseMsgResp
+                    schema:
+                        $ref: '#/definitions/BaseMsgResp'
             summary: Download file | 下载文件
             tags:
                 - file
