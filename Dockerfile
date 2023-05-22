@@ -31,4 +31,7 @@ COPY --from=builder /build/${PROJECT}_api ./
 COPY --from=builder /build/etc/${CONFIG_FILE} ./etc/
 COPY deploy/nginx/default.conf /etc/nginx/conf.d/
 
+EXPOSE 80
+EXPOSE 9102
+
 ENTRYPOINT ./${PROJECT}_api -f etc/${CONFIG_FILE}
