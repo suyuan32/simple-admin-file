@@ -1,35 +1,34 @@
-FROM golang:1.20.2-alpine3.17 as builder
+FROM golang:1.20.3-alpine3.17 as builder
 
 # Define the project name | 定义项目名称
 ARG PROJECT=file
 
-WORKDIR /home
-COPY api .
+WORKDIR /build
+COPY . .
 
 RUN go env -w GO111MODULE=on \
-    && go env -w GOPROXY=https://goproxy.cn,direct \
     && go env -w CGO_ENABLED=0 \
     && go env \
     && go mod tidy \
-    && go build -ldflags="-s -w" -o /home/${PROJECT}_api ${PROJECT}.go
+    && go build -ldflags="-s -w" -o /build/${PROJECT}_api ${PROJECT}.go
 
-FROM alpine:latest
+FROM nginx:1.23.4-alpine
 
 # Define the project name | 定义项目名称
 ARG PROJECT=file
 # Define the config file name | 定义配置文件名
 ARG CONFIG_FILE=file.yaml
 # Define the author | 定义作者
-ARG AUTHOR=RyanSU@yuansu.china.work@gmail.com
+ARG AUTHOR="yuansu.china.work@gmail.com"
 
-LABEL MAINTAINER=${AUTHOR}
+LABEL org.opencontainers.image.authors=${AUTHOR}
 
-WORKDIR /home
+WORKDIR /app
 ENV PROJECT=${PROJECT}
 ENV CONFIG_FILE=${CONFIG_FILE}
 
-COPY --from=builder /home/${PROJECT}_api ./
-COPY --from=builder /home/etc/${CONFIG_FILE} ./etc/
+COPY --from=builder /build/${PROJECT}_api ./
+COPY --from=builder /build/etc/${CONFIG_FILE} ./etc/
+COPY deploy/nginx/default.conf /etc/nginx/conf.d/
 
-EXPOSE 9102
 ENTRYPOINT ./${PROJECT}_api -f etc/${CONFIG_FILE}
