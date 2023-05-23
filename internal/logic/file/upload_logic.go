@@ -145,6 +145,7 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 
 	return &types.UploadResp{
 		BaseDataInfo: types.BaseDataInfo{Msg: l.svcCtx.Trans.Trans(l.ctx, i18n.Success)},
-		Data:         types.UploadInfo{Name: handler.Filename, Url: relativePath},
+		Data: types.UploadInfo{Name: handler.Filename, Url: l.svcCtx.Config.UploadConf.ServerURL +
+			relativePath},
 	}, nil
 }
