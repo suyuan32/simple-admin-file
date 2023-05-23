@@ -2,7 +2,6 @@ package file
 
 import (
 	"context"
-	"path"
 	"time"
 
 	"github.com/suyuan32/simple-admin-common/enum/errorcode"
@@ -81,7 +80,7 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 			Size:       v.Size,
 			Path:       v.Path,
 			Status:     v.Status,
-			PublicPath: path.Join(l.svcCtx.Config.UploadConf.ServerURL, v.Path),
+			PublicPath: l.svcCtx.Config.UploadConf.ServerURL + v.Path,
 		})
 	}
 
