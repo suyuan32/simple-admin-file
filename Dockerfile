@@ -13,7 +13,7 @@ RUN go env -w GO111MODULE=on \
     && go mod tidy \
     && go build -ldflags="-s -w" -o /build/${PROJECT}_api ${PROJECT}.go
 
-FROM nginx:1.23.4-alpine
+FROM nginx:1.25.0-alpine
 
 # Define the project name | 定义项目名称
 ARG PROJECT=file
