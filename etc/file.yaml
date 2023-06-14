@@ -18,17 +18,17 @@ Log:
   StackCoolDownMillis: 100
 
 RedisConf:
-  Host: 127.0.0.1:6379
+  Host: 10.5.0.3:6379
   Type: node
 
 # DatabaseConf sets the database of file manager service.
 DatabaseConf:
   Type: mysql
-  Host: 127.0.0.1
+  Host: 10.5.0.2
   Port: 3306
   DBName: simple_admin
-  Username: # set your username
-  Password: # set your password
+  Username: root # set your username
+  Password: simple-admin. # set your password
   MaxOpenConn: 100
   SSLMode: disable
   CacheTime: 5
@@ -36,11 +36,11 @@ DatabaseConf:
 # CasbinDatabaseConf sets the core database if you use the Casbin of Core.
 CasbinDatabaseConf:
   Type: mysql
-  Host: 127.0.0.1
+  Host: 10.5.0.2
   Port: 3306
   DBName: simple_admin
-  Username: # set your username
-  Password: # set your password
+  Username: root # set your username
+  Password: simple-admin. # set your password
   MaxOpenConn: 100
   SSLMode: disable
   CacheTime: 5
@@ -52,8 +52,10 @@ UploadConf:
   MaxOtherSize: 10485760  # 10 mb
   PrivateStorePath: /home/data/file/private  # private
   PublicStorePath: /home/data/file/public  # public path for every one access e.g. nginx path
+  ServerURL: "http://localhost:81"
 
 # You can disable the core rpc if you have already initialized file manager's database.
 CoreRpc:
-  Target: k8s://default/core-rpc-svc:9101
+  Endpoints:
+    - 10.5.0.4:9101
   Enabled: true
