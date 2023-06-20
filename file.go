@@ -5,7 +5,7 @@
 //		Schemes: http, https
 //		Host: localhost:9102
 //		BasePath: /
-//		Version: 0.2.7
+//		Version: 1.0.10
 //		Contact: yuansu.china.work@gmail.com
 //		securityDefinitions:
 //		  Token:
@@ -43,7 +43,7 @@ func main() {
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 
-	server := rest.MustNewServer(c.RestConf, rest.WithCors("*"))
+	server := rest.MustNewServer(c.RestConf, rest.WithCors(c.CROSConf.Address))
 	defer server.Stop()
 
 	ctx := svc.NewServiceContext(c)

@@ -8,6 +8,9 @@ Auth:
   AccessSecret: jS6VKDtsJf3z1n2VKDtsJf3z1n2
   AccessExpire: 259200  # Seconds
 
+CROSConf:
+  Address: '*'
+
 Log:
   ServiceName: fileManagerLogger
   Mode: file

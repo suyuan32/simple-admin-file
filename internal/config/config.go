@@ -17,6 +17,7 @@ type Config struct {
 	RedisConf          redis.RedisConf
 	CasbinConf         casbin.CasbinConf
 	CoreRpc            zrpc.RpcClientConf
+	CROSConf           config.CROSConf
 }
 
 type UploadConf struct {
