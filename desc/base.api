@@ -119,7 +119,7 @@ type BaseUUIDInfo {
 // The request params of setting boolean status | 设置状态参数
 type StatusCodeReq {
     // ID
-    Id     string  `json:"id" validate:"number"`
+    Id     string  `json:"id"`
 
     // Status code | 状态码
     Status uint64  `json:"status" validate:"number"`

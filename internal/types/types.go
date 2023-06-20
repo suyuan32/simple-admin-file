@@ -118,7 +118,7 @@ type BaseUUIDInfo struct {
 // swagger:model StatusCodeReq
 type StatusCodeReq struct {
 	// ID
-	Id string `json:"id" validate:"number"`
+	Id string `json:"id"`
 	// Status code | 状态码
 	Status uint64 `json:"status" validate:"number"`
 }
