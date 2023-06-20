@@ -2,6 +2,7 @@ package file
 
 import (
 	"context"
+	"github.com/suyuan32/simple-admin-common/utils/uuidx"
 	"os"
 	"path"
 
@@ -33,7 +34,7 @@ func NewChangePublicStatusLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 
 func (l *ChangePublicStatusLogic) ChangePublicStatus(req *types.StatusCodeReq) (resp *types.BaseMsgResp, err error) {
 	err = entx.WithTx(l.ctx, l.svcCtx.DB, func(tx *ent.Tx) error {
-		file, err := tx.File.UpdateOneID(req.Id).SetStatus(uint8(req.Status)).Save(l.ctx)
+		file, err := tx.File.UpdateOneID(uuidx.ParseUUIDString(req.Id)).SetStatus(uint8(req.Status)).Save(l.ctx)
 
 		if err != nil {
 			return err

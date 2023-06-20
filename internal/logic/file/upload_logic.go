@@ -69,8 +69,8 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 	}
 
 	fileName, fileSuffix := handler.Filename[:dotIndex], handler.Filename[dotIndex+1:]
-	fileUUID := uuidx.NewUUID().String()
-	storeFileName := fileUUID + "." + fileSuffix
+	fileUUID := uuidx.NewUUID()
+	storeFileName := fileUUID.String() + "." + fileSuffix
 	timeString := time.Now().Format(format.DashYearToDay)
 	userId := l.ctx.Value("userId").(string)
 
@@ -130,7 +130,7 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 		fileType, timeString, storeFileName)
 
 	err = l.svcCtx.DB.File.Create().
-		SetNotNilUUID(&fileUUID).
+		SetID(fileUUID).
 		SetNotNilName(&fileName).
 		SetNotNilFileType(pointy.GetPointer(filex.ConvertFileTypeToUint8(fileType))).
 		SetNotNilPath(&relativePath).

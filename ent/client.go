@@ -8,12 +8,15 @@ import (
 	"fmt"
 	"log"
 
+	uuid "github.com/gofrs/uuid/v5"
 	"github.com/suyuan32/simple-admin-file/ent/migrate"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
 	"github.com/suyuan32/simple-admin-file/ent/file"
+
+	stdsql "database/sql"
 )
 
 // Client is the client that holds all ent builders.
@@ -233,7 +236,7 @@ func (c *FileClient) UpdateOne(f *File) *FileUpdateOne {
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *FileClient) UpdateOneID(id uint64) *FileUpdateOne {
+func (c *FileClient) UpdateOneID(id uuid.UUID) *FileUpdateOne {
 	mutation := newFileMutation(c.config, OpUpdateOne, withFileID(id))
 	return &FileUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -250,7 +253,7 @@ func (c *FileClient) DeleteOne(f *File) *FileDeleteOne {
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *FileClient) DeleteOneID(id uint64) *FileDeleteOne {
+func (c *FileClient) DeleteOneID(id uuid.UUID) *FileDeleteOne {
 	builder := c.Delete().Where(file.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -267,12 +270,12 @@ func (c *FileClient) Query() *FileQuery {
 }
 
 // Get returns a File entity by its id.
-func (c *FileClient) Get(ctx context.Context, id uint64) (*File, error) {
+func (c *FileClient) Get(ctx context.Context, id uuid.UUID) (*File, error) {
 	return c.Query().Where(file.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *FileClient) GetX(ctx context.Context, id uint64) *File {
+func (c *FileClient) GetX(ctx context.Context, id uuid.UUID) *File {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -314,3 +317,27 @@ type (
 		File []ent.Interceptor
 	}
 )
+
+// ExecContext allows calling the underlying ExecContext method of the driver if it is supported by it.
+// See, database/sql#DB.ExecContext for more information.
+func (c *config) ExecContext(ctx context.Context, query string, args ...any) (stdsql.Result, error) {
+	ex, ok := c.driver.(interface {
+		ExecContext(context.Context, string, ...any) (stdsql.Result, error)
+	})
+	if !ok {
+		return nil, fmt.Errorf("Driver.ExecContext is not supported")
+	}
+	return ex.ExecContext(ctx, query, args...)
+}
+
+// QueryContext allows calling the underlying QueryContext method of the driver if it is supported by it.
+// See, database/sql#DB.QueryContext for more information.
+func (c *config) QueryContext(ctx context.Context, query string, args ...any) (*stdsql.Rows, error) {
+	q, ok := c.driver.(interface {
+		QueryContext(context.Context, string, ...any) (*stdsql.Rows, error)
+	})
+	if !ok {
+		return nil, fmt.Errorf("Driver.QueryContext is not supported")
+	}
+	return q.QueryContext(ctx, query, args...)
+}

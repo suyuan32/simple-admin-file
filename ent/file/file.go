@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"entgo.io/ent/dialect/sql"
+	uuid "github.com/gofrs/uuid/v5"
 )
 
 const (
@@ -19,8 +20,6 @@ const (
 	FieldUpdatedAt = "updated_at"
 	// FieldStatus holds the string denoting the status field in the database.
 	FieldStatus = "status"
-	// FieldUUID holds the string denoting the uuid field in the database.
-	FieldUUID = "uuid"
 	// FieldName holds the string denoting the name field in the database.
 	FieldName = "name"
 	// FieldFileType holds the string denoting the file_type field in the database.
@@ -43,7 +42,6 @@ var Columns = []string{
 	FieldCreatedAt,
 	FieldUpdatedAt,
 	FieldStatus,
-	FieldUUID,
 	FieldName,
 	FieldFileType,
 	FieldSize,
@@ -71,6 +69,8 @@ var (
 	UpdateDefaultUpdatedAt func() time.Time
 	// DefaultStatus holds the default value on creation for the "status" field.
 	DefaultStatus uint8
+	// DefaultID holds the default value on creation for the "id" field.
+	DefaultID func() uuid.UUID
 )
 
 // OrderOption defines the ordering options for the File queries.
@@ -94,11 +94,6 @@ func ByUpdatedAt(opts ...sql.OrderTermOption) OrderOption {
 // ByStatus orders the results by the status field.
 func ByStatus(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldStatus, opts...).ToFunc()
-}
-
-// ByUUID orders the results by the uuid field.
-func ByUUID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldUUID, opts...).ToFunc()
 }
 
 // ByName orders the results by the name field.

@@ -6,51 +6,52 @@ import (
 	"time"
 
 	"entgo.io/ent/dialect/sql"
+	uuid "github.com/gofrs/uuid/v5"
 	"github.com/suyuan32/simple-admin-file/ent/predicate"
 )
 
 // ID filters vertices based on their ID field.
-func ID(id uint64) predicate.File {
+func ID(id uuid.UUID) predicate.File {
 	return predicate.File(sql.FieldEQ(FieldID, id))
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id uint64) predicate.File {
+func IDEQ(id uuid.UUID) predicate.File {
 	return predicate.File(sql.FieldEQ(FieldID, id))
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id uint64) predicate.File {
+func IDNEQ(id uuid.UUID) predicate.File {
 	return predicate.File(sql.FieldNEQ(FieldID, id))
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...uint64) predicate.File {
+func IDIn(ids ...uuid.UUID) predicate.File {
 	return predicate.File(sql.FieldIn(FieldID, ids...))
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...uint64) predicate.File {
+func IDNotIn(ids ...uuid.UUID) predicate.File {
 	return predicate.File(sql.FieldNotIn(FieldID, ids...))
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id uint64) predicate.File {
+func IDGT(id uuid.UUID) predicate.File {
 	return predicate.File(sql.FieldGT(FieldID, id))
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id uint64) predicate.File {
+func IDGTE(id uuid.UUID) predicate.File {
 	return predicate.File(sql.FieldGTE(FieldID, id))
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id uint64) predicate.File {
+func IDLT(id uuid.UUID) predicate.File {
 	return predicate.File(sql.FieldLT(FieldID, id))
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id uint64) predicate.File {
+func IDLTE(id uuid.UUID) predicate.File {
 	return predicate.File(sql.FieldLTE(FieldID, id))
 }
 
@@ -67,11 +68,6 @@ func UpdatedAt(v time.Time) predicate.File {
 // Status applies equality check predicate on the "status" field. It's identical to StatusEQ.
 func Status(v uint8) predicate.File {
 	return predicate.File(sql.FieldEQ(FieldStatus, v))
-}
-
-// UUID applies equality check predicate on the "uuid" field. It's identical to UUIDEQ.
-func UUID(v string) predicate.File {
-	return predicate.File(sql.FieldEQ(FieldUUID, v))
 }
 
 // Name applies equality check predicate on the "name" field. It's identical to NameEQ.
@@ -232,71 +228,6 @@ func StatusIsNil() predicate.File {
 // StatusNotNil applies the NotNil predicate on the "status" field.
 func StatusNotNil() predicate.File {
 	return predicate.File(sql.FieldNotNull(FieldStatus))
-}
-
-// UUIDEQ applies the EQ predicate on the "uuid" field.
-func UUIDEQ(v string) predicate.File {
-	return predicate.File(sql.FieldEQ(FieldUUID, v))
-}
-
-// UUIDNEQ applies the NEQ predicate on the "uuid" field.
-func UUIDNEQ(v string) predicate.File {
-	return predicate.File(sql.FieldNEQ(FieldUUID, v))
-}
-
-// UUIDIn applies the In predicate on the "uuid" field.
-func UUIDIn(vs ...string) predicate.File {
-	return predicate.File(sql.FieldIn(FieldUUID, vs...))
-}
-
-// UUIDNotIn applies the NotIn predicate on the "uuid" field.
-func UUIDNotIn(vs ...string) predicate.File {
-	return predicate.File(sql.FieldNotIn(FieldUUID, vs...))
-}
-
-// UUIDGT applies the GT predicate on the "uuid" field.
-func UUIDGT(v string) predicate.File {
-	return predicate.File(sql.FieldGT(FieldUUID, v))
-}
-
-// UUIDGTE applies the GTE predicate on the "uuid" field.
-func UUIDGTE(v string) predicate.File {
-	return predicate.File(sql.FieldGTE(FieldUUID, v))
-}
-
-// UUIDLT applies the LT predicate on the "uuid" field.
-func UUIDLT(v string) predicate.File {
-	return predicate.File(sql.FieldLT(FieldUUID, v))
-}
-
-// UUIDLTE applies the LTE predicate on the "uuid" field.
-func UUIDLTE(v string) predicate.File {
-	return predicate.File(sql.FieldLTE(FieldUUID, v))
-}
-
-// UUIDContains applies the Contains predicate on the "uuid" field.
-func UUIDContains(v string) predicate.File {
-	return predicate.File(sql.FieldContains(FieldUUID, v))
-}
-
-// UUIDHasPrefix applies the HasPrefix predicate on the "uuid" field.
-func UUIDHasPrefix(v string) predicate.File {
-	return predicate.File(sql.FieldHasPrefix(FieldUUID, v))
-}
-
-// UUIDHasSuffix applies the HasSuffix predicate on the "uuid" field.
-func UUIDHasSuffix(v string) predicate.File {
-	return predicate.File(sql.FieldHasSuffix(FieldUUID, v))
-}
-
-// UUIDEqualFold applies the EqualFold predicate on the "uuid" field.
-func UUIDEqualFold(v string) predicate.File {
-	return predicate.File(sql.FieldEqualFold(FieldUUID, v))
-}
-
-// UUIDContainsFold applies the ContainsFold predicate on the "uuid" field.
-func UUIDContainsFold(v string) predicate.File {
-	return predicate.File(sql.FieldContainsFold(FieldUUID, v))
 }
 
 // NameEQ applies the EQ predicate on the "name" field.

@@ -16,7 +16,6 @@ type File struct {
 // Fields of the File.
 func (File) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("uuid").Comment("File's UUID | 文件的UUID"),
 		field.String("name").Comment("File's name | 文件名称"),
 		field.Uint8("file_type").Comment("File's type | 文件类型"),
 		field.Uint64("size").Comment("File's size"),
@@ -28,7 +27,7 @@ func (File) Fields() []ent.Field {
 
 func (File) Mixin() []ent.Mixin {
 	return []ent.Mixin{
-		mixins.BaseIDMixin{},
+		mixins.UUIDMixin{},
 		mixins.StatusMixin{},
 	}
 }

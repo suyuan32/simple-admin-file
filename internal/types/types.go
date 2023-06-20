@@ -67,6 +67,14 @@ type IDPathReq struct {
 	Id uint64 `path:"id"`
 }
 
+// Basic path UUID request | 基础UUID地址参数请求
+// swagger:model UUIDPathReq
+type UUIDPathReq struct {
+	// ID
+	// Required: true
+	Id string `path:"id"`
+}
+
 // Basic UUID request | 基础UUID参数请求
 // swagger:model UUIDReq
 type UUIDReq struct {
@@ -110,7 +118,7 @@ type BaseUUIDInfo struct {
 // swagger:model StatusCodeReq
 type StatusCodeReq struct {
 	// ID
-	Id uint64 `json:"id" validate:"number"`
+	Id string `json:"id" validate:"number"`
 	// Status code | 状态码
 	Status uint64 `json:"status" validate:"number"`
 }
@@ -137,7 +145,7 @@ type UploadResp struct {
 type UpdateFileReq struct {
 	// ID
 	// Required : true
-	ID uint64 `json:"id"`
+	ID string `json:"id"`
 	// File name | 文件名
 	// Required : true
 	Name string `json:"name" validate:"max=50"`
@@ -160,9 +168,7 @@ type FileListReq struct {
 // The response data of file information | 文件信息数据
 // swagger:model FileInfo
 type FileInfo struct {
-	BaseIDInfo
-	// UUID
-	UUID *string `json:"UUID"`
+	BaseUUIDInfo
 	// User's UUID | 用户的UUID
 	UserUUID *string `json:"userUUID"`
 	// File name | 文件名

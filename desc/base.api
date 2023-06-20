@@ -70,6 +70,13 @@ type IDPathReq {
     Id uint64 `path:"id"`
 }
 
+// Basic path UUID request | 基础UUID地址参数请求
+type UUIDPathReq {
+    // ID
+    // Required: true
+    Id string `path:"id"`
+}
+
 // Basic UUID request | 基础UUID参数请求
 type UUIDReq {
     // ID
@@ -112,7 +119,7 @@ type BaseUUIDInfo {
 // The request params of setting boolean status | 设置状态参数
 type StatusCodeReq {
     // ID
-    Id     uint64  `json:"id" validate:"number"`
+    Id     string  `json:"id" validate:"number"`
 
     // Status code | 状态码
     Status uint64  `json:"status" validate:"number"`

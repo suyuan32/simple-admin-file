@@ -20,14 +20,14 @@ import (
 //  + name: body
 //    require: true
 //    in: body
-//    type: IDsReq
+//    type: UUIDsReq
 //
 // Responses:
 //  200: BaseMsgResp
 
 func DeleteFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.IDsReq
+		var req types.UUIDsReq
 		if err := httpx.Parse(r, &req, true); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return

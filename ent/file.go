@@ -9,6 +9,7 @@ import (
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
+	uuid "github.com/gofrs/uuid/v5"
 	"github.com/suyuan32/simple-admin-file/ent/file"
 )
 
@@ -16,15 +17,14 @@ import (
 type File struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID uint64 `json:"id,omitempty"`
+	// UUID
+	ID uuid.UUID `json:"id,omitempty"`
 	// CreatedAt holds the value of the "created_at" field.
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	// UpdatedAt holds the value of the "updated_at" field.
 	UpdatedAt time.Time `json:"updated_at,omitempty"`
 	// status 1 normal 2 ban | 状态 1 正常 2 禁用
 	Status uint8 `json:"status,omitempty"`
-	// File's UUID | 文件的UUID
-	UUID string `json:"uuid,omitempty"`
 	// File's name | 文件名称
 	Name string `json:"name,omitempty"`
 	// File's type | 文件类型
@@ -45,12 +45,14 @@ func (*File) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case file.FieldID, file.FieldStatus, file.FieldFileType, file.FieldSize:
+		case file.FieldStatus, file.FieldFileType, file.FieldSize:
 			values[i] = new(sql.NullInt64)
-		case file.FieldUUID, file.FieldName, file.FieldPath, file.FieldUserUUID, file.FieldMd5:
+		case file.FieldName, file.FieldPath, file.FieldUserUUID, file.FieldMd5:
 			values[i] = new(sql.NullString)
 		case file.FieldCreatedAt, file.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
+		case file.FieldID:
+			values[i] = new(uuid.UUID)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -67,11 +69,11 @@ func (f *File) assignValues(columns []string, values []any) error {
 	for i := range columns {
 		switch columns[i] {
 		case file.FieldID:
-			value, ok := values[i].(*sql.NullInt64)
-			if !ok {
-				return fmt.Errorf("unexpected type %T for field id", value)
+			if value, ok := values[i].(*uuid.UUID); !ok {
+				return fmt.Errorf("unexpected type %T for field id", values[i])
+			} else if value != nil {
+				f.ID = *value
 			}
-			f.ID = uint64(value.Int64)
 		case file.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
@@ -89,12 +91,6 @@ func (f *File) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
 				f.Status = uint8(value.Int64)
-			}
-		case file.FieldUUID:
-			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field uuid", values[i])
-			} else if value.Valid {
-				f.UUID = value.String
 			}
 		case file.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -176,9 +172,6 @@ func (f *File) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("status=")
 	builder.WriteString(fmt.Sprintf("%v", f.Status))
-	builder.WriteString(", ")
-	builder.WriteString("uuid=")
-	builder.WriteString(f.UUID)
 	builder.WriteString(", ")
 	builder.WriteString("name=")
 	builder.WriteString(f.Name)

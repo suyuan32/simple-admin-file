@@ -5,6 +5,7 @@ package ent
 import (
 	"time"
 
+	uuid "github.com/gofrs/uuid/v5"
 	"github.com/suyuan32/simple-admin-file/ent/file"
 	"github.com/suyuan32/simple-admin-file/ent/schema"
 )
@@ -34,4 +35,8 @@ func init() {
 	fileDescStatus := fileMixinFields1[0].Descriptor()
 	// file.DefaultStatus holds the default value on creation for the status field.
 	file.DefaultStatus = fileDescStatus.Default.(uint8)
+	// fileDescID is the schema descriptor for id field.
+	fileDescID := fileMixinFields0[0].Descriptor()
+	// file.DefaultID holds the default value on creation for the id field.
+	file.DefaultID = fileDescID.Default.(func() uuid.UUID)
 }

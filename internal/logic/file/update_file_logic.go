@@ -2,6 +2,7 @@ package file
 
 import (
 	"context"
+	"github.com/suyuan32/simple-admin-common/utils/uuidx"
 
 	"github.com/suyuan32/simple-admin-common/i18n"
 
@@ -29,7 +30,7 @@ func NewUpdateFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 func (l *UpdateFileLogic) UpdateFile(req *types.UpdateFileReq) (resp *types.BaseMsgResp, err error) {
-	err = l.svcCtx.DB.File.UpdateOneID(req.ID).SetName(req.Name).Exec(l.ctx)
+	err = l.svcCtx.DB.File.UpdateOneID(uuidx.ParseUUIDString(req.ID)).SetName(req.Name).Exec(l.ctx)
 
 	if err != nil {
 		return nil, dberrorhandler.DefaultEntError(l.Logger, err, req)

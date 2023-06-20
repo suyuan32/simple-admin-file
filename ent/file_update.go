@@ -61,12 +61,6 @@ func (fu *FileUpdate) ClearStatus() *FileUpdate {
 	return fu
 }
 
-// SetUUID sets the "uuid" field.
-func (fu *FileUpdate) SetUUID(s string) *FileUpdate {
-	fu.mutation.SetUUID(s)
-	return fu
-}
-
 // SetName sets the "name" field.
 func (fu *FileUpdate) SetName(s string) *FileUpdate {
 	fu.mutation.SetName(s)
@@ -159,7 +153,7 @@ func (fu *FileUpdate) defaults() {
 }
 
 func (fu *FileUpdate) sqlSave(ctx context.Context) (n int, err error) {
-	_spec := sqlgraph.NewUpdateSpec(file.Table, file.Columns, sqlgraph.NewFieldSpec(file.FieldID, field.TypeUint64))
+	_spec := sqlgraph.NewUpdateSpec(file.Table, file.Columns, sqlgraph.NewFieldSpec(file.FieldID, field.TypeUUID))
 	if ps := fu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
@@ -178,9 +172,6 @@ func (fu *FileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if fu.mutation.StatusCleared() {
 		_spec.ClearField(file.FieldStatus, field.TypeUint8)
-	}
-	if value, ok := fu.mutation.UUID(); ok {
-		_spec.SetField(file.FieldUUID, field.TypeString, value)
 	}
 	if value, ok := fu.mutation.Name(); ok {
 		_spec.SetField(file.FieldName, field.TypeString, value)
@@ -256,12 +247,6 @@ func (fuo *FileUpdateOne) AddStatus(u int8) *FileUpdateOne {
 // ClearStatus clears the value of the "status" field.
 func (fuo *FileUpdateOne) ClearStatus() *FileUpdateOne {
 	fuo.mutation.ClearStatus()
-	return fuo
-}
-
-// SetUUID sets the "uuid" field.
-func (fuo *FileUpdateOne) SetUUID(s string) *FileUpdateOne {
-	fuo.mutation.SetUUID(s)
 	return fuo
 }
 
@@ -370,7 +355,7 @@ func (fuo *FileUpdateOne) defaults() {
 }
 
 func (fuo *FileUpdateOne) sqlSave(ctx context.Context) (_node *File, err error) {
-	_spec := sqlgraph.NewUpdateSpec(file.Table, file.Columns, sqlgraph.NewFieldSpec(file.FieldID, field.TypeUint64))
+	_spec := sqlgraph.NewUpdateSpec(file.Table, file.Columns, sqlgraph.NewFieldSpec(file.FieldID, field.TypeUUID))
 	id, ok := fuo.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "File.id" for update`)}
@@ -406,9 +391,6 @@ func (fuo *FileUpdateOne) sqlSave(ctx context.Context) (_node *File, err error) 
 	}
 	if fuo.mutation.StatusCleared() {
 		_spec.ClearField(file.FieldStatus, field.TypeUint8)
-	}
-	if value, ok := fuo.mutation.UUID(); ok {
-		_spec.SetField(file.FieldUUID, field.TypeString, value)
 	}
 	if value, ok := fuo.mutation.Name(); ok {
 		_spec.SetField(file.FieldName, field.TypeString, value)

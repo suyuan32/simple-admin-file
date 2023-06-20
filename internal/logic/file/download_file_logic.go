@@ -2,6 +2,7 @@ package file
 
 import (
 	"context"
+	"github.com/suyuan32/simple-admin-common/utils/uuidx"
 	"path"
 
 	"github.com/suyuan32/simple-admin-file/internal/utils/dberrorhandler"
@@ -26,8 +27,8 @@ func NewDownloadFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Down
 	}
 }
 
-func (l *DownloadFileLogic) DownloadFile(req *types.IDPathReq) (filePath string, err error) {
-	file, err := l.svcCtx.DB.File.Get(l.ctx, req.Id)
+func (l *DownloadFileLogic) DownloadFile(req *types.UUIDPathReq) (filePath string, err error) {
+	file, err := l.svcCtx.DB.File.Get(l.ctx, uuidx.ParseUUIDString(req.Id))
 
 	if err != nil {
 		return "", dberrorhandler.DefaultEntError(l.Logger, err, req)

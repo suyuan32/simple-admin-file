@@ -69,12 +69,11 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 
 	for _, v := range files.List {
 		resp.Data.Data = append(resp.Data.Data, types.FileInfo{
-			BaseIDInfo: types.BaseIDInfo{
-				Id:        &v.ID,
+			BaseUUIDInfo: types.BaseUUIDInfo{
+				Id:        pointy.GetPointer(v.ID.String()),
 				CreatedAt: pointy.GetPointer(v.CreatedAt.UnixMilli()),
 				UpdatedAt: pointy.GetPointer(v.UpdatedAt.UnixMilli()),
 			},
-			UUID:       &v.UUID,
 			UserUUID:   &v.UserUUID,
 			Name:       &v.Name,
 			FileType:   &v.FileType,

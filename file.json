@@ -35,7 +35,7 @@
             "in": "body",
             "schema": {
               "type": "object",
-              "$ref": "#/definitions/IDsReq"
+              "$ref": "#/definitions/UUIDsReq"
             }
           }
         ],
@@ -307,10 +307,6 @@
       "description": "The response data of file information | 文件信息数据",
       "type": "object",
       "properties": {
-        "UUID": {
-          "description": "UUID",
-          "type": "string"
-        },
         "createdAt": {
           "description": "Create date | 创建日期",
           "type": "integer",
@@ -325,8 +321,7 @@
         },
         "id": {
           "description": "ID",
-          "type": "integer",
-          "format": "uint64",
+          "type": "string",
           "x-go-name": "Id"
         },
         "name": {
@@ -541,8 +536,7 @@
       "properties": {
         "id": {
           "description": "ID",
-          "type": "integer",
-          "format": "uint64",
+          "type": "string",
           "x-go-name": "Id"
         },
         "status": {
@@ -550,6 +544,20 @@
           "type": "integer",
           "format": "uint64",
           "x-go-name": "Status"
+        }
+      },
+      "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"
+    },
+    "UUIDPathReq": {
+      "description": "Basic path UUID request | 基础UUID地址参数请求",
+      "type": "object",
+      "required": [
+        "Id"
+      ],
+      "properties": {
+        "Id": {
+          "description": "ID",
+          "type": "string"
         }
       },
       "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"
@@ -598,8 +606,7 @@
       "properties": {
         "id": {
           "description": "ID",
-          "type": "integer",
-          "format": "uint64",
+          "type": "string",
           "x-go-name": "ID"
         },
         "name": {

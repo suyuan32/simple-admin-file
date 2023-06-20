@@ -28,7 +28,7 @@ import (
 
 func DownloadFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.IDPathReq
+		var req types.UUIDPathReq
 		if err := httpx.Parse(r, &req, false); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return

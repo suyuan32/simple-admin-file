@@ -10,6 +10,7 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	uuid "github.com/gofrs/uuid/v5"
 	"github.com/suyuan32/simple-admin-file/ent/file"
 )
 
@@ -62,12 +63,6 @@ func (fc *FileCreate) SetNillableStatus(u *uint8) *FileCreate {
 	return fc
 }
 
-// SetUUID sets the "uuid" field.
-func (fc *FileCreate) SetUUID(s string) *FileCreate {
-	fc.mutation.SetUUID(s)
-	return fc
-}
-
 // SetName sets the "name" field.
 func (fc *FileCreate) SetName(s string) *FileCreate {
 	fc.mutation.SetName(s)
@@ -105,8 +100,16 @@ func (fc *FileCreate) SetMd5(s string) *FileCreate {
 }
 
 // SetID sets the "id" field.
-func (fc *FileCreate) SetID(u uint64) *FileCreate {
+func (fc *FileCreate) SetID(u uuid.UUID) *FileCreate {
 	fc.mutation.SetID(u)
+	return fc
+}
+
+// SetNillableID sets the "id" field if the given value is not nil.
+func (fc *FileCreate) SetNillableID(u *uuid.UUID) *FileCreate {
+	if u != nil {
+		fc.SetID(*u)
+	}
 	return fc
 }
 
@@ -157,6 +160,10 @@ func (fc *FileCreate) defaults() {
 		v := file.DefaultStatus
 		fc.mutation.SetStatus(v)
 	}
+	if _, ok := fc.mutation.ID(); !ok {
+		v := file.DefaultID()
+		fc.mutation.SetID(v)
+	}
 }
 
 // check runs all checks and user-defined validators on the builder.
@@ -166,9 +173,6 @@ func (fc *FileCreate) check() error {
 	}
 	if _, ok := fc.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "File.updated_at"`)}
-	}
-	if _, ok := fc.mutation.UUID(); !ok {
-		return &ValidationError{Name: "uuid", err: errors.New(`ent: missing required field "File.uuid"`)}
 	}
 	if _, ok := fc.mutation.Name(); !ok {
 		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "File.name"`)}
@@ -202,9 +206,12 @@ func (fc *FileCreate) sqlSave(ctx context.Context) (*File, error) {
 		}
 		return nil, err
 	}
-	if _spec.ID.Value != _node.ID {
-		id := _spec.ID.Value.(int64)
-		_node.ID = uint64(id)
+	if _spec.ID.Value != nil {
+		if id, ok := _spec.ID.Value.(*uuid.UUID); ok {
+			_node.ID = *id
+		} else if err := _node.ID.Scan(_spec.ID.Value); err != nil {
+			return nil, err
+		}
 	}
 	fc.mutation.id = &_node.ID
 	fc.mutation.done = true
@@ -214,11 +221,11 @@ func (fc *FileCreate) sqlSave(ctx context.Context) (*File, error) {
 func (fc *FileCreate) createSpec() (*File, *sqlgraph.CreateSpec) {
 	var (
 		_node = &File{config: fc.config}
-		_spec = sqlgraph.NewCreateSpec(file.Table, sqlgraph.NewFieldSpec(file.FieldID, field.TypeUint64))
+		_spec = sqlgraph.NewCreateSpec(file.Table, sqlgraph.NewFieldSpec(file.FieldID, field.TypeUUID))
 	)
 	if id, ok := fc.mutation.ID(); ok {
 		_node.ID = id
-		_spec.ID.Value = id
+		_spec.ID.Value = &id
 	}
 	if value, ok := fc.mutation.CreatedAt(); ok {
 		_spec.SetField(file.FieldCreatedAt, field.TypeTime, value)
@@ -231,10 +238,6 @@ func (fc *FileCreate) createSpec() (*File, *sqlgraph.CreateSpec) {
 	if value, ok := fc.mutation.Status(); ok {
 		_spec.SetField(file.FieldStatus, field.TypeUint8, value)
 		_node.Status = value
-	}
-	if value, ok := fc.mutation.UUID(); ok {
-		_spec.SetField(file.FieldUUID, field.TypeString, value)
-		_node.UUID = value
 	}
 	if value, ok := fc.mutation.Name(); ok {
 		_spec.SetField(file.FieldName, field.TypeString, value)
@@ -304,10 +307,6 @@ func (fcb *FileCreateBulk) Save(ctx context.Context) ([]*File, error) {
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
-					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = uint64(id)
-				}
 				mutation.done = true
 				return nodes[i], nil
 			})

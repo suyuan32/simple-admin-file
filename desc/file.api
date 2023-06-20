@@ -32,7 +32,7 @@ type (
 	UpdateFileReq {
 		// ID
 		// Required : true
-		ID uint64 `json:"id"`
+		ID string `json:"id"`
 
 		// File name | 文件名
 		// Required : true
@@ -54,10 +54,7 @@ type (
 
 	// The response data of file information | 文件信息数据
 	FileInfo {
-		BaseIDInfo
-
-		// UUID
-		UUID *string `json:"UUID"`
+		BaseUUIDInfo
 
 		// User's UUID | 用户的UUID
 		UserUUID *string `json:"userUUID"`
@@ -115,7 +112,7 @@ service File {
 	
 	// Delete file information | 删除文件信息
 	@handler deleteFile
-	post /file/delete (IDsReq) returns (BaseMsgResp)
+	post /file/delete (UUIDsReq) returns (BaseMsgResp)
 	
 	// Change file public status | 改变文件公开状态
 	@handler changePublicStatus
@@ -123,7 +120,7 @@ service File {
 	
 	// Download file | 下载文件
 	@handler downloadFile
-	get /file/download/:id (IDPathReq)
+	get /file/download/:id (UUIDPathReq)
 }
 
 @server(

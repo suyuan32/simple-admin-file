@@ -6,7 +6,7 @@ require (
 	entgo.io/ent v0.12.3
 	github.com/casbin/casbin/v2 v2.70.0
 	github.com/suyuan32/knife v0.0.1-beta.1
-	github.com/suyuan32/simple-admin-common v1.0.10
+	github.com/suyuan32/simple-admin-common v1.0.11
 	github.com/suyuan32/simple-admin-core v1.0.10
 	github.com/zeromicro/go-zero v1.5.3
 	google.golang.org/grpc v1.55.0

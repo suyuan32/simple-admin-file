@@ -53,30 +53,6 @@ func (f *FileCreate) SetNotNilStatus(value *uint8) *FileCreate {
 }
 
 // set field if value's pointer is not nil.
-func (f *FileUpdate) SetNotNilUUID(value *string) *FileUpdate {
-	if value != nil {
-		return f.SetUUID(*value)
-	}
-	return f
-}
-
-// set field if value's pointer is not nil.
-func (f *FileUpdateOne) SetNotNilUUID(value *string) *FileUpdateOne {
-	if value != nil {
-		return f.SetUUID(*value)
-	}
-	return f
-}
-
-// set field if value's pointer is not nil.
-func (f *FileCreate) SetNotNilUUID(value *string) *FileCreate {
-	if value != nil {
-		return f.SetUUID(*value)
-	}
-	return f
-}
-
-// set field if value's pointer is not nil.
 func (f *FileUpdate) SetNotNilName(value *string) *FileUpdate {
 	if value != nil {
 		return f.SetName(*value)

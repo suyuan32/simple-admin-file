@@ -2,6 +2,7 @@ package file
 
 import (
 	"context"
+	"github.com/suyuan32/simple-admin-common/utils/uuidx"
 	file2 "github.com/suyuan32/simple-admin-file/ent/file"
 	"os"
 
@@ -32,15 +33,15 @@ func NewDeleteFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 	}
 }
 
-func (l *DeleteFileLogic) DeleteFile(req *types.IDsReq) (resp *types.BaseMsgResp, err error) {
+func (l *DeleteFileLogic) DeleteFile(req *types.UUIDsReq) (resp *types.BaseMsgResp, err error) {
 	err = entx.WithTx(l.ctx, l.svcCtx.DB, func(tx *ent.Tx) error {
-		files, err := tx.File.Query().Where(file2.IDIn(req.Ids...)).All(l.ctx)
+		files, err := tx.File.Query().Where(file2.IDIn(uuidx.ParseUUIDSlice(req.Ids)...)).All(l.ctx)
 
 		if err != nil {
 			return err
 		}
 
-		_, err = tx.File.Delete().Where(file2.IDIn(req.Ids...)).Exec(l.ctx)
+		_, err = tx.File.Delete().Where(file2.IDIn(uuidx.ParseUUIDSlice(req.Ids)...)).Exec(l.ctx)
 
 		if err != nil {
 			return err

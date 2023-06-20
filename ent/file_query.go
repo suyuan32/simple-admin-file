@@ -10,6 +10,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
+	uuid "github.com/gofrs/uuid/v5"
 	"github.com/suyuan32/simple-admin-file/ent/file"
 	"github.com/suyuan32/simple-admin-file/ent/predicate"
 )
@@ -81,8 +82,8 @@ func (fq *FileQuery) FirstX(ctx context.Context) *File {
 
 // FirstID returns the first File ID from the query.
 // Returns a *NotFoundError when no File ID was found.
-func (fq *FileQuery) FirstID(ctx context.Context) (id uint64, err error) {
-	var ids []uint64
+func (fq *FileQuery) FirstID(ctx context.Context) (id uuid.UUID, err error) {
+	var ids []uuid.UUID
 	if ids, err = fq.Limit(1).IDs(setContextOp(ctx, fq.ctx, "FirstID")); err != nil {
 		return
 	}
@@ -94,7 +95,7 @@ func (fq *FileQuery) FirstID(ctx context.Context) (id uint64, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (fq *FileQuery) FirstIDX(ctx context.Context) uint64 {
+func (fq *FileQuery) FirstIDX(ctx context.Context) uuid.UUID {
 	id, err := fq.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -132,8 +133,8 @@ func (fq *FileQuery) OnlyX(ctx context.Context) *File {
 // OnlyID is like Only, but returns the only File ID in the query.
 // Returns a *NotSingularError when more than one File ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (fq *FileQuery) OnlyID(ctx context.Context) (id uint64, err error) {
-	var ids []uint64
+func (fq *FileQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
+	var ids []uuid.UUID
 	if ids, err = fq.Limit(2).IDs(setContextOp(ctx, fq.ctx, "OnlyID")); err != nil {
 		return
 	}
@@ -149,7 +150,7 @@ func (fq *FileQuery) OnlyID(ctx context.Context) (id uint64, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (fq *FileQuery) OnlyIDX(ctx context.Context) uint64 {
+func (fq *FileQuery) OnlyIDX(ctx context.Context) uuid.UUID {
 	id, err := fq.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -177,7 +178,7 @@ func (fq *FileQuery) AllX(ctx context.Context) []*File {
 }
 
 // IDs executes the query and returns a list of File IDs.
-func (fq *FileQuery) IDs(ctx context.Context) (ids []uint64, err error) {
+func (fq *FileQuery) IDs(ctx context.Context) (ids []uuid.UUID, err error) {
 	if fq.ctx.Unique == nil && fq.path != nil {
 		fq.Unique(true)
 	}
@@ -189,7 +190,7 @@ func (fq *FileQuery) IDs(ctx context.Context) (ids []uint64, err error) {
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (fq *FileQuery) IDsX(ctx context.Context) []uint64 {
+func (fq *FileQuery) IDsX(ctx context.Context) []uuid.UUID {
 	ids, err := fq.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -364,7 +365,7 @@ func (fq *FileQuery) sqlCount(ctx context.Context) (int, error) {
 }
 
 func (fq *FileQuery) querySpec() *sqlgraph.QuerySpec {
-	_spec := sqlgraph.NewQuerySpec(file.Table, file.Columns, sqlgraph.NewFieldSpec(file.FieldID, field.TypeUint64))
+	_spec := sqlgraph.NewQuerySpec(file.Table, file.Columns, sqlgraph.NewFieldSpec(file.FieldID, field.TypeUUID))
 	_spec.From = fq.sql
 	if unique := fq.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
