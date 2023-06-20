@@ -17,7 +17,7 @@ VERSION=$(shell git describe --tags --always)
 PROJECT_STYLE=go_zero
 
 # Whether to use i18n | 是否启用 i18n
-PROJECT_I18N=false
+PROJECT_I18N=true
 
 # The suffix after build or compile | 构建后缀
 PROJECT_BUILD_SUFFIX=api
