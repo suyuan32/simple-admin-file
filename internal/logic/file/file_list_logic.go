@@ -2,6 +2,7 @@ package file
 
 import (
 	"context"
+	"github.com/suyuan32/simple-admin-common/utils/pointy"
 	"time"
 
 	"github.com/suyuan32/simple-admin-common/enum/errorcode"
@@ -36,12 +37,12 @@ func NewFileListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FileList
 func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListResp, err error) {
 	var predicates []predicate.File
 
-	if req.FileType != 0 {
-		predicates = append(predicates, file.FileTypeEQ(req.FileType))
+	if req.FileType != nil && *req.FileType != 0 {
+		predicates = append(predicates, file.FileTypeEQ(*req.FileType))
 	}
 
-	if req.FileName != "" {
-		predicates = append(predicates, file.NameContains(req.FileName))
+	if req.FileName != nil {
+		predicates = append(predicates, file.NameContains(*req.FileName))
 	}
 
 	if req.Period != nil {
@@ -68,19 +69,19 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 
 	for _, v := range files.List {
 		resp.Data.Data = append(resp.Data.Data, types.FileInfo{
-			BaseInfo: types.BaseInfo{
-				Id:        v.ID,
-				CreatedAt: v.CreatedAt.UnixMilli(),
-				UpdatedAt: v.UpdatedAt.UnixMilli(),
+			BaseIDInfo: types.BaseIDInfo{
+				Id:        &v.ID,
+				CreatedAt: pointy.GetPointer(v.CreatedAt.UnixMilli()),
+				UpdatedAt: pointy.GetPointer(v.UpdatedAt.UnixMilli()),
 			},
-			UUID:       v.UUID,
-			UserUUID:   v.UserUUID,
-			Name:       v.Name,
-			FileType:   v.FileType,
-			Size:       v.Size,
-			Path:       v.Path,
-			Status:     v.Status,
-			PublicPath: l.svcCtx.Config.UploadConf.ServerURL + v.Path,
+			UUID:       &v.UUID,
+			UserUUID:   &v.UserUUID,
+			Name:       &v.Name,
+			FileType:   &v.FileType,
+			Size:       &v.Size,
+			Path:       &v.Path,
+			Status:     &v.Status,
+			PublicPath: pointy.GetPointer(l.svcCtx.Config.UploadConf.ServerURL + v.Path),
 		})
 	}
 

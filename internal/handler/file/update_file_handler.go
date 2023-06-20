@@ -10,7 +10,7 @@ import (
 	"github.com/suyuan32/simple-admin-file/internal/types"
 )
 
-// swagger:route post /file file UpdateFile
+// swagger:route post /file/update file UpdateFile
 //
 // Update file information | 更新文件信息
 //

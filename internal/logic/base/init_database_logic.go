@@ -2,6 +2,7 @@ package base
 
 import (
 	"context"
+	"github.com/suyuan32/simple-admin-common/utils/pointy"
 
 	"entgo.io/ent/dialect/sql/schema"
 	"github.com/suyuan32/simple-admin-common/enum/errorcode"
@@ -57,10 +58,10 @@ func (l *InitDatabaseLogic) InitDatabase() (resp *types.BaseMsgResp, err error) 
 func (l *InitDatabaseLogic) initApi() error {
 	// create API in core service
 	_, err := l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
-		Path:        "/upload",
-		Description: "apiDesc.uploadFile",
-		ApiGroup:    "file",
-		Method:      "POST",
+		Path:        pointy.GetPointer("/upload"),
+		Description: pointy.GetPointer("apiDesc.uploadFile"),
+		ApiGroup:    pointy.GetPointer("file"),
+		Method:      pointy.GetPointer("POST"),
 	})
 
 	if err != nil {
@@ -68,10 +69,10 @@ func (l *InitDatabaseLogic) initApi() error {
 	}
 
 	_, err = l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
-		Path:        "/file/list",
-		Description: "apiDesc.fileList",
-		ApiGroup:    "file",
-		Method:      "POST",
+		Path:        pointy.GetPointer("/file/list"),
+		Description: pointy.GetPointer("apiDesc.fileList"),
+		ApiGroup:    pointy.GetPointer("file"),
+		Method:      pointy.GetPointer("POST"),
 	})
 
 	if err != nil {
@@ -79,10 +80,10 @@ func (l *InitDatabaseLogic) initApi() error {
 	}
 
 	_, err = l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
-		Path:        "/file",
-		Description: "apiDesc.updateFileInfo",
-		ApiGroup:    "file",
-		Method:      "POST",
+		Path:        pointy.GetPointer("/file/update"),
+		Description: pointy.GetPointer("apiDesc.updateFileInfo"),
+		ApiGroup:    pointy.GetPointer("file"),
+		Method:      pointy.GetPointer("POST"),
 	})
 
 	if err != nil {
@@ -90,10 +91,10 @@ func (l *InitDatabaseLogic) initApi() error {
 	}
 
 	_, err = l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
-		Path:        "/file/status",
-		Description: "apiDesc.setPublicStatus",
-		ApiGroup:    "file",
-		Method:      "POST",
+		Path:        pointy.GetPointer("/file/status"),
+		Description: pointy.GetPointer("apiDesc.setPublicStatus"),
+		ApiGroup:    pointy.GetPointer("file"),
+		Method:      pointy.GetPointer("POST"),
 	})
 
 	if err != nil {
@@ -101,10 +102,10 @@ func (l *InitDatabaseLogic) initApi() error {
 	}
 
 	_, err = l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
-		Path:        "/file",
-		Description: "apiDesc.deleteFile",
-		ApiGroup:    "file",
-		Method:      "DELETE",
+		Path:        pointy.GetPointer("/file/delete"),
+		Description: pointy.GetPointer("apiDesc.deleteFile"),
+		ApiGroup:    pointy.GetPointer("file"),
+		Method:      pointy.GetPointer("POST"),
 	})
 
 	if err != nil {
@@ -112,10 +113,10 @@ func (l *InitDatabaseLogic) initApi() error {
 	}
 
 	_, err = l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
-		Path:        "/file/download/:id",
-		Description: "apiDesc.downloadFile",
-		ApiGroup:    "file",
-		Method:      "GET",
+		Path:        pointy.GetPointer("/file/download/:id"),
+		Description: pointy.GetPointer("apiDesc.downloadFile"),
+		ApiGroup:    pointy.GetPointer("file"),
+		Method:      pointy.GetPointer("GET"),
 	})
 
 	if err != nil {

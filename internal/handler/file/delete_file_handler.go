@@ -10,7 +10,7 @@ import (
 	"github.com/suyuan32/simple-admin-file/internal/types"
 )
 
-// swagger:route delete /file file DeleteFile
+// swagger:route post /file/delete file DeleteFile
 //
 // Delete file information | 删除文件信息
 //
@@ -20,14 +20,14 @@ import (
 //  + name: body
 //    require: true
 //    in: body
-//    type: IDReq
+//    type: IDsReq
 //
 // Responses:
 //  200: BaseMsgResp
 
 func DeleteFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.IDReq
+		var req types.IDsReq
 		if err := httpx.Parse(r, &req, true); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return

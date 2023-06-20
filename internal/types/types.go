@@ -30,23 +30,20 @@ type BaseMsgResp struct {
 	Msg string `json:"msg"`
 }
 
-// The simplest message | 最简单的信息
-type SimpleMsg struct {
-	// Message | 信息
-	Msg string `json:"msg"`
-}
-
 // The page request parameters | 列表请求参数
 // swagger:model PageInfo
 type PageInfo struct {
 	// Page number | 第几页
-	Page uint64 `json:"page" validate:"number"`
+	// required : true
+	// min : 0
+	Page uint64 `json:"page" validate:"required,number,gt=0"`
 	// Page size | 单页数据行数
-	// max length : 100000
-	PageSize uint64 `json:"pageSize" validate:"number,max=100000"`
+	// required : true
+	// max : 100000
+	PageSize uint64 `json:"pageSize" validate:"required,number,lt=100000"`
 }
 
-// Basic ID request | 基础id参数请求
+// Basic ID request | 基础ID参数请求
 // swagger:model IDReq
 type IDReq struct {
 	// ID
@@ -54,33 +51,59 @@ type IDReq struct {
 	Id uint64 `json:"id" validate:"number"`
 }
 
-// Basic ID request in path | 基础ID地址参数请求
-// swagger:parameters DownloadFile
+// Basic IDs request | 基础ID数组参数请求
+// swagger:model IDsReq
+type IDsReq struct {
+	// IDs
+	// Required: true
+	Ids []uint64 `json:"ids"`
+}
+
+// Basic ID request | 基础ID地址参数请求
+// swagger:model IDPathReq
 type IDPathReq struct {
 	// ID
 	// Required: true
-	// in: path
-	Id uint64 `json:"id,optional" path:"id"`
+	Id uint64 `path:"id"`
 }
 
 // Basic UUID request | 基础UUID参数请求
 // swagger:model UUIDReq
 type UUIDReq struct {
-	// UUID
-	// max length : 36
-	// min length : 36
-	UUID string `json:"UUID" validate:"len=36"`
+	// ID
+	// Required: true
+	// Max length: 36
+	Id string `json:"id" validate:"len=36"`
 }
 
-// The base response data | 基础信息
-// swagger:model BaseInfo
-type BaseInfo struct {
+// Basic UUID array request | 基础UUID数组参数请求
+// swagger:model UUIDsReq
+type UUIDsReq struct {
+	// Ids
+	// Required: true
+	Ids []string `json:"ids"`
+}
+
+// The base ID response data | 基础ID信息
+// swagger:model BaseIDInfo
+type BaseIDInfo struct {
 	// ID
-	Id uint64 `json:"id"`
+	Id *uint64 `json:"id,optional"`
 	// Create date | 创建日期
-	CreatedAt int64 `json:"createdAt,optional"`
+	CreatedAt *int64 `json:"createdAt,optional"`
 	// Update date | 更新日期
-	UpdatedAt int64 `json:"updatedAt,optional"`
+	UpdatedAt *int64 `json:"updatedAt,optional"`
+}
+
+// The base UUID response data | 基础UUID信息
+// swagger:model BaseUUIDInfo
+type BaseUUIDInfo struct {
+	// ID
+	Id *string `json:"id,optional"`
+	// Create date | 创建日期
+	CreatedAt *int64 `json:"createdAt,optional"`
+	// Update date | 更新日期
+	UpdatedAt *int64 `json:"updatedAt,optional"`
 }
 
 // The request params of setting boolean status | 设置状态参数
@@ -117,7 +140,6 @@ type UpdateFileReq struct {
 	ID uint64 `json:"id"`
 	// File name | 文件名
 	// Required : true
-	// Max length: 50
 	Name string `json:"name" validate:"max=50"`
 }
 
@@ -127,10 +149,10 @@ type FileListReq struct {
 	PageInfo
 	// File type | 文件类型
 	// max length : 10
-	FileType uint8 `json:"fileType,optional" validate:"omitempty,alpha,max=10"`
+	FileType *uint8 `json:"fileType,optional" validate:"omitempty,max=10"`
 	// File name | 文件名
 	// max length : 50
-	FileName string `json:"fileName,optional" validate:"max=50"`
+	FileName *string `json:"fileName,optional" validate:"omitempty,max=50"`
 	// Create date period | 创建日期时间段
 	Period []string `json:"period,optional"`
 }
@@ -138,24 +160,24 @@ type FileListReq struct {
 // The response data of file information | 文件信息数据
 // swagger:model FileInfo
 type FileInfo struct {
-	BaseInfo
+	BaseIDInfo
 	// UUID
-	UUID string `json:"UUID"`
+	UUID *string `json:"UUID"`
 	// User's UUID | 用户的UUID
-	UserUUID string `json:"userUUID"`
+	UserUUID *string `json:"userUUID"`
 	// File name | 文件名
-	Name string `json:"name"`
+	Name *string `json:"name"`
 	// File type | 文件类型
-	FileType uint8 `json:"fileType"`
+	FileType *uint8 `json:"fileType"`
 	// File size | 文件大小
-	Size uint64 `json:"size"`
+	Size *uint64 `json:"size"`
 	// File path | 文件路径
-	Path string `json:"path"`
+	Path *string `json:"path"`
 	// File public status | 文件公开状态
 	// false private true public | false 私人, true公开
-	Status uint8 `json:"status"`
+	Status *uint8 `json:"status"`
 	// The public URL | 公开访问的链接
-	PublicPath string `json:"publicPath"`
+	PublicPath *string `json:"publicPath"`
 }
 
 // The response data of file information list | 文件信息列表数据

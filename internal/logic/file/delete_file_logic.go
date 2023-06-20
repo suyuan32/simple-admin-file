@@ -2,6 +2,7 @@ package file
 
 import (
 	"context"
+	file2 "github.com/suyuan32/simple-admin-file/ent/file"
 	"os"
 
 	"github.com/suyuan32/simple-admin-common/i18n"
@@ -31,29 +32,31 @@ func NewDeleteFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Delete
 	}
 }
 
-func (l *DeleteFileLogic) DeleteFile(req *types.IDReq) (resp *types.BaseMsgResp, err error) {
+func (l *DeleteFileLogic) DeleteFile(req *types.IDsReq) (resp *types.BaseMsgResp, err error) {
 	err = entx.WithTx(l.ctx, l.svcCtx.DB, func(tx *ent.Tx) error {
-		file, err := tx.File.Get(l.ctx, req.Id)
+		files, err := tx.File.Query().Where(file2.IDIn(req.Ids...)).All(l.ctx)
 
 		if err != nil {
 			return err
 		}
 
-		err = tx.File.DeleteOneID(req.Id).Exec(l.ctx)
+		_, err = tx.File.Delete().Where(file2.IDIn(req.Ids...)).Exec(l.ctx)
 
 		if err != nil {
 			return err
 		}
 
-		if file.Status == 1 {
-			err = os.RemoveAll(l.svcCtx.Config.UploadConf.PublicStorePath + file.Path)
-			if err != nil {
-				return err
-			}
-		} else {
-			err = os.RemoveAll(l.svcCtx.Config.UploadConf.PrivateStorePath + file.Path)
-			if err != nil {
-				return err
+		for _, v := range files {
+			if v.Status == 1 {
+				err = os.RemoveAll(l.svcCtx.Config.UploadConf.PublicStorePath + v.Path)
+				if err != nil {
+					return err
+				}
+			} else {
+				err = os.RemoveAll(l.svcCtx.Config.UploadConf.PrivateStorePath + v.Path)
+				if err != nil {
+					return err
+				}
 			}
 		}
 

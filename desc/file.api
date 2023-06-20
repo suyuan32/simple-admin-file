@@ -36,7 +36,6 @@ type (
 
 		// File name | 文件名
 		// Required : true
-		// Max length: 50
 		Name string `json:"name" validate:"max=50"`
 	}
 
@@ -44,10 +43,10 @@ type (
 	FileListReq {
 		PageInfo
 		// File type | 文件类型
-		FileType uint8 `json:"fileType,optional" validate:"omitempty,alpha,max=10"`
+		FileType *uint8 `json:"fileType,optional" validate:"omitempty,max=10"`
 
 		// File name | 文件名
-		FileName string `json:"fileName,optional" validate:"max=50"`
+		FileName *string `json:"fileName,optional" validate:"omitempty,max=50"`
 
 		// Create date period | 创建日期时间段
 		Period []string `json:"period,optional"`
@@ -55,32 +54,32 @@ type (
 
 	// The response data of file information | 文件信息数据
 	FileInfo {
-		BaseInfo
+		BaseIDInfo
 
 		// UUID
-		UUID string `json:"UUID"`
+		UUID *string `json:"UUID"`
 
 		// User's UUID | 用户的UUID
-		UserUUID string `json:"userUUID"`
+		UserUUID *string `json:"userUUID"`
 
 		// File name | 文件名
-		Name string `json:"name"`
+		Name *string `json:"name"`
 
 		// File type | 文件类型
-		FileType uint8 `json:"fileType"`
+		FileType *uint8 `json:"fileType"`
 
 		// File size | 文件大小
-		Size uint64 `json:"size"`
+		Size *uint64 `json:"size"`
 
 		// File path | 文件路径
-		Path string `json:"path"`
+		Path *string `json:"path"`
 
 		// File public status | 文件公开状态
 		// false private true public | false 私人, true公开
-		Status uint8 `json:"status"`
+		Status *uint8 `json:"status"`
 
 		// The public URL | 公开访问的链接
-		PublicPath string `json:"publicPath"`
+		PublicPath *string `json:"publicPath"`
 	}
 
 	// The response data of file information list | 文件信息列表数据
@@ -116,7 +115,7 @@ service File {
 	
 	// Delete file information | 删除文件信息
 	@handler deleteFile
-	post /file/delete (IDReq) returns (BaseMsgResp)
+	post /file/delete (IDsReq) returns (BaseMsgResp)
 	
 	// Change file public status | 改变文件公开状态
 	@handler changePublicStatus

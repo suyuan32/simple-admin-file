@@ -3,6 +3,7 @@ package file
 import (
 	"context"
 	"fmt"
+	"github.com/suyuan32/simple-admin-common/utils/pointy"
 	"io"
 	"net/http"
 	"os"
@@ -129,14 +130,14 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 		fileType, timeString, storeFileName)
 
 	err = l.svcCtx.DB.File.Create().
-		SetUUID(fileUUID).
-		SetName(fileName).
-		SetFileType(filex.ConvertFileTypeToUint8(fileType)).
-		SetPath(relativePath).
-		SetUserUUID(userId).
-		SetMd5(l.r.MultipartForm.Value["md5"][0]).
-		SetStatus(1).
-		SetSize(uint64(handler.Size)).
+		SetNotNilUUID(&fileUUID).
+		SetNotNilName(&fileName).
+		SetNotNilFileType(pointy.GetPointer(filex.ConvertFileTypeToUint8(fileType))).
+		SetNotNilPath(&relativePath).
+		SetNotNilUserUUID(&userId).
+		SetNotNilMd5(pointy.GetPointer(l.r.MultipartForm.Value["md5"][0])).
+		SetNotNilStatus(pointy.GetPointer(uint8(1))).
+		SetNotNilSize(pointy.GetPointer(uint64(handler.Size))).
 		Exec(l.ctx)
 
 	if err != nil {
