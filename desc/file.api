@@ -36,7 +36,10 @@ type (
 
 		// File name | 文件名
 		// Required : true
-		Name string `json:"name" validate:"max=50"`
+		Name *string `json:"name,optional" validate:"max=50"`
+
+		// File tag | 文件标签
+		TagIds  []uint64  `json:"tagIds,optional"`
 	}
 
 	// Get file list params | 获取文件列表参数

@@ -6,6 +6,7 @@ import (
 
 	base "github.com/suyuan32/simple-admin-file/internal/handler/base"
 	file "github.com/suyuan32/simple-admin-file/internal/handler/file"
+	tag "github.com/suyuan32/simple-admin-file/internal/handler/tag"
 	"github.com/suyuan32/simple-admin-file/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -64,6 +65,40 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: file.UploadHandler(serverCtx),
 			},
 		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Authority},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/tag/create",
+					Handler: tag.CreateTagHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/tag/update",
+					Handler: tag.UpdateTagHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/tag/delete",
+					Handler: tag.DeleteTagHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/tag/list",
+					Handler: tag.GetTagListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/tag",
+					Handler: tag.GetTagByIdHandler(serverCtx),
+				},
+			}...,
+		),
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 	)
 }

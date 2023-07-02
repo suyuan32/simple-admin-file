@@ -10,6 +10,7 @@ import (
 	"github.com/suyuan32/simple-admin-file/ent"
 	"github.com/suyuan32/simple-admin-file/ent/file"
 	"github.com/suyuan32/simple-admin-file/ent/predicate"
+	"github.com/suyuan32/simple-admin-file/ent/tag"
 )
 
 // The Query interface represents an operation that queries a graph.
@@ -95,11 +96,40 @@ func (f TraverseFile) Traverse(ctx context.Context, q ent.Query) error {
 	return fmt.Errorf("unexpected query type %T. expect *ent.FileQuery", q)
 }
 
+// The TagFunc type is an adapter to allow the use of ordinary function as a Querier.
+type TagFunc func(context.Context, *ent.TagQuery) (ent.Value, error)
+
+// Query calls f(ctx, q).
+func (f TagFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
+	if q, ok := q.(*ent.TagQuery); ok {
+		return f(ctx, q)
+	}
+	return nil, fmt.Errorf("unexpected query type %T. expect *ent.TagQuery", q)
+}
+
+// The TraverseTag type is an adapter to allow the use of ordinary function as Traverser.
+type TraverseTag func(context.Context, *ent.TagQuery) error
+
+// Intercept is a dummy implementation of Intercept that returns the next Querier in the pipeline.
+func (f TraverseTag) Intercept(next ent.Querier) ent.Querier {
+	return next
+}
+
+// Traverse calls f(ctx, q).
+func (f TraverseTag) Traverse(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.TagQuery); ok {
+		return f(ctx, q)
+	}
+	return fmt.Errorf("unexpected query type %T. expect *ent.TagQuery", q)
+}
+
 // NewQuery returns the generic Query interface for the given typed query.
 func NewQuery(q ent.Query) (Query, error) {
 	switch q := q.(type) {
 	case *ent.FileQuery:
 		return &query[*ent.FileQuery, predicate.File, file.OrderOption]{typ: ent.TypeFile, tq: q}, nil
+	case *ent.TagQuery:
+		return &query[*ent.TagQuery, predicate.Tag, tag.OrderOption]{typ: ent.TypeTag, tq: q}, nil
 	default:
 		return nil, fmt.Errorf("unknown query type %T", q)
 	}

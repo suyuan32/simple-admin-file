@@ -4,7 +4,9 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
+	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
+	"entgo.io/ent/schema/index"
 	"github.com/suyuan32/simple-admin-common/orm/ent/mixins"
 )
 
@@ -32,9 +34,18 @@ func (File) Mixin() []ent.Mixin {
 	}
 }
 
+func (File) Indexes() []ent.Index {
+	return []ent.Index{
+		index.Fields("user_uuid"),
+		index.Fields("file_type"),
+	}
+}
+
 // Edges of the File.
 func (File) Edges() []ent.Edge {
-	return nil
+	return []ent.Edge{
+		edge.From("tags", Tag.Type).Ref("files"),
+	}
 }
 
 func (File) Annotations() []schema.Annotation {

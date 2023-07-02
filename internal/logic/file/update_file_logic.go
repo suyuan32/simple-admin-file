@@ -30,7 +30,13 @@ func NewUpdateFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 }
 
 func (l *UpdateFileLogic) UpdateFile(req *types.UpdateFileReq) (resp *types.BaseMsgResp, err error) {
-	err = l.svcCtx.DB.File.UpdateOneID(uuidx.ParseUUIDString(req.ID)).SetName(req.Name).Exec(l.ctx)
+	query := l.svcCtx.DB.File.UpdateOneID(uuidx.ParseUUIDString(req.ID)).SetNotNilName(req.Name)
+
+	if req.TagIds != nil {
+		query.AddTagIDs(req.TagIds...)
+	}
+
+	err = query.Exec(l.ctx)
 
 	if err != nil {
 		return nil, dberrorhandler.DefaultEntError(l.Logger, err, req)

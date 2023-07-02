@@ -12,6 +12,7 @@ import (
 	"entgo.io/ent/schema/field"
 	uuid "github.com/gofrs/uuid/v5"
 	"github.com/suyuan32/simple-admin-file/ent/file"
+	"github.com/suyuan32/simple-admin-file/ent/tag"
 )
 
 // FileCreate is the builder for creating a File entity.
@@ -111,6 +112,21 @@ func (fc *FileCreate) SetNillableID(u *uuid.UUID) *FileCreate {
 		fc.SetID(*u)
 	}
 	return fc
+}
+
+// AddTagIDs adds the "tags" edge to the Tag entity by IDs.
+func (fc *FileCreate) AddTagIDs(ids ...uint64) *FileCreate {
+	fc.mutation.AddTagIDs(ids...)
+	return fc
+}
+
+// AddTags adds the "tags" edges to the Tag entity.
+func (fc *FileCreate) AddTags(t ...*Tag) *FileCreate {
+	ids := make([]uint64, len(t))
+	for i := range t {
+		ids[i] = t[i].ID
+	}
+	return fc.AddTagIDs(ids...)
 }
 
 // Mutation returns the FileMutation object of the builder.
@@ -262,6 +278,22 @@ func (fc *FileCreate) createSpec() (*File, *sqlgraph.CreateSpec) {
 	if value, ok := fc.mutation.Md5(); ok {
 		_spec.SetField(file.FieldMd5, field.TypeString, value)
 		_node.Md5 = value
+	}
+	if nodes := fc.mutation.TagsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   file.TagsTable,
+			Columns: file.TagsPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(tag.FieldID, field.TypeUint64),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec
 }

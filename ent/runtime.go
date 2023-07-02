@@ -8,6 +8,7 @@ import (
 	uuid "github.com/gofrs/uuid/v5"
 	"github.com/suyuan32/simple-admin-file/ent/file"
 	"github.com/suyuan32/simple-admin-file/ent/schema"
+	"github.com/suyuan32/simple-admin-file/ent/tag"
 )
 
 // The init function reads all schema descriptors with runtime code
@@ -39,4 +40,25 @@ func init() {
 	fileDescID := fileMixinFields0[0].Descriptor()
 	// file.DefaultID holds the default value on creation for the id field.
 	file.DefaultID = fileDescID.Default.(func() uuid.UUID)
+	tagMixin := schema.Tag{}.Mixin()
+	tagMixinFields0 := tagMixin[0].Fields()
+	_ = tagMixinFields0
+	tagMixinFields1 := tagMixin[1].Fields()
+	_ = tagMixinFields1
+	tagFields := schema.Tag{}.Fields()
+	_ = tagFields
+	// tagDescCreatedAt is the schema descriptor for created_at field.
+	tagDescCreatedAt := tagMixinFields0[1].Descriptor()
+	// tag.DefaultCreatedAt holds the default value on creation for the created_at field.
+	tag.DefaultCreatedAt = tagDescCreatedAt.Default.(func() time.Time)
+	// tagDescUpdatedAt is the schema descriptor for updated_at field.
+	tagDescUpdatedAt := tagMixinFields0[2].Descriptor()
+	// tag.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	tag.DefaultUpdatedAt = tagDescUpdatedAt.Default.(func() time.Time)
+	// tag.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	tag.UpdateDefaultUpdatedAt = tagDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// tagDescStatus is the schema descriptor for status field.
+	tagDescStatus := tagMixinFields1[0].Descriptor()
+	// tag.DefaultStatus holds the default value on creation for the status field.
+	tag.DefaultStatus = tagDescStatus.Default.(uint8)
 }

@@ -36,8 +36,29 @@ type File struct {
 	// User's UUID | 用户的 UUID
 	UserUUID string `json:"user_uuid,omitempty"`
 	// The md5 of the file | 文件的 md5
-	Md5          string `json:"md5,omitempty"`
+	Md5 string `json:"md5,omitempty"`
+	// Edges holds the relations/edges for other nodes in the graph.
+	// The values are being populated by the FileQuery when eager-loading is set.
+	Edges        FileEdges `json:"edges"`
 	selectValues sql.SelectValues
+}
+
+// FileEdges holds the relations/edges for other nodes in the graph.
+type FileEdges struct {
+	// Tags holds the value of the tags edge.
+	Tags []*Tag `json:"tags,omitempty"`
+	// loadedTypes holds the information for reporting if a
+	// type was loaded (or requested) in eager-loading or not.
+	loadedTypes [1]bool
+}
+
+// TagsOrErr returns the Tags value or an error if the edge
+// was not loaded in eager-loading.
+func (e FileEdges) TagsOrErr() ([]*Tag, error) {
+	if e.loadedTypes[0] {
+		return e.Tags, nil
+	}
+	return nil, &NotLoadedError{edge: "tags"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -139,6 +160,11 @@ func (f *File) assignValues(columns []string, values []any) error {
 // This includes values selected through modifiers, order, etc.
 func (f *File) Value(name string) (ent.Value, error) {
 	return f.selectValues.Get(name)
+}
+
+// QueryTags queries the "tags" edge of the File entity.
+func (f *File) QueryTags() *TagQuery {
+	return NewFileClient(f.config).QueryTags(f)
 }
 
 // Update returns a builder for updating this File.

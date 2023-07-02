@@ -3,18 +3,17 @@ package base
 import (
 	"context"
 	"github.com/suyuan32/simple-admin-common/utils/pointy"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 
 	"entgo.io/ent/dialect/sql/schema"
 	"github.com/suyuan32/simple-admin-common/enum/errorcode"
 	"github.com/suyuan32/simple-admin-common/i18n"
 	"github.com/suyuan32/simple-admin-common/msg/logmsg"
 	"github.com/suyuan32/simple-admin-core/rpc/types/core"
-	"github.com/zeromicro/go-zero/core/errorx"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-
 	"github.com/suyuan32/simple-admin-file/internal/svc"
 	"github.com/suyuan32/simple-admin-file/internal/types"
+	"github.com/zeromicro/go-zero/core/errorx"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -35,13 +34,15 @@ func NewInitDatabaseLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Init
 }
 
 func (l *InitDatabaseLogic) InitDatabase() (resp *types.BaseMsgResp, err error) {
-	err = l.initApi()
-	if err != nil {
-		if status.Code(err) == codes.InvalidArgument {
-			return nil, errorx.NewCodeError(errorcode.InvalidArgument,
-				l.svcCtx.Trans.Trans(l.ctx, "init.alreadyInit"))
+	if l.svcCtx.Config.CoreRpc.Enabled {
+		err = l.initApi()
+		if err != nil {
+			if status.Code(err) == codes.InvalidArgument {
+				return nil, errorx.NewCodeError(errorcode.InvalidArgument,
+					l.svcCtx.Trans.Trans(l.ctx, "init.alreadyInit"))
+			}
+			return nil, err
 		}
-		return nil, err
 	}
 
 	if err := l.svcCtx.DB.Schema.Create(l.ctx, schema.WithForeignKeys(false)); err != nil {

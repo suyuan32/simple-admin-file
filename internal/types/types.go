@@ -148,7 +148,9 @@ type UpdateFileReq struct {
 	ID string `json:"id"`
 	// File name | 文件名
 	// Required : true
-	Name string `json:"name" validate:"max=50"`
+	Name *string `json:"name,optional" validate:"max=50"`
+	// File tag | 文件标签
+	TagIds []uint64 `json:"tagIds,optional"`
 }
 
 // Get file list params | 获取文件列表参数
@@ -199,4 +201,50 @@ type FileListInfo struct {
 	BaseListInfo
 	// The file list data | 文件信息列表数据
 	Data []FileInfo `json:"data"`
+}
+
+// The response data of tag information | Tag信息
+// swagger:model TagInfo
+type TagInfo struct {
+	BaseIDInfo
+	// Status
+	Status *uint8 `json:"status,optional"`
+	// Name
+	Name *string `json:"name,optional"`
+	// Remark
+	Remark *string `json:"remark,optional"`
+}
+
+// The response data of tag list | Tag列表数据
+// swagger:model TagListResp
+type TagListResp struct {
+	BaseDataInfo
+	// Tag list data | Tag列表数据
+	Data TagListInfo `json:"data"`
+}
+
+// Tag list data | Tag列表数据
+// swagger:model TagListInfo
+type TagListInfo struct {
+	BaseListInfo
+	// The API list data | Tag列表数据
+	Data []TagInfo `json:"data"`
+}
+
+// Get tag list request params | Tag列表请求参数
+// swagger:model TagListReq
+type TagListReq struct {
+	PageInfo
+	// Name
+	Name *string `json:"name,optional"`
+	// Remark
+	Remark *string `json:"remark,optional"`
+}
+
+// Tag information response | Tag信息返回体
+// swagger:model TagInfoResp
+type TagInfoResp struct {
+	BaseDataInfo
+	// Tag information | Tag数据
+	Data TagInfo `json:"data"`
 }

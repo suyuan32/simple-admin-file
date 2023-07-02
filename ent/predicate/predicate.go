@@ -8,3 +8,6 @@ import (
 
 // File is the predicate function for file builders.
 type File func(*sql.Selector)
+
+// Tag is the predicate function for tag builders.
+type Tag func(*sql.Selector)

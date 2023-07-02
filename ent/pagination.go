@@ -7,6 +7,7 @@ import (
 	"fmt"
 
 	"github.com/suyuan32/simple-admin-file/ent/file"
+	"github.com/suyuan32/simple-admin-file/ent/tag"
 )
 
 const errInvalidPage = "INVALID_PAGE"
@@ -126,6 +127,85 @@ func (f *FileQuery) Page(
 
 	f = f.Offset(int((pageNum - 1) * pageSize)).Limit(int(pageSize))
 	list, err := f.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	ret.List = list
+
+	return ret, nil
+}
+
+type TagPager struct {
+	Order  tag.OrderOption
+	Filter func(*TagQuery) (*TagQuery, error)
+}
+
+// TagPaginateOption enables pagination customization.
+type TagPaginateOption func(*TagPager)
+
+// DefaultTagOrder is the default ordering of Tag.
+var DefaultTagOrder = Desc(tag.FieldID)
+
+func newTagPager(opts []TagPaginateOption) (*TagPager, error) {
+	pager := &TagPager{}
+	for _, opt := range opts {
+		opt(pager)
+	}
+	if pager.Order == nil {
+		pager.Order = DefaultTagOrder
+	}
+	return pager, nil
+}
+
+func (p *TagPager) ApplyFilter(query *TagQuery) (*TagQuery, error) {
+	if p.Filter != nil {
+		return p.Filter(query)
+	}
+	return query, nil
+}
+
+// TagPageList is Tag PageList result.
+type TagPageList struct {
+	List        []*Tag       `json:"list"`
+	PageDetails *PageDetails `json:"pageDetails"`
+}
+
+func (t *TagQuery) Page(
+	ctx context.Context, pageNum uint64, pageSize uint64, opts ...TagPaginateOption,
+) (*TagPageList, error) {
+
+	pager, err := newTagPager(opts)
+	if err != nil {
+		return nil, err
+	}
+
+	if t, err = pager.ApplyFilter(t); err != nil {
+		return nil, err
+	}
+
+	ret := &TagPageList{}
+
+	ret.PageDetails = &PageDetails{
+		Page: pageNum,
+		Size: pageSize,
+	}
+
+	count, err := t.Clone().Count(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+
+	ret.PageDetails.Total = uint64(count)
+
+	if pager.Order != nil {
+		t = t.Order(pager.Order)
+	} else {
+		t = t.Order(DefaultTagOrder)
+	}
+
+	t = t.Offset(int((pageNum - 1) * pageSize)).Limit(int(pageSize))
+	list, err := t.All(ctx)
 	if err != nil {
 		return nil, err
 	}
