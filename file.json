@@ -491,6 +491,15 @@
           "format": "uint8",
           "x-go-name": "Status"
         },
+        "tagIds": {
+          "description": "Tags' Id | 标签 ID",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint64"
+          },
+          "x-go-name": "TagIds"
+        },
         "updatedAt": {
           "description": "Update date | 更新日期",
           "type": "integer",
@@ -567,6 +576,21 @@
             "type": "string"
           },
           "x-go-name": "Period"
+        },
+        "status": {
+          "description": "Status | 状态",
+          "type": "integer",
+          "format": "uint8",
+          "x-go-name": "Status"
+        },
+        "tagIds": {
+          "description": "Tags' Id | 标签 ID",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint64"
+          },
+          "x-go-name": "TagIds"
         }
       },
       "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"

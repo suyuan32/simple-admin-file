@@ -1346,9 +1346,22 @@ func (m *TagMutation) OldRemark(ctx context.Context) (v string, err error) {
 	return oldValue.Remark, nil
 }
 
+// ClearRemark clears the value of the "remark" field.
+func (m *TagMutation) ClearRemark() {
+	m.remark = nil
+	m.clearedFields[tag.FieldRemark] = struct{}{}
+}
+
+// RemarkCleared returns if the "remark" field was cleared in this mutation.
+func (m *TagMutation) RemarkCleared() bool {
+	_, ok := m.clearedFields[tag.FieldRemark]
+	return ok
+}
+
 // ResetRemark resets all changes to the "remark" field.
 func (m *TagMutation) ResetRemark() {
 	m.remark = nil
+	delete(m.clearedFields, tag.FieldRemark)
 }
 
 // AddFileIDs adds the "files" edge to the File entity by ids.
@@ -1584,6 +1597,9 @@ func (m *TagMutation) ClearedFields() []string {
 	if m.FieldCleared(tag.FieldStatus) {
 		fields = append(fields, tag.FieldStatus)
 	}
+	if m.FieldCleared(tag.FieldRemark) {
+		fields = append(fields, tag.FieldRemark)
+	}
 	return fields
 }
 
@@ -1600,6 +1616,9 @@ func (m *TagMutation) ClearField(name string) error {
 	switch name {
 	case tag.FieldStatus:
 		m.ClearStatus()
+		return nil
+	case tag.FieldRemark:
+		m.ClearRemark()
 		return nil
 	}
 	return fmt.Errorf("unknown Tag nullable field %s", name)

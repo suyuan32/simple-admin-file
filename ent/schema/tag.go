@@ -21,6 +21,7 @@ func (Tag) Fields() []ent.Field {
 		field.String("name").Comment("Tag's name | 标签名称").
 			Annotations(entsql.WithComments(true)),
 		field.String("remark").Comment("The remark of tag | 标签的备注").
+			Optional().
 			Annotations(entsql.WithComments(true)),
 	}
 }

@@ -165,6 +165,10 @@ type FileListReq struct {
 	FileName *string `json:"fileName,optional" validate:"omitempty,max=50"`
 	// Create date period | 创建日期时间段
 	Period []string `json:"period,optional"`
+	// Tags' Id | 标签 ID
+	TagIds []uint64 `json:"tagIds,optional"`
+	// Status | 状态
+	Status *uint8 `json:"status,optional"`
 }
 
 // The response data of file information | 文件信息数据
@@ -186,6 +190,8 @@ type FileInfo struct {
 	Status *uint8 `json:"status"`
 	// The public URL | 公开访问的链接
 	PublicPath *string `json:"publicPath"`
+	// Tags' Id | 标签 ID
+	TagIds []uint64 `json:"tagIds"`
 }
 
 // The response data of file information list | 文件信息列表数据

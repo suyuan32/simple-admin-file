@@ -330,6 +330,16 @@ func RemarkHasSuffix(v string) predicate.Tag {
 	return predicate.Tag(sql.FieldHasSuffix(FieldRemark, v))
 }
 
+// RemarkIsNil applies the IsNil predicate on the "remark" field.
+func RemarkIsNil() predicate.Tag {
+	return predicate.Tag(sql.FieldIsNull(FieldRemark))
+}
+
+// RemarkNotNil applies the NotNil predicate on the "remark" field.
+func RemarkNotNil() predicate.Tag {
+	return predicate.Tag(sql.FieldNotNull(FieldRemark))
+}
+
 // RemarkEqualFold applies the EqualFold predicate on the "remark" field.
 func RemarkEqualFold(v string) predicate.Tag {
 	return predicate.Tag(sql.FieldEqualFold(FieldRemark, v))

@@ -47,7 +47,7 @@ var (
 		{Name: "updated_at", Type: field.TypeTime},
 		{Name: "status", Type: field.TypeUint8, Nullable: true, Default: 1},
 		{Name: "name", Type: field.TypeString, Comment: "Tag's name | 标签名称"},
-		{Name: "remark", Type: field.TypeString, Comment: "The remark of tag | 标签的备注"},
+		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "The remark of tag | 标签的备注"},
 	}
 	// FmsTagsTable holds the schema information for the "fms_tags" table.
 	FmsTagsTable = &schema.Table{

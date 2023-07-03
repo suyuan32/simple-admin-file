@@ -75,6 +75,20 @@ func (tu *TagUpdate) SetRemark(s string) *TagUpdate {
 	return tu
 }
 
+// SetNillableRemark sets the "remark" field if the given value is not nil.
+func (tu *TagUpdate) SetNillableRemark(s *string) *TagUpdate {
+	if s != nil {
+		tu.SetRemark(*s)
+	}
+	return tu
+}
+
+// ClearRemark clears the value of the "remark" field.
+func (tu *TagUpdate) ClearRemark() *TagUpdate {
+	tu.mutation.ClearRemark()
+	return tu
+}
+
 // AddFileIDs adds the "files" edge to the File entity by IDs.
 func (tu *TagUpdate) AddFileIDs(ids ...uuid.UUID) *TagUpdate {
 	tu.mutation.AddFileIDs(ids...)
@@ -178,6 +192,9 @@ func (tu *TagUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := tu.mutation.Remark(); ok {
 		_spec.SetField(tag.FieldRemark, field.TypeString, value)
+	}
+	if tu.mutation.RemarkCleared() {
+		_spec.ClearField(tag.FieldRemark, field.TypeString)
 	}
 	if tu.mutation.FilesCleared() {
 		edge := &sqlgraph.EdgeSpec{
@@ -286,6 +303,20 @@ func (tuo *TagUpdateOne) SetName(s string) *TagUpdateOne {
 // SetRemark sets the "remark" field.
 func (tuo *TagUpdateOne) SetRemark(s string) *TagUpdateOne {
 	tuo.mutation.SetRemark(s)
+	return tuo
+}
+
+// SetNillableRemark sets the "remark" field if the given value is not nil.
+func (tuo *TagUpdateOne) SetNillableRemark(s *string) *TagUpdateOne {
+	if s != nil {
+		tuo.SetRemark(*s)
+	}
+	return tuo
+}
+
+// ClearRemark clears the value of the "remark" field.
+func (tuo *TagUpdateOne) ClearRemark() *TagUpdateOne {
+	tuo.mutation.ClearRemark()
 	return tuo
 }
 
@@ -422,6 +453,9 @@ func (tuo *TagUpdateOne) sqlSave(ctx context.Context) (_node *Tag, err error) {
 	}
 	if value, ok := tuo.mutation.Remark(); ok {
 		_spec.SetField(tag.FieldRemark, field.TypeString, value)
+	}
+	if tuo.mutation.RemarkCleared() {
+		_spec.ClearField(tag.FieldRemark, field.TypeString)
 	}
 	if tuo.mutation.FilesCleared() {
 		edge := &sqlgraph.EdgeSpec{

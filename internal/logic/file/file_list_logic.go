@@ -3,6 +3,8 @@ package file
 import (
 	"context"
 	"github.com/suyuan32/simple-admin-common/utils/pointy"
+	"github.com/suyuan32/simple-admin-file/ent"
+	"github.com/suyuan32/simple-admin-file/ent/tag"
 	"time"
 
 	"github.com/suyuan32/simple-admin-common/enum/errorcode"
@@ -45,6 +47,14 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 		predicates = append(predicates, file.NameContains(*req.FileName))
 	}
 
+	if req.TagIds != nil {
+		predicates = append(predicates, file.HasTagsWith(tag.IDIn(req.TagIds...)))
+	}
+
+	if req.Status != nil {
+		predicates = append(predicates, file.StatusEQ(*req.Status))
+	}
+
 	if req.Period != nil {
 		begin, err := time.Parse("2006-01-02 15:04:05", req.Period[0])
 		if err != nil {
@@ -57,7 +67,7 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 		predicates = append(predicates, file.CreatedAtGT(begin), file.CreatedAtLT(end))
 	}
 
-	files, err := l.svcCtx.DB.File.Query().Where(predicates...).Page(l.ctx, req.Page, req.PageSize)
+	files, err := l.svcCtx.DB.File.Query().WithTags().Where(predicates...).Page(l.ctx, req.Page, req.PageSize)
 
 	if err != nil {
 		return nil, dberrorhandler.DefaultEntError(l.Logger, err, req)
@@ -80,9 +90,17 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 			Size:       &v.Size,
 			Path:       &v.Path,
 			Status:     &v.Status,
+			TagIds:     l.getTagIds(v.Edges.Tags),
 			PublicPath: pointy.GetPointer(l.svcCtx.Config.UploadConf.ServerURL + v.Path),
 		})
 	}
 
 	return resp, nil
+}
+
+func (l *FileListLogic) getTagIds(tags []*ent.Tag) (result []uint64) {
+	for _, v := range tags {
+		result = append(result, v.ID)
+	}
+	return result
 }

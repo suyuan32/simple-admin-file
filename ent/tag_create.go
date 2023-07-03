@@ -76,6 +76,14 @@ func (tc *TagCreate) SetRemark(s string) *TagCreate {
 	return tc
 }
 
+// SetNillableRemark sets the "remark" field if the given value is not nil.
+func (tc *TagCreate) SetNillableRemark(s *string) *TagCreate {
+	if s != nil {
+		tc.SetRemark(*s)
+	}
+	return tc
+}
+
 // SetID sets the "id" field.
 func (tc *TagCreate) SetID(u uint64) *TagCreate {
 	tc.mutation.SetID(u)
@@ -156,9 +164,6 @@ func (tc *TagCreate) check() error {
 	}
 	if _, ok := tc.mutation.Name(); !ok {
 		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "Tag.name"`)}
-	}
-	if _, ok := tc.mutation.Remark(); !ok {
-		return &ValidationError{Name: "remark", err: errors.New(`ent: missing required field "Tag.remark"`)}
 	}
 	return nil
 }
