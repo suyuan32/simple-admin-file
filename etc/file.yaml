@@ -26,11 +26,11 @@ RedisConf:
 
 # DatabaseConf sets the database of file manager service.
 DatabaseConf:
-  Type: mysql
+  Type: postgres
   Host: 10.5.0.2
-  Port: 3306
+  Port: 5432
   DBName: simple_admin
-  Username: root # set your username
+  Username: postgres # set your username
   Password: simple-admin. # set your password
   MaxOpenConn: 100
   SSLMode: disable
@@ -38,11 +38,11 @@ DatabaseConf:
 
 # CasbinDatabaseConf sets the core database if you use the Casbin of Core.
 CasbinDatabaseConf:
-  Type: mysql
+  Type: postgres
   Host: 10.5.0.2
-  Port: 3306
+  Port: 5432
   DBName: simple_admin
-  Username: root # set your username
+  Username: postgres # set your username
   Password: simple-admin. # set your password
   MaxOpenConn: 100
   SSLMode: disable
