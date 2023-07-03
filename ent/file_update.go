@@ -13,6 +13,7 @@ import (
 	"entgo.io/ent/schema/field"
 	"github.com/suyuan32/simple-admin-file/ent/file"
 	"github.com/suyuan32/simple-admin-file/ent/predicate"
+	"github.com/suyuan32/simple-admin-file/ent/tag"
 )
 
 // FileUpdate is the builder for updating File entities.
@@ -111,9 +112,45 @@ func (fu *FileUpdate) SetMd5(s string) *FileUpdate {
 	return fu
 }
 
+// AddTagIDs adds the "tags" edge to the Tag entity by IDs.
+func (fu *FileUpdate) AddTagIDs(ids ...uint64) *FileUpdate {
+	fu.mutation.AddTagIDs(ids...)
+	return fu
+}
+
+// AddTags adds the "tags" edges to the Tag entity.
+func (fu *FileUpdate) AddTags(t ...*Tag) *FileUpdate {
+	ids := make([]uint64, len(t))
+	for i := range t {
+		ids[i] = t[i].ID
+	}
+	return fu.AddTagIDs(ids...)
+}
+
 // Mutation returns the FileMutation object of the builder.
 func (fu *FileUpdate) Mutation() *FileMutation {
 	return fu.mutation
+}
+
+// ClearTags clears all "tags" edges to the Tag entity.
+func (fu *FileUpdate) ClearTags() *FileUpdate {
+	fu.mutation.ClearTags()
+	return fu
+}
+
+// RemoveTagIDs removes the "tags" edge to Tag entities by IDs.
+func (fu *FileUpdate) RemoveTagIDs(ids ...uint64) *FileUpdate {
+	fu.mutation.RemoveTagIDs(ids...)
+	return fu
+}
+
+// RemoveTags removes "tags" edges to Tag entities.
+func (fu *FileUpdate) RemoveTags(t ...*Tag) *FileUpdate {
+	ids := make([]uint64, len(t))
+	for i := range t {
+		ids[i] = t[i].ID
+	}
+	return fu.RemoveTagIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -196,6 +233,51 @@ func (fu *FileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := fu.mutation.Md5(); ok {
 		_spec.SetField(file.FieldMd5, field.TypeString, value)
+	}
+	if fu.mutation.TagsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   file.TagsTable,
+			Columns: file.TagsPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(tag.FieldID, field.TypeUint64),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := fu.mutation.RemovedTagsIDs(); len(nodes) > 0 && !fu.mutation.TagsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   file.TagsTable,
+			Columns: file.TagsPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(tag.FieldID, field.TypeUint64),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := fu.mutation.TagsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   file.TagsTable,
+			Columns: file.TagsPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(tag.FieldID, field.TypeUint64),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, fu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -300,9 +382,45 @@ func (fuo *FileUpdateOne) SetMd5(s string) *FileUpdateOne {
 	return fuo
 }
 
+// AddTagIDs adds the "tags" edge to the Tag entity by IDs.
+func (fuo *FileUpdateOne) AddTagIDs(ids ...uint64) *FileUpdateOne {
+	fuo.mutation.AddTagIDs(ids...)
+	return fuo
+}
+
+// AddTags adds the "tags" edges to the Tag entity.
+func (fuo *FileUpdateOne) AddTags(t ...*Tag) *FileUpdateOne {
+	ids := make([]uint64, len(t))
+	for i := range t {
+		ids[i] = t[i].ID
+	}
+	return fuo.AddTagIDs(ids...)
+}
+
 // Mutation returns the FileMutation object of the builder.
 func (fuo *FileUpdateOne) Mutation() *FileMutation {
 	return fuo.mutation
+}
+
+// ClearTags clears all "tags" edges to the Tag entity.
+func (fuo *FileUpdateOne) ClearTags() *FileUpdateOne {
+	fuo.mutation.ClearTags()
+	return fuo
+}
+
+// RemoveTagIDs removes the "tags" edge to Tag entities by IDs.
+func (fuo *FileUpdateOne) RemoveTagIDs(ids ...uint64) *FileUpdateOne {
+	fuo.mutation.RemoveTagIDs(ids...)
+	return fuo
+}
+
+// RemoveTags removes "tags" edges to Tag entities.
+func (fuo *FileUpdateOne) RemoveTags(t ...*Tag) *FileUpdateOne {
+	ids := make([]uint64, len(t))
+	for i := range t {
+		ids[i] = t[i].ID
+	}
+	return fuo.RemoveTagIDs(ids...)
 }
 
 // Where appends a list predicates to the FileUpdate builder.
@@ -415,6 +533,51 @@ func (fuo *FileUpdateOne) sqlSave(ctx context.Context) (_node *File, err error) 
 	}
 	if value, ok := fuo.mutation.Md5(); ok {
 		_spec.SetField(file.FieldMd5, field.TypeString, value)
+	}
+	if fuo.mutation.TagsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   file.TagsTable,
+			Columns: file.TagsPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(tag.FieldID, field.TypeUint64),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := fuo.mutation.RemovedTagsIDs(); len(nodes) > 0 && !fuo.mutation.TagsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   file.TagsTable,
+			Columns: file.TagsPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(tag.FieldID, field.TypeUint64),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := fuo.mutation.TagsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   file.TagsTable,
+			Columns: file.TagsPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(tag.FieldID, field.TypeUint64),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
 	_node = &File{config: fuo.config}
 	_spec.Assign = _node.assignValues

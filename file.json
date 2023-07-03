@@ -16,7 +16,7 @@
     "contact": {
       "email": "yuansu.china.work@gmail.com"
     },
-    "version": "1.0.10"
+    "version": "1.0.12"
   },
   "host": "localhost:9102",
   "basePath": "/",
@@ -165,6 +165,146 @@
         ],
         "summary": "Initialize database | 初始化数据库",
         "operationId": "InitDatabase",
+        "responses": {
+          "200": {
+            "description": "BaseMsgResp",
+            "schema": {
+              "$ref": "#/definitions/BaseMsgResp"
+            }
+          }
+        }
+      }
+    },
+    "/tag": {
+      "post": {
+        "description": "Get tag by ID | 通过ID获取Tag",
+        "tags": [
+          "tag"
+        ],
+        "summary": "Get tag by ID | 通过ID获取Tag",
+        "operationId": "GetTagById",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/IDReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "TagInfoResp",
+            "schema": {
+              "$ref": "#/definitions/TagInfoResp"
+            }
+          }
+        }
+      }
+    },
+    "/tag/create": {
+      "post": {
+        "description": "Create tag information | 创建Tag",
+        "tags": [
+          "tag"
+        ],
+        "summary": "Create tag information | 创建Tag",
+        "operationId": "CreateTag",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/TagInfo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "BaseMsgResp",
+            "schema": {
+              "$ref": "#/definitions/BaseMsgResp"
+            }
+          }
+        }
+      }
+    },
+    "/tag/delete": {
+      "post": {
+        "description": "Delete tag information | 删除Tag信息",
+        "tags": [
+          "tag"
+        ],
+        "summary": "Delete tag information | 删除Tag信息",
+        "operationId": "DeleteTag",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/IDsReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "BaseMsgResp",
+            "schema": {
+              "$ref": "#/definitions/BaseMsgResp"
+            }
+          }
+        }
+      }
+    },
+    "/tag/list": {
+      "post": {
+        "description": "Get tag list | 获取Tag列表",
+        "tags": [
+          "tag"
+        ],
+        "summary": "Get tag list | 获取Tag列表",
+        "operationId": "GetTagList",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/TagListReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "TagListResp",
+            "schema": {
+              "$ref": "#/definitions/TagListResp"
+            }
+          }
+        }
+      }
+    },
+    "/tag/update": {
+      "post": {
+        "description": "Update tag information | 更新Tag",
+        "tags": [
+          "tag"
+        ],
+        "summary": "Update tag information | 更新Tag",
+        "operationId": "UpdateTag",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/TagInfo"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "BaseMsgResp",
@@ -351,6 +491,15 @@
           "format": "uint8",
           "x-go-name": "Status"
         },
+        "tagIds": {
+          "description": "Tags' Id | 标签 ID",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint64"
+          },
+          "x-go-name": "TagIds"
+        },
         "updatedAt": {
           "description": "Update date | 更新日期",
           "type": "integer",
@@ -427,6 +576,21 @@
             "type": "string"
           },
           "x-go-name": "Period"
+        },
+        "status": {
+          "description": "Status | 状态",
+          "type": "integer",
+          "format": "uint8",
+          "x-go-name": "Status"
+        },
+        "tagIds": {
+          "description": "Tags' Id | 标签 ID",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint64"
+          },
+          "x-go-name": "TagIds"
         }
       },
       "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"
@@ -548,6 +712,151 @@
       },
       "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"
     },
+    "TagInfo": {
+      "description": "The response data of tag information | Tag信息",
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "description": "Create date | 创建日期",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "CreatedAt"
+        },
+        "id": {
+          "description": "ID",
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "Id"
+        },
+        "name": {
+          "description": "Name",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "remark": {
+          "description": "Remark",
+          "type": "string",
+          "x-go-name": "Remark"
+        },
+        "status": {
+          "description": "Status",
+          "type": "integer",
+          "format": "uint8",
+          "x-go-name": "Status"
+        },
+        "updatedAt": {
+          "description": "Update date | 更新日期",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "UpdatedAt"
+        }
+      },
+      "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"
+    },
+    "TagInfoResp": {
+      "description": "Tag information response | Tag信息返回体",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code | 错误代码",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Code"
+        },
+        "data": {
+          "description": "Data | 数据",
+          "type": "string",
+          "x-go-name": "Data",
+          "$ref": "#/definitions/TagInfo"
+        },
+        "msg": {
+          "description": "Message | 提示信息",
+          "type": "string",
+          "x-go-name": "Msg"
+        }
+      },
+      "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"
+    },
+    "TagListInfo": {
+      "description": "Tag list data | Tag列表数据",
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "The API list data | Tag列表数据",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TagInfo"
+          },
+          "x-go-name": "Data"
+        },
+        "total": {
+          "description": "The total number of data | 数据总数",
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "Total"
+        }
+      },
+      "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"
+    },
+    "TagListReq": {
+      "description": "Get tag list request params | Tag列表请求参数",
+      "type": "object",
+      "required": [
+        "page",
+        "pageSize"
+      ],
+      "properties": {
+        "name": {
+          "description": "Name",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "page": {
+          "description": "Page number | 第几页",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0,
+          "x-go-name": "Page"
+        },
+        "pageSize": {
+          "description": "Page size | 单页数据行数",
+          "type": "integer",
+          "format": "uint64",
+          "maximum": 100000,
+          "x-go-name": "PageSize"
+        },
+        "remark": {
+          "description": "Remark",
+          "type": "string",
+          "x-go-name": "Remark"
+        }
+      },
+      "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"
+    },
+    "TagListResp": {
+      "description": "The response data of tag list | Tag列表数据",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code | 错误代码",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Code"
+        },
+        "data": {
+          "description": "Data | 数据",
+          "type": "string",
+          "x-go-name": "Data",
+          "$ref": "#/definitions/TagListInfo"
+        },
+        "msg": {
+          "description": "Message | 提示信息",
+          "type": "string",
+          "x-go-name": "Msg"
+        }
+      },
+      "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"
+    },
     "UUIDPathReq": {
       "description": "Basic path UUID request | 基础UUID地址参数请求",
       "type": "object",
@@ -613,6 +922,15 @@
           "description": "File name | 文件名",
           "type": "string",
           "x-go-name": "Name"
+        },
+        "tagIds": {
+          "description": "File tag | 文件标签",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint64"
+          },
+          "x-go-name": "TagIds"
         }
       },
       "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"

@@ -195,3 +195,99 @@ func (f *FileCreate) SetNotNilMd5(value *string) *FileCreate {
 	}
 	return f
 }
+
+// set field if value's pointer is not nil.
+func (t *TagUpdate) SetNotNilUpdatedAt(value *time.Time) *TagUpdate {
+	if value != nil {
+		return t.SetUpdatedAt(*value)
+	}
+	return t
+}
+
+// set field if value's pointer is not nil.
+func (t *TagUpdateOne) SetNotNilUpdatedAt(value *time.Time) *TagUpdateOne {
+	if value != nil {
+		return t.SetUpdatedAt(*value)
+	}
+	return t
+}
+
+// set field if value's pointer is not nil.
+func (t *TagCreate) SetNotNilUpdatedAt(value *time.Time) *TagCreate {
+	if value != nil {
+		return t.SetUpdatedAt(*value)
+	}
+	return t
+}
+
+// set field if value's pointer is not nil.
+func (t *TagUpdate) SetNotNilStatus(value *uint8) *TagUpdate {
+	if value != nil {
+		return t.SetStatus(*value)
+	}
+	return t
+}
+
+// set field if value's pointer is not nil.
+func (t *TagUpdateOne) SetNotNilStatus(value *uint8) *TagUpdateOne {
+	if value != nil {
+		return t.SetStatus(*value)
+	}
+	return t
+}
+
+// set field if value's pointer is not nil.
+func (t *TagCreate) SetNotNilStatus(value *uint8) *TagCreate {
+	if value != nil {
+		return t.SetStatus(*value)
+	}
+	return t
+}
+
+// set field if value's pointer is not nil.
+func (t *TagUpdate) SetNotNilName(value *string) *TagUpdate {
+	if value != nil {
+		return t.SetName(*value)
+	}
+	return t
+}
+
+// set field if value's pointer is not nil.
+func (t *TagUpdateOne) SetNotNilName(value *string) *TagUpdateOne {
+	if value != nil {
+		return t.SetName(*value)
+	}
+	return t
+}
+
+// set field if value's pointer is not nil.
+func (t *TagCreate) SetNotNilName(value *string) *TagCreate {
+	if value != nil {
+		return t.SetName(*value)
+	}
+	return t
+}
+
+// set field if value's pointer is not nil.
+func (t *TagUpdate) SetNotNilRemark(value *string) *TagUpdate {
+	if value != nil {
+		return t.SetRemark(*value)
+	}
+	return t
+}
+
+// set field if value's pointer is not nil.
+func (t *TagUpdateOne) SetNotNilRemark(value *string) *TagUpdateOne {
+	if value != nil {
+		return t.SetRemark(*value)
+	}
+	return t
+}
+
+// set field if value's pointer is not nil.
+func (t *TagCreate) SetNotNilRemark(value *string) *TagCreate {
+	if value != nil {
+		return t.SetRemark(*value)
+	}
+	return t
+}

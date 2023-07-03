@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"entgo.io/ent/dialect/sql"
+	"entgo.io/ent/dialect/sql/sqlgraph"
 	uuid "github.com/gofrs/uuid/v5"
 )
 
@@ -32,8 +33,15 @@ const (
 	FieldUserUUID = "user_uuid"
 	// FieldMd5 holds the string denoting the md5 field in the database.
 	FieldMd5 = "md5"
+	// EdgeTags holds the string denoting the tags edge name in mutations.
+	EdgeTags = "tags"
 	// Table holds the table name of the file in the database.
 	Table = "fms_files"
+	// TagsTable is the table that holds the tags relation/edge. The primary key declared below.
+	TagsTable = "tag_files"
+	// TagsInverseTable is the table name for the Tag entity.
+	// It exists in this package in order to avoid circular dependency with the "tag" package.
+	TagsInverseTable = "fms_tags"
 )
 
 // Columns holds all SQL columns for file fields.
@@ -49,6 +57,12 @@ var Columns = []string{
 	FieldUserUUID,
 	FieldMd5,
 }
+
+var (
+	// TagsPrimaryKey and TagsColumn2 are the table columns denoting the
+	// primary key for the tags relation (M2M).
+	TagsPrimaryKey = []string{"tag_id", "file_id"}
+)
 
 // ValidColumn reports if the column name is valid (part of the table columns).
 func ValidColumn(column string) bool {
@@ -124,4 +138,25 @@ func ByUserUUID(opts ...sql.OrderTermOption) OrderOption {
 // ByMd5 orders the results by the md5 field.
 func ByMd5(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldMd5, opts...).ToFunc()
+}
+
+// ByTagsCount orders the results by tags count.
+func ByTagsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newTagsStep(), opts...)
+	}
+}
+
+// ByTags orders the results by tags terms.
+func ByTags(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newTagsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
+func newTagsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(TagsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.M2M, true, TagsTable, TagsPrimaryKey...),
+	)
 }

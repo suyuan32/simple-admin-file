@@ -148,7 +148,9 @@ type UpdateFileReq struct {
 	ID string `json:"id"`
 	// File name | 文件名
 	// Required : true
-	Name string `json:"name" validate:"max=50"`
+	Name *string `json:"name,optional" validate:"max=50"`
+	// File tag | 文件标签
+	TagIds []uint64 `json:"tagIds,optional"`
 }
 
 // Get file list params | 获取文件列表参数
@@ -163,6 +165,10 @@ type FileListReq struct {
 	FileName *string `json:"fileName,optional" validate:"omitempty,max=50"`
 	// Create date period | 创建日期时间段
 	Period []string `json:"period,optional"`
+	// Tags' Id | 标签 ID
+	TagIds []uint64 `json:"tagIds,optional"`
+	// Status | 状态
+	Status *uint8 `json:"status,optional"`
 }
 
 // The response data of file information | 文件信息数据
@@ -184,6 +190,8 @@ type FileInfo struct {
 	Status *uint8 `json:"status"`
 	// The public URL | 公开访问的链接
 	PublicPath *string `json:"publicPath"`
+	// Tags' Id | 标签 ID
+	TagIds []uint64 `json:"tagIds"`
 }
 
 // The response data of file information list | 文件信息列表数据
@@ -199,4 +207,50 @@ type FileListInfo struct {
 	BaseListInfo
 	// The file list data | 文件信息列表数据
 	Data []FileInfo `json:"data"`
+}
+
+// The response data of tag information | Tag信息
+// swagger:model TagInfo
+type TagInfo struct {
+	BaseIDInfo
+	// Status
+	Status *uint8 `json:"status,optional"`
+	// Name
+	Name *string `json:"name,optional"`
+	// Remark
+	Remark *string `json:"remark,optional"`
+}
+
+// The response data of tag list | Tag列表数据
+// swagger:model TagListResp
+type TagListResp struct {
+	BaseDataInfo
+	// Tag list data | Tag列表数据
+	Data TagListInfo `json:"data"`
+}
+
+// Tag list data | Tag列表数据
+// swagger:model TagListInfo
+type TagListInfo struct {
+	BaseListInfo
+	// The API list data | Tag列表数据
+	Data []TagInfo `json:"data"`
+}
+
+// Get tag list request params | Tag列表请求参数
+// swagger:model TagListReq
+type TagListReq struct {
+	PageInfo
+	// Name
+	Name *string `json:"name,optional"`
+	// Remark
+	Remark *string `json:"remark,optional"`
+}
+
+// Tag information response | Tag信息返回体
+// swagger:model TagInfoResp
+type TagInfoResp struct {
+	BaseDataInfo
+	// Tag information | Tag数据
+	Data TagInfo `json:"data"`
 }

@@ -36,7 +36,10 @@ type (
 
 		// File name | 文件名
 		// Required : true
-		Name string `json:"name" validate:"max=50"`
+		Name *string `json:"name,optional" validate:"max=50"`
+
+		// File tag | 文件标签
+		TagIds  []uint64  `json:"tagIds,optional"`
 	}
 
 	// Get file list params | 获取文件列表参数
@@ -50,6 +53,12 @@ type (
 
 		// Create date period | 创建日期时间段
 		Period []string `json:"period,optional"`
+
+		// Tags' Id | 标签 ID
+        TagIds  []uint64 `json:"tagIds,optional"`
+
+        // Status | 状态
+        Status *uint8 `json:"status,optional"`
 	}
 
 	// The response data of file information | 文件信息数据
@@ -77,6 +86,9 @@ type (
 
 		// The public URL | 公开访问的链接
 		PublicPath *string `json:"publicPath"`
+
+		// Tags' Id | 标签 ID
+		TagIds  []uint64 `json:"tagIds"`
 	}
 
 	// The response data of file information list | 文件信息列表数据

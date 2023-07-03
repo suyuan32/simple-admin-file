@@ -7,13 +7,13 @@ require (
 	github.com/casbin/casbin/v2 v2.71.1
 	github.com/gofrs/uuid/v5 v5.0.0
 	github.com/suyuan32/knife v0.0.1-beta.1
-	github.com/suyuan32/simple-admin-common v1.0.11
-	github.com/suyuan32/simple-admin-core v1.0.11
+	github.com/suyuan32/simple-admin-common v1.0.12
+	github.com/suyuan32/simple-admin-core v1.0.12
 	github.com/zeromicro/go-zero v1.5.3
-	google.golang.org/grpc v1.56.0
+	google.golang.org/grpc v1.56.1
 )
 
-replace github.com/zeromicro/go-zero v1.5.3 => github.com/suyuan32/simple-admin-tools v1.5.10
+replace github.com/zeromicro/go-zero v1.5.3 => github.com/suyuan32/simple-admin-tools v1.5.11
 
 require (
 	ariga.io/atlas v0.10.2-0.20230427182402-87a07dfb83bf // indirect
@@ -117,7 +117,7 @@ require (
 	golang.org/x/time v0.3.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/genproto v0.0.0-20230410155749-daa745c078e1 // indirect
-	google.golang.org/protobuf v1.30.0 // indirect
+	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
