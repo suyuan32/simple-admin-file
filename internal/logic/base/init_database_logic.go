@@ -56,6 +56,12 @@ func (l *InitDatabaseLogic) InitDatabase() (resp *types.BaseMsgResp, err error) 
 		return nil, errorx.NewCodeError(errorcode.Internal, err.Error())
 	}
 
+	err = l.svcCtx.Casbin.LoadPolicy()
+	if err != nil {
+		logx.Errorw("failed to load Casbin Policy", logx.Field("detail", err))
+		return nil, errorx.NewCodeInternalError(i18n.DatabaseError)
+	}
+
 	return &types.BaseMsgResp{
 		Code: 0,
 		Msg:  l.svcCtx.Trans.Trans(l.ctx, i18n.Success),

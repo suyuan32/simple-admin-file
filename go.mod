@@ -7,13 +7,13 @@ require (
 	github.com/casbin/casbin/v2 v2.71.1
 	github.com/gofrs/uuid/v5 v5.0.0
 	github.com/suyuan32/knife v0.0.1-beta.1
-	github.com/suyuan32/simple-admin-common v1.0.13
-	github.com/suyuan32/simple-admin-core v1.0.13
+	github.com/suyuan32/simple-admin-common v1.0.14
+	github.com/suyuan32/simple-admin-core v1.0.14
 	github.com/zeromicro/go-zero v1.5.3
 	google.golang.org/grpc v1.56.2
 )
 
-replace github.com/zeromicro/go-zero v1.5.3 => github.com/suyuan32/simple-admin-tools v1.5.12
+replace github.com/zeromicro/go-zero v1.5.3 => github.com/suyuan32/simple-admin-tools v1.5.13
 
 require (
 	ariga.io/atlas v0.10.2-0.20230427182402-87a07dfb83bf // indirect
