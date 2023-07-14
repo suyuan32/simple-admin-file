@@ -5,5 +5,5 @@ Simple Admin file manager service.
 
 ## 文档 | Document
 
-[中文文档](https://suyuan32.github.io/simple-admin-core/#/simple-admin/zh-cn/docs/file_manager)
-[English Document](https://suyuan32.github.io/simple-admin-core/#/simple-admin/en/docs/file_manager)
+[中文文档](https://doc.ryansu.pro/zh/guide/official-comp/file_manager.html)
+[English Document](https://doc.ryansu.pro/guide/official-comp/file_manager.html)
