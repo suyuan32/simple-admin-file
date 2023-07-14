@@ -5,7 +5,7 @@ MaxBytes: 1073741824 # max content length : 1 gb | 所有类型单个文件最�
 Timeout: 30000 # bigger max bytes need longer timeout | 超时时间
 
 Auth:
-  AccessSecret: jS6VKDtsJf3z1n2VKDtsJf3z1n2
+  AccessSecret:  # JWT key
   AccessExpire: 259200  # Seconds
 
 CROSConf:
@@ -27,11 +27,11 @@ RedisConf:
 # DatabaseConf sets the database of file manager service.
 DatabaseConf:
   Type: mysql
-  Host: 10.5.0.2
+  Host: 127.0.0.1
   Port: 3306
   DBName: simple_admin
-  Username: root # set your username
-  Password: simple-admin. # set your password
+  Username: # set your username
+  Password: # set your password
   MaxOpenConn: 100
   SSLMode: disable
   CacheTime: 5
@@ -39,11 +39,11 @@ DatabaseConf:
 # CasbinDatabaseConf sets the core database if you use the Casbin of Core.
 CasbinDatabaseConf:
   Type: mysql
-  Host: 10.5.0.2
+  Host: 127.0.0.1
   Port: 3306
   DBName: simple_admin
-  Username: root # set your username
-  Password: simple-admin. # set your password
+  Username: # set your username
+  Password: # set your password
   MaxOpenConn: 100
   SSLMode: disable
   CacheTime: 5
@@ -59,6 +59,5 @@ UploadConf:
 
 # You can disable the core rpc if you have already initialized file manager's database.
 CoreRpc:
-  Endpoints:
-    - 10.5.0.4:9101
+  Target: k8s://default/core-rpc-svc:9101
   Enabled: true
