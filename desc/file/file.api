@@ -8,7 +8,7 @@ info(
 	version: "v1.0"
 )
 
-import "base.api"
+import "../base.api"
 
 type (
 	// The data when upload finished | 上传完成数据
