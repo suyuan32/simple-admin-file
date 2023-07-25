@@ -1,3 +1,3 @@
 import "base.api"
-import "file.api"
-import "tag.api"
+import "./file/file.api"
+import "./file/tag.api"
