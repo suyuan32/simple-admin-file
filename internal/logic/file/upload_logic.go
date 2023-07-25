@@ -3,21 +3,20 @@ package file
 import (
 	"context"
 	"fmt"
+	"github.com/duke-git/lancet/v2/datetime"
+	"github.com/duke-git/lancet/v2/fileutil"
+	"github.com/suyuan32/simple-admin-common/enum/errorcode"
+	"github.com/suyuan32/simple-admin-common/i18n"
 	"github.com/suyuan32/simple-admin-common/utils/pointy"
+	"github.com/suyuan32/simple-admin-common/utils/uuidx"
+	"github.com/zeromicro/go-zero/core/errorx"
+	"github.com/zeromicro/go-zero/core/logx"
 	"io"
 	"net/http"
 	"os"
 	"path"
 	"strings"
 	"time"
-
-	"github.com/suyuan32/knife/core/date/format"
-	filex2 "github.com/suyuan32/knife/core/io/filex"
-	"github.com/suyuan32/simple-admin-common/enum/errorcode"
-	"github.com/suyuan32/simple-admin-common/i18n"
-	"github.com/suyuan32/simple-admin-common/utils/uuidx"
-	"github.com/zeromicro/go-zero/core/errorx"
-	"github.com/zeromicro/go-zero/core/logx"
 
 	"github.com/suyuan32/simple-admin-file/internal/svc"
 	"github.com/suyuan32/simple-admin-file/internal/types"
@@ -71,7 +70,7 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 	fileName, fileSuffix := handler.Filename[:dotIndex], handler.Filename[dotIndex+1:]
 	fileUUID := uuidx.NewUUID()
 	storeFileName := fileUUID.String() + "." + fileSuffix
-	timeString := time.Now().Format(format.DashYearToDay)
+	timeString := datetime.FormatTimeToStr(time.Now(), "yyyy-mm-dd")
 	userId := l.ctx.Value("userId").(string)
 
 	// judge if the file size is over max size
@@ -100,18 +99,22 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 	privateStoreDir := path.Join(l.svcCtx.Config.UploadConf.PrivateStorePath,
 		l.svcCtx.Config.Name, fileType, timeString)
 
-	err = filex2.MkdirIfNotExist(publicStoreDir, filex2.SuperPerm)
-	if err != nil {
-		logx.Errorw("failed to create directory for storing public files", logx.Field("path", publicStoreDir))
-		return nil, errorx.NewCodeError(errorcode.Internal,
-			l.svcCtx.Trans.Trans(l.ctx, i18n.Failed))
+	if !fileutil.IsExist(publicStoreDir) {
+		err = fileutil.CreateDir(publicStoreDir + "/")
+		if err != nil {
+			logx.Errorw("failed to create directory for storing public files", logx.Field("path", publicStoreDir))
+			return nil, errorx.NewCodeError(errorcode.Internal,
+				l.svcCtx.Trans.Trans(l.ctx, i18n.Failed))
+		}
 	}
 
-	err = filex2.MkdirIfNotExist(privateStoreDir, filex2.SuperPerm)
-	if err != nil {
-		logx.Errorw("failed to create directory for storing private files", logx.Field("path", privateStoreDir))
-		return nil, errorx.NewCodeError(errorcode.Internal,
-			l.svcCtx.Trans.Trans(l.ctx, i18n.Failed))
+	if !fileutil.IsExist(privateStoreDir) {
+		err = fileutil.CreateDir(privateStoreDir + "/")
+		if err != nil {
+			logx.Errorw("failed to create directory for storing private files", logx.Field("path", privateStoreDir))
+			return nil, errorx.NewCodeError(errorcode.Internal,
+				l.svcCtx.Trans.Trans(l.ctx, i18n.Failed))
+		}
 	}
 
 	// default is public
