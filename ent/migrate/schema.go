@@ -12,9 +12,9 @@ var (
 	// FmsFilesColumns holds the columns for the "fms_files" table.
 	FmsFilesColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUUID},
-		{Name: "created_at", Type: field.TypeTime},
-		{Name: "updated_at", Type: field.TypeTime},
-		{Name: "status", Type: field.TypeUint8, Nullable: true, Default: 1},
+		{Name: "created_at", Type: field.TypeTime, Comment: "Create Time | 创建日期"},
+		{Name: "updated_at", Type: field.TypeTime, Comment: "Update Time | 修改日期"},
+		{Name: "status", Type: field.TypeUint8, Nullable: true, Comment: "status 1 normal 2 ban | 状态 1 正常 2 禁用", Default: 1},
 		{Name: "name", Type: field.TypeString},
 		{Name: "file_type", Type: field.TypeUint8},
 		{Name: "size", Type: field.TypeUint64},
@@ -43,9 +43,9 @@ var (
 	// FmsTagsColumns holds the columns for the "fms_tags" table.
 	FmsTagsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeUint64, Increment: true},
-		{Name: "created_at", Type: field.TypeTime},
-		{Name: "updated_at", Type: field.TypeTime},
-		{Name: "status", Type: field.TypeUint8, Nullable: true, Default: 1},
+		{Name: "created_at", Type: field.TypeTime, Comment: "Create Time | 创建日期"},
+		{Name: "updated_at", Type: field.TypeTime, Comment: "Update Time | 修改日期"},
+		{Name: "status", Type: field.TypeUint8, Nullable: true, Comment: "status 1 normal 2 ban | 状态 1 正常 2 禁用", Default: 1},
 		{Name: "name", Type: field.TypeString, Comment: "Tag's name | 标签名称"},
 		{Name: "remark", Type: field.TypeString, Nullable: true, Comment: "The remark of tag | 标签的备注"},
 	}
