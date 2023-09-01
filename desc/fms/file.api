@@ -113,7 +113,7 @@ type (
 	middleware: Authority
 )
 
-service File {
+service Fms {
 	// Get file list | 获取文件列表
 	@handler fileList
 	post /file/list (FileListReq) returns (FileListResp)
@@ -140,7 +140,7 @@ service File {
 	group: file
 )
 
-service File {
+service Fms {
 	// Upload file | 上传文件
 	@handler upload
 	post /upload returns (UploadResp)

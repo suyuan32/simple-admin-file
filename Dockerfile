@@ -1,7 +1,7 @@
 FROM golang:1.20.6-alpine3.17 as builder
 
 # Define the project name | 定义项目名称
-ARG PROJECT=file
+ARG PROJECT=fms
 
 WORKDIR /build
 COPY . .
@@ -16,9 +16,9 @@ RUN go env -w GO111MODULE=on \
 FROM nginx:1.25.0-alpine
 
 # Define the project name | 定义项目名称
-ARG PROJECT=file
+ARG PROJECT=fms
 # Define the config file name | 定义配置文件名
-ARG CONFIG_FILE=file.yaml
+ARG CONFIG_FILE=fms.yaml
 # Define the author | 定义作者
 ARG AUTHOR="yuansu.china.work@gmail.com"
 

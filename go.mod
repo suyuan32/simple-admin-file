@@ -9,11 +9,11 @@ require (
 	github.com/gofrs/uuid/v5 v5.0.0
 	github.com/suyuan32/simple-admin-common v1.1.2
 	github.com/suyuan32/simple-admin-core v1.1.2
-	github.com/zeromicro/go-zero v1.5.4
+	github.com/zeromicro/go-zero v1.5.5
 	google.golang.org/grpc v1.57.0
 )
 
-replace github.com/zeromicro/go-zero v1.5.4 => github.com/suyuan32/simple-admin-tools v1.5.15
+replace github.com/zeromicro/go-zero v1.5.5 => github.com/suyuan32/simple-admin-tools v1.5.15
 
 require (
 	ariga.io/atlas v0.10.2-0.20230427182402-87a07dfb83bf // indirect
