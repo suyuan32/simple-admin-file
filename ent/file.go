@@ -23,18 +23,18 @@ type File struct {
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	// Update Time | 修改日期
 	UpdatedAt time.Time `json:"updated_at,omitempty"`
-	// status 1 normal 2 ban | 状态 1 正常 2 禁用
+	// Status 1 : normal 2 : ban | 状态 1 正常 2 禁用
 	Status uint8 `json:"status,omitempty"`
 	// File's name | 文件名称
 	Name string `json:"name,omitempty"`
 	// File's type | 文件类型
 	FileType uint8 `json:"file_type,omitempty"`
-	// File's size
+	// File's size | 文件大小
 	Size uint64 `json:"size,omitempty"`
-	// File's path
+	// File's path | 文件路径
 	Path string `json:"path,omitempty"`
 	// User's UUID | 用户的 UUID
-	UserUUID string `json:"user_uuid,omitempty"`
+	UserID string `json:"user_id,omitempty"`
 	// The md5 of the file | 文件的 md5
 	Md5 string `json:"md5,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
@@ -46,7 +46,7 @@ type File struct {
 // FileEdges holds the relations/edges for other nodes in the graph.
 type FileEdges struct {
 	// Tags holds the value of the tags edge.
-	Tags []*Tag `json:"tags,omitempty"`
+	Tags []*FileTag `json:"tags,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
@@ -54,7 +54,7 @@ type FileEdges struct {
 
 // TagsOrErr returns the Tags value or an error if the edge
 // was not loaded in eager-loading.
-func (e FileEdges) TagsOrErr() ([]*Tag, error) {
+func (e FileEdges) TagsOrErr() ([]*FileTag, error) {
 	if e.loadedTypes[0] {
 		return e.Tags, nil
 	}
@@ -68,7 +68,7 @@ func (*File) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case file.FieldStatus, file.FieldFileType, file.FieldSize:
 			values[i] = new(sql.NullInt64)
-		case file.FieldName, file.FieldPath, file.FieldUserUUID, file.FieldMd5:
+		case file.FieldName, file.FieldPath, file.FieldUserID, file.FieldMd5:
 			values[i] = new(sql.NullString)
 		case file.FieldCreatedAt, file.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -137,11 +137,11 @@ func (f *File) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				f.Path = value.String
 			}
-		case file.FieldUserUUID:
+		case file.FieldUserID:
 			if value, ok := values[i].(*sql.NullString); !ok {
-				return fmt.Errorf("unexpected type %T for field user_uuid", values[i])
+				return fmt.Errorf("unexpected type %T for field user_id", values[i])
 			} else if value.Valid {
-				f.UserUUID = value.String
+				f.UserID = value.String
 			}
 		case file.FieldMd5:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -163,7 +163,7 @@ func (f *File) Value(name string) (ent.Value, error) {
 }
 
 // QueryTags queries the "tags" edge of the File entity.
-func (f *File) QueryTags() *TagQuery {
+func (f *File) QueryTags() *FileTagQuery {
 	return NewFileClient(f.config).QueryTags(f)
 }
 
@@ -211,8 +211,8 @@ func (f *File) String() string {
 	builder.WriteString("path=")
 	builder.WriteString(f.Path)
 	builder.WriteString(", ")
-	builder.WriteString("user_uuid=")
-	builder.WriteString(f.UserUUID)
+	builder.WriteString("user_id=")
+	builder.WriteString(f.UserID)
 	builder.WriteString(", ")
 	builder.WriteString("md5=")
 	builder.WriteString(f.Md5)

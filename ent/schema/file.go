@@ -18,12 +18,23 @@ type File struct {
 // Fields of the File.
 func (File) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("name").Comment("File's name | 文件名称"),
-		field.Uint8("file_type").Comment("File's type | 文件类型"),
-		field.Uint64("size").Comment("File's size"),
-		field.String("path").Comment("File's path"),
-		field.String("user_uuid").Comment("User's UUID | 用户的 UUID"),
-		field.String("md5").Comment("The md5 of the file | 文件的 md5"),
+		field.String("name").
+			Comment("File's name | 文件名称").
+			Annotations(entsql.WithComments(true)),
+		field.Uint8("file_type").
+			Comment("File's type | 文件类型").
+			Annotations(entsql.WithComments(true)),
+		field.Uint64("size").
+			Comment("File's size | 文件大小").
+			Annotations(entsql.WithComments(true)),
+		field.String("path").
+			Comment("File's path | 文件路径"),
+		field.String("user_id").
+			Comment("User's UUID | 用户的 UUID").
+			Annotations(entsql.WithComments(true)),
+		field.String("md5").
+			Comment("The md5 of the file | 文件的 md5").
+			Annotations(entsql.WithComments(true)),
 	}
 }
 
@@ -36,7 +47,7 @@ func (File) Mixin() []ent.Mixin {
 
 func (File) Indexes() []ent.Index {
 	return []ent.Index{
-		index.Fields("user_uuid"),
+		index.Fields("user_id"),
 		index.Fields("file_type"),
 	}
 }
@@ -44,7 +55,7 @@ func (File) Indexes() []ent.Index {
 // Edges of the File.
 func (File) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("tags", Tag.Type).Ref("files"),
+		edge.From("tags", FileTag.Type).Ref("files"),
 	}
 }
 

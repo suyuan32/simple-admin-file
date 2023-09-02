@@ -9,6 +9,18 @@ import (
 	"github.com/suyuan32/simple-admin-file/ent"
 )
 
+// The CloudFileFunc type is an adapter to allow the use of ordinary
+// function as CloudFile mutator.
+type CloudFileFunc func(context.Context, *ent.CloudFileMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f CloudFileFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.CloudFileMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CloudFileMutation", m)
+}
+
 // The FileFunc type is an adapter to allow the use of ordinary
 // function as File mutator.
 type FileFunc func(context.Context, *ent.FileMutation) (ent.Value, error)
@@ -21,16 +33,28 @@ func (f FileFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error)
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.FileMutation", m)
 }
 
-// The TagFunc type is an adapter to allow the use of ordinary
-// function as Tag mutator.
-type TagFunc func(context.Context, *ent.TagMutation) (ent.Value, error)
+// The FileTagFunc type is an adapter to allow the use of ordinary
+// function as FileTag mutator.
+type FileTagFunc func(context.Context, *ent.FileTagMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f TagFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.TagMutation); ok {
+func (f FileTagFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.FileTagMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.TagMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.FileTagMutation", m)
+}
+
+// The StorageProviderFunc type is an adapter to allow the use of ordinary
+// function as StorageProvider mutator.
+type StorageProviderFunc func(context.Context, *ent.StorageProviderMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f StorageProviderFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.StorageProviderMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.StorageProviderMutation", m)
 }
 
 // Condition is a hook condition function.

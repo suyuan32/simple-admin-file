@@ -144,7 +144,7 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 		SetNotNilName(&fileName).
 		SetNotNilFileType(pointy.GetPointer(filex.ConvertFileTypeToUint8(fileType))).
 		SetNotNilPath(&relativePath).
-		SetNotNilUserUUID(&userId).
+		SetNotNilUserID(&userId).
 		SetNotNilMd5(pointy.GetPointer(md5)).
 		SetNotNilStatus(pointy.GetPointer(uint8(1))).
 		SetNotNilSize(pointy.GetPointer(uint64(handler.Size))).

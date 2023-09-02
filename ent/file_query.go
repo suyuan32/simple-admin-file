@@ -13,8 +13,8 @@ import (
 	"entgo.io/ent/schema/field"
 	uuid "github.com/gofrs/uuid/v5"
 	"github.com/suyuan32/simple-admin-file/ent/file"
+	"github.com/suyuan32/simple-admin-file/ent/filetag"
 	"github.com/suyuan32/simple-admin-file/ent/predicate"
-	"github.com/suyuan32/simple-admin-file/ent/tag"
 )
 
 // FileQuery is the builder for querying File entities.
@@ -24,7 +24,7 @@ type FileQuery struct {
 	order      []file.OrderOption
 	inters     []Interceptor
 	predicates []predicate.File
-	withTags   *TagQuery
+	withTags   *FileTagQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -62,8 +62,8 @@ func (fq *FileQuery) Order(o ...file.OrderOption) *FileQuery {
 }
 
 // QueryTags chains the current query on the "tags" edge.
-func (fq *FileQuery) QueryTags() *TagQuery {
-	query := (&TagClient{config: fq.config}).Query()
+func (fq *FileQuery) QueryTags() *FileTagQuery {
+	query := (&FileTagClient{config: fq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := fq.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -74,7 +74,7 @@ func (fq *FileQuery) QueryTags() *TagQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(file.Table, file.FieldID, selector),
-			sqlgraph.To(tag.Table, tag.FieldID),
+			sqlgraph.To(filetag.Table, filetag.FieldID),
 			sqlgraph.Edge(sqlgraph.M2M, true, file.TagsTable, file.TagsPrimaryKey...),
 		)
 		fromU = sqlgraph.SetNeighbors(fq.driver.Dialect(), step)
@@ -284,8 +284,8 @@ func (fq *FileQuery) Clone() *FileQuery {
 
 // WithTags tells the query-builder to eager-load the nodes that are connected to
 // the "tags" edge. The optional arguments are used to configure the query builder of the edge.
-func (fq *FileQuery) WithTags(opts ...func(*TagQuery)) *FileQuery {
-	query := (&TagClient{config: fq.config}).Query()
+func (fq *FileQuery) WithTags(opts ...func(*FileTagQuery)) *FileQuery {
+	query := (&FileTagClient{config: fq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
@@ -395,15 +395,15 @@ func (fq *FileQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*File, e
 	}
 	if query := fq.withTags; query != nil {
 		if err := fq.loadTags(ctx, query, nodes,
-			func(n *File) { n.Edges.Tags = []*Tag{} },
-			func(n *File, e *Tag) { n.Edges.Tags = append(n.Edges.Tags, e) }); err != nil {
+			func(n *File) { n.Edges.Tags = []*FileTag{} },
+			func(n *File, e *FileTag) { n.Edges.Tags = append(n.Edges.Tags, e) }); err != nil {
 			return nil, err
 		}
 	}
 	return nodes, nil
 }
 
-func (fq *FileQuery) loadTags(ctx context.Context, query *TagQuery, nodes []*File, init func(*File), assign func(*File, *Tag)) error {
+func (fq *FileQuery) loadTags(ctx context.Context, query *FileTagQuery, nodes []*File, init func(*File), assign func(*File, *FileTag)) error {
 	edgeIDs := make([]driver.Value, len(nodes))
 	byID := make(map[uuid.UUID]*File)
 	nids := make(map[uint64]map[*File]struct{})
@@ -416,7 +416,7 @@ func (fq *FileQuery) loadTags(ctx context.Context, query *TagQuery, nodes []*Fil
 	}
 	query.Where(func(s *sql.Selector) {
 		joinT := sql.Table(file.TagsTable)
-		s.Join(joinT).On(s.C(tag.FieldID), joinT.C(file.TagsPrimaryKey[0]))
+		s.Join(joinT).On(s.C(filetag.FieldID), joinT.C(file.TagsPrimaryKey[0]))
 		s.Where(sql.InValues(joinT.C(file.TagsPrimaryKey[1]), edgeIDs...))
 		columns := s.SelectedColumns()
 		s.Select(joinT.C(file.TagsPrimaryKey[1]))
@@ -449,7 +449,7 @@ func (fq *FileQuery) loadTags(ctx context.Context, query *TagQuery, nodes []*Fil
 			}
 		})
 	})
-	neighbors, err := withInterceptors[[]*Tag](ctx, query, qr, query.inters)
+	neighbors, err := withInterceptors[[]*FileTag](ctx, query, qr, query.inters)
 	if err != nil {
 		return err
 	}

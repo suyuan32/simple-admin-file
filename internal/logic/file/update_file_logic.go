@@ -32,8 +32,8 @@ func NewUpdateFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Update
 func (l *UpdateFileLogic) UpdateFile(req *types.UpdateFileReq) (resp *types.BaseMsgResp, err error) {
 	query := l.svcCtx.DB.File.UpdateOneID(uuidx.ParseUUIDString(req.ID)).SetNotNilName(req.Name)
 
-	if req.TagIds != nil {
-		query.AddTagIDs(req.TagIds...)
+	if req.FileTagIds != nil {
+		query.AddTagIDs(req.FileTagIds...)
 	}
 
 	err = query.Exec(l.ctx)

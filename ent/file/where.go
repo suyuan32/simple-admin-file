@@ -91,9 +91,9 @@ func Path(v string) predicate.File {
 	return predicate.File(sql.FieldEQ(FieldPath, v))
 }
 
-// UserUUID applies equality check predicate on the "user_uuid" field. It's identical to UserUUIDEQ.
-func UserUUID(v string) predicate.File {
-	return predicate.File(sql.FieldEQ(FieldUserUUID, v))
+// UserID applies equality check predicate on the "user_id" field. It's identical to UserIDEQ.
+func UserID(v string) predicate.File {
+	return predicate.File(sql.FieldEQ(FieldUserID, v))
 }
 
 // Md5 applies equality check predicate on the "md5" field. It's identical to Md5EQ.
@@ -441,69 +441,69 @@ func PathContainsFold(v string) predicate.File {
 	return predicate.File(sql.FieldContainsFold(FieldPath, v))
 }
 
-// UserUUIDEQ applies the EQ predicate on the "user_uuid" field.
-func UserUUIDEQ(v string) predicate.File {
-	return predicate.File(sql.FieldEQ(FieldUserUUID, v))
+// UserIDEQ applies the EQ predicate on the "user_id" field.
+func UserIDEQ(v string) predicate.File {
+	return predicate.File(sql.FieldEQ(FieldUserID, v))
 }
 
-// UserUUIDNEQ applies the NEQ predicate on the "user_uuid" field.
-func UserUUIDNEQ(v string) predicate.File {
-	return predicate.File(sql.FieldNEQ(FieldUserUUID, v))
+// UserIDNEQ applies the NEQ predicate on the "user_id" field.
+func UserIDNEQ(v string) predicate.File {
+	return predicate.File(sql.FieldNEQ(FieldUserID, v))
 }
 
-// UserUUIDIn applies the In predicate on the "user_uuid" field.
-func UserUUIDIn(vs ...string) predicate.File {
-	return predicate.File(sql.FieldIn(FieldUserUUID, vs...))
+// UserIDIn applies the In predicate on the "user_id" field.
+func UserIDIn(vs ...string) predicate.File {
+	return predicate.File(sql.FieldIn(FieldUserID, vs...))
 }
 
-// UserUUIDNotIn applies the NotIn predicate on the "user_uuid" field.
-func UserUUIDNotIn(vs ...string) predicate.File {
-	return predicate.File(sql.FieldNotIn(FieldUserUUID, vs...))
+// UserIDNotIn applies the NotIn predicate on the "user_id" field.
+func UserIDNotIn(vs ...string) predicate.File {
+	return predicate.File(sql.FieldNotIn(FieldUserID, vs...))
 }
 
-// UserUUIDGT applies the GT predicate on the "user_uuid" field.
-func UserUUIDGT(v string) predicate.File {
-	return predicate.File(sql.FieldGT(FieldUserUUID, v))
+// UserIDGT applies the GT predicate on the "user_id" field.
+func UserIDGT(v string) predicate.File {
+	return predicate.File(sql.FieldGT(FieldUserID, v))
 }
 
-// UserUUIDGTE applies the GTE predicate on the "user_uuid" field.
-func UserUUIDGTE(v string) predicate.File {
-	return predicate.File(sql.FieldGTE(FieldUserUUID, v))
+// UserIDGTE applies the GTE predicate on the "user_id" field.
+func UserIDGTE(v string) predicate.File {
+	return predicate.File(sql.FieldGTE(FieldUserID, v))
 }
 
-// UserUUIDLT applies the LT predicate on the "user_uuid" field.
-func UserUUIDLT(v string) predicate.File {
-	return predicate.File(sql.FieldLT(FieldUserUUID, v))
+// UserIDLT applies the LT predicate on the "user_id" field.
+func UserIDLT(v string) predicate.File {
+	return predicate.File(sql.FieldLT(FieldUserID, v))
 }
 
-// UserUUIDLTE applies the LTE predicate on the "user_uuid" field.
-func UserUUIDLTE(v string) predicate.File {
-	return predicate.File(sql.FieldLTE(FieldUserUUID, v))
+// UserIDLTE applies the LTE predicate on the "user_id" field.
+func UserIDLTE(v string) predicate.File {
+	return predicate.File(sql.FieldLTE(FieldUserID, v))
 }
 
-// UserUUIDContains applies the Contains predicate on the "user_uuid" field.
-func UserUUIDContains(v string) predicate.File {
-	return predicate.File(sql.FieldContains(FieldUserUUID, v))
+// UserIDContains applies the Contains predicate on the "user_id" field.
+func UserIDContains(v string) predicate.File {
+	return predicate.File(sql.FieldContains(FieldUserID, v))
 }
 
-// UserUUIDHasPrefix applies the HasPrefix predicate on the "user_uuid" field.
-func UserUUIDHasPrefix(v string) predicate.File {
-	return predicate.File(sql.FieldHasPrefix(FieldUserUUID, v))
+// UserIDHasPrefix applies the HasPrefix predicate on the "user_id" field.
+func UserIDHasPrefix(v string) predicate.File {
+	return predicate.File(sql.FieldHasPrefix(FieldUserID, v))
 }
 
-// UserUUIDHasSuffix applies the HasSuffix predicate on the "user_uuid" field.
-func UserUUIDHasSuffix(v string) predicate.File {
-	return predicate.File(sql.FieldHasSuffix(FieldUserUUID, v))
+// UserIDHasSuffix applies the HasSuffix predicate on the "user_id" field.
+func UserIDHasSuffix(v string) predicate.File {
+	return predicate.File(sql.FieldHasSuffix(FieldUserID, v))
 }
 
-// UserUUIDEqualFold applies the EqualFold predicate on the "user_uuid" field.
-func UserUUIDEqualFold(v string) predicate.File {
-	return predicate.File(sql.FieldEqualFold(FieldUserUUID, v))
+// UserIDEqualFold applies the EqualFold predicate on the "user_id" field.
+func UserIDEqualFold(v string) predicate.File {
+	return predicate.File(sql.FieldEqualFold(FieldUserID, v))
 }
 
-// UserUUIDContainsFold applies the ContainsFold predicate on the "user_uuid" field.
-func UserUUIDContainsFold(v string) predicate.File {
-	return predicate.File(sql.FieldContainsFold(FieldUserUUID, v))
+// UserIDContainsFold applies the ContainsFold predicate on the "user_id" field.
+func UserIDContainsFold(v string) predicate.File {
+	return predicate.File(sql.FieldContainsFold(FieldUserID, v))
 }
 
 // Md5EQ applies the EQ predicate on the "md5" field.
@@ -583,7 +583,7 @@ func HasTags() predicate.File {
 }
 
 // HasTagsWith applies the HasEdge predicate on the "tags" edge with a given conditions (other predicates).
-func HasTagsWith(preds ...predicate.Tag) predicate.File {
+func HasTagsWith(preds ...predicate.FileTag) predicate.File {
 	return predicate.File(func(s *sql.Selector) {
 		step := newTagsStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {

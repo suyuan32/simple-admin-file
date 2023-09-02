@@ -1,0 +1,71 @@
+package cloudfile
+
+import (
+	"context"
+
+	"github.com/suyuan32/simple-admin-file/ent/cloudfile"
+	"github.com/suyuan32/simple-admin-file/ent/predicate"
+	"github.com/suyuan32/simple-admin-file/internal/svc"
+	"github.com/suyuan32/simple-admin-file/internal/types"
+	"github.com/suyuan32/simple-admin-file/internal/utils/dberrorhandler"
+
+	"github.com/suyuan32/simple-admin-common/i18n"
+
+	"github.com/suyuan32/simple-admin-common/utils/pointy"
+	"github.com/zeromicro/go-zero/core/logx"
+)
+
+type GetCloudFileListLogic struct {
+	ctx    context.Context
+	svcCtx *svc.ServiceContext
+	logx.Logger
+}
+
+func NewGetCloudFileListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetCloudFileListLogic {
+	return &GetCloudFileListLogic{
+		ctx:    ctx,
+		svcCtx: svcCtx,
+		Logger: logx.WithContext(ctx),
+	}
+}
+
+func (l *GetCloudFileListLogic) GetCloudFileList(req *types.CloudFileListReq) (*types.CloudFileListResp, error) {
+	var predicates []predicate.CloudFile
+	if req.Name != nil {
+		predicates = append(predicates, cloudfile.NameContains(*req.Name))
+	}
+	if req.Url != nil {
+		predicates = append(predicates, cloudfile.URLContains(*req.Url))
+	}
+	if req.UserId != nil {
+		predicates = append(predicates, cloudfile.UserIDContains(*req.UserId))
+	}
+	data, err := l.svcCtx.DB.CloudFile.Query().Where(predicates...).Page(l.ctx, req.Page, req.PageSize)
+
+	if err != nil {
+		return nil, dberrorhandler.DefaultEntError(l.Logger, err, req)
+	}
+
+	resp := &types.CloudFileListResp{}
+	resp.Msg = l.svcCtx.Trans.Trans(l.ctx, i18n.Success)
+	resp.Data.Total = data.PageDetails.Total
+
+	for _, v := range data.List {
+		resp.Data.Data = append(resp.Data.Data,
+			types.CloudFileInfo{
+				BaseUUIDInfo: types.BaseUUIDInfo{
+					Id:        pointy.GetPointer(v.ID.String()),
+					CreatedAt: pointy.GetPointer(v.CreatedAt.Unix()),
+					UpdatedAt: pointy.GetPointer(v.UpdatedAt.Unix()),
+				},
+				State:    &v.State,
+				Name:     &v.Name,
+				Url:      &v.URL,
+				Size:     &v.Size,
+				FileType: &v.FileType,
+				UserId:   &v.UserID,
+			})
+	}
+
+	return resp, nil
+}

@@ -29,8 +29,8 @@ const (
 	FieldSize = "size"
 	// FieldPath holds the string denoting the path field in the database.
 	FieldPath = "path"
-	// FieldUserUUID holds the string denoting the user_uuid field in the database.
-	FieldUserUUID = "user_uuid"
+	// FieldUserID holds the string denoting the user_id field in the database.
+	FieldUserID = "user_id"
 	// FieldMd5 holds the string denoting the md5 field in the database.
 	FieldMd5 = "md5"
 	// EdgeTags holds the string denoting the tags edge name in mutations.
@@ -38,10 +38,10 @@ const (
 	// Table holds the table name of the file in the database.
 	Table = "fms_files"
 	// TagsTable is the table that holds the tags relation/edge. The primary key declared below.
-	TagsTable = "tag_files"
-	// TagsInverseTable is the table name for the Tag entity.
-	// It exists in this package in order to avoid circular dependency with the "tag" package.
-	TagsInverseTable = "fms_tags"
+	TagsTable = "file_tag_files"
+	// TagsInverseTable is the table name for the FileTag entity.
+	// It exists in this package in order to avoid circular dependency with the "filetag" package.
+	TagsInverseTable = "fms_file_tags"
 )
 
 // Columns holds all SQL columns for file fields.
@@ -54,14 +54,14 @@ var Columns = []string{
 	FieldFileType,
 	FieldSize,
 	FieldPath,
-	FieldUserUUID,
+	FieldUserID,
 	FieldMd5,
 }
 
 var (
 	// TagsPrimaryKey and TagsColumn2 are the table columns denoting the
 	// primary key for the tags relation (M2M).
-	TagsPrimaryKey = []string{"tag_id", "file_id"}
+	TagsPrimaryKey = []string{"file_tag_id", "file_id"}
 )
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -130,9 +130,9 @@ func ByPath(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldPath, opts...).ToFunc()
 }
 
-// ByUserUUID orders the results by the user_uuid field.
-func ByUserUUID(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldUserUUID, opts...).ToFunc()
+// ByUserID orders the results by the user_id field.
+func ByUserID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUserID, opts...).ToFunc()
 }
 
 // ByMd5 orders the results by the md5 field.

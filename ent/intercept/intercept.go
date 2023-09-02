@@ -8,9 +8,11 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/suyuan32/simple-admin-file/ent"
+	"github.com/suyuan32/simple-admin-file/ent/cloudfile"
 	"github.com/suyuan32/simple-admin-file/ent/file"
+	"github.com/suyuan32/simple-admin-file/ent/filetag"
 	"github.com/suyuan32/simple-admin-file/ent/predicate"
-	"github.com/suyuan32/simple-admin-file/ent/tag"
+	"github.com/suyuan32/simple-admin-file/ent/storageprovider"
 )
 
 // The Query interface represents an operation that queries a graph.
@@ -69,6 +71,33 @@ func (f TraverseFunc) Traverse(ctx context.Context, q ent.Query) error {
 	return f(ctx, query)
 }
 
+// The CloudFileFunc type is an adapter to allow the use of ordinary function as a Querier.
+type CloudFileFunc func(context.Context, *ent.CloudFileQuery) (ent.Value, error)
+
+// Query calls f(ctx, q).
+func (f CloudFileFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
+	if q, ok := q.(*ent.CloudFileQuery); ok {
+		return f(ctx, q)
+	}
+	return nil, fmt.Errorf("unexpected query type %T. expect *ent.CloudFileQuery", q)
+}
+
+// The TraverseCloudFile type is an adapter to allow the use of ordinary function as Traverser.
+type TraverseCloudFile func(context.Context, *ent.CloudFileQuery) error
+
+// Intercept is a dummy implementation of Intercept that returns the next Querier in the pipeline.
+func (f TraverseCloudFile) Intercept(next ent.Querier) ent.Querier {
+	return next
+}
+
+// Traverse calls f(ctx, q).
+func (f TraverseCloudFile) Traverse(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.CloudFileQuery); ok {
+		return f(ctx, q)
+	}
+	return fmt.Errorf("unexpected query type %T. expect *ent.CloudFileQuery", q)
+}
+
 // The FileFunc type is an adapter to allow the use of ordinary function as a Querier.
 type FileFunc func(context.Context, *ent.FileQuery) (ent.Value, error)
 
@@ -96,40 +125,71 @@ func (f TraverseFile) Traverse(ctx context.Context, q ent.Query) error {
 	return fmt.Errorf("unexpected query type %T. expect *ent.FileQuery", q)
 }
 
-// The TagFunc type is an adapter to allow the use of ordinary function as a Querier.
-type TagFunc func(context.Context, *ent.TagQuery) (ent.Value, error)
+// The FileTagFunc type is an adapter to allow the use of ordinary function as a Querier.
+type FileTagFunc func(context.Context, *ent.FileTagQuery) (ent.Value, error)
 
 // Query calls f(ctx, q).
-func (f TagFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
-	if q, ok := q.(*ent.TagQuery); ok {
+func (f FileTagFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
+	if q, ok := q.(*ent.FileTagQuery); ok {
 		return f(ctx, q)
 	}
-	return nil, fmt.Errorf("unexpected query type %T. expect *ent.TagQuery", q)
+	return nil, fmt.Errorf("unexpected query type %T. expect *ent.FileTagQuery", q)
 }
 
-// The TraverseTag type is an adapter to allow the use of ordinary function as Traverser.
-type TraverseTag func(context.Context, *ent.TagQuery) error
+// The TraverseFileTag type is an adapter to allow the use of ordinary function as Traverser.
+type TraverseFileTag func(context.Context, *ent.FileTagQuery) error
 
 // Intercept is a dummy implementation of Intercept that returns the next Querier in the pipeline.
-func (f TraverseTag) Intercept(next ent.Querier) ent.Querier {
+func (f TraverseFileTag) Intercept(next ent.Querier) ent.Querier {
 	return next
 }
 
 // Traverse calls f(ctx, q).
-func (f TraverseTag) Traverse(ctx context.Context, q ent.Query) error {
-	if q, ok := q.(*ent.TagQuery); ok {
+func (f TraverseFileTag) Traverse(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.FileTagQuery); ok {
 		return f(ctx, q)
 	}
-	return fmt.Errorf("unexpected query type %T. expect *ent.TagQuery", q)
+	return fmt.Errorf("unexpected query type %T. expect *ent.FileTagQuery", q)
+}
+
+// The StorageProviderFunc type is an adapter to allow the use of ordinary function as a Querier.
+type StorageProviderFunc func(context.Context, *ent.StorageProviderQuery) (ent.Value, error)
+
+// Query calls f(ctx, q).
+func (f StorageProviderFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
+	if q, ok := q.(*ent.StorageProviderQuery); ok {
+		return f(ctx, q)
+	}
+	return nil, fmt.Errorf("unexpected query type %T. expect *ent.StorageProviderQuery", q)
+}
+
+// The TraverseStorageProvider type is an adapter to allow the use of ordinary function as Traverser.
+type TraverseStorageProvider func(context.Context, *ent.StorageProviderQuery) error
+
+// Intercept is a dummy implementation of Intercept that returns the next Querier in the pipeline.
+func (f TraverseStorageProvider) Intercept(next ent.Querier) ent.Querier {
+	return next
+}
+
+// Traverse calls f(ctx, q).
+func (f TraverseStorageProvider) Traverse(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.StorageProviderQuery); ok {
+		return f(ctx, q)
+	}
+	return fmt.Errorf("unexpected query type %T. expect *ent.StorageProviderQuery", q)
 }
 
 // NewQuery returns the generic Query interface for the given typed query.
 func NewQuery(q ent.Query) (Query, error) {
 	switch q := q.(type) {
+	case *ent.CloudFileQuery:
+		return &query[*ent.CloudFileQuery, predicate.CloudFile, cloudfile.OrderOption]{typ: ent.TypeCloudFile, tq: q}, nil
 	case *ent.FileQuery:
 		return &query[*ent.FileQuery, predicate.File, file.OrderOption]{typ: ent.TypeFile, tq: q}, nil
-	case *ent.TagQuery:
-		return &query[*ent.TagQuery, predicate.Tag, tag.OrderOption]{typ: ent.TypeTag, tq: q}, nil
+	case *ent.FileTagQuery:
+		return &query[*ent.FileTagQuery, predicate.FileTag, filetag.OrderOption]{typ: ent.TypeFileTag, tq: q}, nil
+	case *ent.StorageProviderQuery:
+		return &query[*ent.StorageProviderQuery, predicate.StorageProvider, storageprovider.OrderOption]{typ: ent.TypeStorageProvider, tq: q}, nil
 	default:
 		return nil, fmt.Errorf("unknown query type %T", q)
 	}

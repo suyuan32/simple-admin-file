@@ -12,8 +12,10 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
+	"github.com/suyuan32/simple-admin-file/ent/cloudfile"
 	"github.com/suyuan32/simple-admin-file/ent/file"
-	"github.com/suyuan32/simple-admin-file/ent/tag"
+	"github.com/suyuan32/simple-admin-file/ent/filetag"
+	"github.com/suyuan32/simple-admin-file/ent/storageprovider"
 )
 
 // ent aliases to avoid import conflicts in user's code.
@@ -74,8 +76,10 @@ var (
 func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
-			file.Table: file.ValidColumn,
-			tag.Table:  tag.ValidColumn,
+			cloudfile.Table:       cloudfile.ValidColumn,
+			file.Table:            file.ValidColumn,
+			filetag.Table:         filetag.ValidColumn,
+			storageprovider.Table: storageprovider.ValidColumn,
 		})
 	})
 	return columnCheck(table, column)

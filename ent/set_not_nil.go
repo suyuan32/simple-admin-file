@@ -5,6 +5,174 @@ package ent
 import "time"
 
 // set field if value's pointer is not nil.
+func (cf *CloudFileUpdate) SetNotNilUpdatedAt(value *time.Time) *CloudFileUpdate {
+	if value != nil {
+		return cf.SetUpdatedAt(*value)
+	}
+	return cf
+}
+
+// set field if value's pointer is not nil.
+func (cf *CloudFileUpdateOne) SetNotNilUpdatedAt(value *time.Time) *CloudFileUpdateOne {
+	if value != nil {
+		return cf.SetUpdatedAt(*value)
+	}
+	return cf
+}
+
+// set field if value's pointer is not nil.
+func (cf *CloudFileCreate) SetNotNilUpdatedAt(value *time.Time) *CloudFileCreate {
+	if value != nil {
+		return cf.SetUpdatedAt(*value)
+	}
+	return cf
+}
+
+// set field if value's pointer is not nil.
+func (cf *CloudFileUpdate) SetNotNilState(value *bool) *CloudFileUpdate {
+	if value != nil {
+		return cf.SetState(*value)
+	}
+	return cf
+}
+
+// set field if value's pointer is not nil.
+func (cf *CloudFileUpdateOne) SetNotNilState(value *bool) *CloudFileUpdateOne {
+	if value != nil {
+		return cf.SetState(*value)
+	}
+	return cf
+}
+
+// set field if value's pointer is not nil.
+func (cf *CloudFileCreate) SetNotNilState(value *bool) *CloudFileCreate {
+	if value != nil {
+		return cf.SetState(*value)
+	}
+	return cf
+}
+
+// set field if value's pointer is not nil.
+func (cf *CloudFileUpdate) SetNotNilName(value *string) *CloudFileUpdate {
+	if value != nil {
+		return cf.SetName(*value)
+	}
+	return cf
+}
+
+// set field if value's pointer is not nil.
+func (cf *CloudFileUpdateOne) SetNotNilName(value *string) *CloudFileUpdateOne {
+	if value != nil {
+		return cf.SetName(*value)
+	}
+	return cf
+}
+
+// set field if value's pointer is not nil.
+func (cf *CloudFileCreate) SetNotNilName(value *string) *CloudFileCreate {
+	if value != nil {
+		return cf.SetName(*value)
+	}
+	return cf
+}
+
+// set field if value's pointer is not nil.
+func (cf *CloudFileUpdate) SetNotNilURL(value *string) *CloudFileUpdate {
+	if value != nil {
+		return cf.SetURL(*value)
+	}
+	return cf
+}
+
+// set field if value's pointer is not nil.
+func (cf *CloudFileUpdateOne) SetNotNilURL(value *string) *CloudFileUpdateOne {
+	if value != nil {
+		return cf.SetURL(*value)
+	}
+	return cf
+}
+
+// set field if value's pointer is not nil.
+func (cf *CloudFileCreate) SetNotNilURL(value *string) *CloudFileCreate {
+	if value != nil {
+		return cf.SetURL(*value)
+	}
+	return cf
+}
+
+// set field if value's pointer is not nil.
+func (cf *CloudFileUpdate) SetNotNilSize(value *uint64) *CloudFileUpdate {
+	if value != nil {
+		return cf.SetSize(*value)
+	}
+	return cf
+}
+
+// set field if value's pointer is not nil.
+func (cf *CloudFileUpdateOne) SetNotNilSize(value *uint64) *CloudFileUpdateOne {
+	if value != nil {
+		return cf.SetSize(*value)
+	}
+	return cf
+}
+
+// set field if value's pointer is not nil.
+func (cf *CloudFileCreate) SetNotNilSize(value *uint64) *CloudFileCreate {
+	if value != nil {
+		return cf.SetSize(*value)
+	}
+	return cf
+}
+
+// set field if value's pointer is not nil.
+func (cf *CloudFileUpdate) SetNotNilFileType(value *uint8) *CloudFileUpdate {
+	if value != nil {
+		return cf.SetFileType(*value)
+	}
+	return cf
+}
+
+// set field if value's pointer is not nil.
+func (cf *CloudFileUpdateOne) SetNotNilFileType(value *uint8) *CloudFileUpdateOne {
+	if value != nil {
+		return cf.SetFileType(*value)
+	}
+	return cf
+}
+
+// set field if value's pointer is not nil.
+func (cf *CloudFileCreate) SetNotNilFileType(value *uint8) *CloudFileCreate {
+	if value != nil {
+		return cf.SetFileType(*value)
+	}
+	return cf
+}
+
+// set field if value's pointer is not nil.
+func (cf *CloudFileUpdate) SetNotNilUserID(value *string) *CloudFileUpdate {
+	if value != nil {
+		return cf.SetUserID(*value)
+	}
+	return cf
+}
+
+// set field if value's pointer is not nil.
+func (cf *CloudFileUpdateOne) SetNotNilUserID(value *string) *CloudFileUpdateOne {
+	if value != nil {
+		return cf.SetUserID(*value)
+	}
+	return cf
+}
+
+// set field if value's pointer is not nil.
+func (cf *CloudFileCreate) SetNotNilUserID(value *string) *CloudFileCreate {
+	if value != nil {
+		return cf.SetUserID(*value)
+	}
+	return cf
+}
+
+// set field if value's pointer is not nil.
 func (f *FileUpdate) SetNotNilUpdatedAt(value *time.Time) *FileUpdate {
 	if value != nil {
 		return f.SetUpdatedAt(*value)
@@ -149,25 +317,25 @@ func (f *FileCreate) SetNotNilPath(value *string) *FileCreate {
 }
 
 // set field if value's pointer is not nil.
-func (f *FileUpdate) SetNotNilUserUUID(value *string) *FileUpdate {
+func (f *FileUpdate) SetNotNilUserID(value *string) *FileUpdate {
 	if value != nil {
-		return f.SetUserUUID(*value)
+		return f.SetUserID(*value)
 	}
 	return f
 }
 
 // set field if value's pointer is not nil.
-func (f *FileUpdateOne) SetNotNilUserUUID(value *string) *FileUpdateOne {
+func (f *FileUpdateOne) SetNotNilUserID(value *string) *FileUpdateOne {
 	if value != nil {
-		return f.SetUserUUID(*value)
+		return f.SetUserID(*value)
 	}
 	return f
 }
 
 // set field if value's pointer is not nil.
-func (f *FileCreate) SetNotNilUserUUID(value *string) *FileCreate {
+func (f *FileCreate) SetNotNilUserID(value *string) *FileCreate {
 	if value != nil {
-		return f.SetUserUUID(*value)
+		return f.SetUserID(*value)
 	}
 	return f
 }
@@ -197,97 +365,313 @@ func (f *FileCreate) SetNotNilMd5(value *string) *FileCreate {
 }
 
 // set field if value's pointer is not nil.
-func (t *TagUpdate) SetNotNilUpdatedAt(value *time.Time) *TagUpdate {
+func (ft *FileTagUpdate) SetNotNilUpdatedAt(value *time.Time) *FileTagUpdate {
 	if value != nil {
-		return t.SetUpdatedAt(*value)
+		return ft.SetUpdatedAt(*value)
 	}
-	return t
+	return ft
 }
 
 // set field if value's pointer is not nil.
-func (t *TagUpdateOne) SetNotNilUpdatedAt(value *time.Time) *TagUpdateOne {
+func (ft *FileTagUpdateOne) SetNotNilUpdatedAt(value *time.Time) *FileTagUpdateOne {
 	if value != nil {
-		return t.SetUpdatedAt(*value)
+		return ft.SetUpdatedAt(*value)
 	}
-	return t
+	return ft
 }
 
 // set field if value's pointer is not nil.
-func (t *TagCreate) SetNotNilUpdatedAt(value *time.Time) *TagCreate {
+func (ft *FileTagCreate) SetNotNilUpdatedAt(value *time.Time) *FileTagCreate {
 	if value != nil {
-		return t.SetUpdatedAt(*value)
+		return ft.SetUpdatedAt(*value)
 	}
-	return t
+	return ft
 }
 
 // set field if value's pointer is not nil.
-func (t *TagUpdate) SetNotNilStatus(value *uint8) *TagUpdate {
+func (ft *FileTagUpdate) SetNotNilStatus(value *uint8) *FileTagUpdate {
 	if value != nil {
-		return t.SetStatus(*value)
+		return ft.SetStatus(*value)
 	}
-	return t
+	return ft
 }
 
 // set field if value's pointer is not nil.
-func (t *TagUpdateOne) SetNotNilStatus(value *uint8) *TagUpdateOne {
+func (ft *FileTagUpdateOne) SetNotNilStatus(value *uint8) *FileTagUpdateOne {
 	if value != nil {
-		return t.SetStatus(*value)
+		return ft.SetStatus(*value)
 	}
-	return t
+	return ft
 }
 
 // set field if value's pointer is not nil.
-func (t *TagCreate) SetNotNilStatus(value *uint8) *TagCreate {
+func (ft *FileTagCreate) SetNotNilStatus(value *uint8) *FileTagCreate {
 	if value != nil {
-		return t.SetStatus(*value)
+		return ft.SetStatus(*value)
 	}
-	return t
+	return ft
 }
 
 // set field if value's pointer is not nil.
-func (t *TagUpdate) SetNotNilName(value *string) *TagUpdate {
+func (ft *FileTagUpdate) SetNotNilName(value *string) *FileTagUpdate {
 	if value != nil {
-		return t.SetName(*value)
+		return ft.SetName(*value)
 	}
-	return t
+	return ft
 }
 
 // set field if value's pointer is not nil.
-func (t *TagUpdateOne) SetNotNilName(value *string) *TagUpdateOne {
+func (ft *FileTagUpdateOne) SetNotNilName(value *string) *FileTagUpdateOne {
 	if value != nil {
-		return t.SetName(*value)
+		return ft.SetName(*value)
 	}
-	return t
+	return ft
 }
 
 // set field if value's pointer is not nil.
-func (t *TagCreate) SetNotNilName(value *string) *TagCreate {
+func (ft *FileTagCreate) SetNotNilName(value *string) *FileTagCreate {
 	if value != nil {
-		return t.SetName(*value)
+		return ft.SetName(*value)
 	}
-	return t
+	return ft
 }
 
 // set field if value's pointer is not nil.
-func (t *TagUpdate) SetNotNilRemark(value *string) *TagUpdate {
+func (ft *FileTagUpdate) SetNotNilRemark(value *string) *FileTagUpdate {
 	if value != nil {
-		return t.SetRemark(*value)
+		return ft.SetRemark(*value)
 	}
-	return t
+	return ft
 }
 
 // set field if value's pointer is not nil.
-func (t *TagUpdateOne) SetNotNilRemark(value *string) *TagUpdateOne {
+func (ft *FileTagUpdateOne) SetNotNilRemark(value *string) *FileTagUpdateOne {
 	if value != nil {
-		return t.SetRemark(*value)
+		return ft.SetRemark(*value)
 	}
-	return t
+	return ft
 }
 
 // set field if value's pointer is not nil.
-func (t *TagCreate) SetNotNilRemark(value *string) *TagCreate {
+func (ft *FileTagCreate) SetNotNilRemark(value *string) *FileTagCreate {
 	if value != nil {
-		return t.SetRemark(*value)
+		return ft.SetRemark(*value)
 	}
-	return t
+	return ft
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdate) SetNotNilUpdatedAt(value *time.Time) *StorageProviderUpdate {
+	if value != nil {
+		return sp.SetUpdatedAt(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdateOne) SetNotNilUpdatedAt(value *time.Time) *StorageProviderUpdateOne {
+	if value != nil {
+		return sp.SetUpdatedAt(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderCreate) SetNotNilUpdatedAt(value *time.Time) *StorageProviderCreate {
+	if value != nil {
+		return sp.SetUpdatedAt(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdate) SetNotNilState(value *bool) *StorageProviderUpdate {
+	if value != nil {
+		return sp.SetState(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdateOne) SetNotNilState(value *bool) *StorageProviderUpdateOne {
+	if value != nil {
+		return sp.SetState(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderCreate) SetNotNilState(value *bool) *StorageProviderCreate {
+	if value != nil {
+		return sp.SetState(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdate) SetNotNilName(value *string) *StorageProviderUpdate {
+	if value != nil {
+		return sp.SetName(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdateOne) SetNotNilName(value *string) *StorageProviderUpdateOne {
+	if value != nil {
+		return sp.SetName(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderCreate) SetNotNilName(value *string) *StorageProviderCreate {
+	if value != nil {
+		return sp.SetName(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdate) SetNotNilBucket(value *string) *StorageProviderUpdate {
+	if value != nil {
+		return sp.SetBucket(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdateOne) SetNotNilBucket(value *string) *StorageProviderUpdateOne {
+	if value != nil {
+		return sp.SetBucket(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderCreate) SetNotNilBucket(value *string) *StorageProviderCreate {
+	if value != nil {
+		return sp.SetBucket(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdate) SetNotNilProviderName(value *string) *StorageProviderUpdate {
+	if value != nil {
+		return sp.SetProviderName(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdateOne) SetNotNilProviderName(value *string) *StorageProviderUpdateOne {
+	if value != nil {
+		return sp.SetProviderName(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderCreate) SetNotNilProviderName(value *string) *StorageProviderCreate {
+	if value != nil {
+		return sp.SetProviderName(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdate) SetNotNilSecretID(value *string) *StorageProviderUpdate {
+	if value != nil {
+		return sp.SetSecretID(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdateOne) SetNotNilSecretID(value *string) *StorageProviderUpdateOne {
+	if value != nil {
+		return sp.SetSecretID(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderCreate) SetNotNilSecretID(value *string) *StorageProviderCreate {
+	if value != nil {
+		return sp.SetSecretID(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdate) SetNotNilSecretKey(value *string) *StorageProviderUpdate {
+	if value != nil {
+		return sp.SetSecretKey(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdateOne) SetNotNilSecretKey(value *string) *StorageProviderUpdateOne {
+	if value != nil {
+		return sp.SetSecretKey(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderCreate) SetNotNilSecretKey(value *string) *StorageProviderCreate {
+	if value != nil {
+		return sp.SetSecretKey(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdate) SetNotNilRegion(value *string) *StorageProviderUpdate {
+	if value != nil {
+		return sp.SetRegion(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdateOne) SetNotNilRegion(value *string) *StorageProviderUpdateOne {
+	if value != nil {
+		return sp.SetRegion(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderCreate) SetNotNilRegion(value *string) *StorageProviderCreate {
+	if value != nil {
+		return sp.SetRegion(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdate) SetNotNilIsDefault(value *bool) *StorageProviderUpdate {
+	if value != nil {
+		return sp.SetIsDefault(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdateOne) SetNotNilIsDefault(value *bool) *StorageProviderUpdateOne {
+	if value != nil {
+		return sp.SetIsDefault(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderCreate) SetNotNilIsDefault(value *bool) *StorageProviderCreate {
+	if value != nil {
+		return sp.SetIsDefault(*value)
+	}
+	return sp
 }
