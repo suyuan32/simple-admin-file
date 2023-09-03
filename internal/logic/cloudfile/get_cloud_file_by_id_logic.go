@@ -2,6 +2,7 @@ package cloudfile
 
 import (
 	"context"
+	"github.com/suyuan32/simple-admin-file/ent/cloudfile"
 
 	"github.com/suyuan32/simple-admin-file/internal/svc"
 	"github.com/suyuan32/simple-admin-file/internal/types"
@@ -29,7 +30,8 @@ func NewGetCloudFileByIdLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *GetCloudFileByIdLogic) GetCloudFileById(req *types.UUIDReq) (*types.CloudFileInfoResp, error) {
-	data, err := l.svcCtx.DB.CloudFile.Get(l.ctx, uuidx.ParseUUIDString(req.Id))
+	data, err := l.svcCtx.DB.CloudFile.Query().Where(cloudfile.IDEQ(uuidx.ParseUUIDString(req.Id))).WithStorageProviders().
+		First(l.ctx)
 	if err != nil {
 		return nil, dberrorhandler.DefaultEntError(l.Logger, err, req)
 	}
@@ -45,12 +47,13 @@ func (l *GetCloudFileByIdLogic) GetCloudFileById(req *types.UUIDReq) (*types.Clo
 				CreatedAt: pointy.GetPointer(data.CreatedAt.Unix()),
 				UpdatedAt: pointy.GetPointer(data.UpdatedAt.Unix()),
 			},
-			State:    &data.State,
-			Name:     &data.Name,
-			Url:      &data.URL,
-			Size:     &data.Size,
-			FileType: &data.FileType,
-			UserId:   &data.UserID,
+			State:      &data.State,
+			Name:       &data.Name,
+			Url:        &data.URL,
+			Size:       &data.Size,
+			FileType:   &data.FileType,
+			UserId:     &data.UserID,
+			ProviderId: &data.Edges.StorageProviders.ID,
 		},
 	}, nil
 }

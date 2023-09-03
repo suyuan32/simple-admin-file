@@ -2,6 +2,7 @@ package cloudfile
 
 import (
 	"context"
+	"github.com/suyuan32/simple-admin-file/ent/storageprovider"
 
 	"github.com/suyuan32/simple-admin-file/ent/cloudfile"
 	"github.com/suyuan32/simple-admin-file/ent/predicate"
@@ -34,13 +35,10 @@ func (l *GetCloudFileListLogic) GetCloudFileList(req *types.CloudFileListReq) (*
 	if req.Name != nil {
 		predicates = append(predicates, cloudfile.NameContains(*req.Name))
 	}
-	if req.Url != nil {
-		predicates = append(predicates, cloudfile.URLContains(*req.Url))
+	if req.ProviderId != nil {
+		predicates = append(predicates, cloudfile.HasStorageProvidersWith(storageprovider.IDEQ(*req.ProviderId)))
 	}
-	if req.UserId != nil {
-		predicates = append(predicates, cloudfile.UserIDContains(*req.UserId))
-	}
-	data, err := l.svcCtx.DB.CloudFile.Query().Where(predicates...).Page(l.ctx, req.Page, req.PageSize)
+	data, err := l.svcCtx.DB.CloudFile.Query().Where(predicates...).WithStorageProviders().Page(l.ctx, req.Page, req.PageSize)
 
 	if err != nil {
 		return nil, dberrorhandler.DefaultEntError(l.Logger, err, req)
@@ -58,12 +56,13 @@ func (l *GetCloudFileListLogic) GetCloudFileList(req *types.CloudFileListReq) (*
 					CreatedAt: pointy.GetPointer(v.CreatedAt.Unix()),
 					UpdatedAt: pointy.GetPointer(v.UpdatedAt.Unix()),
 				},
-				State:    &v.State,
-				Name:     &v.Name,
-				Url:      &v.URL,
-				Size:     &v.Size,
-				FileType: &v.FileType,
-				UserId:   &v.UserID,
+				State:      &v.State,
+				Name:       &v.Name,
+				Url:        &v.URL,
+				Size:       &v.Size,
+				FileType:   &v.FileType,
+				UserId:     &v.UserID,
+				ProviderId: &v.Edges.StorageProviders.ID,
 			})
 	}
 

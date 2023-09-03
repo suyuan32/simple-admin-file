@@ -271,6 +271,8 @@ type CloudFileInfo struct {
 	FileType *uint8 `json:"fileType,optional"`
 	// UserId
 	UserId *string `json:"userId,optional"`
+	// Provider ID
+	ProviderId *uint64 `json:"providerId,optional"`
 }
 
 // The response data of cloud file list | 云文件列表数据
@@ -295,10 +297,8 @@ type CloudFileListReq struct {
 	PageInfo
 	// Name
 	Name *string `json:"name,optional"`
-	// Url
-	Url *string `json:"url,optional"`
-	// UserId
-	UserId *string `json:"userId,optional"`
+	// Provider ID
+	ProviderId *uint64 `json:"providerId,optional"`
 }
 
 // CloudFile information response | 云文件信息返回体

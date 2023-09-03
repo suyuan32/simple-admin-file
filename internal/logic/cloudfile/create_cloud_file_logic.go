@@ -27,14 +27,19 @@ func NewCreateCloudFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *C
 }
 
 func (l *CreateCloudFileLogic) CreateCloudFile(req *types.CloudFileInfo) (*types.BaseMsgResp, error) {
-	_, err := l.svcCtx.DB.CloudFile.Create().
+	query := l.svcCtx.DB.CloudFile.Create().
 		SetNotNilState(req.State).
 		SetNotNilName(req.Name).
 		SetNotNilURL(req.Url).
 		SetNotNilSize(req.Size).
 		SetNotNilFileType(req.FileType).
-		SetNotNilUserID(req.UserId).
-		Save(l.ctx)
+		SetNotNilUserID(req.UserId)
+
+	if req.ProviderId != nil {
+		query = query.SetStorageProvidersID(*req.ProviderId)
+	}
+
+	_, err := query.Save(l.ctx)
 
 	if err != nil {
 		return nil, dberrorhandler.DefaultEntError(l.Logger, err, req)

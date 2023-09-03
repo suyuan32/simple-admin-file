@@ -27,14 +27,19 @@ func NewUpdateCloudFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *U
 }
 
 func (l *UpdateCloudFileLogic) UpdateCloudFile(req *types.CloudFileInfo) (*types.BaseMsgResp, error) {
-	err := l.svcCtx.DB.CloudFile.UpdateOneID(uuidx.ParseUUIDString(*req.Id)).
+	query := l.svcCtx.DB.CloudFile.UpdateOneID(uuidx.ParseUUIDString(*req.Id)).
 		SetNotNilState(req.State).
 		SetNotNilName(req.Name).
 		SetNotNilURL(req.Url).
 		SetNotNilSize(req.Size).
 		SetNotNilFileType(req.FileType).
-		SetNotNilUserID(req.UserId).
-		Exec(l.ctx)
+		SetNotNilUserID(req.UserId)
+
+	if req.ProviderId != nil {
+		query = query.SetStorageProvidersID(*req.ProviderId)
+	}
+
+	err := query.Exec(l.ctx)
 
 	if err != nil {
 		return nil, dberrorhandler.DefaultEntError(l.Logger, err, req)

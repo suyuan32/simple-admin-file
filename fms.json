@@ -767,6 +767,12 @@
           "type": "string",
           "x-go-name": "Name"
         },
+        "providerId": {
+          "description": "Provider ID",
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "ProviderId"
+        },
         "size": {
           "description": "Size",
           "type": "integer",
@@ -869,15 +875,11 @@
           "maximum": 100000,
           "x-go-name": "PageSize"
         },
-        "url": {
-          "description": "Url",
-          "type": "string",
-          "x-go-name": "Url"
-        },
-        "userId": {
-          "description": "UserId",
-          "type": "string",
-          "x-go-name": "UserId"
+        "providerId": {
+          "description": "Provider ID",
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "ProviderId"
         }
       },
       "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"
