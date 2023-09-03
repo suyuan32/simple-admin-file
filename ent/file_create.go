@@ -12,7 +12,7 @@ import (
 	"entgo.io/ent/schema/field"
 	uuid "github.com/gofrs/uuid/v5"
 	"github.com/suyuan32/simple-admin-file/ent/file"
-	"github.com/suyuan32/simple-admin-file/ent/tag"
+	"github.com/suyuan32/simple-admin-file/ent/filetag"
 )
 
 // FileCreate is the builder for creating a File entity.
@@ -88,9 +88,9 @@ func (fc *FileCreate) SetPath(s string) *FileCreate {
 	return fc
 }
 
-// SetUserUUID sets the "user_uuid" field.
-func (fc *FileCreate) SetUserUUID(s string) *FileCreate {
-	fc.mutation.SetUserUUID(s)
+// SetUserID sets the "user_id" field.
+func (fc *FileCreate) SetUserID(s string) *FileCreate {
+	fc.mutation.SetUserID(s)
 	return fc
 }
 
@@ -114,17 +114,17 @@ func (fc *FileCreate) SetNillableID(u *uuid.UUID) *FileCreate {
 	return fc
 }
 
-// AddTagIDs adds the "tags" edge to the Tag entity by IDs.
+// AddTagIDs adds the "tags" edge to the FileTag entity by IDs.
 func (fc *FileCreate) AddTagIDs(ids ...uint64) *FileCreate {
 	fc.mutation.AddTagIDs(ids...)
 	return fc
 }
 
-// AddTags adds the "tags" edges to the Tag entity.
-func (fc *FileCreate) AddTags(t ...*Tag) *FileCreate {
-	ids := make([]uint64, len(t))
-	for i := range t {
-		ids[i] = t[i].ID
+// AddTags adds the "tags" edges to the FileTag entity.
+func (fc *FileCreate) AddTags(f ...*FileTag) *FileCreate {
+	ids := make([]uint64, len(f))
+	for i := range f {
+		ids[i] = f[i].ID
 	}
 	return fc.AddTagIDs(ids...)
 }
@@ -202,8 +202,8 @@ func (fc *FileCreate) check() error {
 	if _, ok := fc.mutation.Path(); !ok {
 		return &ValidationError{Name: "path", err: errors.New(`ent: missing required field "File.path"`)}
 	}
-	if _, ok := fc.mutation.UserUUID(); !ok {
-		return &ValidationError{Name: "user_uuid", err: errors.New(`ent: missing required field "File.user_uuid"`)}
+	if _, ok := fc.mutation.UserID(); !ok {
+		return &ValidationError{Name: "user_id", err: errors.New(`ent: missing required field "File.user_id"`)}
 	}
 	if _, ok := fc.mutation.Md5(); !ok {
 		return &ValidationError{Name: "md5", err: errors.New(`ent: missing required field "File.md5"`)}
@@ -271,9 +271,9 @@ func (fc *FileCreate) createSpec() (*File, *sqlgraph.CreateSpec) {
 		_spec.SetField(file.FieldPath, field.TypeString, value)
 		_node.Path = value
 	}
-	if value, ok := fc.mutation.UserUUID(); ok {
-		_spec.SetField(file.FieldUserUUID, field.TypeString, value)
-		_node.UserUUID = value
+	if value, ok := fc.mutation.UserID(); ok {
+		_spec.SetField(file.FieldUserID, field.TypeString, value)
+		_node.UserID = value
 	}
 	if value, ok := fc.mutation.Md5(); ok {
 		_spec.SetField(file.FieldMd5, field.TypeString, value)
@@ -287,7 +287,7 @@ func (fc *FileCreate) createSpec() (*File, *sqlgraph.CreateSpec) {
 			Columns: file.TagsPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(tag.FieldID, field.TypeUint64),
+				IDSpec: sqlgraph.NewFieldSpec(filetag.FieldID, field.TypeUint64),
 			},
 		}
 		for _, k := range nodes {

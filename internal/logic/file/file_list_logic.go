@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/suyuan32/simple-admin-common/utils/pointy"
 	"github.com/suyuan32/simple-admin-file/ent"
-	"github.com/suyuan32/simple-admin-file/ent/tag"
+	"github.com/suyuan32/simple-admin-file/ent/filetag"
 	"time"
 
 	"github.com/suyuan32/simple-admin-common/enum/errorcode"
@@ -47,8 +47,8 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 		predicates = append(predicates, file.NameContains(*req.FileName))
 	}
 
-	if req.TagIds != nil {
-		predicates = append(predicates, file.HasTagsWith(tag.IDIn(req.TagIds...)))
+	if req.FileTagIds != nil {
+		predicates = append(predicates, file.HasTagsWith(filetag.IDIn(req.FileTagIds...)))
 	}
 
 	if req.Status != nil {
@@ -84,13 +84,13 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 				CreatedAt: pointy.GetPointer(v.CreatedAt.UnixMilli()),
 				UpdatedAt: pointy.GetPointer(v.UpdatedAt.UnixMilli()),
 			},
-			UserUUID:   &v.UserUUID,
+			UserUUID:   &v.UserID,
 			Name:       &v.Name,
 			FileType:   &v.FileType,
 			Size:       &v.Size,
 			Path:       &v.Path,
 			Status:     &v.Status,
-			TagIds:     l.getTagIds(v.Edges.Tags),
+			FileTagIds: l.getFileTagIds(v.Edges.Tags),
 			PublicPath: pointy.GetPointer(l.svcCtx.Config.UploadConf.ServerURL + v.Path),
 		})
 	}
@@ -98,7 +98,7 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 	return resp, nil
 }
 
-func (l *FileListLogic) getTagIds(tags []*ent.Tag) (result []uint64) {
+func (l *FileListLogic) getFileTagIds(tags []*ent.FileTag) (result []uint64) {
 	for _, v := range tags {
 		result = append(result, v.ID)
 	}

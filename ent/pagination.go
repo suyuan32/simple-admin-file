@@ -6,8 +6,11 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/suyuan32/simple-admin-file/ent/cloudfile"
+	"github.com/suyuan32/simple-admin-file/ent/cloudfiletag"
 	"github.com/suyuan32/simple-admin-file/ent/file"
-	"github.com/suyuan32/simple-admin-file/ent/tag"
+	"github.com/suyuan32/simple-admin-file/ent/filetag"
+	"github.com/suyuan32/simple-admin-file/ent/storageprovider"
 )
 
 const errInvalidPage = "INVALID_PAGE"
@@ -55,6 +58,164 @@ func (o OrderDirection) reverse() OrderDirection {
 }
 
 const errInvalidPagination = "INVALID_PAGINATION"
+
+type CloudFilePager struct {
+	Order  cloudfile.OrderOption
+	Filter func(*CloudFileQuery) (*CloudFileQuery, error)
+}
+
+// CloudFilePaginateOption enables pagination customization.
+type CloudFilePaginateOption func(*CloudFilePager)
+
+// DefaultCloudFileOrder is the default ordering of CloudFile.
+var DefaultCloudFileOrder = Desc(cloudfile.FieldID)
+
+func newCloudFilePager(opts []CloudFilePaginateOption) (*CloudFilePager, error) {
+	pager := &CloudFilePager{}
+	for _, opt := range opts {
+		opt(pager)
+	}
+	if pager.Order == nil {
+		pager.Order = DefaultCloudFileOrder
+	}
+	return pager, nil
+}
+
+func (p *CloudFilePager) ApplyFilter(query *CloudFileQuery) (*CloudFileQuery, error) {
+	if p.Filter != nil {
+		return p.Filter(query)
+	}
+	return query, nil
+}
+
+// CloudFilePageList is CloudFile PageList result.
+type CloudFilePageList struct {
+	List        []*CloudFile `json:"list"`
+	PageDetails *PageDetails `json:"pageDetails"`
+}
+
+func (cf *CloudFileQuery) Page(
+	ctx context.Context, pageNum uint64, pageSize uint64, opts ...CloudFilePaginateOption,
+) (*CloudFilePageList, error) {
+
+	pager, err := newCloudFilePager(opts)
+	if err != nil {
+		return nil, err
+	}
+
+	if cf, err = pager.ApplyFilter(cf); err != nil {
+		return nil, err
+	}
+
+	ret := &CloudFilePageList{}
+
+	ret.PageDetails = &PageDetails{
+		Page: pageNum,
+		Size: pageSize,
+	}
+
+	count, err := cf.Clone().Count(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+
+	ret.PageDetails.Total = uint64(count)
+
+	if pager.Order != nil {
+		cf = cf.Order(pager.Order)
+	} else {
+		cf = cf.Order(DefaultCloudFileOrder)
+	}
+
+	cf = cf.Offset(int((pageNum - 1) * pageSize)).Limit(int(pageSize))
+	list, err := cf.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	ret.List = list
+
+	return ret, nil
+}
+
+type CloudFileTagPager struct {
+	Order  cloudfiletag.OrderOption
+	Filter func(*CloudFileTagQuery) (*CloudFileTagQuery, error)
+}
+
+// CloudFileTagPaginateOption enables pagination customization.
+type CloudFileTagPaginateOption func(*CloudFileTagPager)
+
+// DefaultCloudFileTagOrder is the default ordering of CloudFileTag.
+var DefaultCloudFileTagOrder = Desc(cloudfiletag.FieldID)
+
+func newCloudFileTagPager(opts []CloudFileTagPaginateOption) (*CloudFileTagPager, error) {
+	pager := &CloudFileTagPager{}
+	for _, opt := range opts {
+		opt(pager)
+	}
+	if pager.Order == nil {
+		pager.Order = DefaultCloudFileTagOrder
+	}
+	return pager, nil
+}
+
+func (p *CloudFileTagPager) ApplyFilter(query *CloudFileTagQuery) (*CloudFileTagQuery, error) {
+	if p.Filter != nil {
+		return p.Filter(query)
+	}
+	return query, nil
+}
+
+// CloudFileTagPageList is CloudFileTag PageList result.
+type CloudFileTagPageList struct {
+	List        []*CloudFileTag `json:"list"`
+	PageDetails *PageDetails    `json:"pageDetails"`
+}
+
+func (cft *CloudFileTagQuery) Page(
+	ctx context.Context, pageNum uint64, pageSize uint64, opts ...CloudFileTagPaginateOption,
+) (*CloudFileTagPageList, error) {
+
+	pager, err := newCloudFileTagPager(opts)
+	if err != nil {
+		return nil, err
+	}
+
+	if cft, err = pager.ApplyFilter(cft); err != nil {
+		return nil, err
+	}
+
+	ret := &CloudFileTagPageList{}
+
+	ret.PageDetails = &PageDetails{
+		Page: pageNum,
+		Size: pageSize,
+	}
+
+	count, err := cft.Clone().Count(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+
+	ret.PageDetails.Total = uint64(count)
+
+	if pager.Order != nil {
+		cft = cft.Order(pager.Order)
+	} else {
+		cft = cft.Order(DefaultCloudFileTagOrder)
+	}
+
+	cft = cft.Offset(int((pageNum - 1) * pageSize)).Limit(int(pageSize))
+	list, err := cft.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	ret.List = list
+
+	return ret, nil
+}
 
 type FilePager struct {
 	Order  file.OrderOption
@@ -135,62 +296,62 @@ func (f *FileQuery) Page(
 	return ret, nil
 }
 
-type TagPager struct {
-	Order  tag.OrderOption
-	Filter func(*TagQuery) (*TagQuery, error)
+type FileTagPager struct {
+	Order  filetag.OrderOption
+	Filter func(*FileTagQuery) (*FileTagQuery, error)
 }
 
-// TagPaginateOption enables pagination customization.
-type TagPaginateOption func(*TagPager)
+// FileTagPaginateOption enables pagination customization.
+type FileTagPaginateOption func(*FileTagPager)
 
-// DefaultTagOrder is the default ordering of Tag.
-var DefaultTagOrder = Desc(tag.FieldID)
+// DefaultFileTagOrder is the default ordering of FileTag.
+var DefaultFileTagOrder = Desc(filetag.FieldID)
 
-func newTagPager(opts []TagPaginateOption) (*TagPager, error) {
-	pager := &TagPager{}
+func newFileTagPager(opts []FileTagPaginateOption) (*FileTagPager, error) {
+	pager := &FileTagPager{}
 	for _, opt := range opts {
 		opt(pager)
 	}
 	if pager.Order == nil {
-		pager.Order = DefaultTagOrder
+		pager.Order = DefaultFileTagOrder
 	}
 	return pager, nil
 }
 
-func (p *TagPager) ApplyFilter(query *TagQuery) (*TagQuery, error) {
+func (p *FileTagPager) ApplyFilter(query *FileTagQuery) (*FileTagQuery, error) {
 	if p.Filter != nil {
 		return p.Filter(query)
 	}
 	return query, nil
 }
 
-// TagPageList is Tag PageList result.
-type TagPageList struct {
-	List        []*Tag       `json:"list"`
+// FileTagPageList is FileTag PageList result.
+type FileTagPageList struct {
+	List        []*FileTag   `json:"list"`
 	PageDetails *PageDetails `json:"pageDetails"`
 }
 
-func (t *TagQuery) Page(
-	ctx context.Context, pageNum uint64, pageSize uint64, opts ...TagPaginateOption,
-) (*TagPageList, error) {
+func (ft *FileTagQuery) Page(
+	ctx context.Context, pageNum uint64, pageSize uint64, opts ...FileTagPaginateOption,
+) (*FileTagPageList, error) {
 
-	pager, err := newTagPager(opts)
+	pager, err := newFileTagPager(opts)
 	if err != nil {
 		return nil, err
 	}
 
-	if t, err = pager.ApplyFilter(t); err != nil {
+	if ft, err = pager.ApplyFilter(ft); err != nil {
 		return nil, err
 	}
 
-	ret := &TagPageList{}
+	ret := &FileTagPageList{}
 
 	ret.PageDetails = &PageDetails{
 		Page: pageNum,
 		Size: pageSize,
 	}
 
-	count, err := t.Clone().Count(ctx)
+	count, err := ft.Clone().Count(ctx)
 
 	if err != nil {
 		return nil, err
@@ -199,13 +360,92 @@ func (t *TagQuery) Page(
 	ret.PageDetails.Total = uint64(count)
 
 	if pager.Order != nil {
-		t = t.Order(pager.Order)
+		ft = ft.Order(pager.Order)
 	} else {
-		t = t.Order(DefaultTagOrder)
+		ft = ft.Order(DefaultFileTagOrder)
 	}
 
-	t = t.Offset(int((pageNum - 1) * pageSize)).Limit(int(pageSize))
-	list, err := t.All(ctx)
+	ft = ft.Offset(int((pageNum - 1) * pageSize)).Limit(int(pageSize))
+	list, err := ft.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	ret.List = list
+
+	return ret, nil
+}
+
+type StorageProviderPager struct {
+	Order  storageprovider.OrderOption
+	Filter func(*StorageProviderQuery) (*StorageProviderQuery, error)
+}
+
+// StorageProviderPaginateOption enables pagination customization.
+type StorageProviderPaginateOption func(*StorageProviderPager)
+
+// DefaultStorageProviderOrder is the default ordering of StorageProvider.
+var DefaultStorageProviderOrder = Desc(storageprovider.FieldID)
+
+func newStorageProviderPager(opts []StorageProviderPaginateOption) (*StorageProviderPager, error) {
+	pager := &StorageProviderPager{}
+	for _, opt := range opts {
+		opt(pager)
+	}
+	if pager.Order == nil {
+		pager.Order = DefaultStorageProviderOrder
+	}
+	return pager, nil
+}
+
+func (p *StorageProviderPager) ApplyFilter(query *StorageProviderQuery) (*StorageProviderQuery, error) {
+	if p.Filter != nil {
+		return p.Filter(query)
+	}
+	return query, nil
+}
+
+// StorageProviderPageList is StorageProvider PageList result.
+type StorageProviderPageList struct {
+	List        []*StorageProvider `json:"list"`
+	PageDetails *PageDetails       `json:"pageDetails"`
+}
+
+func (sp *StorageProviderQuery) Page(
+	ctx context.Context, pageNum uint64, pageSize uint64, opts ...StorageProviderPaginateOption,
+) (*StorageProviderPageList, error) {
+
+	pager, err := newStorageProviderPager(opts)
+	if err != nil {
+		return nil, err
+	}
+
+	if sp, err = pager.ApplyFilter(sp); err != nil {
+		return nil, err
+	}
+
+	ret := &StorageProviderPageList{}
+
+	ret.PageDetails = &PageDetails{
+		Page: pageNum,
+		Size: pageSize,
+	}
+
+	count, err := sp.Clone().Count(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+
+	ret.PageDetails.Total = uint64(count)
+
+	if pager.Order != nil {
+		sp = sp.Order(pager.Order)
+	} else {
+		sp = sp.Order(DefaultStorageProviderOrder)
+	}
+
+	sp = sp.Offset(int((pageNum - 1) * pageSize)).Limit(int(pageSize))
+	list, err := sp.All(ctx)
 	if err != nil {
 		return nil, err
 	}

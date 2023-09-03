@@ -12,8 +12,8 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/suyuan32/simple-admin-file/ent/file"
+	"github.com/suyuan32/simple-admin-file/ent/filetag"
 	"github.com/suyuan32/simple-admin-file/ent/predicate"
-	"github.com/suyuan32/simple-admin-file/ent/tag"
 )
 
 // FileUpdate is the builder for updating File entities.
@@ -100,9 +100,9 @@ func (fu *FileUpdate) SetPath(s string) *FileUpdate {
 	return fu
 }
 
-// SetUserUUID sets the "user_uuid" field.
-func (fu *FileUpdate) SetUserUUID(s string) *FileUpdate {
-	fu.mutation.SetUserUUID(s)
+// SetUserID sets the "user_id" field.
+func (fu *FileUpdate) SetUserID(s string) *FileUpdate {
+	fu.mutation.SetUserID(s)
 	return fu
 }
 
@@ -112,17 +112,17 @@ func (fu *FileUpdate) SetMd5(s string) *FileUpdate {
 	return fu
 }
 
-// AddTagIDs adds the "tags" edge to the Tag entity by IDs.
+// AddTagIDs adds the "tags" edge to the FileTag entity by IDs.
 func (fu *FileUpdate) AddTagIDs(ids ...uint64) *FileUpdate {
 	fu.mutation.AddTagIDs(ids...)
 	return fu
 }
 
-// AddTags adds the "tags" edges to the Tag entity.
-func (fu *FileUpdate) AddTags(t ...*Tag) *FileUpdate {
-	ids := make([]uint64, len(t))
-	for i := range t {
-		ids[i] = t[i].ID
+// AddTags adds the "tags" edges to the FileTag entity.
+func (fu *FileUpdate) AddTags(f ...*FileTag) *FileUpdate {
+	ids := make([]uint64, len(f))
+	for i := range f {
+		ids[i] = f[i].ID
 	}
 	return fu.AddTagIDs(ids...)
 }
@@ -132,23 +132,23 @@ func (fu *FileUpdate) Mutation() *FileMutation {
 	return fu.mutation
 }
 
-// ClearTags clears all "tags" edges to the Tag entity.
+// ClearTags clears all "tags" edges to the FileTag entity.
 func (fu *FileUpdate) ClearTags() *FileUpdate {
 	fu.mutation.ClearTags()
 	return fu
 }
 
-// RemoveTagIDs removes the "tags" edge to Tag entities by IDs.
+// RemoveTagIDs removes the "tags" edge to FileTag entities by IDs.
 func (fu *FileUpdate) RemoveTagIDs(ids ...uint64) *FileUpdate {
 	fu.mutation.RemoveTagIDs(ids...)
 	return fu
 }
 
-// RemoveTags removes "tags" edges to Tag entities.
-func (fu *FileUpdate) RemoveTags(t ...*Tag) *FileUpdate {
-	ids := make([]uint64, len(t))
-	for i := range t {
-		ids[i] = t[i].ID
+// RemoveTags removes "tags" edges to FileTag entities.
+func (fu *FileUpdate) RemoveTags(f ...*FileTag) *FileUpdate {
+	ids := make([]uint64, len(f))
+	for i := range f {
+		ids[i] = f[i].ID
 	}
 	return fu.RemoveTagIDs(ids...)
 }
@@ -228,8 +228,8 @@ func (fu *FileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := fu.mutation.Path(); ok {
 		_spec.SetField(file.FieldPath, field.TypeString, value)
 	}
-	if value, ok := fu.mutation.UserUUID(); ok {
-		_spec.SetField(file.FieldUserUUID, field.TypeString, value)
+	if value, ok := fu.mutation.UserID(); ok {
+		_spec.SetField(file.FieldUserID, field.TypeString, value)
 	}
 	if value, ok := fu.mutation.Md5(); ok {
 		_spec.SetField(file.FieldMd5, field.TypeString, value)
@@ -242,7 +242,7 @@ func (fu *FileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: file.TagsPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(tag.FieldID, field.TypeUint64),
+				IDSpec: sqlgraph.NewFieldSpec(filetag.FieldID, field.TypeUint64),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -255,7 +255,7 @@ func (fu *FileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: file.TagsPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(tag.FieldID, field.TypeUint64),
+				IDSpec: sqlgraph.NewFieldSpec(filetag.FieldID, field.TypeUint64),
 			},
 		}
 		for _, k := range nodes {
@@ -271,7 +271,7 @@ func (fu *FileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: file.TagsPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(tag.FieldID, field.TypeUint64),
+				IDSpec: sqlgraph.NewFieldSpec(filetag.FieldID, field.TypeUint64),
 			},
 		}
 		for _, k := range nodes {
@@ -370,9 +370,9 @@ func (fuo *FileUpdateOne) SetPath(s string) *FileUpdateOne {
 	return fuo
 }
 
-// SetUserUUID sets the "user_uuid" field.
-func (fuo *FileUpdateOne) SetUserUUID(s string) *FileUpdateOne {
-	fuo.mutation.SetUserUUID(s)
+// SetUserID sets the "user_id" field.
+func (fuo *FileUpdateOne) SetUserID(s string) *FileUpdateOne {
+	fuo.mutation.SetUserID(s)
 	return fuo
 }
 
@@ -382,17 +382,17 @@ func (fuo *FileUpdateOne) SetMd5(s string) *FileUpdateOne {
 	return fuo
 }
 
-// AddTagIDs adds the "tags" edge to the Tag entity by IDs.
+// AddTagIDs adds the "tags" edge to the FileTag entity by IDs.
 func (fuo *FileUpdateOne) AddTagIDs(ids ...uint64) *FileUpdateOne {
 	fuo.mutation.AddTagIDs(ids...)
 	return fuo
 }
 
-// AddTags adds the "tags" edges to the Tag entity.
-func (fuo *FileUpdateOne) AddTags(t ...*Tag) *FileUpdateOne {
-	ids := make([]uint64, len(t))
-	for i := range t {
-		ids[i] = t[i].ID
+// AddTags adds the "tags" edges to the FileTag entity.
+func (fuo *FileUpdateOne) AddTags(f ...*FileTag) *FileUpdateOne {
+	ids := make([]uint64, len(f))
+	for i := range f {
+		ids[i] = f[i].ID
 	}
 	return fuo.AddTagIDs(ids...)
 }
@@ -402,23 +402,23 @@ func (fuo *FileUpdateOne) Mutation() *FileMutation {
 	return fuo.mutation
 }
 
-// ClearTags clears all "tags" edges to the Tag entity.
+// ClearTags clears all "tags" edges to the FileTag entity.
 func (fuo *FileUpdateOne) ClearTags() *FileUpdateOne {
 	fuo.mutation.ClearTags()
 	return fuo
 }
 
-// RemoveTagIDs removes the "tags" edge to Tag entities by IDs.
+// RemoveTagIDs removes the "tags" edge to FileTag entities by IDs.
 func (fuo *FileUpdateOne) RemoveTagIDs(ids ...uint64) *FileUpdateOne {
 	fuo.mutation.RemoveTagIDs(ids...)
 	return fuo
 }
 
-// RemoveTags removes "tags" edges to Tag entities.
-func (fuo *FileUpdateOne) RemoveTags(t ...*Tag) *FileUpdateOne {
-	ids := make([]uint64, len(t))
-	for i := range t {
-		ids[i] = t[i].ID
+// RemoveTags removes "tags" edges to FileTag entities.
+func (fuo *FileUpdateOne) RemoveTags(f ...*FileTag) *FileUpdateOne {
+	ids := make([]uint64, len(f))
+	for i := range f {
+		ids[i] = f[i].ID
 	}
 	return fuo.RemoveTagIDs(ids...)
 }
@@ -528,8 +528,8 @@ func (fuo *FileUpdateOne) sqlSave(ctx context.Context) (_node *File, err error) 
 	if value, ok := fuo.mutation.Path(); ok {
 		_spec.SetField(file.FieldPath, field.TypeString, value)
 	}
-	if value, ok := fuo.mutation.UserUUID(); ok {
-		_spec.SetField(file.FieldUserUUID, field.TypeString, value)
+	if value, ok := fuo.mutation.UserID(); ok {
+		_spec.SetField(file.FieldUserID, field.TypeString, value)
 	}
 	if value, ok := fuo.mutation.Md5(); ok {
 		_spec.SetField(file.FieldMd5, field.TypeString, value)
@@ -542,7 +542,7 @@ func (fuo *FileUpdateOne) sqlSave(ctx context.Context) (_node *File, err error) 
 			Columns: file.TagsPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(tag.FieldID, field.TypeUint64),
+				IDSpec: sqlgraph.NewFieldSpec(filetag.FieldID, field.TypeUint64),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -555,7 +555,7 @@ func (fuo *FileUpdateOne) sqlSave(ctx context.Context) (_node *File, err error) 
 			Columns: file.TagsPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(tag.FieldID, field.TypeUint64),
+				IDSpec: sqlgraph.NewFieldSpec(filetag.FieldID, field.TypeUint64),
 			},
 		}
 		for _, k := range nodes {
@@ -571,7 +571,7 @@ func (fuo *FileUpdateOne) sqlSave(ctx context.Context) (_node *File, err error) 
 			Columns: file.TagsPrimaryKey,
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(tag.FieldID, field.TypeUint64),
+				IDSpec: sqlgraph.NewFieldSpec(filetag.FieldID, field.TypeUint64),
 			},
 		}
 		for _, k := range nodes {

@@ -132,13 +132,20 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 	relativePath := fmt.Sprintf("/%s/%s/%s/%s", l.svcCtx.Config.Name,
 		fileType, timeString, storeFileName)
 
+	var md5 string
+	if l.r.MultipartForm.Value["md5"] != nil {
+		md5 = l.r.MultipartForm.Value["md5"][0]
+	} else {
+		md5 = ""
+	}
+
 	err = l.svcCtx.DB.File.Create().
 		SetID(fileUUID).
 		SetNotNilName(&fileName).
 		SetNotNilFileType(pointy.GetPointer(filex.ConvertFileTypeToUint8(fileType))).
 		SetNotNilPath(&relativePath).
-		SetNotNilUserUUID(&userId).
-		SetNotNilMd5(pointy.GetPointer(l.r.MultipartForm.Value["md5"][0])).
+		SetNotNilUserID(&userId).
+		SetNotNilMd5(pointy.GetPointer(md5)).
 		SetNotNilStatus(pointy.GetPointer(uint8(1))).
 		SetNotNilSize(pointy.GetPointer(uint64(handler.Size))).
 		Exec(l.ctx)

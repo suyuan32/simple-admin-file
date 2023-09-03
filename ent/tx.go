@@ -14,10 +14,16 @@ import (
 // Tx is a transactional client that is created by calling Client.Tx().
 type Tx struct {
 	config
+	// CloudFile is the client for interacting with the CloudFile builders.
+	CloudFile *CloudFileClient
+	// CloudFileTag is the client for interacting with the CloudFileTag builders.
+	CloudFileTag *CloudFileTagClient
 	// File is the client for interacting with the File builders.
 	File *FileClient
-	// Tag is the client for interacting with the Tag builders.
-	Tag *TagClient
+	// FileTag is the client for interacting with the FileTag builders.
+	FileTag *FileTagClient
+	// StorageProvider is the client for interacting with the StorageProvider builders.
+	StorageProvider *StorageProviderClient
 
 	// lazily loaded.
 	client     *Client
@@ -149,8 +155,11 @@ func (tx *Tx) Client() *Client {
 }
 
 func (tx *Tx) init() {
+	tx.CloudFile = NewCloudFileClient(tx.config)
+	tx.CloudFileTag = NewCloudFileTagClient(tx.config)
 	tx.File = NewFileClient(tx.config)
-	tx.Tag = NewTagClient(tx.config)
+	tx.FileTag = NewFileTagClient(tx.config)
+	tx.StorageProvider = NewStorageProviderClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.
@@ -160,7 +169,7 @@ func (tx *Tx) init() {
 // of them in order to commit or rollback the transaction.
 //
 // If a closed transaction is embedded in one of the generated entities, and the entity
-// applies a query, for example: File.QueryXXX(), the query will be executed
+// applies a query, for example: CloudFile.QueryXXX(), the query will be executed
 // through the driver which created this transaction.
 //
 // Note that txDriver is not goroutine safe.
