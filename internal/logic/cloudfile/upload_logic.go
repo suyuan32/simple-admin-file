@@ -91,7 +91,7 @@ func (l *UploadLogic) Upload() (resp *types.CloudFileInfoResp, err error) {
 		provider = l.svcCtx.CloudUploader.DefaultProvider
 	}
 
-	url, err := l.UploadToProvider(file, fmt.Sprintf("%s%s/%s/%s",
+	url, err := l.UploadToProvider(file, fmt.Sprintf("%s/%s/%s/%s",
 		l.svcCtx.CloudUploader.ProviderData[provider].Folder,
 		datetime.FormatTimeToStr(time.Now(), "yyyy-mm-dd"),
 		fileType,
