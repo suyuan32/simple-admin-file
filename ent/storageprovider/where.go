@@ -95,6 +95,11 @@ func SecretKey(v string) predicate.StorageProvider {
 	return predicate.StorageProvider(sql.FieldEQ(FieldSecretKey, v))
 }
 
+// Folder applies equality check predicate on the "folder" field. It's identical to FolderEQ.
+func Folder(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldEQ(FieldFolder, v))
+}
+
 // Region applies equality check predicate on the "region" field. It's identical to RegionEQ.
 func Region(v string) predicate.StorageProvider {
 	return predicate.StorageProvider(sql.FieldEQ(FieldRegion, v))
@@ -528,6 +533,81 @@ func SecretKeyEqualFold(v string) predicate.StorageProvider {
 // SecretKeyContainsFold applies the ContainsFold predicate on the "secret_key" field.
 func SecretKeyContainsFold(v string) predicate.StorageProvider {
 	return predicate.StorageProvider(sql.FieldContainsFold(FieldSecretKey, v))
+}
+
+// FolderEQ applies the EQ predicate on the "folder" field.
+func FolderEQ(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldEQ(FieldFolder, v))
+}
+
+// FolderNEQ applies the NEQ predicate on the "folder" field.
+func FolderNEQ(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldNEQ(FieldFolder, v))
+}
+
+// FolderIn applies the In predicate on the "folder" field.
+func FolderIn(vs ...string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldIn(FieldFolder, vs...))
+}
+
+// FolderNotIn applies the NotIn predicate on the "folder" field.
+func FolderNotIn(vs ...string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldNotIn(FieldFolder, vs...))
+}
+
+// FolderGT applies the GT predicate on the "folder" field.
+func FolderGT(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldGT(FieldFolder, v))
+}
+
+// FolderGTE applies the GTE predicate on the "folder" field.
+func FolderGTE(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldGTE(FieldFolder, v))
+}
+
+// FolderLT applies the LT predicate on the "folder" field.
+func FolderLT(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldLT(FieldFolder, v))
+}
+
+// FolderLTE applies the LTE predicate on the "folder" field.
+func FolderLTE(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldLTE(FieldFolder, v))
+}
+
+// FolderContains applies the Contains predicate on the "folder" field.
+func FolderContains(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldContains(FieldFolder, v))
+}
+
+// FolderHasPrefix applies the HasPrefix predicate on the "folder" field.
+func FolderHasPrefix(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldHasPrefix(FieldFolder, v))
+}
+
+// FolderHasSuffix applies the HasSuffix predicate on the "folder" field.
+func FolderHasSuffix(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldHasSuffix(FieldFolder, v))
+}
+
+// FolderIsNil applies the IsNil predicate on the "folder" field.
+func FolderIsNil() predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldIsNull(FieldFolder))
+}
+
+// FolderNotNil applies the NotNil predicate on the "folder" field.
+func FolderNotNil() predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldNotNull(FieldFolder))
+}
+
+// FolderEqualFold applies the EqualFold predicate on the "folder" field.
+func FolderEqualFold(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldEqualFold(FieldFolder, v))
+}
+
+// FolderContainsFold applies the ContainsFold predicate on the "folder" field.
+func FolderContainsFold(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldContainsFold(FieldFolder, v))
 }
 
 // RegionEQ applies the EQ predicate on the "region" field.

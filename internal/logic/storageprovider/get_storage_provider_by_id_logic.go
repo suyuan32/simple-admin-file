@@ -52,6 +52,7 @@ func (l *GetStorageProviderByIdLogic) GetStorageProviderById(req *types.IDReq) (
 			SecretKey:    &data.SecretKey,
 			Region:       &data.Region,
 			IsDefault:    &data.IsDefault,
+			Folder:       &data.Folder,
 		},
 	}, nil
 }

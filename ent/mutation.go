@@ -3423,6 +3423,7 @@ type StorageProviderMutation struct {
 	provider_name     *string
 	secret_id         *string
 	secret_key        *string
+	folder            *string
 	region            *string
 	is_default        *bool
 	clearedFields     map[string]struct{}
@@ -3839,6 +3840,55 @@ func (m *StorageProviderMutation) ResetSecretKey() {
 	m.secret_key = nil
 }
 
+// SetFolder sets the "folder" field.
+func (m *StorageProviderMutation) SetFolder(s string) {
+	m.folder = &s
+}
+
+// Folder returns the value of the "folder" field in the mutation.
+func (m *StorageProviderMutation) Folder() (r string, exists bool) {
+	v := m.folder
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldFolder returns the old "folder" field's value of the StorageProvider entity.
+// If the StorageProvider object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StorageProviderMutation) OldFolder(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldFolder is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldFolder requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldFolder: %w", err)
+	}
+	return oldValue.Folder, nil
+}
+
+// ClearFolder clears the value of the "folder" field.
+func (m *StorageProviderMutation) ClearFolder() {
+	m.folder = nil
+	m.clearedFields[storageprovider.FieldFolder] = struct{}{}
+}
+
+// FolderCleared returns if the "folder" field was cleared in this mutation.
+func (m *StorageProviderMutation) FolderCleared() bool {
+	_, ok := m.clearedFields[storageprovider.FieldFolder]
+	return ok
+}
+
+// ResetFolder resets all changes to the "folder" field.
+func (m *StorageProviderMutation) ResetFolder() {
+	m.folder = nil
+	delete(m.clearedFields, storageprovider.FieldFolder)
+}
+
 // SetRegion sets the "region" field.
 func (m *StorageProviderMutation) SetRegion(s string) {
 	m.region = &s
@@ -3999,7 +4049,7 @@ func (m *StorageProviderMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *StorageProviderMutation) Fields() []string {
-	fields := make([]string, 0, 10)
+	fields := make([]string, 0, 11)
 	if m.created_at != nil {
 		fields = append(fields, storageprovider.FieldCreatedAt)
 	}
@@ -4023,6 +4073,9 @@ func (m *StorageProviderMutation) Fields() []string {
 	}
 	if m.secret_key != nil {
 		fields = append(fields, storageprovider.FieldSecretKey)
+	}
+	if m.folder != nil {
+		fields = append(fields, storageprovider.FieldFolder)
 	}
 	if m.region != nil {
 		fields = append(fields, storageprovider.FieldRegion)
@@ -4054,6 +4107,8 @@ func (m *StorageProviderMutation) Field(name string) (ent.Value, bool) {
 		return m.SecretID()
 	case storageprovider.FieldSecretKey:
 		return m.SecretKey()
+	case storageprovider.FieldFolder:
+		return m.Folder()
 	case storageprovider.FieldRegion:
 		return m.Region()
 	case storageprovider.FieldIsDefault:
@@ -4083,6 +4138,8 @@ func (m *StorageProviderMutation) OldField(ctx context.Context, name string) (en
 		return m.OldSecretID(ctx)
 	case storageprovider.FieldSecretKey:
 		return m.OldSecretKey(ctx)
+	case storageprovider.FieldFolder:
+		return m.OldFolder(ctx)
 	case storageprovider.FieldRegion:
 		return m.OldRegion(ctx)
 	case storageprovider.FieldIsDefault:
@@ -4152,6 +4209,13 @@ func (m *StorageProviderMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetSecretKey(v)
 		return nil
+	case storageprovider.FieldFolder:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetFolder(v)
+		return nil
 	case storageprovider.FieldRegion:
 		v, ok := value.(string)
 		if !ok {
@@ -4199,6 +4263,9 @@ func (m *StorageProviderMutation) ClearedFields() []string {
 	if m.FieldCleared(storageprovider.FieldState) {
 		fields = append(fields, storageprovider.FieldState)
 	}
+	if m.FieldCleared(storageprovider.FieldFolder) {
+		fields = append(fields, storageprovider.FieldFolder)
+	}
 	return fields
 }
 
@@ -4215,6 +4282,9 @@ func (m *StorageProviderMutation) ClearField(name string) error {
 	switch name {
 	case storageprovider.FieldState:
 		m.ClearState()
+		return nil
+	case storageprovider.FieldFolder:
+		m.ClearFolder()
 		return nil
 	}
 	return fmt.Errorf("unknown StorageProvider nullable field %s", name)
@@ -4247,6 +4317,9 @@ func (m *StorageProviderMutation) ResetField(name string) error {
 		return nil
 	case storageprovider.FieldSecretKey:
 		m.ResetSecretKey()
+		return nil
+	case storageprovider.FieldFolder:
+		m.ResetFolder()
 		return nil
 	case storageprovider.FieldRegion:
 		m.ResetRegion()

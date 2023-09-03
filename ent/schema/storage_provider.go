@@ -33,6 +33,10 @@ func (StorageProvider) Fields() []ent.Field {
 		field.String("secret_key").
 			Comment("The secret key | 密钥 Key").
 			Annotations(entsql.WithComments(true)),
+		field.String("folder").
+			Optional().
+			Comment("The folder in cloud | 云服务目标文件夹").
+			Annotations(entsql.WithComments(true)),
 		field.String("region").
 			Comment("The service region | 服务器所在地区").
 			Annotations(entsql.WithComments(true)),

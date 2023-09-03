@@ -94,6 +94,20 @@ func (spc *StorageProviderCreate) SetSecretKey(s string) *StorageProviderCreate 
 	return spc
 }
 
+// SetFolder sets the "folder" field.
+func (spc *StorageProviderCreate) SetFolder(s string) *StorageProviderCreate {
+	spc.mutation.SetFolder(s)
+	return spc
+}
+
+// SetNillableFolder sets the "folder" field if the given value is not nil.
+func (spc *StorageProviderCreate) SetNillableFolder(s *string) *StorageProviderCreate {
+	if s != nil {
+		spc.SetFolder(*s)
+	}
+	return spc
+}
+
 // SetRegion sets the "region" field.
 func (spc *StorageProviderCreate) SetRegion(s string) *StorageProviderCreate {
 	spc.mutation.SetRegion(s)
@@ -280,6 +294,10 @@ func (spc *StorageProviderCreate) createSpec() (*StorageProvider, *sqlgraph.Crea
 	if value, ok := spc.mutation.SecretKey(); ok {
 		_spec.SetField(storageprovider.FieldSecretKey, field.TypeString, value)
 		_node.SecretKey = value
+	}
+	if value, ok := spc.mutation.Folder(); ok {
+		_spec.SetField(storageprovider.FieldFolder, field.TypeString, value)
+		_node.Folder = value
 	}
 	if value, ok := spc.mutation.Region(); ok {
 		_spec.SetField(storageprovider.FieldRegion, field.TypeString, value)

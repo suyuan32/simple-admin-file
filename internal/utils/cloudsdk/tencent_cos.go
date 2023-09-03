@@ -31,7 +31,10 @@ func (g *UploaderGroup) NewTencentClient(db *ent.Client) error {
 		})
 
 		g.TencentCOS[v.Name] = c
-		g.ProviderIdData[v.Name] = v.ID
+		g.ProviderData[v.Name] = struct {
+			Id     uint64
+			Folder string
+		}{Id: v.ID, Folder: v.Folder}
 	}
 
 	return nil

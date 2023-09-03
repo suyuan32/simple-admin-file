@@ -33,6 +33,8 @@ type StorageProvider struct {
 	SecretID string `json:"secret_id,omitempty"`
 	// The secret key | 密钥 Key
 	SecretKey string `json:"secret_key,omitempty"`
+	// The folder in cloud | 云服务目标文件夹
+	Folder string `json:"folder,omitempty"`
 	// The service region | 服务器所在地区
 	Region string `json:"region,omitempty"`
 	// Is it the default provider | 是否为默认提供商
@@ -70,7 +72,7 @@ func (*StorageProvider) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullBool)
 		case storageprovider.FieldID:
 			values[i] = new(sql.NullInt64)
-		case storageprovider.FieldName, storageprovider.FieldBucket, storageprovider.FieldProviderName, storageprovider.FieldSecretID, storageprovider.FieldSecretKey, storageprovider.FieldRegion:
+		case storageprovider.FieldName, storageprovider.FieldBucket, storageprovider.FieldProviderName, storageprovider.FieldSecretID, storageprovider.FieldSecretKey, storageprovider.FieldFolder, storageprovider.FieldRegion:
 			values[i] = new(sql.NullString)
 		case storageprovider.FieldCreatedAt, storageprovider.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -142,6 +144,12 @@ func (sp *StorageProvider) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field secret_key", values[i])
 			} else if value.Valid {
 				sp.SecretKey = value.String
+			}
+		case storageprovider.FieldFolder:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field folder", values[i])
+			} else if value.Valid {
+				sp.Folder = value.String
 			}
 		case storageprovider.FieldRegion:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -219,6 +227,9 @@ func (sp *StorageProvider) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("secret_key=")
 	builder.WriteString(sp.SecretKey)
+	builder.WriteString(", ")
+	builder.WriteString("folder=")
+	builder.WriteString(sp.Folder)
 	builder.WriteString(", ")
 	builder.WriteString("region=")
 	builder.WriteString(sp.Region)

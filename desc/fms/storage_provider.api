@@ -23,6 +23,9 @@ type (
         // Secret Key
         SecretKey  *string `json:"secretKey,optional"`
 
+        // folder | folder
+        Folder  *string `json:"folder,optional"`
+
         // Region | 地区
         Region  *string `json:"region,optional"`
 

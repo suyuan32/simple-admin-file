@@ -36,6 +36,7 @@ func (l *UpdateStorageProviderLogic) UpdateStorageProvider(req *types.StoragePro
 		SetNotNilSecretKey(req.SecretKey).
 		SetNotNilRegion(req.Region).
 		SetNotNilIsDefault(req.IsDefault).
+		SetNotNilFolder(req.Folder).
 		Exec(l.ctx)
 
 	if err != nil {

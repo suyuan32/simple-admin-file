@@ -3,6 +3,8 @@ package cloudfile
 import (
 	"context"
 	"errors"
+	"fmt"
+	"github.com/duke-git/lancet/v2/datetime"
 	"github.com/suyuan32/simple-admin-common/enum/errorcode"
 	"github.com/suyuan32/simple-admin-common/i18n"
 	"github.com/suyuan32/simple-admin-common/utils/pointy"
@@ -16,6 +18,7 @@ import (
 	"mime/multipart"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -89,7 +92,11 @@ func (l *UploadLogic) Upload() (resp *types.CloudFileInfoResp, err error) {
 		return nil, errors.New("provider is not set")
 	}
 
-	url, err := l.UploadToProvider(file, storeFileName, provider)
+	url, err := l.UploadToProvider(file, fmt.Sprintf("%s%s/%s/%s",
+		l.svcCtx.CloudUploader.ProviderData[provider].Folder,
+		datetime.FormatTimeToStr(time.Now(), "yyyy-mm-dd"),
+		fileType,
+		storeFileName), provider)
 	if err != nil {
 		return nil, err
 	}
@@ -98,7 +105,7 @@ func (l *UploadLogic) Upload() (resp *types.CloudFileInfoResp, err error) {
 	data, err := l.svcCtx.DB.CloudFile.Create().
 		SetName(fileName).
 		SetFileType(filex.ConvertFileTypeToUint8(fileType)).
-		SetStorageProvidersID(l.svcCtx.CloudUploader.ProviderIdData[provider]).
+		SetStorageProvidersID(l.svcCtx.CloudUploader.ProviderData[provider].Id).
 		SetURL(url).
 		SetSize(uint64(handler.Size)).
 		SetUserID(userId).

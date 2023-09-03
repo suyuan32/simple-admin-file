@@ -1640,6 +1640,11 @@
           "format": "int64",
           "x-go-name": "CreatedAt"
         },
+        "folder": {
+          "description": "folder | folder",
+          "type": "string",
+          "x-go-name": "Folder"
+        },
         "id": {
           "description": "ID",
           "type": "integer",

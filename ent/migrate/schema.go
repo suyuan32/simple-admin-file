@@ -134,6 +134,7 @@ var (
 		{Name: "provider_name", Type: field.TypeString, Comment: "The cloud storage provider name | 云存储服务的提供商"},
 		{Name: "secret_id", Type: field.TypeString, Comment: "The secret ID | 密钥 ID"},
 		{Name: "secret_key", Type: field.TypeString, Comment: "The secret key | 密钥 Key"},
+		{Name: "folder", Type: field.TypeString, Nullable: true, Comment: "The folder in cloud | 云服务目标文件夹"},
 		{Name: "region", Type: field.TypeString, Comment: "The service region | 服务器所在地区"},
 		{Name: "is_default", Type: field.TypeBool, Comment: "Is it the default provider | 是否为默认提供商", Default: false},
 	}

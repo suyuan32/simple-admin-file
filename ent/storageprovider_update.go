@@ -86,6 +86,26 @@ func (spu *StorageProviderUpdate) SetSecretKey(s string) *StorageProviderUpdate 
 	return spu
 }
 
+// SetFolder sets the "folder" field.
+func (spu *StorageProviderUpdate) SetFolder(s string) *StorageProviderUpdate {
+	spu.mutation.SetFolder(s)
+	return spu
+}
+
+// SetNillableFolder sets the "folder" field if the given value is not nil.
+func (spu *StorageProviderUpdate) SetNillableFolder(s *string) *StorageProviderUpdate {
+	if s != nil {
+		spu.SetFolder(*s)
+	}
+	return spu
+}
+
+// ClearFolder clears the value of the "folder" field.
+func (spu *StorageProviderUpdate) ClearFolder() *StorageProviderUpdate {
+	spu.mutation.ClearFolder()
+	return spu
+}
+
 // SetRegion sets the "region" field.
 func (spu *StorageProviderUpdate) SetRegion(s string) *StorageProviderUpdate {
 	spu.mutation.SetRegion(s)
@@ -216,6 +236,12 @@ func (spu *StorageProviderUpdate) sqlSave(ctx context.Context) (n int, err error
 	if value, ok := spu.mutation.SecretKey(); ok {
 		_spec.SetField(storageprovider.FieldSecretKey, field.TypeString, value)
 	}
+	if value, ok := spu.mutation.Folder(); ok {
+		_spec.SetField(storageprovider.FieldFolder, field.TypeString, value)
+	}
+	if spu.mutation.FolderCleared() {
+		_spec.ClearField(storageprovider.FieldFolder, field.TypeString)
+	}
 	if value, ok := spu.mutation.Region(); ok {
 		_spec.SetField(storageprovider.FieldRegion, field.TypeString, value)
 	}
@@ -340,6 +366,26 @@ func (spuo *StorageProviderUpdateOne) SetSecretID(s string) *StorageProviderUpda
 // SetSecretKey sets the "secret_key" field.
 func (spuo *StorageProviderUpdateOne) SetSecretKey(s string) *StorageProviderUpdateOne {
 	spuo.mutation.SetSecretKey(s)
+	return spuo
+}
+
+// SetFolder sets the "folder" field.
+func (spuo *StorageProviderUpdateOne) SetFolder(s string) *StorageProviderUpdateOne {
+	spuo.mutation.SetFolder(s)
+	return spuo
+}
+
+// SetNillableFolder sets the "folder" field if the given value is not nil.
+func (spuo *StorageProviderUpdateOne) SetNillableFolder(s *string) *StorageProviderUpdateOne {
+	if s != nil {
+		spuo.SetFolder(*s)
+	}
+	return spuo
+}
+
+// ClearFolder clears the value of the "folder" field.
+func (spuo *StorageProviderUpdateOne) ClearFolder() *StorageProviderUpdateOne {
+	spuo.mutation.ClearFolder()
 	return spuo
 }
 
@@ -502,6 +548,12 @@ func (spuo *StorageProviderUpdateOne) sqlSave(ctx context.Context) (_node *Stora
 	}
 	if value, ok := spuo.mutation.SecretKey(); ok {
 		_spec.SetField(storageprovider.FieldSecretKey, field.TypeString, value)
+	}
+	if value, ok := spuo.mutation.Folder(); ok {
+		_spec.SetField(storageprovider.FieldFolder, field.TypeString, value)
+	}
+	if spuo.mutation.FolderCleared() {
+		_spec.ClearField(storageprovider.FieldFolder, field.TypeString)
 	}
 	if value, ok := spuo.mutation.Region(); ok {
 		_spec.SetField(storageprovider.FieldRegion, field.TypeString, value)

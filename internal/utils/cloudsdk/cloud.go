@@ -7,14 +7,20 @@ import (
 )
 
 type UploaderGroup struct {
-	TencentCOS     map[string]*cos.Client
-	ProviderIdData map[string]uint64
+	TencentCOS   map[string]*cos.Client
+	ProviderData map[string]struct {
+		Id     uint64
+		Folder string
+	}
 }
 
 func NewUploaderGroup(db *ent.Client) *UploaderGroup {
 	uploaderGroup := UploaderGroup{}
 	uploaderGroup.TencentCOS = make(map[string]*cos.Client)
-	uploaderGroup.ProviderIdData = make(map[string]uint64)
+	uploaderGroup.ProviderData = make(map[string]struct {
+		Id     uint64
+		Folder string
+	})
 
 	err := uploaderGroup.NewTencentClient(db)
 	logx.Errorw("failed to load tencent cos config from database, you may need to initialize database",

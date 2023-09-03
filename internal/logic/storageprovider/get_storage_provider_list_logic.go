@@ -66,6 +66,7 @@ func (l *GetStorageProviderListLogic) GetStorageProviderList(req *types.StorageP
 				SecretKey:    &v.SecretKey,
 				Region:       &v.Region,
 				IsDefault:    &v.IsDefault,
+				Folder:       &v.Folder,
 			})
 	}
 

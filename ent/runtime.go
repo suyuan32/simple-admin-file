@@ -132,7 +132,7 @@ func init() {
 	// storageprovider.DefaultState holds the default value on creation for the state field.
 	storageprovider.DefaultState = storageproviderDescState.Default.(bool)
 	// storageproviderDescIsDefault is the schema descriptor for is_default field.
-	storageproviderDescIsDefault := storageproviderFields[6].Descriptor()
+	storageproviderDescIsDefault := storageproviderFields[7].Descriptor()
 	// storageprovider.DefaultIsDefault holds the default value on creation for the is_default field.
 	storageprovider.DefaultIsDefault = storageproviderDescIsDefault.Default.(bool)
 }

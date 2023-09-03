@@ -30,6 +30,8 @@ const (
 	FieldSecretID = "secret_id"
 	// FieldSecretKey holds the string denoting the secret_key field in the database.
 	FieldSecretKey = "secret_key"
+	// FieldFolder holds the string denoting the folder field in the database.
+	FieldFolder = "folder"
 	// FieldRegion holds the string denoting the region field in the database.
 	FieldRegion = "region"
 	// FieldIsDefault holds the string denoting the is_default field in the database.
@@ -58,6 +60,7 @@ var Columns = []string{
 	FieldProviderName,
 	FieldSecretID,
 	FieldSecretKey,
+	FieldFolder,
 	FieldRegion,
 	FieldIsDefault,
 }
@@ -131,6 +134,11 @@ func BySecretID(opts ...sql.OrderTermOption) OrderOption {
 // BySecretKey orders the results by the secret_key field.
 func BySecretKey(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSecretKey, opts...).ToFunc()
+}
+
+// ByFolder orders the results by the folder field.
+func ByFolder(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldFolder, opts...).ToFunc()
 }
 
 // ByRegion orders the results by the region field.

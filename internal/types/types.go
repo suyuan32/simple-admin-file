@@ -329,6 +329,8 @@ type StorageProviderInfo struct {
 	SecretId *string `json:"secretId,optional"`
 	// Secret Key
 	SecretKey *string `json:"secretKey,optional"`
+	// folder | folder
+	Folder *string `json:"folder,optional"`
 	// Region | 地区
 	Region *string `json:"region,optional"`
 	// Whether is Default | 是否为默认

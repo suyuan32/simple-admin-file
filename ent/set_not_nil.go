@@ -725,6 +725,30 @@ func (sp *StorageProviderCreate) SetNotNilSecretKey(value *string) *StorageProvi
 }
 
 // set field if value's pointer is not nil.
+func (sp *StorageProviderUpdate) SetNotNilFolder(value *string) *StorageProviderUpdate {
+	if value != nil {
+		return sp.SetFolder(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdateOne) SetNotNilFolder(value *string) *StorageProviderUpdateOne {
+	if value != nil {
+		return sp.SetFolder(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderCreate) SetNotNilFolder(value *string) *StorageProviderCreate {
+	if value != nil {
+		return sp.SetFolder(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
 func (sp *StorageProviderUpdate) SetNotNilRegion(value *string) *StorageProviderUpdate {
 	if value != nil {
 		return sp.SetRegion(*value)
