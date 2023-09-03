@@ -13,6 +13,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/suyuan32/simple-admin-file/ent/cloudfile"
+	"github.com/suyuan32/simple-admin-file/ent/cloudfiletag"
 	"github.com/suyuan32/simple-admin-file/ent/file"
 	"github.com/suyuan32/simple-admin-file/ent/filetag"
 	"github.com/suyuan32/simple-admin-file/ent/storageprovider"
@@ -77,6 +78,7 @@ func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
 			cloudfile.Table:       cloudfile.ValidColumn,
+			cloudfiletag.Table:    cloudfiletag.ValidColumn,
 			file.Table:            file.ValidColumn,
 			filetag.Table:         filetag.ValidColumn,
 			storageprovider.Table: storageprovider.ValidColumn,

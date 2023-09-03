@@ -316,6 +316,63 @@ func (l *InitDatabaseLogic) initApi() error {
 		return err
 	}
 
+	// Cloud file tag
+
+	_, err = l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
+		Path:        pointy.GetPointer("/cloud_file_tag/create"),
+		Description: pointy.GetPointer("apiDesc.createCloudFileTag"),
+		ApiGroup:    pointy.GetPointer("cloud_file_tag"),
+		Method:      pointy.GetPointer("POST"),
+	})
+
+	if err != nil {
+		return err
+	}
+
+	_, err = l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
+		Path:        pointy.GetPointer("/cloud_file_tag/update"),
+		Description: pointy.GetPointer("apiDesc.updateCloudFileTag"),
+		ApiGroup:    pointy.GetPointer("cloud_file_tag"),
+		Method:      pointy.GetPointer("POST"),
+	})
+
+	if err != nil {
+		return err
+	}
+
+	_, err = l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
+		Path:        pointy.GetPointer("/cloud_file_tag/delete"),
+		Description: pointy.GetPointer("apiDesc.deleteCloudFileTag"),
+		ApiGroup:    pointy.GetPointer("cloud_file_tag"),
+		Method:      pointy.GetPointer("POST"),
+	})
+
+	if err != nil {
+		return err
+	}
+
+	_, err = l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
+		Path:        pointy.GetPointer("/cloud_file_tag/list"),
+		Description: pointy.GetPointer("apiDesc.getCloudFileTagList"),
+		ApiGroup:    pointy.GetPointer("cloud_file_tag"),
+		Method:      pointy.GetPointer("POST"),
+	})
+
+	if err != nil {
+		return err
+	}
+
+	_, err = l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
+		Path:        pointy.GetPointer("/cloud_file_tag"),
+		Description: pointy.GetPointer("apiDesc.getCloudFileTagById"),
+		ApiGroup:    pointy.GetPointer("cloud_file_tag"),
+		Method:      pointy.GetPointer("POST"),
+	})
+
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -408,7 +465,7 @@ func (l *InitDatabaseLogic) initMenu() error {
 		Disabled:  pointy.GetPointer(false),
 		Meta: &core.Meta{
 			Title:              pointy.GetPointer("route.storageProviderManagement"),
-			Icon:               pointy.GetPointer("ant-design:book-outlined"),
+			Icon:               pointy.GetPointer("mdi:cloud-outline"),
 			HideMenu:           pointy.GetPointer(false),
 			HideBreadcrumb:     pointy.GetPointer(false),
 			IgnoreKeepAlive:    pointy.GetPointer(false),
@@ -434,6 +491,32 @@ func (l *InitDatabaseLogic) initMenu() error {
 		Disabled:  pointy.GetPointer(false),
 		Meta: &core.Meta{
 			Title:              pointy.GetPointer("route.cloudFileManagement"),
+			Icon:               pointy.GetPointer("ant-design:folder-open-outlined"),
+			HideMenu:           pointy.GetPointer(false),
+			HideBreadcrumb:     pointy.GetPointer(false),
+			IgnoreKeepAlive:    pointy.GetPointer(false),
+			HideTab:            pointy.GetPointer(false),
+			CarryParam:         pointy.GetPointer(false),
+			HideChildrenInMenu: pointy.GetPointer(false),
+			Affix:              pointy.GetPointer(false),
+		},
+		MenuType: pointy.GetPointer(uint32(1)),
+	})
+
+	if err != nil {
+		return err
+	}
+
+	_, err = l.svcCtx.CoreRpc.CreateMenu(l.ctx, &core.MenuInfo{
+		Level:     pointy.GetPointer(uint32(2)),
+		ParentId:  pointy.GetPointer(menuData.Id),
+		Path:      pointy.GetPointer("/fms/cloud_file_tag"),
+		Name:      pointy.GetPointer("CloudFileManagement"),
+		Component: pointy.GetPointer("/fms/cloudFileTag/index"),
+		Sort:      pointy.GetPointer(uint32(4)),
+		Disabled:  pointy.GetPointer(false),
+		Meta: &core.Meta{
+			Title:              pointy.GetPointer("route.cloudFileTagManagement"),
 			Icon:               pointy.GetPointer("ant-design:book-outlined"),
 			HideMenu:           pointy.GetPointer(false),
 			HideBreadcrumb:     pointy.GetPointer(false),

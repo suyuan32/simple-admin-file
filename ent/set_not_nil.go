@@ -173,6 +173,102 @@ func (cf *CloudFileCreate) SetNotNilUserID(value *string) *CloudFileCreate {
 }
 
 // set field if value's pointer is not nil.
+func (cft *CloudFileTagUpdate) SetNotNilUpdatedAt(value *time.Time) *CloudFileTagUpdate {
+	if value != nil {
+		return cft.SetUpdatedAt(*value)
+	}
+	return cft
+}
+
+// set field if value's pointer is not nil.
+func (cft *CloudFileTagUpdateOne) SetNotNilUpdatedAt(value *time.Time) *CloudFileTagUpdateOne {
+	if value != nil {
+		return cft.SetUpdatedAt(*value)
+	}
+	return cft
+}
+
+// set field if value's pointer is not nil.
+func (cft *CloudFileTagCreate) SetNotNilUpdatedAt(value *time.Time) *CloudFileTagCreate {
+	if value != nil {
+		return cft.SetUpdatedAt(*value)
+	}
+	return cft
+}
+
+// set field if value's pointer is not nil.
+func (cft *CloudFileTagUpdate) SetNotNilStatus(value *uint8) *CloudFileTagUpdate {
+	if value != nil {
+		return cft.SetStatus(*value)
+	}
+	return cft
+}
+
+// set field if value's pointer is not nil.
+func (cft *CloudFileTagUpdateOne) SetNotNilStatus(value *uint8) *CloudFileTagUpdateOne {
+	if value != nil {
+		return cft.SetStatus(*value)
+	}
+	return cft
+}
+
+// set field if value's pointer is not nil.
+func (cft *CloudFileTagCreate) SetNotNilStatus(value *uint8) *CloudFileTagCreate {
+	if value != nil {
+		return cft.SetStatus(*value)
+	}
+	return cft
+}
+
+// set field if value's pointer is not nil.
+func (cft *CloudFileTagUpdate) SetNotNilName(value *string) *CloudFileTagUpdate {
+	if value != nil {
+		return cft.SetName(*value)
+	}
+	return cft
+}
+
+// set field if value's pointer is not nil.
+func (cft *CloudFileTagUpdateOne) SetNotNilName(value *string) *CloudFileTagUpdateOne {
+	if value != nil {
+		return cft.SetName(*value)
+	}
+	return cft
+}
+
+// set field if value's pointer is not nil.
+func (cft *CloudFileTagCreate) SetNotNilName(value *string) *CloudFileTagCreate {
+	if value != nil {
+		return cft.SetName(*value)
+	}
+	return cft
+}
+
+// set field if value's pointer is not nil.
+func (cft *CloudFileTagUpdate) SetNotNilRemark(value *string) *CloudFileTagUpdate {
+	if value != nil {
+		return cft.SetRemark(*value)
+	}
+	return cft
+}
+
+// set field if value's pointer is not nil.
+func (cft *CloudFileTagUpdateOne) SetNotNilRemark(value *string) *CloudFileTagUpdateOne {
+	if value != nil {
+		return cft.SetRemark(*value)
+	}
+	return cft
+}
+
+// set field if value's pointer is not nil.
+func (cft *CloudFileTagCreate) SetNotNilRemark(value *string) *CloudFileTagCreate {
+	if value != nil {
+		return cft.SetRemark(*value)
+	}
+	return cft
+}
+
+// set field if value's pointer is not nil.
 func (f *FileUpdate) SetNotNilUpdatedAt(value *time.Time) *FileUpdate {
 	if value != nil {
 		return f.SetUpdatedAt(*value)

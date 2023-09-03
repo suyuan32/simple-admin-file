@@ -21,6 +21,18 @@ func (f CloudFileFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, e
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CloudFileMutation", m)
 }
 
+// The CloudFileTagFunc type is an adapter to allow the use of ordinary
+// function as CloudFileTag mutator.
+type CloudFileTagFunc func(context.Context, *ent.CloudFileTagMutation) (ent.Value, error)
+
+// Mutate calls f(ctx, m).
+func (f CloudFileTagFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.CloudFileTagMutation); ok {
+		return f(ctx, mv)
+	}
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.CloudFileTagMutation", m)
+}
+
 // The FileFunc type is an adapter to allow the use of ordinary
 // function as File mutator.
 type FileFunc func(context.Context, *ent.FileMutation) (ent.Value, error)

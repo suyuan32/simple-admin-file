@@ -39,6 +39,10 @@ func (l *CreateCloudFileLogic) CreateCloudFile(req *types.CloudFileInfo) (*types
 		query = query.SetStorageProvidersID(*req.ProviderId)
 	}
 
+	if req.TagIds != nil {
+		query = query.AddTagIDs(req.TagIds...)
+	}
+
 	_, err := query.Save(l.ctx)
 
 	if err != nil {

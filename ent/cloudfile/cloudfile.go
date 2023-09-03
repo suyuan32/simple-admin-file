@@ -33,6 +33,8 @@ const (
 	FieldUserID = "user_id"
 	// EdgeStorageProviders holds the string denoting the storage_providers edge name in mutations.
 	EdgeStorageProviders = "storage_providers"
+	// EdgeTags holds the string denoting the tags edge name in mutations.
+	EdgeTags = "tags"
 	// Table holds the table name of the cloudfile in the database.
 	Table = "fms_cloud_files"
 	// StorageProvidersTable is the table that holds the storage_providers relation/edge.
@@ -42,6 +44,11 @@ const (
 	StorageProvidersInverseTable = "fms_storage_providers"
 	// StorageProvidersColumn is the table column denoting the storage_providers relation/edge.
 	StorageProvidersColumn = "cloud_file_storage_providers"
+	// TagsTable is the table that holds the tags relation/edge. The primary key declared below.
+	TagsTable = "cloud_file_tag_cloud_files"
+	// TagsInverseTable is the table name for the CloudFileTag entity.
+	// It exists in this package in order to avoid circular dependency with the "cloudfiletag" package.
+	TagsInverseTable = "fms_cloud_file_tags"
 )
 
 // Columns holds all SQL columns for cloudfile fields.
@@ -62,6 +69,12 @@ var Columns = []string{
 var ForeignKeys = []string{
 	"cloud_file_storage_providers",
 }
+
+var (
+	// TagsPrimaryKey and TagsColumn2 are the table columns denoting the
+	// primary key for the tags relation (M2M).
+	TagsPrimaryKey = []string{"cloud_file_tag_id", "cloud_file_id"}
+)
 
 // ValidColumn reports if the column name is valid (part of the table columns).
 func ValidColumn(column string) bool {
@@ -145,10 +158,31 @@ func ByStorageProvidersField(field string, opts ...sql.OrderTermOption) OrderOpt
 		sqlgraph.OrderByNeighborTerms(s, newStorageProvidersStep(), sql.OrderByField(field, opts...))
 	}
 }
+
+// ByTagsCount orders the results by tags count.
+func ByTagsCount(opts ...sql.OrderTermOption) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborsCount(s, newTagsStep(), opts...)
+	}
+}
+
+// ByTags orders the results by tags terms.
+func ByTags(term sql.OrderTerm, terms ...sql.OrderTerm) OrderOption {
+	return func(s *sql.Selector) {
+		sqlgraph.OrderByNeighborTerms(s, newTagsStep(), append([]sql.OrderTerm{term}, terms...)...)
+	}
+}
 func newStorageProvidersStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(StorageProvidersInverseTable, FieldID),
 		sqlgraph.Edge(sqlgraph.M2O, false, StorageProvidersTable, StorageProvidersColumn),
+	)
+}
+func newTagsStep() *sqlgraph.Step {
+	return sqlgraph.NewStep(
+		sqlgraph.From(Table, FieldID),
+		sqlgraph.To(TagsInverseTable, FieldID),
+		sqlgraph.Edge(sqlgraph.M2M, true, TagsTable, TagsPrimaryKey...),
 	)
 }

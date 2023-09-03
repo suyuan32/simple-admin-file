@@ -13,6 +13,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	uuid "github.com/gofrs/uuid/v5"
 	"github.com/suyuan32/simple-admin-file/ent/cloudfile"
+	"github.com/suyuan32/simple-admin-file/ent/cloudfiletag"
 	"github.com/suyuan32/simple-admin-file/ent/file"
 	"github.com/suyuan32/simple-admin-file/ent/filetag"
 	"github.com/suyuan32/simple-admin-file/ent/predicate"
@@ -29,6 +30,7 @@ const (
 
 	// Node types.
 	TypeCloudFile       = "CloudFile"
+	TypeCloudFileTag    = "CloudFileTag"
 	TypeFile            = "File"
 	TypeFileTag         = "FileTag"
 	TypeStorageProvider = "StorageProvider"
@@ -53,6 +55,9 @@ type CloudFileMutation struct {
 	clearedFields            map[string]struct{}
 	storage_providers        *uint64
 	clearedstorage_providers bool
+	tags                     map[uint64]struct{}
+	removedtags              map[uint64]struct{}
+	clearedtags              bool
 	done                     bool
 	oldValue                 func(context.Context) (*CloudFile, error)
 	predicates               []predicate.CloudFile
@@ -542,6 +547,60 @@ func (m *CloudFileMutation) ResetStorageProviders() {
 	m.clearedstorage_providers = false
 }
 
+// AddTagIDs adds the "tags" edge to the CloudFileTag entity by ids.
+func (m *CloudFileMutation) AddTagIDs(ids ...uint64) {
+	if m.tags == nil {
+		m.tags = make(map[uint64]struct{})
+	}
+	for i := range ids {
+		m.tags[ids[i]] = struct{}{}
+	}
+}
+
+// ClearTags clears the "tags" edge to the CloudFileTag entity.
+func (m *CloudFileMutation) ClearTags() {
+	m.clearedtags = true
+}
+
+// TagsCleared reports if the "tags" edge to the CloudFileTag entity was cleared.
+func (m *CloudFileMutation) TagsCleared() bool {
+	return m.clearedtags
+}
+
+// RemoveTagIDs removes the "tags" edge to the CloudFileTag entity by IDs.
+func (m *CloudFileMutation) RemoveTagIDs(ids ...uint64) {
+	if m.removedtags == nil {
+		m.removedtags = make(map[uint64]struct{})
+	}
+	for i := range ids {
+		delete(m.tags, ids[i])
+		m.removedtags[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedTags returns the removed IDs of the "tags" edge to the CloudFileTag entity.
+func (m *CloudFileMutation) RemovedTagsIDs() (ids []uint64) {
+	for id := range m.removedtags {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// TagsIDs returns the "tags" edge IDs in the mutation.
+func (m *CloudFileMutation) TagsIDs() (ids []uint64) {
+	for id := range m.tags {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetTags resets all changes to the "tags" edge.
+func (m *CloudFileMutation) ResetTags() {
+	m.tags = nil
+	m.clearedtags = false
+	m.removedtags = nil
+}
+
 // Where appends a list predicates to the CloudFileMutation builder.
 func (m *CloudFileMutation) Where(ps ...predicate.CloudFile) {
 	m.predicates = append(m.predicates, ps...)
@@ -830,9 +889,12 @@ func (m *CloudFileMutation) ResetField(name string) error {
 
 // AddedEdges returns all edge names that were set/added in this mutation.
 func (m *CloudFileMutation) AddedEdges() []string {
-	edges := make([]string, 0, 1)
+	edges := make([]string, 0, 2)
 	if m.storage_providers != nil {
 		edges = append(edges, cloudfile.EdgeStorageProviders)
+	}
+	if m.tags != nil {
+		edges = append(edges, cloudfile.EdgeTags)
 	}
 	return edges
 }
@@ -845,27 +907,47 @@ func (m *CloudFileMutation) AddedIDs(name string) []ent.Value {
 		if id := m.storage_providers; id != nil {
 			return []ent.Value{*id}
 		}
+	case cloudfile.EdgeTags:
+		ids := make([]ent.Value, 0, len(m.tags))
+		for id := range m.tags {
+			ids = append(ids, id)
+		}
+		return ids
 	}
 	return nil
 }
 
 // RemovedEdges returns all edge names that were removed in this mutation.
 func (m *CloudFileMutation) RemovedEdges() []string {
-	edges := make([]string, 0, 1)
+	edges := make([]string, 0, 2)
+	if m.removedtags != nil {
+		edges = append(edges, cloudfile.EdgeTags)
+	}
 	return edges
 }
 
 // RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
 // the given name in this mutation.
 func (m *CloudFileMutation) RemovedIDs(name string) []ent.Value {
+	switch name {
+	case cloudfile.EdgeTags:
+		ids := make([]ent.Value, 0, len(m.removedtags))
+		for id := range m.removedtags {
+			ids = append(ids, id)
+		}
+		return ids
+	}
 	return nil
 }
 
 // ClearedEdges returns all edge names that were cleared in this mutation.
 func (m *CloudFileMutation) ClearedEdges() []string {
-	edges := make([]string, 0, 1)
+	edges := make([]string, 0, 2)
 	if m.clearedstorage_providers {
 		edges = append(edges, cloudfile.EdgeStorageProviders)
+	}
+	if m.clearedtags {
+		edges = append(edges, cloudfile.EdgeTags)
 	}
 	return edges
 }
@@ -876,6 +958,8 @@ func (m *CloudFileMutation) EdgeCleared(name string) bool {
 	switch name {
 	case cloudfile.EdgeStorageProviders:
 		return m.clearedstorage_providers
+	case cloudfile.EdgeTags:
+		return m.clearedtags
 	}
 	return false
 }
@@ -898,8 +982,730 @@ func (m *CloudFileMutation) ResetEdge(name string) error {
 	case cloudfile.EdgeStorageProviders:
 		m.ResetStorageProviders()
 		return nil
+	case cloudfile.EdgeTags:
+		m.ResetTags()
+		return nil
 	}
 	return fmt.Errorf("unknown CloudFile edge %s", name)
+}
+
+// CloudFileTagMutation represents an operation that mutates the CloudFileTag nodes in the graph.
+type CloudFileTagMutation struct {
+	config
+	op                 Op
+	typ                string
+	id                 *uint64
+	created_at         *time.Time
+	updated_at         *time.Time
+	status             *uint8
+	addstatus          *int8
+	name               *string
+	remark             *string
+	clearedFields      map[string]struct{}
+	cloud_files        map[uuid.UUID]struct{}
+	removedcloud_files map[uuid.UUID]struct{}
+	clearedcloud_files bool
+	done               bool
+	oldValue           func(context.Context) (*CloudFileTag, error)
+	predicates         []predicate.CloudFileTag
+}
+
+var _ ent.Mutation = (*CloudFileTagMutation)(nil)
+
+// cloudfiletagOption allows management of the mutation configuration using functional options.
+type cloudfiletagOption func(*CloudFileTagMutation)
+
+// newCloudFileTagMutation creates new mutation for the CloudFileTag entity.
+func newCloudFileTagMutation(c config, op Op, opts ...cloudfiletagOption) *CloudFileTagMutation {
+	m := &CloudFileTagMutation{
+		config:        c,
+		op:            op,
+		typ:           TypeCloudFileTag,
+		clearedFields: make(map[string]struct{}),
+	}
+	for _, opt := range opts {
+		opt(m)
+	}
+	return m
+}
+
+// withCloudFileTagID sets the ID field of the mutation.
+func withCloudFileTagID(id uint64) cloudfiletagOption {
+	return func(m *CloudFileTagMutation) {
+		var (
+			err   error
+			once  sync.Once
+			value *CloudFileTag
+		)
+		m.oldValue = func(ctx context.Context) (*CloudFileTag, error) {
+			once.Do(func() {
+				if m.done {
+					err = errors.New("querying old values post mutation is not allowed")
+				} else {
+					value, err = m.Client().CloudFileTag.Get(ctx, id)
+				}
+			})
+			return value, err
+		}
+		m.id = &id
+	}
+}
+
+// withCloudFileTag sets the old CloudFileTag of the mutation.
+func withCloudFileTag(node *CloudFileTag) cloudfiletagOption {
+	return func(m *CloudFileTagMutation) {
+		m.oldValue = func(context.Context) (*CloudFileTag, error) {
+			return node, nil
+		}
+		m.id = &node.ID
+	}
+}
+
+// Client returns a new `ent.Client` from the mutation. If the mutation was
+// executed in a transaction (ent.Tx), a transactional client is returned.
+func (m CloudFileTagMutation) Client() *Client {
+	client := &Client{config: m.config}
+	client.init()
+	return client
+}
+
+// Tx returns an `ent.Tx` for mutations that were executed in transactions;
+// it returns an error otherwise.
+func (m CloudFileTagMutation) Tx() (*Tx, error) {
+	if _, ok := m.driver.(*txDriver); !ok {
+		return nil, errors.New("ent: mutation is not running in a transaction")
+	}
+	tx := &Tx{config: m.config}
+	tx.init()
+	return tx, nil
+}
+
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of CloudFileTag entities.
+func (m *CloudFileTagMutation) SetID(id uint64) {
+	m.id = &id
+}
+
+// ID returns the ID value in the mutation. Note that the ID is only available
+// if it was provided to the builder or after it was returned from the database.
+func (m *CloudFileTagMutation) ID() (id uint64, exists bool) {
+	if m.id == nil {
+		return
+	}
+	return *m.id, true
+}
+
+// IDs queries the database and returns the entity ids that match the mutation's predicate.
+// That means, if the mutation is applied within a transaction with an isolation level such
+// as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
+// or updated by the mutation.
+func (m *CloudFileTagMutation) IDs(ctx context.Context) ([]uint64, error) {
+	switch {
+	case m.op.Is(OpUpdateOne | OpDeleteOne):
+		id, exists := m.ID()
+		if exists {
+			return []uint64{id}, nil
+		}
+		fallthrough
+	case m.op.Is(OpUpdate | OpDelete):
+		return m.Client().CloudFileTag.Query().Where(m.predicates...).IDs(ctx)
+	default:
+		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
+	}
+}
+
+// SetCreatedAt sets the "created_at" field.
+func (m *CloudFileTagMutation) SetCreatedAt(t time.Time) {
+	m.created_at = &t
+}
+
+// CreatedAt returns the value of the "created_at" field in the mutation.
+func (m *CloudFileTagMutation) CreatedAt() (r time.Time, exists bool) {
+	v := m.created_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCreatedAt returns the old "created_at" field's value of the CloudFileTag entity.
+// If the CloudFileTag object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CloudFileTagMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCreatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCreatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCreatedAt: %w", err)
+	}
+	return oldValue.CreatedAt, nil
+}
+
+// ResetCreatedAt resets all changes to the "created_at" field.
+func (m *CloudFileTagMutation) ResetCreatedAt() {
+	m.created_at = nil
+}
+
+// SetUpdatedAt sets the "updated_at" field.
+func (m *CloudFileTagMutation) SetUpdatedAt(t time.Time) {
+	m.updated_at = &t
+}
+
+// UpdatedAt returns the value of the "updated_at" field in the mutation.
+func (m *CloudFileTagMutation) UpdatedAt() (r time.Time, exists bool) {
+	v := m.updated_at
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUpdatedAt returns the old "updated_at" field's value of the CloudFileTag entity.
+// If the CloudFileTag object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CloudFileTagMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUpdatedAt is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUpdatedAt requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUpdatedAt: %w", err)
+	}
+	return oldValue.UpdatedAt, nil
+}
+
+// ResetUpdatedAt resets all changes to the "updated_at" field.
+func (m *CloudFileTagMutation) ResetUpdatedAt() {
+	m.updated_at = nil
+}
+
+// SetStatus sets the "status" field.
+func (m *CloudFileTagMutation) SetStatus(u uint8) {
+	m.status = &u
+	m.addstatus = nil
+}
+
+// Status returns the value of the "status" field in the mutation.
+func (m *CloudFileTagMutation) Status() (r uint8, exists bool) {
+	v := m.status
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStatus returns the old "status" field's value of the CloudFileTag entity.
+// If the CloudFileTag object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CloudFileTagMutation) OldStatus(ctx context.Context) (v uint8, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStatus is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStatus requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStatus: %w", err)
+	}
+	return oldValue.Status, nil
+}
+
+// AddStatus adds u to the "status" field.
+func (m *CloudFileTagMutation) AddStatus(u int8) {
+	if m.addstatus != nil {
+		*m.addstatus += u
+	} else {
+		m.addstatus = &u
+	}
+}
+
+// AddedStatus returns the value that was added to the "status" field in this mutation.
+func (m *CloudFileTagMutation) AddedStatus() (r int8, exists bool) {
+	v := m.addstatus
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ClearStatus clears the value of the "status" field.
+func (m *CloudFileTagMutation) ClearStatus() {
+	m.status = nil
+	m.addstatus = nil
+	m.clearedFields[cloudfiletag.FieldStatus] = struct{}{}
+}
+
+// StatusCleared returns if the "status" field was cleared in this mutation.
+func (m *CloudFileTagMutation) StatusCleared() bool {
+	_, ok := m.clearedFields[cloudfiletag.FieldStatus]
+	return ok
+}
+
+// ResetStatus resets all changes to the "status" field.
+func (m *CloudFileTagMutation) ResetStatus() {
+	m.status = nil
+	m.addstatus = nil
+	delete(m.clearedFields, cloudfiletag.FieldStatus)
+}
+
+// SetName sets the "name" field.
+func (m *CloudFileTagMutation) SetName(s string) {
+	m.name = &s
+}
+
+// Name returns the value of the "name" field in the mutation.
+func (m *CloudFileTagMutation) Name() (r string, exists bool) {
+	v := m.name
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldName returns the old "name" field's value of the CloudFileTag entity.
+// If the CloudFileTag object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CloudFileTagMutation) OldName(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldName is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldName requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldName: %w", err)
+	}
+	return oldValue.Name, nil
+}
+
+// ResetName resets all changes to the "name" field.
+func (m *CloudFileTagMutation) ResetName() {
+	m.name = nil
+}
+
+// SetRemark sets the "remark" field.
+func (m *CloudFileTagMutation) SetRemark(s string) {
+	m.remark = &s
+}
+
+// Remark returns the value of the "remark" field in the mutation.
+func (m *CloudFileTagMutation) Remark() (r string, exists bool) {
+	v := m.remark
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRemark returns the old "remark" field's value of the CloudFileTag entity.
+// If the CloudFileTag object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CloudFileTagMutation) OldRemark(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRemark is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRemark requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRemark: %w", err)
+	}
+	return oldValue.Remark, nil
+}
+
+// ClearRemark clears the value of the "remark" field.
+func (m *CloudFileTagMutation) ClearRemark() {
+	m.remark = nil
+	m.clearedFields[cloudfiletag.FieldRemark] = struct{}{}
+}
+
+// RemarkCleared returns if the "remark" field was cleared in this mutation.
+func (m *CloudFileTagMutation) RemarkCleared() bool {
+	_, ok := m.clearedFields[cloudfiletag.FieldRemark]
+	return ok
+}
+
+// ResetRemark resets all changes to the "remark" field.
+func (m *CloudFileTagMutation) ResetRemark() {
+	m.remark = nil
+	delete(m.clearedFields, cloudfiletag.FieldRemark)
+}
+
+// AddCloudFileIDs adds the "cloud_files" edge to the CloudFile entity by ids.
+func (m *CloudFileTagMutation) AddCloudFileIDs(ids ...uuid.UUID) {
+	if m.cloud_files == nil {
+		m.cloud_files = make(map[uuid.UUID]struct{})
+	}
+	for i := range ids {
+		m.cloud_files[ids[i]] = struct{}{}
+	}
+}
+
+// ClearCloudFiles clears the "cloud_files" edge to the CloudFile entity.
+func (m *CloudFileTagMutation) ClearCloudFiles() {
+	m.clearedcloud_files = true
+}
+
+// CloudFilesCleared reports if the "cloud_files" edge to the CloudFile entity was cleared.
+func (m *CloudFileTagMutation) CloudFilesCleared() bool {
+	return m.clearedcloud_files
+}
+
+// RemoveCloudFileIDs removes the "cloud_files" edge to the CloudFile entity by IDs.
+func (m *CloudFileTagMutation) RemoveCloudFileIDs(ids ...uuid.UUID) {
+	if m.removedcloud_files == nil {
+		m.removedcloud_files = make(map[uuid.UUID]struct{})
+	}
+	for i := range ids {
+		delete(m.cloud_files, ids[i])
+		m.removedcloud_files[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedCloudFiles returns the removed IDs of the "cloud_files" edge to the CloudFile entity.
+func (m *CloudFileTagMutation) RemovedCloudFilesIDs() (ids []uuid.UUID) {
+	for id := range m.removedcloud_files {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// CloudFilesIDs returns the "cloud_files" edge IDs in the mutation.
+func (m *CloudFileTagMutation) CloudFilesIDs() (ids []uuid.UUID) {
+	for id := range m.cloud_files {
+		ids = append(ids, id)
+	}
+	return
+}
+
+// ResetCloudFiles resets all changes to the "cloud_files" edge.
+func (m *CloudFileTagMutation) ResetCloudFiles() {
+	m.cloud_files = nil
+	m.clearedcloud_files = false
+	m.removedcloud_files = nil
+}
+
+// Where appends a list predicates to the CloudFileTagMutation builder.
+func (m *CloudFileTagMutation) Where(ps ...predicate.CloudFileTag) {
+	m.predicates = append(m.predicates, ps...)
+}
+
+// WhereP appends storage-level predicates to the CloudFileTagMutation builder. Using this method,
+// users can use type-assertion to append predicates that do not depend on any generated package.
+func (m *CloudFileTagMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.CloudFileTag, len(ps))
+	for i := range ps {
+		p[i] = ps[i]
+	}
+	m.Where(p...)
+}
+
+// Op returns the operation name.
+func (m *CloudFileTagMutation) Op() Op {
+	return m.op
+}
+
+// SetOp allows setting the mutation operation.
+func (m *CloudFileTagMutation) SetOp(op Op) {
+	m.op = op
+}
+
+// Type returns the node type of this mutation (CloudFileTag).
+func (m *CloudFileTagMutation) Type() string {
+	return m.typ
+}
+
+// Fields returns all fields that were changed during this mutation. Note that in
+// order to get all numeric fields that were incremented/decremented, call
+// AddedFields().
+func (m *CloudFileTagMutation) Fields() []string {
+	fields := make([]string, 0, 5)
+	if m.created_at != nil {
+		fields = append(fields, cloudfiletag.FieldCreatedAt)
+	}
+	if m.updated_at != nil {
+		fields = append(fields, cloudfiletag.FieldUpdatedAt)
+	}
+	if m.status != nil {
+		fields = append(fields, cloudfiletag.FieldStatus)
+	}
+	if m.name != nil {
+		fields = append(fields, cloudfiletag.FieldName)
+	}
+	if m.remark != nil {
+		fields = append(fields, cloudfiletag.FieldRemark)
+	}
+	return fields
+}
+
+// Field returns the value of a field with the given name. The second boolean
+// return value indicates that this field was not set, or was not defined in the
+// schema.
+func (m *CloudFileTagMutation) Field(name string) (ent.Value, bool) {
+	switch name {
+	case cloudfiletag.FieldCreatedAt:
+		return m.CreatedAt()
+	case cloudfiletag.FieldUpdatedAt:
+		return m.UpdatedAt()
+	case cloudfiletag.FieldStatus:
+		return m.Status()
+	case cloudfiletag.FieldName:
+		return m.Name()
+	case cloudfiletag.FieldRemark:
+		return m.Remark()
+	}
+	return nil, false
+}
+
+// OldField returns the old value of the field from the database. An error is
+// returned if the mutation operation is not UpdateOne, or the query to the
+// database failed.
+func (m *CloudFileTagMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+	switch name {
+	case cloudfiletag.FieldCreatedAt:
+		return m.OldCreatedAt(ctx)
+	case cloudfiletag.FieldUpdatedAt:
+		return m.OldUpdatedAt(ctx)
+	case cloudfiletag.FieldStatus:
+		return m.OldStatus(ctx)
+	case cloudfiletag.FieldName:
+		return m.OldName(ctx)
+	case cloudfiletag.FieldRemark:
+		return m.OldRemark(ctx)
+	}
+	return nil, fmt.Errorf("unknown CloudFileTag field %s", name)
+}
+
+// SetField sets the value of a field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *CloudFileTagMutation) SetField(name string, value ent.Value) error {
+	switch name {
+	case cloudfiletag.FieldCreatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCreatedAt(v)
+		return nil
+	case cloudfiletag.FieldUpdatedAt:
+		v, ok := value.(time.Time)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUpdatedAt(v)
+		return nil
+	case cloudfiletag.FieldStatus:
+		v, ok := value.(uint8)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStatus(v)
+		return nil
+	case cloudfiletag.FieldName:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetName(v)
+		return nil
+	case cloudfiletag.FieldRemark:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRemark(v)
+		return nil
+	}
+	return fmt.Errorf("unknown CloudFileTag field %s", name)
+}
+
+// AddedFields returns all numeric fields that were incremented/decremented during
+// this mutation.
+func (m *CloudFileTagMutation) AddedFields() []string {
+	var fields []string
+	if m.addstatus != nil {
+		fields = append(fields, cloudfiletag.FieldStatus)
+	}
+	return fields
+}
+
+// AddedField returns the numeric value that was incremented/decremented on a field
+// with the given name. The second boolean return value indicates that this field
+// was not set, or was not defined in the schema.
+func (m *CloudFileTagMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case cloudfiletag.FieldStatus:
+		return m.AddedStatus()
+	}
+	return nil, false
+}
+
+// AddField adds the value to the field with the given name. It returns an error if
+// the field is not defined in the schema, or if the type mismatched the field
+// type.
+func (m *CloudFileTagMutation) AddField(name string, value ent.Value) error {
+	switch name {
+	case cloudfiletag.FieldStatus:
+		v, ok := value.(int8)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddStatus(v)
+		return nil
+	}
+	return fmt.Errorf("unknown CloudFileTag numeric field %s", name)
+}
+
+// ClearedFields returns all nullable fields that were cleared during this
+// mutation.
+func (m *CloudFileTagMutation) ClearedFields() []string {
+	var fields []string
+	if m.FieldCleared(cloudfiletag.FieldStatus) {
+		fields = append(fields, cloudfiletag.FieldStatus)
+	}
+	if m.FieldCleared(cloudfiletag.FieldRemark) {
+		fields = append(fields, cloudfiletag.FieldRemark)
+	}
+	return fields
+}
+
+// FieldCleared returns a boolean indicating if a field with the given name was
+// cleared in this mutation.
+func (m *CloudFileTagMutation) FieldCleared(name string) bool {
+	_, ok := m.clearedFields[name]
+	return ok
+}
+
+// ClearField clears the value of the field with the given name. It returns an
+// error if the field is not defined in the schema.
+func (m *CloudFileTagMutation) ClearField(name string) error {
+	switch name {
+	case cloudfiletag.FieldStatus:
+		m.ClearStatus()
+		return nil
+	case cloudfiletag.FieldRemark:
+		m.ClearRemark()
+		return nil
+	}
+	return fmt.Errorf("unknown CloudFileTag nullable field %s", name)
+}
+
+// ResetField resets all changes in the mutation for the field with the given name.
+// It returns an error if the field is not defined in the schema.
+func (m *CloudFileTagMutation) ResetField(name string) error {
+	switch name {
+	case cloudfiletag.FieldCreatedAt:
+		m.ResetCreatedAt()
+		return nil
+	case cloudfiletag.FieldUpdatedAt:
+		m.ResetUpdatedAt()
+		return nil
+	case cloudfiletag.FieldStatus:
+		m.ResetStatus()
+		return nil
+	case cloudfiletag.FieldName:
+		m.ResetName()
+		return nil
+	case cloudfiletag.FieldRemark:
+		m.ResetRemark()
+		return nil
+	}
+	return fmt.Errorf("unknown CloudFileTag field %s", name)
+}
+
+// AddedEdges returns all edge names that were set/added in this mutation.
+func (m *CloudFileTagMutation) AddedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.cloud_files != nil {
+		edges = append(edges, cloudfiletag.EdgeCloudFiles)
+	}
+	return edges
+}
+
+// AddedIDs returns all IDs (to other nodes) that were added for the given edge
+// name in this mutation.
+func (m *CloudFileTagMutation) AddedIDs(name string) []ent.Value {
+	switch name {
+	case cloudfiletag.EdgeCloudFiles:
+		ids := make([]ent.Value, 0, len(m.cloud_files))
+		for id := range m.cloud_files {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// RemovedEdges returns all edge names that were removed in this mutation.
+func (m *CloudFileTagMutation) RemovedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.removedcloud_files != nil {
+		edges = append(edges, cloudfiletag.EdgeCloudFiles)
+	}
+	return edges
+}
+
+// RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
+// the given name in this mutation.
+func (m *CloudFileTagMutation) RemovedIDs(name string) []ent.Value {
+	switch name {
+	case cloudfiletag.EdgeCloudFiles:
+		ids := make([]ent.Value, 0, len(m.removedcloud_files))
+		for id := range m.removedcloud_files {
+			ids = append(ids, id)
+		}
+		return ids
+	}
+	return nil
+}
+
+// ClearedEdges returns all edge names that were cleared in this mutation.
+func (m *CloudFileTagMutation) ClearedEdges() []string {
+	edges := make([]string, 0, 1)
+	if m.clearedcloud_files {
+		edges = append(edges, cloudfiletag.EdgeCloudFiles)
+	}
+	return edges
+}
+
+// EdgeCleared returns a boolean which indicates if the edge with the given name
+// was cleared in this mutation.
+func (m *CloudFileTagMutation) EdgeCleared(name string) bool {
+	switch name {
+	case cloudfiletag.EdgeCloudFiles:
+		return m.clearedcloud_files
+	}
+	return false
+}
+
+// ClearEdge clears the value of the edge with the given name. It returns an error
+// if that edge is not defined in the schema.
+func (m *CloudFileTagMutation) ClearEdge(name string) error {
+	switch name {
+	}
+	return fmt.Errorf("unknown CloudFileTag unique edge %s", name)
+}
+
+// ResetEdge resets all changes to the edge with the given name in this mutation.
+// It returns an error if the edge is not defined in the schema.
+func (m *CloudFileTagMutation) ResetEdge(name string) error {
+	switch name {
+	case cloudfiletag.EdgeCloudFiles:
+		m.ResetCloudFiles()
+		return nil
+	}
+	return fmt.Errorf("unknown CloudFileTag edge %s", name)
 }
 
 // FileMutation represents an operation that mutates the File nodes in the graph.

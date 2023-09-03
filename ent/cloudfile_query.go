@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"database/sql/driver"
 	"fmt"
 	"math"
 
@@ -12,6 +13,7 @@ import (
 	"entgo.io/ent/schema/field"
 	uuid "github.com/gofrs/uuid/v5"
 	"github.com/suyuan32/simple-admin-file/ent/cloudfile"
+	"github.com/suyuan32/simple-admin-file/ent/cloudfiletag"
 	"github.com/suyuan32/simple-admin-file/ent/predicate"
 	"github.com/suyuan32/simple-admin-file/ent/storageprovider"
 )
@@ -24,6 +26,7 @@ type CloudFileQuery struct {
 	inters               []Interceptor
 	predicates           []predicate.CloudFile
 	withStorageProviders *StorageProviderQuery
+	withTags             *CloudFileTagQuery
 	withFKs              bool
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
@@ -76,6 +79,28 @@ func (cfq *CloudFileQuery) QueryStorageProviders() *StorageProviderQuery {
 			sqlgraph.From(cloudfile.Table, cloudfile.FieldID, selector),
 			sqlgraph.To(storageprovider.Table, storageprovider.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, false, cloudfile.StorageProvidersTable, cloudfile.StorageProvidersColumn),
+		)
+		fromU = sqlgraph.SetNeighbors(cfq.driver.Dialect(), step)
+		return fromU, nil
+	}
+	return query
+}
+
+// QueryTags chains the current query on the "tags" edge.
+func (cfq *CloudFileQuery) QueryTags() *CloudFileTagQuery {
+	query := (&CloudFileTagClient{config: cfq.config}).Query()
+	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
+		if err := cfq.prepareQuery(ctx); err != nil {
+			return nil, err
+		}
+		selector := cfq.sqlQuery(ctx)
+		if err := selector.Err(); err != nil {
+			return nil, err
+		}
+		step := sqlgraph.NewStep(
+			sqlgraph.From(cloudfile.Table, cloudfile.FieldID, selector),
+			sqlgraph.To(cloudfiletag.Table, cloudfiletag.FieldID),
+			sqlgraph.Edge(sqlgraph.M2M, true, cloudfile.TagsTable, cloudfile.TagsPrimaryKey...),
 		)
 		fromU = sqlgraph.SetNeighbors(cfq.driver.Dialect(), step)
 		return fromU, nil
@@ -276,6 +301,7 @@ func (cfq *CloudFileQuery) Clone() *CloudFileQuery {
 		inters:               append([]Interceptor{}, cfq.inters...),
 		predicates:           append([]predicate.CloudFile{}, cfq.predicates...),
 		withStorageProviders: cfq.withStorageProviders.Clone(),
+		withTags:             cfq.withTags.Clone(),
 		// clone intermediate query.
 		sql:  cfq.sql.Clone(),
 		path: cfq.path,
@@ -290,6 +316,17 @@ func (cfq *CloudFileQuery) WithStorageProviders(opts ...func(*StorageProviderQue
 		opt(query)
 	}
 	cfq.withStorageProviders = query
+	return cfq
+}
+
+// WithTags tells the query-builder to eager-load the nodes that are connected to
+// the "tags" edge. The optional arguments are used to configure the query builder of the edge.
+func (cfq *CloudFileQuery) WithTags(opts ...func(*CloudFileTagQuery)) *CloudFileQuery {
+	query := (&CloudFileTagClient{config: cfq.config}).Query()
+	for _, opt := range opts {
+		opt(query)
+	}
+	cfq.withTags = query
 	return cfq
 }
 
@@ -372,8 +409,9 @@ func (cfq *CloudFileQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*C
 		nodes       = []*CloudFile{}
 		withFKs     = cfq.withFKs
 		_spec       = cfq.querySpec()
-		loadedTypes = [1]bool{
+		loadedTypes = [2]bool{
 			cfq.withStorageProviders != nil,
+			cfq.withTags != nil,
 		}
 	)
 	if cfq.withStorageProviders != nil {
@@ -403,6 +441,13 @@ func (cfq *CloudFileQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*C
 	if query := cfq.withStorageProviders; query != nil {
 		if err := cfq.loadStorageProviders(ctx, query, nodes, nil,
 			func(n *CloudFile, e *StorageProvider) { n.Edges.StorageProviders = e }); err != nil {
+			return nil, err
+		}
+	}
+	if query := cfq.withTags; query != nil {
+		if err := cfq.loadTags(ctx, query, nodes,
+			func(n *CloudFile) { n.Edges.Tags = []*CloudFileTag{} },
+			func(n *CloudFile, e *CloudFileTag) { n.Edges.Tags = append(n.Edges.Tags, e) }); err != nil {
 			return nil, err
 		}
 	}
@@ -437,6 +482,67 @@ func (cfq *CloudFileQuery) loadStorageProviders(ctx context.Context, query *Stor
 		}
 		for i := range nodes {
 			assign(nodes[i], n)
+		}
+	}
+	return nil
+}
+func (cfq *CloudFileQuery) loadTags(ctx context.Context, query *CloudFileTagQuery, nodes []*CloudFile, init func(*CloudFile), assign func(*CloudFile, *CloudFileTag)) error {
+	edgeIDs := make([]driver.Value, len(nodes))
+	byID := make(map[uuid.UUID]*CloudFile)
+	nids := make(map[uint64]map[*CloudFile]struct{})
+	for i, node := range nodes {
+		edgeIDs[i] = node.ID
+		byID[node.ID] = node
+		if init != nil {
+			init(node)
+		}
+	}
+	query.Where(func(s *sql.Selector) {
+		joinT := sql.Table(cloudfile.TagsTable)
+		s.Join(joinT).On(s.C(cloudfiletag.FieldID), joinT.C(cloudfile.TagsPrimaryKey[0]))
+		s.Where(sql.InValues(joinT.C(cloudfile.TagsPrimaryKey[1]), edgeIDs...))
+		columns := s.SelectedColumns()
+		s.Select(joinT.C(cloudfile.TagsPrimaryKey[1]))
+		s.AppendSelect(columns...)
+		s.SetDistinct(false)
+	})
+	if err := query.prepareQuery(ctx); err != nil {
+		return err
+	}
+	qr := QuerierFunc(func(ctx context.Context, q Query) (Value, error) {
+		return query.sqlAll(ctx, func(_ context.Context, spec *sqlgraph.QuerySpec) {
+			assign := spec.Assign
+			values := spec.ScanValues
+			spec.ScanValues = func(columns []string) ([]any, error) {
+				values, err := values(columns[1:])
+				if err != nil {
+					return nil, err
+				}
+				return append([]any{new(uuid.UUID)}, values...), nil
+			}
+			spec.Assign = func(columns []string, values []any) error {
+				outValue := *values[0].(*uuid.UUID)
+				inValue := uint64(values[1].(*sql.NullInt64).Int64)
+				if nids[inValue] == nil {
+					nids[inValue] = map[*CloudFile]struct{}{byID[outValue]: {}}
+					return assign(columns[1:], values[1:])
+				}
+				nids[inValue][byID[outValue]] = struct{}{}
+				return nil
+			}
+		})
+	})
+	neighbors, err := withInterceptors[[]*CloudFileTag](ctx, query, qr, query.inters)
+	if err != nil {
+		return err
+	}
+	for _, n := range neighbors {
+		nodes, ok := nids[n.ID]
+		if !ok {
+			return fmt.Errorf(`unexpected "tags" node returned %v`, n.ID)
+		}
+		for kn := range nodes {
+			assign(kn, n)
 		}
 	}
 	return nil

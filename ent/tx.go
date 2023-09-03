@@ -16,6 +16,8 @@ type Tx struct {
 	config
 	// CloudFile is the client for interacting with the CloudFile builders.
 	CloudFile *CloudFileClient
+	// CloudFileTag is the client for interacting with the CloudFileTag builders.
+	CloudFileTag *CloudFileTagClient
 	// File is the client for interacting with the File builders.
 	File *FileClient
 	// FileTag is the client for interacting with the FileTag builders.
@@ -154,6 +156,7 @@ func (tx *Tx) Client() *Client {
 
 func (tx *Tx) init() {
 	tx.CloudFile = NewCloudFileClient(tx.config)
+	tx.CloudFileTag = NewCloudFileTagClient(tx.config)
 	tx.File = NewFileClient(tx.config)
 	tx.FileTag = NewFileTagClient(tx.config)
 	tx.StorageProvider = NewStorageProviderClient(tx.config)

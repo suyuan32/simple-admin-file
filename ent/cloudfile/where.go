@@ -494,6 +494,29 @@ func HasStorageProvidersWith(preds ...predicate.StorageProvider) predicate.Cloud
 	})
 }
 
+// HasTags applies the HasEdge predicate on the "tags" edge.
+func HasTags() predicate.CloudFile {
+	return predicate.CloudFile(func(s *sql.Selector) {
+		step := sqlgraph.NewStep(
+			sqlgraph.From(Table, FieldID),
+			sqlgraph.Edge(sqlgraph.M2M, true, TagsTable, TagsPrimaryKey...),
+		)
+		sqlgraph.HasNeighbors(s, step)
+	})
+}
+
+// HasTagsWith applies the HasEdge predicate on the "tags" edge with a given conditions (other predicates).
+func HasTagsWith(preds ...predicate.CloudFileTag) predicate.CloudFile {
+	return predicate.CloudFile(func(s *sql.Selector) {
+		step := newTagsStep()
+		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
+			for _, p := range preds {
+				p(s)
+			}
+		})
+	})
+}
+
 // And groups predicates with the AND operator between them.
 func And(predicates ...predicate.CloudFile) predicate.CloudFile {
 	return predicate.CloudFile(func(s *sql.Selector) {

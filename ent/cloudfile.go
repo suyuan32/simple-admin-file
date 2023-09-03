@@ -47,9 +47,11 @@ type CloudFile struct {
 type CloudFileEdges struct {
 	// StorageProviders holds the value of the storage_providers edge.
 	StorageProviders *StorageProvider `json:"storage_providers,omitempty"`
+	// Tags holds the value of the tags edge.
+	Tags []*CloudFileTag `json:"tags,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
-	loadedTypes [1]bool
+	loadedTypes [2]bool
 }
 
 // StorageProvidersOrErr returns the StorageProviders value or an error if the edge
@@ -63,6 +65,15 @@ func (e CloudFileEdges) StorageProvidersOrErr() (*StorageProvider, error) {
 		return e.StorageProviders, nil
 	}
 	return nil, &NotLoadedError{edge: "storage_providers"}
+}
+
+// TagsOrErr returns the Tags value or an error if the edge
+// was not loaded in eager-loading.
+func (e CloudFileEdges) TagsOrErr() ([]*CloudFileTag, error) {
+	if e.loadedTypes[1] {
+		return e.Tags, nil
+	}
+	return nil, &NotLoadedError{edge: "tags"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -174,6 +185,11 @@ func (cf *CloudFile) Value(name string) (ent.Value, error) {
 // QueryStorageProviders queries the "storage_providers" edge of the CloudFile entity.
 func (cf *CloudFile) QueryStorageProviders() *StorageProviderQuery {
 	return NewCloudFileClient(cf.config).QueryStorageProviders(cf)
+}
+
+// QueryTags queries the "tags" edge of the CloudFile entity.
+func (cf *CloudFile) QueryTags() *CloudFileTagQuery {
+	return NewCloudFileClient(cf.config).QueryTags(cf)
 }
 
 // Update returns a builder for updating this CloudFile.

@@ -9,6 +9,9 @@ import (
 // CloudFile is the predicate function for cloudfile builders.
 type CloudFile func(*sql.Selector)
 
+// CloudFileTag is the predicate function for cloudfiletag builders.
+type CloudFileTag func(*sql.Selector)
+
 // File is the predicate function for file builders.
 type File func(*sql.Selector)
 

@@ -2,6 +2,8 @@ package cloudfile
 
 import (
 	"context"
+	"github.com/suyuan32/simple-admin-file/ent"
+	"github.com/suyuan32/simple-admin-file/ent/cloudfiletag"
 	"github.com/suyuan32/simple-admin-file/ent/storageprovider"
 
 	"github.com/suyuan32/simple-admin-file/ent/cloudfile"
@@ -38,7 +40,11 @@ func (l *GetCloudFileListLogic) GetCloudFileList(req *types.CloudFileListReq) (*
 	if req.ProviderId != nil {
 		predicates = append(predicates, cloudfile.HasStorageProvidersWith(storageprovider.IDEQ(*req.ProviderId)))
 	}
-	data, err := l.svcCtx.DB.CloudFile.Query().Where(predicates...).WithStorageProviders().Page(l.ctx, req.Page, req.PageSize)
+	if req.TagIds != nil {
+		predicates = append(predicates, cloudfile.HasTagsWith(cloudfiletag.IDIn(req.TagIds...)))
+	}
+	data, err := l.svcCtx.DB.CloudFile.Query().Where(predicates...).WithStorageProviders().WithTags().
+		Page(l.ctx, req.Page, req.PageSize)
 
 	if err != nil {
 		return nil, dberrorhandler.DefaultEntError(l.Logger, err, req)
@@ -63,8 +69,16 @@ func (l *GetCloudFileListLogic) GetCloudFileList(req *types.CloudFileListReq) (*
 				FileType:   &v.FileType,
 				UserId:     &v.UserID,
 				ProviderId: &v.Edges.StorageProviders.ID,
+				TagIds:     l.getFileTagIds(v.Edges.Tags),
 			})
 	}
 
 	return resp, nil
+}
+
+func (l *GetCloudFileListLogic) getFileTagIds(tags []*ent.CloudFileTag) (result []uint64) {
+	for _, v := range tags {
+		result = append(result, v.ID)
+	}
+	return result
 }

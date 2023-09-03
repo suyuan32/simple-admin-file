@@ -12,6 +12,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/suyuan32/simple-admin-file/ent/cloudfile"
+	"github.com/suyuan32/simple-admin-file/ent/cloudfiletag"
 	"github.com/suyuan32/simple-admin-file/ent/predicate"
 	"github.com/suyuan32/simple-admin-file/ent/storageprovider"
 )
@@ -118,6 +119,21 @@ func (cfu *CloudFileUpdate) SetStorageProviders(s *StorageProvider) *CloudFileUp
 	return cfu.SetStorageProvidersID(s.ID)
 }
 
+// AddTagIDs adds the "tags" edge to the CloudFileTag entity by IDs.
+func (cfu *CloudFileUpdate) AddTagIDs(ids ...uint64) *CloudFileUpdate {
+	cfu.mutation.AddTagIDs(ids...)
+	return cfu
+}
+
+// AddTags adds the "tags" edges to the CloudFileTag entity.
+func (cfu *CloudFileUpdate) AddTags(c ...*CloudFileTag) *CloudFileUpdate {
+	ids := make([]uint64, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return cfu.AddTagIDs(ids...)
+}
+
 // Mutation returns the CloudFileMutation object of the builder.
 func (cfu *CloudFileUpdate) Mutation() *CloudFileMutation {
 	return cfu.mutation
@@ -127,6 +143,27 @@ func (cfu *CloudFileUpdate) Mutation() *CloudFileMutation {
 func (cfu *CloudFileUpdate) ClearStorageProviders() *CloudFileUpdate {
 	cfu.mutation.ClearStorageProviders()
 	return cfu
+}
+
+// ClearTags clears all "tags" edges to the CloudFileTag entity.
+func (cfu *CloudFileUpdate) ClearTags() *CloudFileUpdate {
+	cfu.mutation.ClearTags()
+	return cfu
+}
+
+// RemoveTagIDs removes the "tags" edge to CloudFileTag entities by IDs.
+func (cfu *CloudFileUpdate) RemoveTagIDs(ids ...uint64) *CloudFileUpdate {
+	cfu.mutation.RemoveTagIDs(ids...)
+	return cfu
+}
+
+// RemoveTags removes "tags" edges to CloudFileTag entities.
+func (cfu *CloudFileUpdate) RemoveTags(c ...*CloudFileTag) *CloudFileUpdate {
+	ids := make([]uint64, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return cfu.RemoveTagIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -226,6 +263,51 @@ func (cfu *CloudFileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(storageprovider.FieldID, field.TypeUint64),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if cfu.mutation.TagsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   cloudfile.TagsTable,
+			Columns: cloudfile.TagsPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(cloudfiletag.FieldID, field.TypeUint64),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cfu.mutation.RemovedTagsIDs(); len(nodes) > 0 && !cfu.mutation.TagsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   cloudfile.TagsTable,
+			Columns: cloudfile.TagsPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(cloudfiletag.FieldID, field.TypeUint64),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cfu.mutation.TagsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   cloudfile.TagsTable,
+			Columns: cloudfile.TagsPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(cloudfiletag.FieldID, field.TypeUint64),
 			},
 		}
 		for _, k := range nodes {
@@ -342,6 +424,21 @@ func (cfuo *CloudFileUpdateOne) SetStorageProviders(s *StorageProvider) *CloudFi
 	return cfuo.SetStorageProvidersID(s.ID)
 }
 
+// AddTagIDs adds the "tags" edge to the CloudFileTag entity by IDs.
+func (cfuo *CloudFileUpdateOne) AddTagIDs(ids ...uint64) *CloudFileUpdateOne {
+	cfuo.mutation.AddTagIDs(ids...)
+	return cfuo
+}
+
+// AddTags adds the "tags" edges to the CloudFileTag entity.
+func (cfuo *CloudFileUpdateOne) AddTags(c ...*CloudFileTag) *CloudFileUpdateOne {
+	ids := make([]uint64, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return cfuo.AddTagIDs(ids...)
+}
+
 // Mutation returns the CloudFileMutation object of the builder.
 func (cfuo *CloudFileUpdateOne) Mutation() *CloudFileMutation {
 	return cfuo.mutation
@@ -351,6 +448,27 @@ func (cfuo *CloudFileUpdateOne) Mutation() *CloudFileMutation {
 func (cfuo *CloudFileUpdateOne) ClearStorageProviders() *CloudFileUpdateOne {
 	cfuo.mutation.ClearStorageProviders()
 	return cfuo
+}
+
+// ClearTags clears all "tags" edges to the CloudFileTag entity.
+func (cfuo *CloudFileUpdateOne) ClearTags() *CloudFileUpdateOne {
+	cfuo.mutation.ClearTags()
+	return cfuo
+}
+
+// RemoveTagIDs removes the "tags" edge to CloudFileTag entities by IDs.
+func (cfuo *CloudFileUpdateOne) RemoveTagIDs(ids ...uint64) *CloudFileUpdateOne {
+	cfuo.mutation.RemoveTagIDs(ids...)
+	return cfuo
+}
+
+// RemoveTags removes "tags" edges to CloudFileTag entities.
+func (cfuo *CloudFileUpdateOne) RemoveTags(c ...*CloudFileTag) *CloudFileUpdateOne {
+	ids := make([]uint64, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return cfuo.RemoveTagIDs(ids...)
 }
 
 // Where appends a list predicates to the CloudFileUpdate builder.
@@ -480,6 +598,51 @@ func (cfuo *CloudFileUpdateOne) sqlSave(ctx context.Context) (_node *CloudFile, 
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: sqlgraph.NewFieldSpec(storageprovider.FieldID, field.TypeUint64),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Add = append(_spec.Edges.Add, edge)
+	}
+	if cfuo.mutation.TagsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   cloudfile.TagsTable,
+			Columns: cloudfile.TagsPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(cloudfiletag.FieldID, field.TypeUint64),
+			},
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cfuo.mutation.RemovedTagsIDs(); len(nodes) > 0 && !cfuo.mutation.TagsCleared() {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   cloudfile.TagsTable,
+			Columns: cloudfile.TagsPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(cloudfiletag.FieldID, field.TypeUint64),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := cfuo.mutation.TagsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   cloudfile.TagsTable,
+			Columns: cloudfile.TagsPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(cloudfiletag.FieldID, field.TypeUint64),
 			},
 		}
 		for _, k := range nodes {

@@ -179,6 +179,146 @@
         }
       }
     },
+    "/cloud_file_tag": {
+      "post": {
+        "description": "Get cloud file tag by ID | 通过ID获取云文件标签",
+        "tags": [
+          "cloudfiletag"
+        ],
+        "summary": "Get cloud file tag by ID | 通过ID获取云文件标签",
+        "operationId": "GetCloudFileTagById",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/IDReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CloudFileTagInfoResp",
+            "schema": {
+              "$ref": "#/definitions/CloudFileTagInfoResp"
+            }
+          }
+        }
+      }
+    },
+    "/cloud_file_tag/create": {
+      "post": {
+        "description": "Create cloud file tag information | 创建云文件标签",
+        "tags": [
+          "cloudfiletag"
+        ],
+        "summary": "Create cloud file tag information | 创建云文件标签",
+        "operationId": "CreateCloudFileTag",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/CloudFileTagInfo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "BaseMsgResp",
+            "schema": {
+              "$ref": "#/definitions/BaseMsgResp"
+            }
+          }
+        }
+      }
+    },
+    "/cloud_file_tag/delete": {
+      "post": {
+        "description": "Delete cloud file tag information | 删除云文件标签信息",
+        "tags": [
+          "cloudfiletag"
+        ],
+        "summary": "Delete cloud file tag information | 删除云文件标签信息",
+        "operationId": "DeleteCloudFileTag",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/IDsReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "BaseMsgResp",
+            "schema": {
+              "$ref": "#/definitions/BaseMsgResp"
+            }
+          }
+        }
+      }
+    },
+    "/cloud_file_tag/list": {
+      "post": {
+        "description": "Get cloud file tag list | 获取云文件标签列表",
+        "tags": [
+          "cloudfiletag"
+        ],
+        "summary": "Get cloud file tag list | 获取云文件标签列表",
+        "operationId": "GetCloudFileTagList",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/CloudFileTagListReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "CloudFileTagListResp",
+            "schema": {
+              "$ref": "#/definitions/CloudFileTagListResp"
+            }
+          }
+        }
+      }
+    },
+    "/cloud_file_tag/update": {
+      "post": {
+        "description": "Update cloud file tag information | 更新云文件标签",
+        "tags": [
+          "cloudfiletag"
+        ],
+        "summary": "Update cloud file tag information | 更新云文件标签",
+        "operationId": "UpdateCloudFileTag",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/CloudFileTagInfo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "BaseMsgResp",
+            "schema": {
+              "$ref": "#/definitions/BaseMsgResp"
+            }
+          }
+        }
+      }
+    },
     "/file/delete": {
       "post": {
         "description": "Delete file information | 删除文件信息",
@@ -784,6 +924,15 @@
           "type": "boolean",
           "x-go-name": "State"
         },
+        "tagIds": {
+          "description": "Tag ID",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint64"
+          },
+          "x-go-name": "TagIds"
+        },
         "updatedAt": {
           "description": "Update date | 更新日期",
           "type": "integer",
@@ -880,6 +1029,15 @@
           "type": "integer",
           "format": "uint64",
           "x-go-name": "ProviderId"
+        },
+        "tagIds": {
+          "description": "Tag ID",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint64"
+          },
+          "x-go-name": "TagIds"
         }
       },
       "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"
@@ -899,6 +1057,151 @@
           "type": "string",
           "x-go-name": "Data",
           "$ref": "#/definitions/CloudFileListInfo"
+        },
+        "msg": {
+          "description": "Message | 提示信息",
+          "type": "string",
+          "x-go-name": "Msg"
+        }
+      },
+      "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"
+    },
+    "CloudFileTagInfo": {
+      "description": "The response data of cloud file tag information | 云文件标签信息",
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "description": "Create date | 创建日期",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "CreatedAt"
+        },
+        "id": {
+          "description": "ID",
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "Id"
+        },
+        "name": {
+          "description": "Name",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "remark": {
+          "description": "Remark",
+          "type": "string",
+          "x-go-name": "Remark"
+        },
+        "status": {
+          "description": "Status",
+          "type": "integer",
+          "format": "uint8",
+          "x-go-name": "Status"
+        },
+        "updatedAt": {
+          "description": "Update date | 更新日期",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "UpdatedAt"
+        }
+      },
+      "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"
+    },
+    "CloudFileTagInfoResp": {
+      "description": "Cloud file tag information response | 云文件标签信息返回体",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code | 错误代码",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Code"
+        },
+        "data": {
+          "description": "Data | 数据",
+          "type": "string",
+          "x-go-name": "Data",
+          "$ref": "#/definitions/CloudFileTagInfo"
+        },
+        "msg": {
+          "description": "Message | 提示信息",
+          "type": "string",
+          "x-go-name": "Msg"
+        }
+      },
+      "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"
+    },
+    "CloudFileTagListInfo": {
+      "description": "CloudFileTag list data | 云文件标签列表数据",
+      "type": "object",
+      "properties": {
+        "data": {
+          "description": "The API list data | 云文件标签列表数据",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CloudFileTagInfo"
+          },
+          "x-go-name": "Data"
+        },
+        "total": {
+          "description": "The total number of data | 数据总数",
+          "type": "integer",
+          "format": "uint64",
+          "x-go-name": "Total"
+        }
+      },
+      "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"
+    },
+    "CloudFileTagListReq": {
+      "description": "Get cloud file tag list request params | 云文件标签列表请求参数",
+      "type": "object",
+      "required": [
+        "page",
+        "pageSize"
+      ],
+      "properties": {
+        "name": {
+          "description": "Name",
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "page": {
+          "description": "Page number | 第几页",
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0,
+          "x-go-name": "Page"
+        },
+        "pageSize": {
+          "description": "Page size | 单页数据行数",
+          "type": "integer",
+          "format": "uint64",
+          "maximum": 100000,
+          "x-go-name": "PageSize"
+        },
+        "remark": {
+          "description": "Remark",
+          "type": "string",
+          "x-go-name": "Remark"
+        }
+      },
+      "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"
+    },
+    "CloudFileTagListResp": {
+      "description": "The response data of cloud file tag list | 云文件标签列表数据",
+      "type": "object",
+      "properties": {
+        "code": {
+          "description": "Error code | 错误代码",
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Code"
+        },
+        "data": {
+          "description": "Data | 数据",
+          "type": "string",
+          "x-go-name": "Data",
+          "$ref": "#/definitions/CloudFileTagListInfo"
         },
         "msg": {
           "description": "Message | 提示信息",

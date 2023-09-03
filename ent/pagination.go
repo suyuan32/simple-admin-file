@@ -7,6 +7,7 @@ import (
 	"fmt"
 
 	"github.com/suyuan32/simple-admin-file/ent/cloudfile"
+	"github.com/suyuan32/simple-admin-file/ent/cloudfiletag"
 	"github.com/suyuan32/simple-admin-file/ent/file"
 	"github.com/suyuan32/simple-admin-file/ent/filetag"
 	"github.com/suyuan32/simple-admin-file/ent/storageprovider"
@@ -129,6 +130,85 @@ func (cf *CloudFileQuery) Page(
 
 	cf = cf.Offset(int((pageNum - 1) * pageSize)).Limit(int(pageSize))
 	list, err := cf.All(ctx)
+	if err != nil {
+		return nil, err
+	}
+	ret.List = list
+
+	return ret, nil
+}
+
+type CloudFileTagPager struct {
+	Order  cloudfiletag.OrderOption
+	Filter func(*CloudFileTagQuery) (*CloudFileTagQuery, error)
+}
+
+// CloudFileTagPaginateOption enables pagination customization.
+type CloudFileTagPaginateOption func(*CloudFileTagPager)
+
+// DefaultCloudFileTagOrder is the default ordering of CloudFileTag.
+var DefaultCloudFileTagOrder = Desc(cloudfiletag.FieldID)
+
+func newCloudFileTagPager(opts []CloudFileTagPaginateOption) (*CloudFileTagPager, error) {
+	pager := &CloudFileTagPager{}
+	for _, opt := range opts {
+		opt(pager)
+	}
+	if pager.Order == nil {
+		pager.Order = DefaultCloudFileTagOrder
+	}
+	return pager, nil
+}
+
+func (p *CloudFileTagPager) ApplyFilter(query *CloudFileTagQuery) (*CloudFileTagQuery, error) {
+	if p.Filter != nil {
+		return p.Filter(query)
+	}
+	return query, nil
+}
+
+// CloudFileTagPageList is CloudFileTag PageList result.
+type CloudFileTagPageList struct {
+	List        []*CloudFileTag `json:"list"`
+	PageDetails *PageDetails    `json:"pageDetails"`
+}
+
+func (cft *CloudFileTagQuery) Page(
+	ctx context.Context, pageNum uint64, pageSize uint64, opts ...CloudFileTagPaginateOption,
+) (*CloudFileTagPageList, error) {
+
+	pager, err := newCloudFileTagPager(opts)
+	if err != nil {
+		return nil, err
+	}
+
+	if cft, err = pager.ApplyFilter(cft); err != nil {
+		return nil, err
+	}
+
+	ret := &CloudFileTagPageList{}
+
+	ret.PageDetails = &PageDetails{
+		Page: pageNum,
+		Size: pageSize,
+	}
+
+	count, err := cft.Clone().Count(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+
+	ret.PageDetails.Total = uint64(count)
+
+	if pager.Order != nil {
+		cft = cft.Order(pager.Order)
+	} else {
+		cft = cft.Order(DefaultCloudFileTagOrder)
+	}
+
+	cft = cft.Offset(int((pageNum - 1) * pageSize)).Limit(int(pageSize))
+	list, err := cft.All(ctx)
 	if err != nil {
 		return nil, err
 	}

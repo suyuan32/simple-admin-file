@@ -16,6 +16,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"github.com/suyuan32/simple-admin-file/ent/cloudfile"
+	"github.com/suyuan32/simple-admin-file/ent/cloudfiletag"
 	"github.com/suyuan32/simple-admin-file/ent/file"
 	"github.com/suyuan32/simple-admin-file/ent/filetag"
 	"github.com/suyuan32/simple-admin-file/ent/storageprovider"
@@ -30,6 +31,8 @@ type Client struct {
 	Schema *migrate.Schema
 	// CloudFile is the client for interacting with the CloudFile builders.
 	CloudFile *CloudFileClient
+	// CloudFileTag is the client for interacting with the CloudFileTag builders.
+	CloudFileTag *CloudFileTagClient
 	// File is the client for interacting with the File builders.
 	File *FileClient
 	// FileTag is the client for interacting with the FileTag builders.
@@ -50,6 +53,7 @@ func NewClient(opts ...Option) *Client {
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.CloudFile = NewCloudFileClient(c.config)
+	c.CloudFileTag = NewCloudFileTagClient(c.config)
 	c.File = NewFileClient(c.config)
 	c.FileTag = NewFileTagClient(c.config)
 	c.StorageProvider = NewStorageProviderClient(c.config)
@@ -136,6 +140,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		ctx:             ctx,
 		config:          cfg,
 		CloudFile:       NewCloudFileClient(cfg),
+		CloudFileTag:    NewCloudFileTagClient(cfg),
 		File:            NewFileClient(cfg),
 		FileTag:         NewFileTagClient(cfg),
 		StorageProvider: NewStorageProviderClient(cfg),
@@ -159,6 +164,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		ctx:             ctx,
 		config:          cfg,
 		CloudFile:       NewCloudFileClient(cfg),
+		CloudFileTag:    NewCloudFileTagClient(cfg),
 		File:            NewFileClient(cfg),
 		FileTag:         NewFileTagClient(cfg),
 		StorageProvider: NewStorageProviderClient(cfg),
@@ -191,6 +197,7 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	c.CloudFile.Use(hooks...)
+	c.CloudFileTag.Use(hooks...)
 	c.File.Use(hooks...)
 	c.FileTag.Use(hooks...)
 	c.StorageProvider.Use(hooks...)
@@ -200,6 +207,7 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	c.CloudFile.Intercept(interceptors...)
+	c.CloudFileTag.Intercept(interceptors...)
 	c.File.Intercept(interceptors...)
 	c.FileTag.Intercept(interceptors...)
 	c.StorageProvider.Intercept(interceptors...)
@@ -210,6 +218,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 	switch m := m.(type) {
 	case *CloudFileMutation:
 		return c.CloudFile.mutate(ctx, m)
+	case *CloudFileTagMutation:
+		return c.CloudFileTag.mutate(ctx, m)
 	case *FileMutation:
 		return c.File.mutate(ctx, m)
 	case *FileTagMutation:
@@ -330,6 +340,22 @@ func (c *CloudFileClient) QueryStorageProviders(cf *CloudFile) *StorageProviderQ
 	return query
 }
 
+// QueryTags queries the tags edge of a CloudFile.
+func (c *CloudFileClient) QueryTags(cf *CloudFile) *CloudFileTagQuery {
+	query := (&CloudFileTagClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := cf.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(cloudfile.Table, cloudfile.FieldID, id),
+			sqlgraph.To(cloudfiletag.Table, cloudfiletag.FieldID),
+			sqlgraph.Edge(sqlgraph.M2M, true, cloudfile.TagsTable, cloudfile.TagsPrimaryKey...),
+		)
+		fromV = sqlgraph.Neighbors(cf.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
 // Hooks returns the client hooks.
 func (c *CloudFileClient) Hooks() []Hook {
 	return c.hooks.CloudFile
@@ -352,6 +378,140 @@ func (c *CloudFileClient) mutate(ctx context.Context, m *CloudFileMutation) (Val
 		return (&CloudFileDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
 		return nil, fmt.Errorf("ent: unknown CloudFile mutation op: %q", m.Op())
+	}
+}
+
+// CloudFileTagClient is a client for the CloudFileTag schema.
+type CloudFileTagClient struct {
+	config
+}
+
+// NewCloudFileTagClient returns a client for the CloudFileTag from the given config.
+func NewCloudFileTagClient(c config) *CloudFileTagClient {
+	return &CloudFileTagClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `cloudfiletag.Hooks(f(g(h())))`.
+func (c *CloudFileTagClient) Use(hooks ...Hook) {
+	c.hooks.CloudFileTag = append(c.hooks.CloudFileTag, hooks...)
+}
+
+// Intercept adds a list of query interceptors to the interceptors stack.
+// A call to `Intercept(f, g, h)` equals to `cloudfiletag.Intercept(f(g(h())))`.
+func (c *CloudFileTagClient) Intercept(interceptors ...Interceptor) {
+	c.inters.CloudFileTag = append(c.inters.CloudFileTag, interceptors...)
+}
+
+// Create returns a builder for creating a CloudFileTag entity.
+func (c *CloudFileTagClient) Create() *CloudFileTagCreate {
+	mutation := newCloudFileTagMutation(c.config, OpCreate)
+	return &CloudFileTagCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of CloudFileTag entities.
+func (c *CloudFileTagClient) CreateBulk(builders ...*CloudFileTagCreate) *CloudFileTagCreateBulk {
+	return &CloudFileTagCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for CloudFileTag.
+func (c *CloudFileTagClient) Update() *CloudFileTagUpdate {
+	mutation := newCloudFileTagMutation(c.config, OpUpdate)
+	return &CloudFileTagUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *CloudFileTagClient) UpdateOne(cft *CloudFileTag) *CloudFileTagUpdateOne {
+	mutation := newCloudFileTagMutation(c.config, OpUpdateOne, withCloudFileTag(cft))
+	return &CloudFileTagUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *CloudFileTagClient) UpdateOneID(id uint64) *CloudFileTagUpdateOne {
+	mutation := newCloudFileTagMutation(c.config, OpUpdateOne, withCloudFileTagID(id))
+	return &CloudFileTagUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for CloudFileTag.
+func (c *CloudFileTagClient) Delete() *CloudFileTagDelete {
+	mutation := newCloudFileTagMutation(c.config, OpDelete)
+	return &CloudFileTagDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *CloudFileTagClient) DeleteOne(cft *CloudFileTag) *CloudFileTagDeleteOne {
+	return c.DeleteOneID(cft.ID)
+}
+
+// DeleteOneID returns a builder for deleting the given entity by its id.
+func (c *CloudFileTagClient) DeleteOneID(id uint64) *CloudFileTagDeleteOne {
+	builder := c.Delete().Where(cloudfiletag.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &CloudFileTagDeleteOne{builder}
+}
+
+// Query returns a query builder for CloudFileTag.
+func (c *CloudFileTagClient) Query() *CloudFileTagQuery {
+	return &CloudFileTagQuery{
+		config: c.config,
+		ctx:    &QueryContext{Type: TypeCloudFileTag},
+		inters: c.Interceptors(),
+	}
+}
+
+// Get returns a CloudFileTag entity by its id.
+func (c *CloudFileTagClient) Get(ctx context.Context, id uint64) (*CloudFileTag, error) {
+	return c.Query().Where(cloudfiletag.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *CloudFileTagClient) GetX(ctx context.Context, id uint64) *CloudFileTag {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// QueryCloudFiles queries the cloud_files edge of a CloudFileTag.
+func (c *CloudFileTagClient) QueryCloudFiles(cft *CloudFileTag) *CloudFileQuery {
+	query := (&CloudFileClient{config: c.config}).Query()
+	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
+		id := cft.ID
+		step := sqlgraph.NewStep(
+			sqlgraph.From(cloudfiletag.Table, cloudfiletag.FieldID, id),
+			sqlgraph.To(cloudfile.Table, cloudfile.FieldID),
+			sqlgraph.Edge(sqlgraph.M2M, false, cloudfiletag.CloudFilesTable, cloudfiletag.CloudFilesPrimaryKey...),
+		)
+		fromV = sqlgraph.Neighbors(cft.driver.Dialect(), step)
+		return fromV, nil
+	}
+	return query
+}
+
+// Hooks returns the client hooks.
+func (c *CloudFileTagClient) Hooks() []Hook {
+	return c.hooks.CloudFileTag
+}
+
+// Interceptors returns the client interceptors.
+func (c *CloudFileTagClient) Interceptors() []Interceptor {
+	return c.inters.CloudFileTag
+}
+
+func (c *CloudFileTagClient) mutate(ctx context.Context, m *CloudFileTagMutation) (Value, error) {
+	switch m.Op() {
+	case OpCreate:
+		return (&CloudFileTagCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdate:
+		return (&CloudFileTagUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpUpdateOne:
+		return (&CloudFileTagUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+	case OpDelete, OpDeleteOne:
+		return (&CloudFileTagDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+	default:
+		return nil, fmt.Errorf("ent: unknown CloudFileTag mutation op: %q", m.Op())
 	}
 }
 
@@ -760,10 +920,10 @@ func (c *StorageProviderClient) mutate(ctx context.Context, m *StorageProviderMu
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		CloudFile, File, FileTag, StorageProvider []ent.Hook
+		CloudFile, CloudFileTag, File, FileTag, StorageProvider []ent.Hook
 	}
 	inters struct {
-		CloudFile, File, FileTag, StorageProvider []ent.Interceptor
+		CloudFile, CloudFileTag, File, FileTag, StorageProvider []ent.Interceptor
 	}
 )
 

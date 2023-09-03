@@ -7,6 +7,7 @@ import (
 
 	uuid "github.com/gofrs/uuid/v5"
 	"github.com/suyuan32/simple-admin-file/ent/cloudfile"
+	"github.com/suyuan32/simple-admin-file/ent/cloudfiletag"
 	"github.com/suyuan32/simple-admin-file/ent/file"
 	"github.com/suyuan32/simple-admin-file/ent/filetag"
 	"github.com/suyuan32/simple-admin-file/ent/schema"
@@ -42,6 +43,27 @@ func init() {
 	cloudfileDescID := cloudfileMixinFields0[0].Descriptor()
 	// cloudfile.DefaultID holds the default value on creation for the id field.
 	cloudfile.DefaultID = cloudfileDescID.Default.(func() uuid.UUID)
+	cloudfiletagMixin := schema.CloudFileTag{}.Mixin()
+	cloudfiletagMixinFields0 := cloudfiletagMixin[0].Fields()
+	_ = cloudfiletagMixinFields0
+	cloudfiletagMixinFields1 := cloudfiletagMixin[1].Fields()
+	_ = cloudfiletagMixinFields1
+	cloudfiletagFields := schema.CloudFileTag{}.Fields()
+	_ = cloudfiletagFields
+	// cloudfiletagDescCreatedAt is the schema descriptor for created_at field.
+	cloudfiletagDescCreatedAt := cloudfiletagMixinFields0[1].Descriptor()
+	// cloudfiletag.DefaultCreatedAt holds the default value on creation for the created_at field.
+	cloudfiletag.DefaultCreatedAt = cloudfiletagDescCreatedAt.Default.(func() time.Time)
+	// cloudfiletagDescUpdatedAt is the schema descriptor for updated_at field.
+	cloudfiletagDescUpdatedAt := cloudfiletagMixinFields0[2].Descriptor()
+	// cloudfiletag.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	cloudfiletag.DefaultUpdatedAt = cloudfiletagDescUpdatedAt.Default.(func() time.Time)
+	// cloudfiletag.UpdateDefaultUpdatedAt holds the default value on update for the updated_at field.
+	cloudfiletag.UpdateDefaultUpdatedAt = cloudfiletagDescUpdatedAt.UpdateDefault.(func() time.Time)
+	// cloudfiletagDescStatus is the schema descriptor for status field.
+	cloudfiletagDescStatus := cloudfiletagMixinFields1[0].Descriptor()
+	// cloudfiletag.DefaultStatus holds the default value on creation for the status field.
+	cloudfiletag.DefaultStatus = cloudfiletagDescStatus.Default.(uint8)
 	fileMixin := schema.File{}.Mixin()
 	fileMixinFields0 := fileMixin[0].Fields()
 	_ = fileMixinFields0

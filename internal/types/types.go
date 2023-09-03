@@ -273,6 +273,8 @@ type CloudFileInfo struct {
 	UserId *string `json:"userId,optional"`
 	// Provider ID
 	ProviderId *uint64 `json:"providerId,optional"`
+	// Tag ID
+	TagIds []uint64 `json:"tagIds,optional"`
 }
 
 // The response data of cloud file list | 云文件列表数据
@@ -299,6 +301,8 @@ type CloudFileListReq struct {
 	Name *string `json:"name,optional"`
 	// Provider ID
 	ProviderId *uint64 `json:"providerId,optional"`
+	// Tag ID
+	TagIds []uint64 `json:"tagIds,optional"`
 }
 
 // CloudFile information response | 云文件信息返回体
@@ -365,4 +369,50 @@ type StorageProviderInfoResp struct {
 	BaseDataInfo
 	// StorageProvider information | 服务提供商数据
 	Data StorageProviderInfo `json:"data"`
+}
+
+// The response data of cloud file tag information | 云文件标签信息
+// swagger:model CloudFileTagInfo
+type CloudFileTagInfo struct {
+	BaseIDInfo
+	// Status
+	Status *uint8 `json:"status,optional"`
+	// Name
+	Name *string `json:"name,optional"`
+	// Remark
+	Remark *string `json:"remark,optional"`
+}
+
+// The response data of cloud file tag list | 云文件标签列表数据
+// swagger:model CloudFileTagListResp
+type CloudFileTagListResp struct {
+	BaseDataInfo
+	// CloudFileTag list data | 云文件标签列表数据
+	Data CloudFileTagListInfo `json:"data"`
+}
+
+// CloudFileTag list data | 云文件标签列表数据
+// swagger:model CloudFileTagListInfo
+type CloudFileTagListInfo struct {
+	BaseListInfo
+	// The API list data | 云文件标签列表数据
+	Data []CloudFileTagInfo `json:"data"`
+}
+
+// Get cloud file tag list request params | 云文件标签列表请求参数
+// swagger:model CloudFileTagListReq
+type CloudFileTagListReq struct {
+	PageInfo
+	// Name
+	Name *string `json:"name,optional"`
+	// Remark
+	Remark *string `json:"remark,optional"`
+}
+
+// Cloud file tag information response | 云文件标签信息返回体
+// swagger:model CloudFileTagInfoResp
+type CloudFileTagInfoResp struct {
+	BaseDataInfo
+	// Cloud file tag information | 云文件标签数据
+	Data CloudFileTagInfo `json:"data"`
 }

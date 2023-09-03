@@ -12,6 +12,7 @@ import (
 	"entgo.io/ent/schema/field"
 	uuid "github.com/gofrs/uuid/v5"
 	"github.com/suyuan32/simple-admin-file/ent/cloudfile"
+	"github.com/suyuan32/simple-admin-file/ent/cloudfiletag"
 	"github.com/suyuan32/simple-admin-file/ent/storageprovider"
 )
 
@@ -125,6 +126,21 @@ func (cfc *CloudFileCreate) SetNillableStorageProvidersID(id *uint64) *CloudFile
 // SetStorageProviders sets the "storage_providers" edge to the StorageProvider entity.
 func (cfc *CloudFileCreate) SetStorageProviders(s *StorageProvider) *CloudFileCreate {
 	return cfc.SetStorageProvidersID(s.ID)
+}
+
+// AddTagIDs adds the "tags" edge to the CloudFileTag entity by IDs.
+func (cfc *CloudFileCreate) AddTagIDs(ids ...uint64) *CloudFileCreate {
+	cfc.mutation.AddTagIDs(ids...)
+	return cfc
+}
+
+// AddTags adds the "tags" edges to the CloudFileTag entity.
+func (cfc *CloudFileCreate) AddTags(c ...*CloudFileTag) *CloudFileCreate {
+	ids := make([]uint64, len(c))
+	for i := range c {
+		ids[i] = c[i].ID
+	}
+	return cfc.AddTagIDs(ids...)
 }
 
 // Mutation returns the CloudFileMutation object of the builder.
@@ -285,6 +301,22 @@ func (cfc *CloudFileCreate) createSpec() (*CloudFile, *sqlgraph.CreateSpec) {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
 		_node.cloud_file_storage_providers = &nodes[0]
+		_spec.Edges = append(_spec.Edges, edge)
+	}
+	if nodes := cfc.mutation.TagsIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.M2M,
+			Inverse: true,
+			Table:   cloudfile.TagsTable,
+			Columns: cloudfile.TagsPrimaryKey,
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: sqlgraph.NewFieldSpec(cloudfiletag.FieldID, field.TypeUint64),
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec

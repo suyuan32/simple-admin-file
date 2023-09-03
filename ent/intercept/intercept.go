@@ -9,6 +9,7 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"github.com/suyuan32/simple-admin-file/ent"
 	"github.com/suyuan32/simple-admin-file/ent/cloudfile"
+	"github.com/suyuan32/simple-admin-file/ent/cloudfiletag"
 	"github.com/suyuan32/simple-admin-file/ent/file"
 	"github.com/suyuan32/simple-admin-file/ent/filetag"
 	"github.com/suyuan32/simple-admin-file/ent/predicate"
@@ -98,6 +99,33 @@ func (f TraverseCloudFile) Traverse(ctx context.Context, q ent.Query) error {
 	return fmt.Errorf("unexpected query type %T. expect *ent.CloudFileQuery", q)
 }
 
+// The CloudFileTagFunc type is an adapter to allow the use of ordinary function as a Querier.
+type CloudFileTagFunc func(context.Context, *ent.CloudFileTagQuery) (ent.Value, error)
+
+// Query calls f(ctx, q).
+func (f CloudFileTagFunc) Query(ctx context.Context, q ent.Query) (ent.Value, error) {
+	if q, ok := q.(*ent.CloudFileTagQuery); ok {
+		return f(ctx, q)
+	}
+	return nil, fmt.Errorf("unexpected query type %T. expect *ent.CloudFileTagQuery", q)
+}
+
+// The TraverseCloudFileTag type is an adapter to allow the use of ordinary function as Traverser.
+type TraverseCloudFileTag func(context.Context, *ent.CloudFileTagQuery) error
+
+// Intercept is a dummy implementation of Intercept that returns the next Querier in the pipeline.
+func (f TraverseCloudFileTag) Intercept(next ent.Querier) ent.Querier {
+	return next
+}
+
+// Traverse calls f(ctx, q).
+func (f TraverseCloudFileTag) Traverse(ctx context.Context, q ent.Query) error {
+	if q, ok := q.(*ent.CloudFileTagQuery); ok {
+		return f(ctx, q)
+	}
+	return fmt.Errorf("unexpected query type %T. expect *ent.CloudFileTagQuery", q)
+}
+
 // The FileFunc type is an adapter to allow the use of ordinary function as a Querier.
 type FileFunc func(context.Context, *ent.FileQuery) (ent.Value, error)
 
@@ -184,6 +212,8 @@ func NewQuery(q ent.Query) (Query, error) {
 	switch q := q.(type) {
 	case *ent.CloudFileQuery:
 		return &query[*ent.CloudFileQuery, predicate.CloudFile, cloudfile.OrderOption]{typ: ent.TypeCloudFile, tq: q}, nil
+	case *ent.CloudFileTagQuery:
+		return &query[*ent.CloudFileTagQuery, predicate.CloudFileTag, cloudfiletag.OrderOption]{typ: ent.TypeCloudFileTag, tq: q}, nil
 	case *ent.FileQuery:
 		return &query[*ent.FileQuery, predicate.File, file.OrderOption]{typ: ent.TypeFile, tq: q}, nil
 	case *ent.FileTagQuery:

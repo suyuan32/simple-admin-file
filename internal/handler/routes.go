@@ -6,6 +6,7 @@ import (
 
 	base "github.com/suyuan32/simple-admin-file/internal/handler/base"
 	cloudfile "github.com/suyuan32/simple-admin-file/internal/handler/cloudfile"
+	cloudfiletag "github.com/suyuan32/simple-admin-file/internal/handler/cloudfiletag"
 	file "github.com/suyuan32/simple-admin-file/internal/handler/file"
 	filetag "github.com/suyuan32/simple-admin-file/internal/handler/filetag"
 	storageprovider "github.com/suyuan32/simple-admin-file/internal/handler/storageprovider"
@@ -171,6 +172,40 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPost,
 					Path:    "/storage_provider",
 					Handler: storageprovider.GetStorageProviderByIdHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.Authority},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/cloud_file_tag/create",
+					Handler: cloudfiletag.CreateCloudFileTagHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/cloud_file_tag/update",
+					Handler: cloudfiletag.UpdateCloudFileTagHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/cloud_file_tag/delete",
+					Handler: cloudfiletag.DeleteCloudFileTagHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/cloud_file_tag/list",
+					Handler: cloudfiletag.GetCloudFileTagListHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/cloud_file_tag",
+					Handler: cloudfiletag.GetCloudFileTagByIdHandler(serverCtx),
 				},
 			}...,
 		),

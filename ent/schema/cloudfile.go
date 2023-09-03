@@ -40,6 +40,7 @@ func (CloudFile) Fields() []ent.Field {
 func (CloudFile) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.To("storage_providers", StorageProvider.Type).Unique(),
+		edge.From("tags", CloudFileTag.Type).Ref("cloud_files"),
 	}
 }
 
