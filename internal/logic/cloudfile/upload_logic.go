@@ -3,7 +3,6 @@ package cloudfile
 import (
 	"context"
 	"errors"
-	"fmt"
 	"github.com/suyuan32/simple-admin-common/enum/errorcode"
 	"github.com/suyuan32/simple-admin-common/i18n"
 	"github.com/suyuan32/simple-admin-common/utils/pointy"
@@ -138,7 +137,7 @@ func (l *UploadLogic) UploadToProvider(file multipart.File, fileName, provider s
 				return url, err
 			}
 
-			fmt.Println(resp)
+			return resp.Request.URL.String(), nil
 		}
 	}
 
