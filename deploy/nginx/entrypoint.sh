@@ -2,4 +2,4 @@
 
 nginx -c  /etc/nginx/nginx.conf &
 
-/app/file_api -f /app/etc/file.yaml
+/app/fms_api -f /app/etc/fms.yaml
