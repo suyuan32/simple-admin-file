@@ -85,7 +85,7 @@ func (l *UploadLogic) Upload() (resp *types.CloudFileInfoResp, err error) {
 	}
 
 	var provider string
-	if l.r.MultipartForm.Value["provider"] != nil {
+	if l.r.MultipartForm.Value["provider"] != nil && l.r.MultipartForm.Value["provider"][0] != "" {
 		provider = l.r.MultipartForm.Value["provider"][0]
 	} else {
 		provider = l.svcCtx.CloudUploader.DefaultProvider
