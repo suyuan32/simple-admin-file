@@ -35,6 +35,10 @@ func (g *UploaderGroup) NewTencentClient(db *ent.Client) error {
 			Id     uint64
 			Folder string
 		}{Id: v.ID, Folder: v.Folder}
+
+		if v.IsDefault == true {
+			g.DefaultProvider = v.Name
+		}
 	}
 
 	return nil

@@ -2,7 +2,6 @@ package cloudfile
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"github.com/duke-git/lancet/v2/datetime"
 	"github.com/suyuan32/simple-admin-common/enum/errorcode"
@@ -89,7 +88,7 @@ func (l *UploadLogic) Upload() (resp *types.CloudFileInfoResp, err error) {
 	if l.r.MultipartForm.Value["provider"] != nil {
 		provider = l.r.MultipartForm.Value["provider"][0]
 	} else {
-		return nil, errors.New("provider is not set")
+		provider = l.svcCtx.CloudUploader.DefaultProvider
 	}
 
 	url, err := l.UploadToProvider(file, fmt.Sprintf("%s%s/%s/%s",

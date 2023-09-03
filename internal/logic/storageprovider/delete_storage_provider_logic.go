@@ -2,6 +2,7 @@ package storageprovider
 
 import (
 	"context"
+	"github.com/suyuan32/simple-admin-file/internal/utils/cloudsdk"
 
 	"github.com/suyuan32/simple-admin-file/ent/storageprovider"
 	"github.com/suyuan32/simple-admin-file/internal/svc"
@@ -32,6 +33,8 @@ func (l *DeleteStorageProviderLogic) DeleteStorageProvider(req *types.IDsReq) (*
 	if err != nil {
 		return nil, dberrorhandler.DefaultEntError(l.Logger, err, req)
 	}
+
+	l.svcCtx.CloudUploader = cloudsdk.NewUploaderGroup(l.svcCtx.DB)
 
 	return &types.BaseMsgResp{Msg: l.svcCtx.Trans.Trans(l.ctx, i18n.DeleteSuccess)}, nil
 }

@@ -12,6 +12,7 @@ type UploaderGroup struct {
 		Id     uint64
 		Folder string
 	}
+	DefaultProvider string
 }
 
 func NewUploaderGroup(db *ent.Client) *UploaderGroup {
