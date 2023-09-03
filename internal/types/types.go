@@ -259,21 +259,21 @@ type FileTagInfoResp struct {
 // swagger:model CloudFileInfo
 type CloudFileInfo struct {
 	BaseUUIDInfo
-	// State
+	// State | 状态
 	State *bool `json:"state,optional"`
-	// Name
+	// Name | 名称
 	Name *string `json:"name,optional"`
-	// Url
+	// Url | 网络地址
 	Url *string `json:"url,optional"`
-	// Size
+	// Size | 文件大小
 	Size *uint64 `json:"size,optional"`
-	// FileType
+	// File type | 文件类型
 	FileType *uint8 `json:"fileType,optional"`
-	// UserId
+	// User ID | 上传用户的 ID
 	UserId *string `json:"userId,optional"`
-	// Provider ID
+	// Provider ID | 提供商的 ID
 	ProviderId *uint64 `json:"providerId,optional"`
-	// Tag ID
+	// Tag ID | 标签 ID
 	TagIds []uint64 `json:"tagIds,optional"`
 }
 
@@ -297,11 +297,11 @@ type CloudFileListInfo struct {
 // swagger:model CloudFileListReq
 type CloudFileListReq struct {
 	PageInfo
-	// Name
+	// Name | 文件名
 	Name *string `json:"name,optional"`
-	// Provider ID
+	// Provider ID | 提供商 ID
 	ProviderId *uint64 `json:"providerId,optional"`
-	// Tag ID
+	// Tag ID | 标签 ID
 	TagIds []uint64 `json:"tagIds,optional"`
 }
 
@@ -317,21 +317,21 @@ type CloudFileInfoResp struct {
 // swagger:model StorageProviderInfo
 type StorageProviderInfo struct {
 	BaseIDInfo
-	// State
+	// State | 状态
 	State *bool `json:"state,optional"`
-	// Name
+	// Name | 云服务提供商名称
 	Name *string `json:"name,optional"`
-	// Bucket
+	// Bucket | 存储桶
 	Bucket *string `json:"bucket,optional"`
-	// ProviderName
+	// Provider Name | 云服务提供商名称
 	ProviderName *string `json:"providerName,optional"`
-	// SecretId
+	// Secret Id
 	SecretId *string `json:"secretId,optional"`
-	// SecretKey
+	// Secret Key
 	SecretKey *string `json:"secretKey,optional"`
-	// Region
+	// Region | 地区
 	Region *string `json:"region,optional"`
-	// IsDefault
+	// Whether is Default | 是否为默认
 	IsDefault *bool `json:"isDefault,optional"`
 }
 
@@ -355,11 +355,11 @@ type StorageProviderListInfo struct {
 // swagger:model StorageProviderListReq
 type StorageProviderListReq struct {
 	PageInfo
-	// Name
+	// Name | 名称
 	Name *string `json:"name,optional"`
-	// Bucket
+	// Bucket | 存储桶
 	Bucket *string `json:"bucket,optional"`
-	// ProviderName
+	// Provider Name | 提供商名称
 	ProviderName *string `json:"providerName,optional"`
 }
 

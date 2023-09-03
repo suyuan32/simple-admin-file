@@ -892,7 +892,7 @@
           "x-go-name": "CreatedAt"
         },
         "fileType": {
-          "description": "FileType",
+          "description": "File type | 文件类型",
           "type": "integer",
           "format": "uint8",
           "x-go-name": "FileType"
@@ -903,29 +903,29 @@
           "x-go-name": "Id"
         },
         "name": {
-          "description": "Name",
+          "description": "Name | 名称",
           "type": "string",
           "x-go-name": "Name"
         },
         "providerId": {
-          "description": "Provider ID",
+          "description": "Provider ID | 提供商的 ID",
           "type": "integer",
           "format": "uint64",
           "x-go-name": "ProviderId"
         },
         "size": {
-          "description": "Size",
+          "description": "Size | 文件大小",
           "type": "integer",
           "format": "uint64",
           "x-go-name": "Size"
         },
         "state": {
-          "description": "State",
+          "description": "State | 状态",
           "type": "boolean",
           "x-go-name": "State"
         },
         "tagIds": {
-          "description": "Tag ID",
+          "description": "Tag ID | 标签 ID",
           "type": "array",
           "items": {
             "type": "integer",
@@ -940,12 +940,12 @@
           "x-go-name": "UpdatedAt"
         },
         "url": {
-          "description": "Url",
+          "description": "Url | 网络地址",
           "type": "string",
           "x-go-name": "Url"
         },
         "userId": {
-          "description": "UserId",
+          "description": "User ID | 上传用户的 ID",
           "type": "string",
           "x-go-name": "UserId"
         }
@@ -1006,7 +1006,7 @@
       ],
       "properties": {
         "name": {
-          "description": "Name",
+          "description": "Name | 文件名",
           "type": "string",
           "x-go-name": "Name"
         },
@@ -1025,13 +1025,13 @@
           "x-go-name": "PageSize"
         },
         "providerId": {
-          "description": "Provider ID",
+          "description": "Provider ID | 提供商 ID",
           "type": "integer",
           "format": "uint64",
           "x-go-name": "ProviderId"
         },
         "tagIds": {
-          "description": "Tag ID",
+          "description": "Tag ID | 标签 ID",
           "type": "array",
           "items": {
             "type": "integer",
@@ -1630,7 +1630,7 @@
       "type": "object",
       "properties": {
         "bucket": {
-          "description": "Bucket",
+          "description": "Bucket | 存储桶",
           "type": "string",
           "x-go-name": "Bucket"
         },
@@ -1647,37 +1647,37 @@
           "x-go-name": "Id"
         },
         "isDefault": {
-          "description": "IsDefault",
+          "description": "Whether is Default | 是否为默认",
           "type": "boolean",
           "x-go-name": "IsDefault"
         },
         "name": {
-          "description": "Name",
+          "description": "Name | 云服务提供商名称",
           "type": "string",
           "x-go-name": "Name"
         },
         "providerName": {
-          "description": "ProviderName",
+          "description": "Provider Name | 云服务提供商名称",
           "type": "string",
           "x-go-name": "ProviderName"
         },
         "region": {
-          "description": "Region",
+          "description": "Region | 地区",
           "type": "string",
           "x-go-name": "Region"
         },
         "secretId": {
-          "description": "SecretId",
+          "description": "Secret Id",
           "type": "string",
           "x-go-name": "SecretId"
         },
         "secretKey": {
-          "description": "SecretKey",
+          "description": "Secret Key",
           "type": "string",
           "x-go-name": "SecretKey"
         },
         "state": {
-          "description": "State",
+          "description": "State | 状态",
           "type": "boolean",
           "x-go-name": "State"
         },
@@ -1744,12 +1744,12 @@
       ],
       "properties": {
         "bucket": {
-          "description": "Bucket",
+          "description": "Bucket | 存储桶",
           "type": "string",
           "x-go-name": "Bucket"
         },
         "name": {
-          "description": "Name",
+          "description": "Name | 名称",
           "type": "string",
           "x-go-name": "Name"
         },
@@ -1768,7 +1768,7 @@
           "x-go-name": "PageSize"
         },
         "providerName": {
-          "description": "ProviderName",
+          "description": "Provider Name | 提供商名称",
           "type": "string",
           "x-go-name": "ProviderName"
         }

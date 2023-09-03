@@ -511,9 +511,9 @@ func (l *InitDatabaseLogic) initMenu() error {
 		Level:     pointy.GetPointer(uint32(2)),
 		ParentId:  pointy.GetPointer(menuData.Id),
 		Path:      pointy.GetPointer("/fms/cloud_file_tag"),
-		Name:      pointy.GetPointer("CloudFileManagement"),
+		Name:      pointy.GetPointer("CloudFileTagManagement"),
 		Component: pointy.GetPointer("/fms/cloudFileTag/index"),
-		Sort:      pointy.GetPointer(uint32(4)),
+		Sort:      pointy.GetPointer(uint32(5)),
 		Disabled:  pointy.GetPointer(false),
 		Meta: &core.Meta{
 			Title:              pointy.GetPointer("route.cloudFileTagManagement"),

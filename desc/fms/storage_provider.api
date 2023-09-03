@@ -5,28 +5,28 @@ type (
     StorageProviderInfo {
         BaseIDInfo
 
-        // State
+        // State | 状态
         State  *bool `json:"state,optional"`
 
-        // Name
+        // Name | 云服务提供商名称
         Name  *string `json:"name,optional"`
 
-        // Bucket
+        // Bucket | 存储桶
         Bucket  *string `json:"bucket,optional"`
 
-        // ProviderName
+        // Provider Name | 云服务提供商名称
         ProviderName  *string `json:"providerName,optional"`
 
-        // SecretId
+        // Secret Id
         SecretId  *string `json:"secretId,optional"`
 
-        // SecretKey
+        // Secret Key
         SecretKey  *string `json:"secretKey,optional"`
 
-        // Region
+        // Region | 地区
         Region  *string `json:"region,optional"`
 
-        // IsDefault
+        // Whether is Default | 是否为默认
         IsDefault  *bool `json:"isDefault,optional"`
     }
 
@@ -50,13 +50,13 @@ type (
     StorageProviderListReq {
         PageInfo
 
-        // Name
+        // Name | 名称
         Name  *string `json:"name,optional"`
 
-        // Bucket
+        // Bucket | 存储桶
         Bucket  *string `json:"bucket,optional"`
 
-        // ProviderName
+        // Provider Name | 提供商名称
         ProviderName  *string `json:"providerName,optional"`
     }
 

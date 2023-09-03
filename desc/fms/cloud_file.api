@@ -5,28 +5,28 @@ type (
     CloudFileInfo {
         BaseUUIDInfo
 
-        // State
+        // State | 状态
         State  *bool `json:"state,optional"`
 
-        // Name
+        // Name | 名称
         Name  *string `json:"name,optional"`
 
-        // Url
+        // Url | 网络地址
         Url  *string `json:"url,optional"`
 
-        // Size
+        // Size | 文件大小
         Size  *uint64 `json:"size,optional"`
 
-        // FileType
+        // File type | 文件类型
         FileType  *uint8 `json:"fileType,optional"`
 
-        // UserId
+        // User ID | 上传用户的 ID
         UserId  *string `json:"userId,optional"`
 
-        // Provider ID
+        // Provider ID | 提供商的 ID
         ProviderId  *uint64 `json:"providerId,optional"`
 
-        // Tag ID
+        // Tag ID | 标签 ID
         TagIds []uint64 `json:"tagIds,optional"`
     }
 
@@ -50,13 +50,13 @@ type (
     CloudFileListReq {
         PageInfo
 
-        // Name
+        // Name | 文件名
         Name  *string `json:"name,optional"`
 
-        // Provider ID
+        // Provider ID | 提供商 ID
         ProviderId  *uint64 `json:"providerId,optional"`
 
-        // Tag ID
+        // Tag ID | 标签 ID
         TagIds []uint64 `json:"tagIds,optional"`
     }
 
