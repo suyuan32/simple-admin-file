@@ -303,6 +303,8 @@ type CloudFileListReq struct {
 	ProviderId *uint64 `json:"providerId,optional"`
 	// Tag ID | 标签 ID
 	TagIds []uint64 `json:"tagIds,optional"`
+	// File type | 文件类型
+	FileType *uint8 `json:"fileType,optional"`
 }
 
 // CloudFile information response | 云文件信息返回体

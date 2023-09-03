@@ -1005,6 +1005,12 @@
         "pageSize"
       ],
       "properties": {
+        "fileType": {
+          "description": "File type | 文件类型",
+          "type": "integer",
+          "format": "uint8",
+          "x-go-name": "FileType"
+        },
         "name": {
           "description": "Name | 文件名",
           "type": "string",
