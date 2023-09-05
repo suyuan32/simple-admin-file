@@ -2,7 +2,7 @@ Name: fms
 Host: 0.0.0.0
 Port: 9102
 MaxBytes: 1073741824 # max content length : 1 gb | 所有类型单个文件最大大小
-Timeout: 30000 # bigger max bytes need longer timeout | 超时时间
+Timeout: 300000 # bigger max bytes need longer timeout | 超时时间
 
 Auth:
   AccessSecret:  # JWT key
