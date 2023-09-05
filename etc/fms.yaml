@@ -2,7 +2,7 @@ Name: fms
 Host: 0.0.0.0
 Port: 9102
 MaxBytes: 1073741824 # max content length : 1 gb | 所有类型单个文件最大大小
-Timeout: 30000 # bigger max bytes need longer timeout | 超时时间
+Timeout: 300000 # bigger max bytes need longer timeout | 超时时间
 
 Auth:
   AccessSecret: jS6VKDtsJf3z1n2VKDtsJf3z1n2
@@ -56,6 +56,7 @@ UploadConf:
   PrivateStorePath: /home/data/file/private  # private
   PublicStorePath: /home/data/file/public  # public path for every one access e.g. nginx path
   ServerURL: "http://localhost:81"
+  DeleteFileWithCloud: true # whether to delete the cloud files when delete local data | 是否删除本地文件的同时删除云端文件
 
 # You can disable the core rpc if you have already initialized file manager's database.
 CoreRpc:

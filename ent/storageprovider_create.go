@@ -76,12 +76,6 @@ func (spc *StorageProviderCreate) SetBucket(s string) *StorageProviderCreate {
 	return spc
 }
 
-// SetProviderName sets the "provider_name" field.
-func (spc *StorageProviderCreate) SetProviderName(s string) *StorageProviderCreate {
-	spc.mutation.SetProviderName(s)
-	return spc
-}
-
 // SetSecretID sets the "secret_id" field.
 func (spc *StorageProviderCreate) SetSecretID(s string) *StorageProviderCreate {
 	spc.mutation.SetSecretID(s)
@@ -91,6 +85,12 @@ func (spc *StorageProviderCreate) SetSecretID(s string) *StorageProviderCreate {
 // SetSecretKey sets the "secret_key" field.
 func (spc *StorageProviderCreate) SetSecretKey(s string) *StorageProviderCreate {
 	spc.mutation.SetSecretKey(s)
+	return spc
+}
+
+// SetEndpoint sets the "endpoint" field.
+func (spc *StorageProviderCreate) SetEndpoint(s string) *StorageProviderCreate {
+	spc.mutation.SetEndpoint(s)
 	return spc
 }
 
@@ -216,14 +216,14 @@ func (spc *StorageProviderCreate) check() error {
 	if _, ok := spc.mutation.Bucket(); !ok {
 		return &ValidationError{Name: "bucket", err: errors.New(`ent: missing required field "StorageProvider.bucket"`)}
 	}
-	if _, ok := spc.mutation.ProviderName(); !ok {
-		return &ValidationError{Name: "provider_name", err: errors.New(`ent: missing required field "StorageProvider.provider_name"`)}
-	}
 	if _, ok := spc.mutation.SecretID(); !ok {
 		return &ValidationError{Name: "secret_id", err: errors.New(`ent: missing required field "StorageProvider.secret_id"`)}
 	}
 	if _, ok := spc.mutation.SecretKey(); !ok {
 		return &ValidationError{Name: "secret_key", err: errors.New(`ent: missing required field "StorageProvider.secret_key"`)}
+	}
+	if _, ok := spc.mutation.Endpoint(); !ok {
+		return &ValidationError{Name: "endpoint", err: errors.New(`ent: missing required field "StorageProvider.endpoint"`)}
 	}
 	if _, ok := spc.mutation.Region(); !ok {
 		return &ValidationError{Name: "region", err: errors.New(`ent: missing required field "StorageProvider.region"`)}
@@ -283,10 +283,6 @@ func (spc *StorageProviderCreate) createSpec() (*StorageProvider, *sqlgraph.Crea
 		_spec.SetField(storageprovider.FieldBucket, field.TypeString, value)
 		_node.Bucket = value
 	}
-	if value, ok := spc.mutation.ProviderName(); ok {
-		_spec.SetField(storageprovider.FieldProviderName, field.TypeString, value)
-		_node.ProviderName = value
-	}
 	if value, ok := spc.mutation.SecretID(); ok {
 		_spec.SetField(storageprovider.FieldSecretID, field.TypeString, value)
 		_node.SecretID = value
@@ -294,6 +290,10 @@ func (spc *StorageProviderCreate) createSpec() (*StorageProvider, *sqlgraph.Crea
 	if value, ok := spc.mutation.SecretKey(); ok {
 		_spec.SetField(storageprovider.FieldSecretKey, field.TypeString, value)
 		_node.SecretKey = value
+	}
+	if value, ok := spc.mutation.Endpoint(); ok {
+		_spec.SetField(storageprovider.FieldEndpoint, field.TypeString, value)
+		_node.Endpoint = value
 	}
 	if value, ok := spc.mutation.Folder(); ok {
 		_spec.SetField(storageprovider.FieldFolder, field.TypeString, value)

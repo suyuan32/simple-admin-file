@@ -2,13 +2,17 @@ package cloudfile
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/awserr"
+	"github.com/aws/aws-sdk-go/aws/request"
+	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/duke-git/lancet/v2/datetime"
 	"github.com/suyuan32/simple-admin-common/enum/errorcode"
 	"github.com/suyuan32/simple-admin-common/i18n"
 	"github.com/suyuan32/simple-admin-common/utils/pointy"
 	"github.com/suyuan32/simple-admin-common/utils/uuidx"
-	"github.com/suyuan32/simple-admin-file/internal/enum/cloudprovider"
 	"github.com/suyuan32/simple-admin-file/internal/svc"
 	"github.com/suyuan32/simple-admin-file/internal/types"
 	"github.com/suyuan32/simple-admin-file/internal/utils/dberrorhandler"
@@ -88,11 +92,11 @@ func (l *UploadLogic) Upload() (resp *types.CloudFileInfoResp, err error) {
 	if l.r.MultipartForm.Value["provider"] != nil && l.r.MultipartForm.Value["provider"][0] != "" {
 		provider = l.r.MultipartForm.Value["provider"][0]
 	} else {
-		provider = l.svcCtx.CloudUploader.DefaultProvider
+		provider = l.svcCtx.CloudStorage.DefaultProvider
 	}
 
 	url, err := l.UploadToProvider(file, fmt.Sprintf("%s/%s/%s/%s",
-		l.svcCtx.CloudUploader.ProviderData[provider].Folder,
+		l.svcCtx.CloudStorage.ProviderData[provider].Folder,
 		datetime.FormatTimeToStr(time.Now(), "yyyy-mm-dd"),
 		fileType,
 		storeFileName), provider)
@@ -104,7 +108,7 @@ func (l *UploadLogic) Upload() (resp *types.CloudFileInfoResp, err error) {
 	data, err := l.svcCtx.DB.CloudFile.Create().
 		SetName(fileName).
 		SetFileType(filex.ConvertFileTypeToUint8(fileType)).
-		SetStorageProvidersID(l.svcCtx.CloudUploader.ProviderData[provider].Id).
+		SetStorageProvidersID(l.svcCtx.CloudStorage.ProviderData[provider].Id).
 		SetURL(url).
 		SetSize(uint64(handler.Size)).
 		SetUserID(userId).
@@ -136,15 +140,25 @@ func (l *UploadLogic) Upload() (resp *types.CloudFileInfoResp, err error) {
 }
 
 func (l *UploadLogic) UploadToProvider(file multipart.File, fileName, provider string) (url string, err error) {
-	if strings.Contains(provider, cloudprovider.Tencent) {
-		if client, ok := l.svcCtx.CloudUploader.TencentCOS[provider]; ok {
-			resp, err := client.Object.Put(l.ctx, fileName, file, nil)
-			if err != nil {
-				return url, err
+	if client, ok := l.svcCtx.CloudStorage.CloudStorage[provider]; ok {
+		_, err := client.PutObjectWithContext(l.ctx, &s3.PutObjectInput{
+			Bucket: aws.String(l.svcCtx.CloudStorage.ProviderData[provider].Bucket),
+			Key:    aws.String(fileName),
+			Body:   file,
+		})
+		if err != nil {
+			logx.Errorw("failed to upload object", logx.Field("detail", err))
+			var aerr awserr.Error
+			if errors.As(err, &aerr) && aerr.Code() == request.CanceledErrorCode {
+				return url, errorx.NewCodeInternalError("upload canceled due to timeout")
+			} else {
+				return url, errorx.NewCodeInternalError("failed to upload object")
 			}
-
-			return resp.Request.URL.String(), nil
 		}
+
+		return fmt.Sprintf("https://%s.%s%s",
+			l.svcCtx.CloudStorage.ProviderData[provider].Bucket,
+			l.svcCtx.CloudStorage.ProviderData[provider].Endpoint, fileName), nil
 	}
 
 	return url, nil

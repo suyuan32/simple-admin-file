@@ -21,11 +21,12 @@ type Config struct {
 }
 
 type UploadConf struct {
-	MaxImageSize     int64  `json:",default=33554432,env=MAX_IMAGE_SIZE"`
-	MaxVideoSize     int64  `json:",default=1073741824,env=MAX_VIDEO_SIZE"`
-	MaxAudioSize     int64  `json:",default=33554432,env=MAX_AUDIO_SIZE"`
-	MaxOtherSize     int64  `json:",default=10485760,env=MAX_OTHER_SIZE"`
-	PrivateStorePath string `json:",env=PRIVATE_PATH"`
-	PublicStorePath  string `json:",env=PUBLIC_PATH"`
-	ServerURL        string `json:",env=SERVER_URL"`
+	MaxImageSize        int64  `json:",default=33554432,env=MAX_IMAGE_SIZE"`
+	MaxVideoSize        int64  `json:",default=1073741824,env=MAX_VIDEO_SIZE"`
+	MaxAudioSize        int64  `json:",default=33554432,env=MAX_AUDIO_SIZE"`
+	MaxOtherSize        int64  `json:",default=10485760,env=MAX_OTHER_SIZE"`
+	PrivateStorePath    string `json:",env=PRIVATE_PATH"`
+	PublicStorePath     string `json:",env=PUBLIC_PATH"`
+	ServerURL           string `json:",env=SERVER_URL"`
+	DeleteFileWithCloud bool   `json:",env=DELETE_FILE_WITH_CLOUD,default=true"`
 }

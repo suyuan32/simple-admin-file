@@ -27,5 +27,8 @@
 	"init": {
 		"alreadyInit": "The database had been initialized.",
 		"initializeIsRunning": "The initialization is running..."
+	},
+	"storage_provider": {
+		"hasFileError": "The provider has cloud files, you must delete all cloud files belonging to this provider."
 	}
 }

@@ -24,12 +24,12 @@ const (
 	FieldName = "name"
 	// FieldBucket holds the string denoting the bucket field in the database.
 	FieldBucket = "bucket"
-	// FieldProviderName holds the string denoting the provider_name field in the database.
-	FieldProviderName = "provider_name"
 	// FieldSecretID holds the string denoting the secret_id field in the database.
 	FieldSecretID = "secret_id"
 	// FieldSecretKey holds the string denoting the secret_key field in the database.
 	FieldSecretKey = "secret_key"
+	// FieldEndpoint holds the string denoting the endpoint field in the database.
+	FieldEndpoint = "endpoint"
 	// FieldFolder holds the string denoting the folder field in the database.
 	FieldFolder = "folder"
 	// FieldRegion holds the string denoting the region field in the database.
@@ -57,9 +57,9 @@ var Columns = []string{
 	FieldState,
 	FieldName,
 	FieldBucket,
-	FieldProviderName,
 	FieldSecretID,
 	FieldSecretKey,
+	FieldEndpoint,
 	FieldFolder,
 	FieldRegion,
 	FieldIsDefault,
@@ -121,11 +121,6 @@ func ByBucket(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldBucket, opts...).ToFunc()
 }
 
-// ByProviderName orders the results by the provider_name field.
-func ByProviderName(opts ...sql.OrderTermOption) OrderOption {
-	return sql.OrderByField(FieldProviderName, opts...).ToFunc()
-}
-
 // BySecretID orders the results by the secret_id field.
 func BySecretID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSecretID, opts...).ToFunc()
@@ -134,6 +129,11 @@ func BySecretID(opts ...sql.OrderTermOption) OrderOption {
 // BySecretKey orders the results by the secret_key field.
 func BySecretKey(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldSecretKey, opts...).ToFunc()
+}
+
+// ByEndpoint orders the results by the endpoint field.
+func ByEndpoint(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldEndpoint, opts...).ToFunc()
 }
 
 // ByFolder orders the results by the folder field.

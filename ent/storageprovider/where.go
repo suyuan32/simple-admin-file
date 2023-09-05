@@ -80,11 +80,6 @@ func Bucket(v string) predicate.StorageProvider {
 	return predicate.StorageProvider(sql.FieldEQ(FieldBucket, v))
 }
 
-// ProviderName applies equality check predicate on the "provider_name" field. It's identical to ProviderNameEQ.
-func ProviderName(v string) predicate.StorageProvider {
-	return predicate.StorageProvider(sql.FieldEQ(FieldProviderName, v))
-}
-
 // SecretID applies equality check predicate on the "secret_id" field. It's identical to SecretIDEQ.
 func SecretID(v string) predicate.StorageProvider {
 	return predicate.StorageProvider(sql.FieldEQ(FieldSecretID, v))
@@ -93,6 +88,11 @@ func SecretID(v string) predicate.StorageProvider {
 // SecretKey applies equality check predicate on the "secret_key" field. It's identical to SecretKeyEQ.
 func SecretKey(v string) predicate.StorageProvider {
 	return predicate.StorageProvider(sql.FieldEQ(FieldSecretKey, v))
+}
+
+// Endpoint applies equality check predicate on the "endpoint" field. It's identical to EndpointEQ.
+func Endpoint(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldEQ(FieldEndpoint, v))
 }
 
 // Folder applies equality check predicate on the "folder" field. It's identical to FolderEQ.
@@ -340,71 +340,6 @@ func BucketContainsFold(v string) predicate.StorageProvider {
 	return predicate.StorageProvider(sql.FieldContainsFold(FieldBucket, v))
 }
 
-// ProviderNameEQ applies the EQ predicate on the "provider_name" field.
-func ProviderNameEQ(v string) predicate.StorageProvider {
-	return predicate.StorageProvider(sql.FieldEQ(FieldProviderName, v))
-}
-
-// ProviderNameNEQ applies the NEQ predicate on the "provider_name" field.
-func ProviderNameNEQ(v string) predicate.StorageProvider {
-	return predicate.StorageProvider(sql.FieldNEQ(FieldProviderName, v))
-}
-
-// ProviderNameIn applies the In predicate on the "provider_name" field.
-func ProviderNameIn(vs ...string) predicate.StorageProvider {
-	return predicate.StorageProvider(sql.FieldIn(FieldProviderName, vs...))
-}
-
-// ProviderNameNotIn applies the NotIn predicate on the "provider_name" field.
-func ProviderNameNotIn(vs ...string) predicate.StorageProvider {
-	return predicate.StorageProvider(sql.FieldNotIn(FieldProviderName, vs...))
-}
-
-// ProviderNameGT applies the GT predicate on the "provider_name" field.
-func ProviderNameGT(v string) predicate.StorageProvider {
-	return predicate.StorageProvider(sql.FieldGT(FieldProviderName, v))
-}
-
-// ProviderNameGTE applies the GTE predicate on the "provider_name" field.
-func ProviderNameGTE(v string) predicate.StorageProvider {
-	return predicate.StorageProvider(sql.FieldGTE(FieldProviderName, v))
-}
-
-// ProviderNameLT applies the LT predicate on the "provider_name" field.
-func ProviderNameLT(v string) predicate.StorageProvider {
-	return predicate.StorageProvider(sql.FieldLT(FieldProviderName, v))
-}
-
-// ProviderNameLTE applies the LTE predicate on the "provider_name" field.
-func ProviderNameLTE(v string) predicate.StorageProvider {
-	return predicate.StorageProvider(sql.FieldLTE(FieldProviderName, v))
-}
-
-// ProviderNameContains applies the Contains predicate on the "provider_name" field.
-func ProviderNameContains(v string) predicate.StorageProvider {
-	return predicate.StorageProvider(sql.FieldContains(FieldProviderName, v))
-}
-
-// ProviderNameHasPrefix applies the HasPrefix predicate on the "provider_name" field.
-func ProviderNameHasPrefix(v string) predicate.StorageProvider {
-	return predicate.StorageProvider(sql.FieldHasPrefix(FieldProviderName, v))
-}
-
-// ProviderNameHasSuffix applies the HasSuffix predicate on the "provider_name" field.
-func ProviderNameHasSuffix(v string) predicate.StorageProvider {
-	return predicate.StorageProvider(sql.FieldHasSuffix(FieldProviderName, v))
-}
-
-// ProviderNameEqualFold applies the EqualFold predicate on the "provider_name" field.
-func ProviderNameEqualFold(v string) predicate.StorageProvider {
-	return predicate.StorageProvider(sql.FieldEqualFold(FieldProviderName, v))
-}
-
-// ProviderNameContainsFold applies the ContainsFold predicate on the "provider_name" field.
-func ProviderNameContainsFold(v string) predicate.StorageProvider {
-	return predicate.StorageProvider(sql.FieldContainsFold(FieldProviderName, v))
-}
-
 // SecretIDEQ applies the EQ predicate on the "secret_id" field.
 func SecretIDEQ(v string) predicate.StorageProvider {
 	return predicate.StorageProvider(sql.FieldEQ(FieldSecretID, v))
@@ -533,6 +468,71 @@ func SecretKeyEqualFold(v string) predicate.StorageProvider {
 // SecretKeyContainsFold applies the ContainsFold predicate on the "secret_key" field.
 func SecretKeyContainsFold(v string) predicate.StorageProvider {
 	return predicate.StorageProvider(sql.FieldContainsFold(FieldSecretKey, v))
+}
+
+// EndpointEQ applies the EQ predicate on the "endpoint" field.
+func EndpointEQ(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldEQ(FieldEndpoint, v))
+}
+
+// EndpointNEQ applies the NEQ predicate on the "endpoint" field.
+func EndpointNEQ(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldNEQ(FieldEndpoint, v))
+}
+
+// EndpointIn applies the In predicate on the "endpoint" field.
+func EndpointIn(vs ...string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldIn(FieldEndpoint, vs...))
+}
+
+// EndpointNotIn applies the NotIn predicate on the "endpoint" field.
+func EndpointNotIn(vs ...string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldNotIn(FieldEndpoint, vs...))
+}
+
+// EndpointGT applies the GT predicate on the "endpoint" field.
+func EndpointGT(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldGT(FieldEndpoint, v))
+}
+
+// EndpointGTE applies the GTE predicate on the "endpoint" field.
+func EndpointGTE(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldGTE(FieldEndpoint, v))
+}
+
+// EndpointLT applies the LT predicate on the "endpoint" field.
+func EndpointLT(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldLT(FieldEndpoint, v))
+}
+
+// EndpointLTE applies the LTE predicate on the "endpoint" field.
+func EndpointLTE(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldLTE(FieldEndpoint, v))
+}
+
+// EndpointContains applies the Contains predicate on the "endpoint" field.
+func EndpointContains(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldContains(FieldEndpoint, v))
+}
+
+// EndpointHasPrefix applies the HasPrefix predicate on the "endpoint" field.
+func EndpointHasPrefix(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldHasPrefix(FieldEndpoint, v))
+}
+
+// EndpointHasSuffix applies the HasSuffix predicate on the "endpoint" field.
+func EndpointHasSuffix(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldHasSuffix(FieldEndpoint, v))
+}
+
+// EndpointEqualFold applies the EqualFold predicate on the "endpoint" field.
+func EndpointEqualFold(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldEqualFold(FieldEndpoint, v))
+}
+
+// EndpointContainsFold applies the ContainsFold predicate on the "endpoint" field.
+func EndpointContainsFold(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldContainsFold(FieldEndpoint, v))
 }
 
 // FolderEQ applies the EQ predicate on the "folder" field.

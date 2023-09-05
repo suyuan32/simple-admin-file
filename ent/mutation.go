@@ -3420,9 +3420,9 @@ type StorageProviderMutation struct {
 	state             *bool
 	name              *string
 	bucket            *string
-	provider_name     *string
 	secret_id         *string
 	secret_key        *string
+	endpoint          *string
 	folder            *string
 	region            *string
 	is_default        *bool
@@ -3732,42 +3732,6 @@ func (m *StorageProviderMutation) ResetBucket() {
 	m.bucket = nil
 }
 
-// SetProviderName sets the "provider_name" field.
-func (m *StorageProviderMutation) SetProviderName(s string) {
-	m.provider_name = &s
-}
-
-// ProviderName returns the value of the "provider_name" field in the mutation.
-func (m *StorageProviderMutation) ProviderName() (r string, exists bool) {
-	v := m.provider_name
-	if v == nil {
-		return
-	}
-	return *v, true
-}
-
-// OldProviderName returns the old "provider_name" field's value of the StorageProvider entity.
-// If the StorageProvider object wasn't provided to the builder, the object is fetched from the database.
-// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *StorageProviderMutation) OldProviderName(ctx context.Context) (v string, err error) {
-	if !m.op.Is(OpUpdateOne) {
-		return v, errors.New("OldProviderName is only allowed on UpdateOne operations")
-	}
-	if m.id == nil || m.oldValue == nil {
-		return v, errors.New("OldProviderName requires an ID field in the mutation")
-	}
-	oldValue, err := m.oldValue(ctx)
-	if err != nil {
-		return v, fmt.Errorf("querying old value for OldProviderName: %w", err)
-	}
-	return oldValue.ProviderName, nil
-}
-
-// ResetProviderName resets all changes to the "provider_name" field.
-func (m *StorageProviderMutation) ResetProviderName() {
-	m.provider_name = nil
-}
-
 // SetSecretID sets the "secret_id" field.
 func (m *StorageProviderMutation) SetSecretID(s string) {
 	m.secret_id = &s
@@ -3838,6 +3802,42 @@ func (m *StorageProviderMutation) OldSecretKey(ctx context.Context) (v string, e
 // ResetSecretKey resets all changes to the "secret_key" field.
 func (m *StorageProviderMutation) ResetSecretKey() {
 	m.secret_key = nil
+}
+
+// SetEndpoint sets the "endpoint" field.
+func (m *StorageProviderMutation) SetEndpoint(s string) {
+	m.endpoint = &s
+}
+
+// Endpoint returns the value of the "endpoint" field in the mutation.
+func (m *StorageProviderMutation) Endpoint() (r string, exists bool) {
+	v := m.endpoint
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldEndpoint returns the old "endpoint" field's value of the StorageProvider entity.
+// If the StorageProvider object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StorageProviderMutation) OldEndpoint(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldEndpoint is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldEndpoint requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldEndpoint: %w", err)
+	}
+	return oldValue.Endpoint, nil
+}
+
+// ResetEndpoint resets all changes to the "endpoint" field.
+func (m *StorageProviderMutation) ResetEndpoint() {
+	m.endpoint = nil
 }
 
 // SetFolder sets the "folder" field.
@@ -4065,14 +4065,14 @@ func (m *StorageProviderMutation) Fields() []string {
 	if m.bucket != nil {
 		fields = append(fields, storageprovider.FieldBucket)
 	}
-	if m.provider_name != nil {
-		fields = append(fields, storageprovider.FieldProviderName)
-	}
 	if m.secret_id != nil {
 		fields = append(fields, storageprovider.FieldSecretID)
 	}
 	if m.secret_key != nil {
 		fields = append(fields, storageprovider.FieldSecretKey)
+	}
+	if m.endpoint != nil {
+		fields = append(fields, storageprovider.FieldEndpoint)
 	}
 	if m.folder != nil {
 		fields = append(fields, storageprovider.FieldFolder)
@@ -4101,12 +4101,12 @@ func (m *StorageProviderMutation) Field(name string) (ent.Value, bool) {
 		return m.Name()
 	case storageprovider.FieldBucket:
 		return m.Bucket()
-	case storageprovider.FieldProviderName:
-		return m.ProviderName()
 	case storageprovider.FieldSecretID:
 		return m.SecretID()
 	case storageprovider.FieldSecretKey:
 		return m.SecretKey()
+	case storageprovider.FieldEndpoint:
+		return m.Endpoint()
 	case storageprovider.FieldFolder:
 		return m.Folder()
 	case storageprovider.FieldRegion:
@@ -4132,12 +4132,12 @@ func (m *StorageProviderMutation) OldField(ctx context.Context, name string) (en
 		return m.OldName(ctx)
 	case storageprovider.FieldBucket:
 		return m.OldBucket(ctx)
-	case storageprovider.FieldProviderName:
-		return m.OldProviderName(ctx)
 	case storageprovider.FieldSecretID:
 		return m.OldSecretID(ctx)
 	case storageprovider.FieldSecretKey:
 		return m.OldSecretKey(ctx)
+	case storageprovider.FieldEndpoint:
+		return m.OldEndpoint(ctx)
 	case storageprovider.FieldFolder:
 		return m.OldFolder(ctx)
 	case storageprovider.FieldRegion:
@@ -4188,13 +4188,6 @@ func (m *StorageProviderMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetBucket(v)
 		return nil
-	case storageprovider.FieldProviderName:
-		v, ok := value.(string)
-		if !ok {
-			return fmt.Errorf("unexpected type %T for field %s", value, name)
-		}
-		m.SetProviderName(v)
-		return nil
 	case storageprovider.FieldSecretID:
 		v, ok := value.(string)
 		if !ok {
@@ -4208,6 +4201,13 @@ func (m *StorageProviderMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetSecretKey(v)
+		return nil
+	case storageprovider.FieldEndpoint:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetEndpoint(v)
 		return nil
 	case storageprovider.FieldFolder:
 		v, ok := value.(string)
@@ -4309,14 +4309,14 @@ func (m *StorageProviderMutation) ResetField(name string) error {
 	case storageprovider.FieldBucket:
 		m.ResetBucket()
 		return nil
-	case storageprovider.FieldProviderName:
-		m.ResetProviderName()
-		return nil
 	case storageprovider.FieldSecretID:
 		m.ResetSecretID()
 		return nil
 	case storageprovider.FieldSecretKey:
 		m.ResetSecretKey()
+		return nil
+	case storageprovider.FieldEndpoint:
+		m.ResetEndpoint()
 		return nil
 	case storageprovider.FieldFolder:
 		m.ResetFolder()

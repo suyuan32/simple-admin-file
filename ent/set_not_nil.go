@@ -653,30 +653,6 @@ func (sp *StorageProviderCreate) SetNotNilBucket(value *string) *StorageProvider
 }
 
 // set field if value's pointer is not nil.
-func (sp *StorageProviderUpdate) SetNotNilProviderName(value *string) *StorageProviderUpdate {
-	if value != nil {
-		return sp.SetProviderName(*value)
-	}
-	return sp
-}
-
-// set field if value's pointer is not nil.
-func (sp *StorageProviderUpdateOne) SetNotNilProviderName(value *string) *StorageProviderUpdateOne {
-	if value != nil {
-		return sp.SetProviderName(*value)
-	}
-	return sp
-}
-
-// set field if value's pointer is not nil.
-func (sp *StorageProviderCreate) SetNotNilProviderName(value *string) *StorageProviderCreate {
-	if value != nil {
-		return sp.SetProviderName(*value)
-	}
-	return sp
-}
-
-// set field if value's pointer is not nil.
 func (sp *StorageProviderUpdate) SetNotNilSecretID(value *string) *StorageProviderUpdate {
 	if value != nil {
 		return sp.SetSecretID(*value)
@@ -720,6 +696,30 @@ func (sp *StorageProviderUpdateOne) SetNotNilSecretKey(value *string) *StoragePr
 func (sp *StorageProviderCreate) SetNotNilSecretKey(value *string) *StorageProviderCreate {
 	if value != nil {
 		return sp.SetSecretKey(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdate) SetNotNilEndpoint(value *string) *StorageProviderUpdate {
+	if value != nil {
+		return sp.SetEndpoint(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdateOne) SetNotNilEndpoint(value *string) *StorageProviderUpdateOne {
+	if value != nil {
+		return sp.SetEndpoint(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderCreate) SetNotNilEndpoint(value *string) *StorageProviderCreate {
+	if value != nil {
+		return sp.SetEndpoint(*value)
 	}
 	return sp
 }
