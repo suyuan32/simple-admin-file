@@ -16,7 +16,7 @@
     "contact": {
       "email": "yuansu.china.work@gmail.com"
     },
-    "version": "1.1.2"
+    "version": "1.1.3"
   },
   "host": "localhost:9102",
   "basePath": "/",
@@ -1646,6 +1646,11 @@
           "format": "int64",
           "x-go-name": "CreatedAt"
         },
+        "endpoint": {
+          "description": "Secret Key",
+          "type": "string",
+          "x-go-name": "Endpoint"
+        },
         "folder": {
           "description": "folder | folder",
           "type": "string",
@@ -1666,11 +1671,6 @@
           "description": "Name | 云服务提供商名称",
           "type": "string",
           "x-go-name": "Name"
-        },
-        "providerName": {
-          "description": "Provider Name | 云服务提供商名称",
-          "type": "string",
-          "x-go-name": "ProviderName"
         },
         "region": {
           "description": "Region | 地区",
@@ -1754,11 +1754,6 @@
         "pageSize"
       ],
       "properties": {
-        "bucket": {
-          "description": "Bucket | 存储桶",
-          "type": "string",
-          "x-go-name": "Bucket"
-        },
         "name": {
           "description": "Name | 名称",
           "type": "string",
@@ -1777,11 +1772,6 @@
           "format": "uint64",
           "maximum": 100000,
           "x-go-name": "PageSize"
-        },
-        "providerName": {
-          "description": "Provider Name | 提供商名称",
-          "type": "string",
-          "x-go-name": "ProviderName"
         }
       },
       "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"

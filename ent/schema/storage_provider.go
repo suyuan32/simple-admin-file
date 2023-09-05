@@ -24,14 +24,14 @@ func (StorageProvider) Fields() []ent.Field {
 		field.String("bucket").
 			Comment("The cloud storage bucket name | 云存储服务的存储桶").
 			Annotations(entsql.WithComments(true)),
-		field.String("provider_name").
-			Comment("The cloud storage provider name | 云存储服务的提供商").
-			Annotations(entsql.WithComments(true)),
 		field.String("secret_id").
 			Comment("The secret ID | 密钥 ID").
 			Annotations(entsql.WithComments(true)),
 		field.String("secret_key").
 			Comment("The secret key | 密钥 Key").
+			Annotations(entsql.WithComments(true)),
+		field.String("endpoint").
+			Comment("The service URL | 服务器地址").
 			Annotations(entsql.WithComments(true)),
 		field.String("folder").
 			Optional().

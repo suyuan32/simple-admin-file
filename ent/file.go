@@ -23,7 +23,7 @@ type File struct {
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	// Update Time | 修改日期
 	UpdatedAt time.Time `json:"updated_at,omitempty"`
-	// Status 1 : normal 2 : ban | 状态 1 正常 2 禁用
+	// Status 1: normal 2: ban | 状态 1 正常 2 禁用
 	Status uint8 `json:"status,omitempty"`
 	// File's name | 文件名称
 	Name string `json:"name,omitempty"`

@@ -34,12 +34,6 @@ func (l *GetStorageProviderListLogic) GetStorageProviderList(req *types.StorageP
 	if req.Name != nil {
 		predicates = append(predicates, storageprovider.NameContains(*req.Name))
 	}
-	if req.Bucket != nil {
-		predicates = append(predicates, storageprovider.BucketContains(*req.Bucket))
-	}
-	if req.ProviderName != nil {
-		predicates = append(predicates, storageprovider.ProviderNameContains(*req.ProviderName))
-	}
 	data, err := l.svcCtx.DB.StorageProvider.Query().Where(predicates...).Page(l.ctx, req.Page, req.PageSize)
 
 	if err != nil {
@@ -58,15 +52,15 @@ func (l *GetStorageProviderListLogic) GetStorageProviderList(req *types.StorageP
 					CreatedAt: pointy.GetPointer(v.CreatedAt.Unix()),
 					UpdatedAt: pointy.GetPointer(v.UpdatedAt.Unix()),
 				},
-				State:        &v.State,
-				Name:         &v.Name,
-				Bucket:       &v.Bucket,
-				ProviderName: &v.ProviderName,
-				SecretId:     &v.SecretID,
-				SecretKey:    &v.SecretKey,
-				Region:       &v.Region,
-				IsDefault:    &v.IsDefault,
-				Folder:       &v.Folder,
+				State:     &v.State,
+				Name:      &v.Name,
+				Bucket:    &v.Bucket,
+				SecretId:  &v.SecretID,
+				SecretKey: &v.SecretKey,
+				Region:    &v.Region,
+				IsDefault: &v.IsDefault,
+				Folder:    &v.Folder,
+				Endpoint:  &v.Endpoint,
 			})
 	}
 

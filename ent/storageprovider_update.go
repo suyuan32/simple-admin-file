@@ -68,12 +68,6 @@ func (spu *StorageProviderUpdate) SetBucket(s string) *StorageProviderUpdate {
 	return spu
 }
 
-// SetProviderName sets the "provider_name" field.
-func (spu *StorageProviderUpdate) SetProviderName(s string) *StorageProviderUpdate {
-	spu.mutation.SetProviderName(s)
-	return spu
-}
-
 // SetSecretID sets the "secret_id" field.
 func (spu *StorageProviderUpdate) SetSecretID(s string) *StorageProviderUpdate {
 	spu.mutation.SetSecretID(s)
@@ -83,6 +77,12 @@ func (spu *StorageProviderUpdate) SetSecretID(s string) *StorageProviderUpdate {
 // SetSecretKey sets the "secret_key" field.
 func (spu *StorageProviderUpdate) SetSecretKey(s string) *StorageProviderUpdate {
 	spu.mutation.SetSecretKey(s)
+	return spu
+}
+
+// SetEndpoint sets the "endpoint" field.
+func (spu *StorageProviderUpdate) SetEndpoint(s string) *StorageProviderUpdate {
+	spu.mutation.SetEndpoint(s)
 	return spu
 }
 
@@ -227,14 +227,14 @@ func (spu *StorageProviderUpdate) sqlSave(ctx context.Context) (n int, err error
 	if value, ok := spu.mutation.Bucket(); ok {
 		_spec.SetField(storageprovider.FieldBucket, field.TypeString, value)
 	}
-	if value, ok := spu.mutation.ProviderName(); ok {
-		_spec.SetField(storageprovider.FieldProviderName, field.TypeString, value)
-	}
 	if value, ok := spu.mutation.SecretID(); ok {
 		_spec.SetField(storageprovider.FieldSecretID, field.TypeString, value)
 	}
 	if value, ok := spu.mutation.SecretKey(); ok {
 		_spec.SetField(storageprovider.FieldSecretKey, field.TypeString, value)
+	}
+	if value, ok := spu.mutation.Endpoint(); ok {
+		_spec.SetField(storageprovider.FieldEndpoint, field.TypeString, value)
 	}
 	if value, ok := spu.mutation.Folder(); ok {
 		_spec.SetField(storageprovider.FieldFolder, field.TypeString, value)
@@ -351,12 +351,6 @@ func (spuo *StorageProviderUpdateOne) SetBucket(s string) *StorageProviderUpdate
 	return spuo
 }
 
-// SetProviderName sets the "provider_name" field.
-func (spuo *StorageProviderUpdateOne) SetProviderName(s string) *StorageProviderUpdateOne {
-	spuo.mutation.SetProviderName(s)
-	return spuo
-}
-
 // SetSecretID sets the "secret_id" field.
 func (spuo *StorageProviderUpdateOne) SetSecretID(s string) *StorageProviderUpdateOne {
 	spuo.mutation.SetSecretID(s)
@@ -366,6 +360,12 @@ func (spuo *StorageProviderUpdateOne) SetSecretID(s string) *StorageProviderUpda
 // SetSecretKey sets the "secret_key" field.
 func (spuo *StorageProviderUpdateOne) SetSecretKey(s string) *StorageProviderUpdateOne {
 	spuo.mutation.SetSecretKey(s)
+	return spuo
+}
+
+// SetEndpoint sets the "endpoint" field.
+func (spuo *StorageProviderUpdateOne) SetEndpoint(s string) *StorageProviderUpdateOne {
+	spuo.mutation.SetEndpoint(s)
 	return spuo
 }
 
@@ -540,14 +540,14 @@ func (spuo *StorageProviderUpdateOne) sqlSave(ctx context.Context) (_node *Stora
 	if value, ok := spuo.mutation.Bucket(); ok {
 		_spec.SetField(storageprovider.FieldBucket, field.TypeString, value)
 	}
-	if value, ok := spuo.mutation.ProviderName(); ok {
-		_spec.SetField(storageprovider.FieldProviderName, field.TypeString, value)
-	}
 	if value, ok := spuo.mutation.SecretID(); ok {
 		_spec.SetField(storageprovider.FieldSecretID, field.TypeString, value)
 	}
 	if value, ok := spuo.mutation.SecretKey(); ok {
 		_spec.SetField(storageprovider.FieldSecretKey, field.TypeString, value)
+	}
+	if value, ok := spuo.mutation.Endpoint(); ok {
+		_spec.SetField(storageprovider.FieldEndpoint, field.TypeString, value)
 	}
 	if value, ok := spuo.mutation.Folder(); ok {
 		_spec.SetField(storageprovider.FieldFolder, field.TypeString, value)

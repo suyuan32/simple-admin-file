@@ -325,12 +325,12 @@ type StorageProviderInfo struct {
 	Name *string `json:"name,optional"`
 	// Bucket | 存储桶
 	Bucket *string `json:"bucket,optional"`
-	// Provider Name | 云服务提供商名称
-	ProviderName *string `json:"providerName,optional"`
 	// Secret Id
 	SecretId *string `json:"secretId,optional"`
 	// Secret Key
 	SecretKey *string `json:"secretKey,optional"`
+	// Secret Key
+	Endpoint *string `json:"endpoint,optional"`
 	// folder | folder
 	Folder *string `json:"folder,optional"`
 	// Region | 地区
@@ -361,10 +361,6 @@ type StorageProviderListReq struct {
 	PageInfo
 	// Name | 名称
 	Name *string `json:"name,optional"`
-	// Bucket | 存储桶
-	Bucket *string `json:"bucket,optional"`
-	// Provider Name | 提供商名称
-	ProviderName *string `json:"providerName,optional"`
 }
 
 // StorageProvider information response | 服务提供商信息返回体
