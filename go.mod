@@ -8,7 +8,7 @@ require (
 	github.com/casbin/casbin/v2 v2.77.2
 	github.com/duke-git/lancet/v2 v2.2.5
 	github.com/gofrs/uuid/v5 v5.0.0
-	github.com/suyuan32/simple-admin-common v1.1.3
+	github.com/suyuan32/simple-admin-common v1.1.4-0.20230907234509-0f50bae0cb12
 	github.com/suyuan32/simple-admin-core v1.1.3
 	github.com/zeromicro/go-zero v1.5.5
 	google.golang.org/grpc v1.57.0
