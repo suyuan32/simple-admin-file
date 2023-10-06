@@ -325,11 +325,15 @@ func (cfc *CloudFileCreate) createSpec() (*CloudFile, *sqlgraph.CreateSpec) {
 // CloudFileCreateBulk is the builder for creating many CloudFile entities in bulk.
 type CloudFileCreateBulk struct {
 	config
+	err      error
 	builders []*CloudFileCreate
 }
 
 // Save creates the CloudFile entities in the database.
 func (cfcb *CloudFileCreateBulk) Save(ctx context.Context) ([]*CloudFile, error) {
+	if cfcb.err != nil {
+		return nil, cfcb.err
+	}
 	specs := make([]*sqlgraph.CreateSpec, len(cfcb.builders))
 	nodes := make([]*CloudFile, len(cfcb.builders))
 	mutators := make([]Mutator, len(cfcb.builders))

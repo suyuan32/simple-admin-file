@@ -239,11 +239,15 @@ func (ftc *FileTagCreate) createSpec() (*FileTag, *sqlgraph.CreateSpec) {
 // FileTagCreateBulk is the builder for creating many FileTag entities in bulk.
 type FileTagCreateBulk struct {
 	config
+	err      error
 	builders []*FileTagCreate
 }
 
 // Save creates the FileTag entities in the database.
 func (ftcb *FileTagCreateBulk) Save(ctx context.Context) ([]*FileTag, error) {
+	if ftcb.err != nil {
+		return nil, ftcb.err
+	}
 	specs := make([]*sqlgraph.CreateSpec, len(ftcb.builders))
 	nodes := make([]*FileTag, len(ftcb.builders))
 	mutators := make([]Mutator, len(ftcb.builders))

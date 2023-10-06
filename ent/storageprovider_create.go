@@ -329,11 +329,15 @@ func (spc *StorageProviderCreate) createSpec() (*StorageProvider, *sqlgraph.Crea
 // StorageProviderCreateBulk is the builder for creating many StorageProvider entities in bulk.
 type StorageProviderCreateBulk struct {
 	config
+	err      error
 	builders []*StorageProviderCreate
 }
 
 // Save creates the StorageProvider entities in the database.
 func (spcb *StorageProviderCreateBulk) Save(ctx context.Context) ([]*StorageProvider, error) {
+	if spcb.err != nil {
+		return nil, spcb.err
+	}
 	specs := make([]*sqlgraph.CreateSpec, len(spcb.builders))
 	nodes := make([]*StorageProvider, len(spcb.builders))
 	mutators := make([]Mutator, len(spcb.builders))

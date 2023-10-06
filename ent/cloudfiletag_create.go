@@ -239,11 +239,15 @@ func (cftc *CloudFileTagCreate) createSpec() (*CloudFileTag, *sqlgraph.CreateSpe
 // CloudFileTagCreateBulk is the builder for creating many CloudFileTag entities in bulk.
 type CloudFileTagCreateBulk struct {
 	config
+	err      error
 	builders []*CloudFileTagCreate
 }
 
 // Save creates the CloudFileTag entities in the database.
 func (cftcb *CloudFileTagCreateBulk) Save(ctx context.Context) ([]*CloudFileTag, error) {
+	if cftcb.err != nil {
+		return nil, cftcb.err
+	}
 	specs := make([]*sqlgraph.CreateSpec, len(cftcb.builders))
 	nodes := make([]*CloudFileTag, len(cftcb.builders))
 	mutators := make([]Mutator, len(cftcb.builders))
