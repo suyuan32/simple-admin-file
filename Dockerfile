@@ -1,19 +1,4 @@
-FROM golang:1.20.6-alpine3.17 as builder
-
-# Define the project name | 定义项目名称
-ARG PROJECT=fms
-
-WORKDIR /build
-COPY . .
-
-RUN go env -w GO111MODULE=on \
-    && go env -w GOPROXY=https://goproxy.cn,direct \
-    && go env -w CGO_ENABLED=0 \
-    && go env \
-    && go mod tidy \
-    && go build -ldflags="-s -w" -o /build/${PROJECT}_api ${PROJECT}.go
-
-FROM nginx:1.25.0-alpine
+FROM nginx:1.25.2-alpine
 
 # Define the project name | 定义项目名称
 ARG PROJECT=fms
@@ -28,8 +13,8 @@ WORKDIR /app
 ENV PROJECT=${PROJECT}
 ENV CONFIG_FILE=${CONFIG_FILE}
 
-COPY --from=builder /build/${PROJECT}_api ./
-COPY --from=builder /build/etc/${CONFIG_FILE} ./etc/
+COPY ./${PROJECT}_api ./
+COPY ./api/etc/${CONFIG_FILE} ./etc/
 COPY deploy/nginx/default.conf /etc/nginx/conf.d/
 COPY deploy/nginx/entrypoint.sh /docker-entrypoint.d
 
