@@ -11,7 +11,7 @@ SERVICE_SNAKE=fms
 SERVICE_DASH=fms
 
 # The project version, if you don't use git, you should set it manually | 项目版本，如果不使用git请手动设置
-VERSION=v1.1.4
+VERSION=v1.1.5
 
 # The project file name style | 项目文件命名风格
 PROJECT_STYLE=go_zero
@@ -20,7 +20,7 @@ PROJECT_STYLE=go_zero
 PROJECT_I18N=true
 
 # The suffix after build or compile | 构建后缀
-PROJECT_BUILD_SUFFIX=api-docker
+PROJECT_BUILD_SUFFIX=api
 
 # Swagger type, support yml,json | Swagger 文件类型，支持yml,json
 SWAGGER_TYPE=json
@@ -58,7 +58,7 @@ tools: # Install the necessary tools | 安装必要的工具
 
 .PHONY: docker
 docker: # Build the docker image | 构建 docker 镜像
-	docker build -f Dockerfile -t ${DOCKER_USERNAME}/$(SERVICE_DASH)-$(PROJECT_BUILD_SUFFIX):${VERSION} .
+	docker build -f Dockerfile -t ${DOCKER_USERNAME}/$(SERVICE_DASH)-$(PROJECT_BUILD_SUFFIX)-docker:${VERSION} .
 	@echo "Build docker successfully"
 
 .PHONY: publish-docker
