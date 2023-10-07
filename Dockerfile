@@ -14,7 +14,7 @@ ENV PROJECT=${PROJECT}
 ENV CONFIG_FILE=${CONFIG_FILE}
 
 COPY ./${PROJECT}_api ./
-COPY ./api/etc/${CONFIG_FILE} ./etc/
+COPY ./etc/${CONFIG_FILE} ./etc/
 COPY deploy/nginx/default.conf /etc/nginx/conf.d/
 COPY deploy/nginx/entrypoint.sh /docker-entrypoint.d
 
