@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"reflect"
 
 	uuid "github.com/gofrs/uuid/v5"
 	"github.com/suyuan32/simple-admin-file/ent/migrate"
@@ -124,11 +125,14 @@ func Open(driverName, dataSourceName string, options ...Option) (*Client, error)
 	}
 }
 
+// ErrTxStarted is returned when trying to start a new transaction from a transactional client.
+var ErrTxStarted = errors.New("ent: cannot start a transaction within a transaction")
+
 // Tx returns a new transactional client. The provided context
 // is used until the transaction is committed or rolled back.
 func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	if _, ok := c.driver.(*txDriver); ok {
-		return nil, errors.New("ent: cannot start a transaction within a transaction")
+		return nil, ErrTxStarted
 	}
 	tx, err := newTx(ctx, c.driver)
 	if err != nil {
@@ -261,6 +265,21 @@ func (c *CloudFileClient) Create() *CloudFileCreate {
 
 // CreateBulk returns a builder for creating a bulk of CloudFile entities.
 func (c *CloudFileClient) CreateBulk(builders ...*CloudFileCreate) *CloudFileCreateBulk {
+	return &CloudFileCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *CloudFileClient) MapCreateBulk(slice any, setFunc func(*CloudFileCreate, int)) *CloudFileCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &CloudFileCreateBulk{err: fmt.Errorf("calling to CloudFileClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*CloudFileCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
 	return &CloudFileCreateBulk{config: c.config, builders: builders}
 }
 
@@ -414,6 +433,21 @@ func (c *CloudFileTagClient) CreateBulk(builders ...*CloudFileTagCreate) *CloudF
 	return &CloudFileTagCreateBulk{config: c.config, builders: builders}
 }
 
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *CloudFileTagClient) MapCreateBulk(slice any, setFunc func(*CloudFileTagCreate, int)) *CloudFileTagCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &CloudFileTagCreateBulk{err: fmt.Errorf("calling to CloudFileTagClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*CloudFileTagCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &CloudFileTagCreateBulk{config: c.config, builders: builders}
+}
+
 // Update returns an update builder for CloudFileTag.
 func (c *CloudFileTagClient) Update() *CloudFileTagUpdate {
 	mutation := newCloudFileTagMutation(c.config, OpUpdate)
@@ -545,6 +579,21 @@ func (c *FileClient) Create() *FileCreate {
 
 // CreateBulk returns a builder for creating a bulk of File entities.
 func (c *FileClient) CreateBulk(builders ...*FileCreate) *FileCreateBulk {
+	return &FileCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *FileClient) MapCreateBulk(slice any, setFunc func(*FileCreate, int)) *FileCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &FileCreateBulk{err: fmt.Errorf("calling to FileClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*FileCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
 	return &FileCreateBulk{config: c.config, builders: builders}
 }
 
@@ -682,6 +731,21 @@ func (c *FileTagClient) CreateBulk(builders ...*FileTagCreate) *FileTagCreateBul
 	return &FileTagCreateBulk{config: c.config, builders: builders}
 }
 
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *FileTagClient) MapCreateBulk(slice any, setFunc func(*FileTagCreate, int)) *FileTagCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &FileTagCreateBulk{err: fmt.Errorf("calling to FileTagClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*FileTagCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
+	return &FileTagCreateBulk{config: c.config, builders: builders}
+}
+
 // Update returns an update builder for FileTag.
 func (c *FileTagClient) Update() *FileTagUpdate {
 	mutation := newFileTagMutation(c.config, OpUpdate)
@@ -813,6 +877,21 @@ func (c *StorageProviderClient) Create() *StorageProviderCreate {
 
 // CreateBulk returns a builder for creating a bulk of StorageProvider entities.
 func (c *StorageProviderClient) CreateBulk(builders ...*StorageProviderCreate) *StorageProviderCreateBulk {
+	return &StorageProviderCreateBulk{config: c.config, builders: builders}
+}
+
+// MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
+// a builder and applies setFunc on it.
+func (c *StorageProviderClient) MapCreateBulk(slice any, setFunc func(*StorageProviderCreate, int)) *StorageProviderCreateBulk {
+	rv := reflect.ValueOf(slice)
+	if rv.Kind() != reflect.Slice {
+		return &StorageProviderCreateBulk{err: fmt.Errorf("calling to StorageProviderClient.MapCreateBulk with wrong type %T, need slice", slice)}
+	}
+	builders := make([]*StorageProviderCreate, rv.Len())
+	for i := 0; i < rv.Len(); i++ {
+		builders[i] = c.Create()
+		setFunc(builders[i], i)
+	}
 	return &StorageProviderCreateBulk{config: c.config, builders: builders}
 }
 
