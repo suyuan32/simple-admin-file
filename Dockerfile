@@ -13,6 +13,9 @@ WORKDIR /app
 ENV PROJECT=${PROJECT}
 ENV CONFIG_FILE=${CONFIG_FILE}
 
+ENV TZ=Asia/Shanghai
+RUN apk update --no-cache && apk add --no-cache tzdata
+
 COPY ./${PROJECT}_api ./
 COPY ./api/etc/${CONFIG_FILE} ./etc/
 COPY deploy/nginx/default.conf /etc/nginx/conf.d/
