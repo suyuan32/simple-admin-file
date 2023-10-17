@@ -20,14 +20,9 @@ Log:
   KeepDays: 7
   StackCoolDownMillis: 100
 
-RedisConf:
-  Host: 10.5.0.3:6379
-  Type: node
-
-# DatabaseConf sets the database of file manager service.
 DatabaseConf:
   Type: postgres
-  Host: 10.5.0.2
+  Host: postgresql-server
   Port: 5432
   DBName: simple_admin
   Username: postgres # set your username
@@ -36,10 +31,14 @@ DatabaseConf:
   SSLMode: disable
   CacheTime: 5
 
+RedisConf:
+  Host: redis-server:6379
+  Type: node
+
 # CasbinDatabaseConf sets the core database if you use the Casbin of Core.
 CasbinDatabaseConf:
   Type: postgres
-  Host: 10.5.0.2
+  Host: postgresql-server
   Port: 5432
   DBName: simple_admin
   Username: postgres # set your username
@@ -61,5 +60,5 @@ UploadConf:
 # You can disable the core rpc if you have already initialized file manager's database.
 CoreRpc:
   Endpoints:
-    - 10.5.0.4:9101
+    - core-rpc:9101
   Enabled: true
