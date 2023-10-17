@@ -5,7 +5,7 @@
 //		Schemes: http, https
 //		Host: localhost:9102
 //		BasePath: /
-//		Version: 1.1.5
+//		Version: 1.1.6
 //		Contact: yuansu.china.work@gmail.com
 //		securityDefinitions:
 //		  Token:
@@ -35,7 +35,7 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 )
 
-var configFile = flag.String("f", "etc/file.yaml", "the config file")
+var configFile = flag.String("f", "etc/fms.yaml", "the config file")
 
 func main() {
 	flag.Parse()
