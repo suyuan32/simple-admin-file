@@ -191,7 +191,7 @@ type FileInfo struct {
 	// The public URL | 公开访问的链接
 	PublicPath *string `json:"publicPath"`
 	// FileTags' Id | 标签 ID
-	FileTagIds []uint64 `json:"tagIds"`
+	FileTagIds []uint64 `json:"tagIds,optional,omitempty"`
 }
 
 // The response data of file information list | 文件信息列表数据
@@ -274,7 +274,7 @@ type CloudFileInfo struct {
 	// Provider ID | 提供商的 ID
 	ProviderId *uint64 `json:"providerId,optional"`
 	// Tag ID | 标签 ID
-	TagIds []uint64 `json:"tagIds,optional"`
+	TagIds []uint64 `json:"tagIds,optional,omitempty"`
 }
 
 // The response data of cloud file list | 云文件列表数据

@@ -27,7 +27,7 @@ type (
         ProviderId  *uint64 `json:"providerId,optional"`
 
         // Tag ID | 标签 ID
-        TagIds []uint64 `json:"tagIds,optional"`
+        TagIds []uint64 `json:"tagIds,optional,omitempty"`
     }
 
     // The response data of cloud file list | 云文件列表数据

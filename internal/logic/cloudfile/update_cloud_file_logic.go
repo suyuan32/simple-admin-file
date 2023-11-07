@@ -36,11 +36,13 @@ func (l *UpdateCloudFileLogic) UpdateCloudFile(req *types.CloudFileInfo) (*types
 		SetNotNilUserID(req.UserId)
 
 	if req.ProviderId != nil {
-		query = query.SetStorageProvidersID(*req.ProviderId)
+		query.SetStorageProvidersID(*req.ProviderId)
 	}
 
 	if req.TagIds != nil {
-		query = query.AddTagIDs(req.TagIds...)
+		query.AddTagIDs(req.TagIds...)
+	} else {
+		query.ClearTags()
 	}
 
 	err := query.Exec(l.ctx)

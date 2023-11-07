@@ -34,6 +34,8 @@ func (l *UpdateFileLogic) UpdateFile(req *types.UpdateFileReq) (resp *types.Base
 
 	if req.FileTagIds != nil {
 		query.AddTagIDs(req.FileTagIds...)
+	} else {
+		query.ClearTags()
 	}
 
 	err = query.Exec(l.ctx)
