@@ -88,7 +88,7 @@ type (
 		PublicPath *string `json:"publicPath"`
 
 		// FileTags' Id | 标签 ID
-		FileTagIds  []uint64 `json:"tagIds"`
+		FileTagIds  []uint64 `json:"tagIds,optional,omitempty"`
 	}
 
 	// The response data of file information list | 文件信息列表数据
