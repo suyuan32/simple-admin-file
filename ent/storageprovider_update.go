@@ -62,9 +62,25 @@ func (spu *StorageProviderUpdate) SetName(s string) *StorageProviderUpdate {
 	return spu
 }
 
+// SetNillableName sets the "name" field if the given value is not nil.
+func (spu *StorageProviderUpdate) SetNillableName(s *string) *StorageProviderUpdate {
+	if s != nil {
+		spu.SetName(*s)
+	}
+	return spu
+}
+
 // SetBucket sets the "bucket" field.
 func (spu *StorageProviderUpdate) SetBucket(s string) *StorageProviderUpdate {
 	spu.mutation.SetBucket(s)
+	return spu
+}
+
+// SetNillableBucket sets the "bucket" field if the given value is not nil.
+func (spu *StorageProviderUpdate) SetNillableBucket(s *string) *StorageProviderUpdate {
+	if s != nil {
+		spu.SetBucket(*s)
+	}
 	return spu
 }
 
@@ -74,15 +90,39 @@ func (spu *StorageProviderUpdate) SetSecretID(s string) *StorageProviderUpdate {
 	return spu
 }
 
+// SetNillableSecretID sets the "secret_id" field if the given value is not nil.
+func (spu *StorageProviderUpdate) SetNillableSecretID(s *string) *StorageProviderUpdate {
+	if s != nil {
+		spu.SetSecretID(*s)
+	}
+	return spu
+}
+
 // SetSecretKey sets the "secret_key" field.
 func (spu *StorageProviderUpdate) SetSecretKey(s string) *StorageProviderUpdate {
 	spu.mutation.SetSecretKey(s)
 	return spu
 }
 
+// SetNillableSecretKey sets the "secret_key" field if the given value is not nil.
+func (spu *StorageProviderUpdate) SetNillableSecretKey(s *string) *StorageProviderUpdate {
+	if s != nil {
+		spu.SetSecretKey(*s)
+	}
+	return spu
+}
+
 // SetEndpoint sets the "endpoint" field.
 func (spu *StorageProviderUpdate) SetEndpoint(s string) *StorageProviderUpdate {
 	spu.mutation.SetEndpoint(s)
+	return spu
+}
+
+// SetNillableEndpoint sets the "endpoint" field if the given value is not nil.
+func (spu *StorageProviderUpdate) SetNillableEndpoint(s *string) *StorageProviderUpdate {
+	if s != nil {
+		spu.SetEndpoint(*s)
+	}
 	return spu
 }
 
@@ -109,6 +149,14 @@ func (spu *StorageProviderUpdate) ClearFolder() *StorageProviderUpdate {
 // SetRegion sets the "region" field.
 func (spu *StorageProviderUpdate) SetRegion(s string) *StorageProviderUpdate {
 	spu.mutation.SetRegion(s)
+	return spu
+}
+
+// SetNillableRegion sets the "region" field if the given value is not nil.
+func (spu *StorageProviderUpdate) SetNillableRegion(s *string) *StorageProviderUpdate {
+	if s != nil {
+		spu.SetRegion(*s)
+	}
 	return spu
 }
 
@@ -345,9 +393,25 @@ func (spuo *StorageProviderUpdateOne) SetName(s string) *StorageProviderUpdateOn
 	return spuo
 }
 
+// SetNillableName sets the "name" field if the given value is not nil.
+func (spuo *StorageProviderUpdateOne) SetNillableName(s *string) *StorageProviderUpdateOne {
+	if s != nil {
+		spuo.SetName(*s)
+	}
+	return spuo
+}
+
 // SetBucket sets the "bucket" field.
 func (spuo *StorageProviderUpdateOne) SetBucket(s string) *StorageProviderUpdateOne {
 	spuo.mutation.SetBucket(s)
+	return spuo
+}
+
+// SetNillableBucket sets the "bucket" field if the given value is not nil.
+func (spuo *StorageProviderUpdateOne) SetNillableBucket(s *string) *StorageProviderUpdateOne {
+	if s != nil {
+		spuo.SetBucket(*s)
+	}
 	return spuo
 }
 
@@ -357,15 +421,39 @@ func (spuo *StorageProviderUpdateOne) SetSecretID(s string) *StorageProviderUpda
 	return spuo
 }
 
+// SetNillableSecretID sets the "secret_id" field if the given value is not nil.
+func (spuo *StorageProviderUpdateOne) SetNillableSecretID(s *string) *StorageProviderUpdateOne {
+	if s != nil {
+		spuo.SetSecretID(*s)
+	}
+	return spuo
+}
+
 // SetSecretKey sets the "secret_key" field.
 func (spuo *StorageProviderUpdateOne) SetSecretKey(s string) *StorageProviderUpdateOne {
 	spuo.mutation.SetSecretKey(s)
 	return spuo
 }
 
+// SetNillableSecretKey sets the "secret_key" field if the given value is not nil.
+func (spuo *StorageProviderUpdateOne) SetNillableSecretKey(s *string) *StorageProviderUpdateOne {
+	if s != nil {
+		spuo.SetSecretKey(*s)
+	}
+	return spuo
+}
+
 // SetEndpoint sets the "endpoint" field.
 func (spuo *StorageProviderUpdateOne) SetEndpoint(s string) *StorageProviderUpdateOne {
 	spuo.mutation.SetEndpoint(s)
+	return spuo
+}
+
+// SetNillableEndpoint sets the "endpoint" field if the given value is not nil.
+func (spuo *StorageProviderUpdateOne) SetNillableEndpoint(s *string) *StorageProviderUpdateOne {
+	if s != nil {
+		spuo.SetEndpoint(*s)
+	}
 	return spuo
 }
 
@@ -392,6 +480,14 @@ func (spuo *StorageProviderUpdateOne) ClearFolder() *StorageProviderUpdateOne {
 // SetRegion sets the "region" field.
 func (spuo *StorageProviderUpdateOne) SetRegion(s string) *StorageProviderUpdateOne {
 	spuo.mutation.SetRegion(s)
+	return spuo
+}
+
+// SetNillableRegion sets the "region" field if the given value is not nil.
+func (spuo *StorageProviderUpdateOne) SetNillableRegion(s *string) *StorageProviderUpdateOne {
+	if s != nil {
+		spuo.SetRegion(*s)
+	}
 	return spuo
 }
 

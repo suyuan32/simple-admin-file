@@ -62,9 +62,25 @@ func (cfu *CloudFileUpdate) SetName(s string) *CloudFileUpdate {
 	return cfu
 }
 
+// SetNillableName sets the "name" field if the given value is not nil.
+func (cfu *CloudFileUpdate) SetNillableName(s *string) *CloudFileUpdate {
+	if s != nil {
+		cfu.SetName(*s)
+	}
+	return cfu
+}
+
 // SetURL sets the "url" field.
 func (cfu *CloudFileUpdate) SetURL(s string) *CloudFileUpdate {
 	cfu.mutation.SetURL(s)
+	return cfu
+}
+
+// SetNillableURL sets the "url" field if the given value is not nil.
+func (cfu *CloudFileUpdate) SetNillableURL(s *string) *CloudFileUpdate {
+	if s != nil {
+		cfu.SetURL(*s)
+	}
 	return cfu
 }
 
@@ -72,6 +88,14 @@ func (cfu *CloudFileUpdate) SetURL(s string) *CloudFileUpdate {
 func (cfu *CloudFileUpdate) SetSize(u uint64) *CloudFileUpdate {
 	cfu.mutation.ResetSize()
 	cfu.mutation.SetSize(u)
+	return cfu
+}
+
+// SetNillableSize sets the "size" field if the given value is not nil.
+func (cfu *CloudFileUpdate) SetNillableSize(u *uint64) *CloudFileUpdate {
+	if u != nil {
+		cfu.SetSize(*u)
+	}
 	return cfu
 }
 
@@ -88,6 +112,14 @@ func (cfu *CloudFileUpdate) SetFileType(u uint8) *CloudFileUpdate {
 	return cfu
 }
 
+// SetNillableFileType sets the "file_type" field if the given value is not nil.
+func (cfu *CloudFileUpdate) SetNillableFileType(u *uint8) *CloudFileUpdate {
+	if u != nil {
+		cfu.SetFileType(*u)
+	}
+	return cfu
+}
+
 // AddFileType adds u to the "file_type" field.
 func (cfu *CloudFileUpdate) AddFileType(u int8) *CloudFileUpdate {
 	cfu.mutation.AddFileType(u)
@@ -97,6 +129,14 @@ func (cfu *CloudFileUpdate) AddFileType(u int8) *CloudFileUpdate {
 // SetUserID sets the "user_id" field.
 func (cfu *CloudFileUpdate) SetUserID(s string) *CloudFileUpdate {
 	cfu.mutation.SetUserID(s)
+	return cfu
+}
+
+// SetNillableUserID sets the "user_id" field if the given value is not nil.
+func (cfu *CloudFileUpdate) SetNillableUserID(s *string) *CloudFileUpdate {
+	if s != nil {
+		cfu.SetUserID(*s)
+	}
 	return cfu
 }
 
@@ -367,9 +407,25 @@ func (cfuo *CloudFileUpdateOne) SetName(s string) *CloudFileUpdateOne {
 	return cfuo
 }
 
+// SetNillableName sets the "name" field if the given value is not nil.
+func (cfuo *CloudFileUpdateOne) SetNillableName(s *string) *CloudFileUpdateOne {
+	if s != nil {
+		cfuo.SetName(*s)
+	}
+	return cfuo
+}
+
 // SetURL sets the "url" field.
 func (cfuo *CloudFileUpdateOne) SetURL(s string) *CloudFileUpdateOne {
 	cfuo.mutation.SetURL(s)
+	return cfuo
+}
+
+// SetNillableURL sets the "url" field if the given value is not nil.
+func (cfuo *CloudFileUpdateOne) SetNillableURL(s *string) *CloudFileUpdateOne {
+	if s != nil {
+		cfuo.SetURL(*s)
+	}
 	return cfuo
 }
 
@@ -377,6 +433,14 @@ func (cfuo *CloudFileUpdateOne) SetURL(s string) *CloudFileUpdateOne {
 func (cfuo *CloudFileUpdateOne) SetSize(u uint64) *CloudFileUpdateOne {
 	cfuo.mutation.ResetSize()
 	cfuo.mutation.SetSize(u)
+	return cfuo
+}
+
+// SetNillableSize sets the "size" field if the given value is not nil.
+func (cfuo *CloudFileUpdateOne) SetNillableSize(u *uint64) *CloudFileUpdateOne {
+	if u != nil {
+		cfuo.SetSize(*u)
+	}
 	return cfuo
 }
 
@@ -393,6 +457,14 @@ func (cfuo *CloudFileUpdateOne) SetFileType(u uint8) *CloudFileUpdateOne {
 	return cfuo
 }
 
+// SetNillableFileType sets the "file_type" field if the given value is not nil.
+func (cfuo *CloudFileUpdateOne) SetNillableFileType(u *uint8) *CloudFileUpdateOne {
+	if u != nil {
+		cfuo.SetFileType(*u)
+	}
+	return cfuo
+}
+
 // AddFileType adds u to the "file_type" field.
 func (cfuo *CloudFileUpdateOne) AddFileType(u int8) *CloudFileUpdateOne {
 	cfuo.mutation.AddFileType(u)
@@ -402,6 +474,14 @@ func (cfuo *CloudFileUpdateOne) AddFileType(u int8) *CloudFileUpdateOne {
 // SetUserID sets the "user_id" field.
 func (cfuo *CloudFileUpdateOne) SetUserID(s string) *CloudFileUpdateOne {
 	cfuo.mutation.SetUserID(s)
+	return cfuo
+}
+
+// SetNillableUserID sets the "user_id" field if the given value is not nil.
+func (cfuo *CloudFileUpdateOne) SetNillableUserID(s *string) *CloudFileUpdateOne {
+	if s != nil {
+		cfuo.SetUserID(*s)
+	}
 	return cfuo
 }
 
