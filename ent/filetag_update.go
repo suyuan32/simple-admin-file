@@ -69,6 +69,14 @@ func (ftu *FileTagUpdate) SetName(s string) *FileTagUpdate {
 	return ftu
 }
 
+// SetNillableName sets the "name" field if the given value is not nil.
+func (ftu *FileTagUpdate) SetNillableName(s *string) *FileTagUpdate {
+	if s != nil {
+		ftu.SetName(*s)
+	}
+	return ftu
+}
+
 // SetRemark sets the "remark" field.
 func (ftu *FileTagUpdate) SetRemark(s string) *FileTagUpdate {
 	ftu.mutation.SetRemark(s)
@@ -297,6 +305,14 @@ func (ftuo *FileTagUpdateOne) ClearStatus() *FileTagUpdateOne {
 // SetName sets the "name" field.
 func (ftuo *FileTagUpdateOne) SetName(s string) *FileTagUpdateOne {
 	ftuo.mutation.SetName(s)
+	return ftuo
+}
+
+// SetNillableName sets the "name" field if the given value is not nil.
+func (ftuo *FileTagUpdateOne) SetNillableName(s *string) *FileTagUpdateOne {
+	if s != nil {
+		ftuo.SetName(*s)
+	}
 	return ftuo
 }
 

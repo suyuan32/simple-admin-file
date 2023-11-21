@@ -69,6 +69,14 @@ func (cftu *CloudFileTagUpdate) SetName(s string) *CloudFileTagUpdate {
 	return cftu
 }
 
+// SetNillableName sets the "name" field if the given value is not nil.
+func (cftu *CloudFileTagUpdate) SetNillableName(s *string) *CloudFileTagUpdate {
+	if s != nil {
+		cftu.SetName(*s)
+	}
+	return cftu
+}
+
 // SetRemark sets the "remark" field.
 func (cftu *CloudFileTagUpdate) SetRemark(s string) *CloudFileTagUpdate {
 	cftu.mutation.SetRemark(s)
@@ -297,6 +305,14 @@ func (cftuo *CloudFileTagUpdateOne) ClearStatus() *CloudFileTagUpdateOne {
 // SetName sets the "name" field.
 func (cftuo *CloudFileTagUpdateOne) SetName(s string) *CloudFileTagUpdateOne {
 	cftuo.mutation.SetName(s)
+	return cftuo
+}
+
+// SetNillableName sets the "name" field if the given value is not nil.
+func (cftuo *CloudFileTagUpdateOne) SetNillableName(s *string) *CloudFileTagUpdateOne {
+	if s != nil {
+		cftuo.SetName(*s)
+	}
 	return cftuo
 }
 

@@ -68,10 +68,26 @@ func (fu *FileUpdate) SetName(s string) *FileUpdate {
 	return fu
 }
 
+// SetNillableName sets the "name" field if the given value is not nil.
+func (fu *FileUpdate) SetNillableName(s *string) *FileUpdate {
+	if s != nil {
+		fu.SetName(*s)
+	}
+	return fu
+}
+
 // SetFileType sets the "file_type" field.
 func (fu *FileUpdate) SetFileType(u uint8) *FileUpdate {
 	fu.mutation.ResetFileType()
 	fu.mutation.SetFileType(u)
+	return fu
+}
+
+// SetNillableFileType sets the "file_type" field if the given value is not nil.
+func (fu *FileUpdate) SetNillableFileType(u *uint8) *FileUpdate {
+	if u != nil {
+		fu.SetFileType(*u)
+	}
 	return fu
 }
 
@@ -88,6 +104,14 @@ func (fu *FileUpdate) SetSize(u uint64) *FileUpdate {
 	return fu
 }
 
+// SetNillableSize sets the "size" field if the given value is not nil.
+func (fu *FileUpdate) SetNillableSize(u *uint64) *FileUpdate {
+	if u != nil {
+		fu.SetSize(*u)
+	}
+	return fu
+}
+
 // AddSize adds u to the "size" field.
 func (fu *FileUpdate) AddSize(u int64) *FileUpdate {
 	fu.mutation.AddSize(u)
@@ -100,15 +124,39 @@ func (fu *FileUpdate) SetPath(s string) *FileUpdate {
 	return fu
 }
 
+// SetNillablePath sets the "path" field if the given value is not nil.
+func (fu *FileUpdate) SetNillablePath(s *string) *FileUpdate {
+	if s != nil {
+		fu.SetPath(*s)
+	}
+	return fu
+}
+
 // SetUserID sets the "user_id" field.
 func (fu *FileUpdate) SetUserID(s string) *FileUpdate {
 	fu.mutation.SetUserID(s)
 	return fu
 }
 
+// SetNillableUserID sets the "user_id" field if the given value is not nil.
+func (fu *FileUpdate) SetNillableUserID(s *string) *FileUpdate {
+	if s != nil {
+		fu.SetUserID(*s)
+	}
+	return fu
+}
+
 // SetMd5 sets the "md5" field.
 func (fu *FileUpdate) SetMd5(s string) *FileUpdate {
 	fu.mutation.SetMd5(s)
+	return fu
+}
+
+// SetNillableMd5 sets the "md5" field if the given value is not nil.
+func (fu *FileUpdate) SetNillableMd5(s *string) *FileUpdate {
+	if s != nil {
+		fu.SetMd5(*s)
+	}
 	return fu
 }
 
@@ -338,10 +386,26 @@ func (fuo *FileUpdateOne) SetName(s string) *FileUpdateOne {
 	return fuo
 }
 
+// SetNillableName sets the "name" field if the given value is not nil.
+func (fuo *FileUpdateOne) SetNillableName(s *string) *FileUpdateOne {
+	if s != nil {
+		fuo.SetName(*s)
+	}
+	return fuo
+}
+
 // SetFileType sets the "file_type" field.
 func (fuo *FileUpdateOne) SetFileType(u uint8) *FileUpdateOne {
 	fuo.mutation.ResetFileType()
 	fuo.mutation.SetFileType(u)
+	return fuo
+}
+
+// SetNillableFileType sets the "file_type" field if the given value is not nil.
+func (fuo *FileUpdateOne) SetNillableFileType(u *uint8) *FileUpdateOne {
+	if u != nil {
+		fuo.SetFileType(*u)
+	}
 	return fuo
 }
 
@@ -358,6 +422,14 @@ func (fuo *FileUpdateOne) SetSize(u uint64) *FileUpdateOne {
 	return fuo
 }
 
+// SetNillableSize sets the "size" field if the given value is not nil.
+func (fuo *FileUpdateOne) SetNillableSize(u *uint64) *FileUpdateOne {
+	if u != nil {
+		fuo.SetSize(*u)
+	}
+	return fuo
+}
+
 // AddSize adds u to the "size" field.
 func (fuo *FileUpdateOne) AddSize(u int64) *FileUpdateOne {
 	fuo.mutation.AddSize(u)
@@ -370,15 +442,39 @@ func (fuo *FileUpdateOne) SetPath(s string) *FileUpdateOne {
 	return fuo
 }
 
+// SetNillablePath sets the "path" field if the given value is not nil.
+func (fuo *FileUpdateOne) SetNillablePath(s *string) *FileUpdateOne {
+	if s != nil {
+		fuo.SetPath(*s)
+	}
+	return fuo
+}
+
 // SetUserID sets the "user_id" field.
 func (fuo *FileUpdateOne) SetUserID(s string) *FileUpdateOne {
 	fuo.mutation.SetUserID(s)
 	return fuo
 }
 
+// SetNillableUserID sets the "user_id" field if the given value is not nil.
+func (fuo *FileUpdateOne) SetNillableUserID(s *string) *FileUpdateOne {
+	if s != nil {
+		fuo.SetUserID(*s)
+	}
+	return fuo
+}
+
 // SetMd5 sets the "md5" field.
 func (fuo *FileUpdateOne) SetMd5(s string) *FileUpdateOne {
 	fuo.mutation.SetMd5(s)
+	return fuo
+}
+
+// SetNillableMd5 sets the "md5" field if the given value is not nil.
+func (fuo *FileUpdateOne) SetNillableMd5(s *string) *FileUpdateOne {
+	if s != nil {
+		fuo.SetMd5(*s)
+	}
 	return fuo
 }
 

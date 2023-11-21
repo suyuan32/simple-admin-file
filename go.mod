@@ -3,13 +3,13 @@ module github.com/suyuan32/simple-admin-file
 go 1.20
 
 require (
-	entgo.io/ent v0.12.4
+	entgo.io/ent v0.12.5
 	github.com/aws/aws-sdk-go v1.46.6
 	github.com/casbin/casbin/v2 v2.77.2
 	github.com/duke-git/lancet/v2 v2.2.7
 	github.com/gofrs/uuid/v5 v5.0.0
-	github.com/suyuan32/simple-admin-common v1.2.2
-	github.com/suyuan32/simple-admin-core v1.2.2
+	github.com/suyuan32/simple-admin-common v1.2.3
+	github.com/suyuan32/simple-admin-core v1.2.3
 	github.com/zeromicro/go-zero v1.6.0
 	google.golang.org/grpc v1.59.0
 )
@@ -110,12 +110,12 @@ require (
 	go.uber.org/automaxprocs v1.5.3 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.24.0 // indirect
-	golang.org/x/crypto v0.14.0 // indirect
+	golang.org/x/crypto v0.15.0 // indirect
 	golang.org/x/mod v0.12.0 // indirect
-	golang.org/x/net v0.17.0 // indirect
-	golang.org/x/oauth2 v0.13.0 // indirect
-	golang.org/x/sys v0.13.0 // indirect
-	golang.org/x/term v0.13.0 // indirect
+	golang.org/x/net v0.18.0 // indirect
+	golang.org/x/oauth2 v0.14.0 // indirect
+	golang.org/x/sys v0.14.0 // indirect
+	golang.org/x/term v0.14.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
