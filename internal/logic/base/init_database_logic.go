@@ -62,10 +62,7 @@ func (l *InitDatabaseLogic) InitDatabase() (resp *types.BaseMsgResp, err error) 
 		return nil, errorx.NewCodeInternalError(i18n.DatabaseError)
 	}
 
-	return &types.BaseMsgResp{
-		Code: 0,
-		Msg:  l.svcCtx.Trans.Trans(l.ctx, i18n.Success),
-	}, nil
+	return &types.BaseMsgResp{Msg: l.svcCtx.Trans.Trans(l.ctx, i18n.Success)}, nil
 }
 
 func (l *InitDatabaseLogic) initApi() error {
