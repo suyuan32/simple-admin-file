@@ -4,12 +4,12 @@ go 1.20
 
 require (
 	entgo.io/ent v0.12.5
-	github.com/aws/aws-sdk-go v1.46.6
-	github.com/casbin/casbin/v2 v2.77.2
+	github.com/aws/aws-sdk-go v1.48.11
+	github.com/casbin/casbin/v2 v2.79.0
 	github.com/duke-git/lancet/v2 v2.2.7
 	github.com/gofrs/uuid/v5 v5.0.0
-	github.com/suyuan32/simple-admin-common v1.2.3
-	github.com/suyuan32/simple-admin-core v1.2.3
+	github.com/suyuan32/simple-admin-common v1.2.4
+	github.com/suyuan32/simple-admin-core v1.2.4
 	github.com/zeromicro/go-zero v1.6.0
 	google.golang.org/grpc v1.59.0
 )
@@ -19,11 +19,11 @@ replace github.com/zeromicro/go-zero v1.6.0 => github.com/suyuan32/simple-admin-
 require (
 	ariga.io/atlas v0.14.1-0.20230918065911-83ad451a4935 // indirect
 	ariga.io/entcache v0.1.1-0.20230414114609-164fed2e1c70 // indirect
-	github.com/Knetic/govaluate v3.0.1-0.20171022003610-9aa49832a739+incompatible // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/casbin/ent-adapter v0.3.0 // indirect
+	github.com/casbin/govaluate v1.1.0 // indirect
 	github.com/casbin/redis-watcher/v2 v2.5.0 // indirect
 	github.com/cenkalti/backoff/v4 v4.2.1 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
@@ -89,9 +89,6 @@ require (
 	github.com/prometheus/procfs v0.11.1 // indirect
 	github.com/redis/go-redis/v9 v9.3.0 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
-	github.com/tidwall/gjson v1.14.4 // indirect
-	github.com/tidwall/match v1.1.1 // indirect
-	github.com/tidwall/pretty v1.2.0 // indirect
 	github.com/zclconf/go-cty v1.13.1 // indirect
 	go.etcd.io/etcd/api/v3 v3.5.10 // indirect
 	go.etcd.io/etcd/client/pkg/v3 v3.5.10 // indirect
@@ -110,12 +107,12 @@ require (
 	go.uber.org/automaxprocs v1.5.3 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.24.0 // indirect
-	golang.org/x/crypto v0.15.0 // indirect
+	golang.org/x/crypto v0.16.0 // indirect
 	golang.org/x/mod v0.12.0 // indirect
 	golang.org/x/net v0.18.0 // indirect
 	golang.org/x/oauth2 v0.14.0 // indirect
-	golang.org/x/sys v0.14.0 // indirect
-	golang.org/x/term v0.14.0 // indirect
+	golang.org/x/sys v0.15.0 // indirect
+	golang.org/x/term v0.15.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
