@@ -1,4 +1,4 @@
-FROM nginx:1.25.2-alpine
+FROM nginx:1.25.3-alpine
 
 # Define the project name | 定义项目名称
 ARG PROJECT=fms
@@ -14,6 +14,7 @@ ENV PROJECT=${PROJECT}
 ENV CONFIG_FILE=${CONFIG_FILE}
 
 ENV TZ=Asia/Shanghai
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 RUN apk update --no-cache && apk add --no-cache tzdata
 
 COPY ./${PROJECT}_api ./
