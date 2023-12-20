@@ -6,7 +6,6 @@ import (
 	"github.com/suyuan32/simple-admin-core/rpc/coreclient"
 	"github.com/suyuan32/simple-admin-file/internal/utils/cloud"
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
 
@@ -19,7 +18,6 @@ import (
 type ServiceContext struct {
 	Config       config.Config
 	DB           *ent.Client
-	Redis        *redis.Redis
 	Casbin       *casbin.Enforcer
 	Authority    rest.Middleware
 	Trans        *i18n.Translator
@@ -34,9 +32,9 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		//ent.Debug(), // debug mode
 	)
 
-	rds := redis.MustNewRedis(c.RedisConf)
+	rds := c.RedisConf.MustNewRedis()
 
-	cbn := c.CasbinConf.MustNewCasbinWithRedisWatcher(c.CasbinDatabaseConf.Type,
+	cbn := c.CasbinConf.MustNewCasbinWithOriginalRedisWatcher(c.CasbinDatabaseConf.Type,
 		c.CasbinDatabaseConf.GetDSN(), c.RedisConf)
 
 	trans := i18n.NewTranslator(i18n2.LocaleFS)
@@ -44,7 +42,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
 		Config:       c,
 		DB:           db,
-		Redis:        rds,
 		Casbin:       cbn,
 		CoreRpc:      coreclient.NewCore(zrpc.MustNewClient(c.CoreRpc)),
 		Authority:    middleware.NewAuthorityMiddleware(cbn, rds, trans).Handle,
