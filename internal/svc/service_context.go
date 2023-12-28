@@ -32,7 +32,7 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		ent.Debug(), // debug mode
 	)
 
-	rds := c.RedisConf.MustNewRedis()
+	rds := c.RedisConf.MustNewUniversalRedis()
 
 	cbn := c.CasbinConf.MustNewCasbinWithOriginalRedisWatcher(c.CasbinDatabaseConf.Type,
 		c.CasbinDatabaseConf.GetDSN(), c.RedisConf)
