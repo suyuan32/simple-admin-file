@@ -41,8 +41,8 @@ func (l *GetStorageProviderByIdLogic) GetStorageProviderById(req *types.IDReq) (
 		Data: types.StorageProviderInfo{
 			BaseIDInfo: types.BaseIDInfo{
 				Id:        &data.ID,
-				CreatedAt: pointy.GetPointer(data.CreatedAt.Unix()),
-				UpdatedAt: pointy.GetPointer(data.UpdatedAt.Unix()),
+				CreatedAt: pointy.GetPointer(data.CreatedAt.UnixMilli()),
+				UpdatedAt: pointy.GetPointer(data.UpdatedAt.UnixMilli()),
 			},
 			State:     &data.State,
 			Name:      &data.Name,

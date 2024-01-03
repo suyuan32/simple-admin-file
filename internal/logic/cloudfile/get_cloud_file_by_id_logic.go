@@ -44,8 +44,8 @@ func (l *GetCloudFileByIdLogic) GetCloudFileById(req *types.UUIDReq) (*types.Clo
 		Data: types.CloudFileInfo{
 			BaseUUIDInfo: types.BaseUUIDInfo{
 				Id:        pointy.GetPointer(data.ID.String()),
-				CreatedAt: pointy.GetPointer(data.CreatedAt.Unix()),
-				UpdatedAt: pointy.GetPointer(data.UpdatedAt.Unix()),
+				CreatedAt: pointy.GetPointer(data.CreatedAt.UnixMilli()),
+				UpdatedAt: pointy.GetPointer(data.UpdatedAt.UnixMilli()),
 			},
 			State:      &data.State,
 			Name:       &data.Name,

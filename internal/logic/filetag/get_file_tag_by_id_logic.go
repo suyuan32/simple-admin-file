@@ -41,8 +41,8 @@ func (l *GetFileTagByIdLogic) GetFileTagById(req *types.IDReq) (*types.FileTagIn
 		Data: types.FileTagInfo{
 			BaseIDInfo: types.BaseIDInfo{
 				Id:        &data.ID,
-				CreatedAt: pointy.GetPointer(data.CreatedAt.Unix()),
-				UpdatedAt: pointy.GetPointer(data.UpdatedAt.Unix()),
+				CreatedAt: pointy.GetPointer(data.CreatedAt.UnixMilli()),
+				UpdatedAt: pointy.GetPointer(data.UpdatedAt.UnixMilli()),
 			},
 			Status: &data.Status,
 			Name:   &data.Name,

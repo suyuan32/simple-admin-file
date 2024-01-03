@@ -127,7 +127,7 @@ func (l *UploadLogic) Upload() (resp *types.CloudFileInfoResp, err error) {
 		Data: types.CloudFileInfo{
 			BaseUUIDInfo: types.BaseUUIDInfo{
 				Id:        pointy.GetPointer(data.ID.String()),
-				CreatedAt: pointy.GetPointer(data.CreatedAt.Unix()),
+				CreatedAt: pointy.GetPointer(data.CreatedAt.UnixMilli()),
 			},
 			State:    pointy.GetPointer(data.State),
 			Name:     pointy.GetPointer(data.Name),
