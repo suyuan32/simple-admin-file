@@ -265,6 +265,8 @@ type CloudFileInfo struct {
 	Name *string `json:"name,optional"`
 	// Url | 网络地址
 	Url *string `json:"url,optional"`
+	// RelativeSrc | 相对路径
+	RelativeSrc *string `json:"relativeSrc,optional"`
 	// Size | 文件大小
 	Size *uint64 `json:"size,optional"`
 	// File type | 文件类型

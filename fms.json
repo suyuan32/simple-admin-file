@@ -913,6 +913,11 @@
           "format": "uint64",
           "x-go-name": "ProviderId"
         },
+        "relativeSrc": {
+          "description": "RelativeSrc | 相对路径",
+          "type": "string",
+          "x-go-name": "RelativeSrc"
+        },
         "size": {
           "description": "Size | 文件大小",
           "type": "integer",
