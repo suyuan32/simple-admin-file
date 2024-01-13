@@ -94,12 +94,13 @@ func (l *UploadLogic) Upload() (resp *types.CloudFileInfoResp, err error) {
 	} else {
 		provider = l.svcCtx.CloudStorage.DefaultProvider
 	}
-
-	url, err := l.UploadToProvider(file, fmt.Sprintf("%s/%s/%s/%s",
+	relativeSrc := fmt.Sprintf("%s/%s/%s/%s",
 		l.svcCtx.CloudStorage.ProviderData[provider].Folder,
 		datetime.FormatTimeToStr(time.Now(), "yyyy-mm-dd"),
 		fileType,
-		storeFileName), provider)
+		storeFileName)
+
+	url, err := l.UploadToProvider(file, relativeSrc, provider)
 	if err != nil {
 		return nil, err
 	}
@@ -129,12 +130,13 @@ func (l *UploadLogic) Upload() (resp *types.CloudFileInfoResp, err error) {
 				Id:        pointy.GetPointer(data.ID.String()),
 				CreatedAt: pointy.GetPointer(data.CreatedAt.UnixMilli()),
 			},
-			State:    pointy.GetPointer(data.State),
-			Name:     pointy.GetPointer(data.Name),
-			Url:      pointy.GetPointer(data.URL),
-			Size:     pointy.GetPointer(data.Size),
-			FileType: pointy.GetPointer(data.FileType),
-			UserId:   pointy.GetPointer(data.UserID),
+			State:       pointy.GetPointer(data.State),
+			Name:        pointy.GetPointer(data.Name),
+			Url:         pointy.GetPointer(data.URL),
+			RelativeSrc: pointy.GetPointer(relativeSrc),
+			Size:        pointy.GetPointer(data.Size),
+			FileType:    pointy.GetPointer(data.FileType),
+			UserId:      pointy.GetPointer(data.UserID),
 		},
 	}, nil
 }
