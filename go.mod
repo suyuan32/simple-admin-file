@@ -4,13 +4,13 @@ go 1.21.0
 
 require (
 	entgo.io/ent v0.12.5
-	github.com/aws/aws-sdk-go v1.49.18
+	github.com/aws/aws-sdk-go v1.50.1
 	github.com/casbin/casbin/v2 v2.81.0
 	github.com/duke-git/lancet/v2 v2.2.8
 	github.com/gofrs/uuid/v5 v5.0.0
 	github.com/redis/go-redis/v9 v9.4.0
-	github.com/suyuan32/simple-admin-common v1.3.2
-	github.com/suyuan32/simple-admin-core v1.3.2
+	github.com/suyuan32/simple-admin-common v1.3.3
+	github.com/suyuan32/simple-admin-core v1.3.3
 	github.com/zeromicro/go-zero v1.6.1
 	google.golang.org/grpc v1.60.1
 )

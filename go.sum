@@ -40,8 +40,8 @@ github.com/apparentlymart/go-textseg/v13 v13.0.0/go.mod h1:ZK2fH7c4NqDTLtiYLvIkE
 github.com/armon/circbuf v0.0.0-20150827004946-bbbad097214e/go.mod h1:3U/XgcO3hCbHZ8TKRvWD2dDTCfh9M9ya+I9JpbB7O8o=
 github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da/go.mod h1:Q73ZrmVTwzkszR9V5SSuryQ31EELlFMUz1kKyl939pY=
 github.com/armon/go-radix v0.0.0-20180808171621-7fddfc383310/go.mod h1:ufUuZ+zHj4x4TnLV4JWEpy2hxWSpsRywHrMgIH9cCH8=
-github.com/aws/aws-sdk-go v1.49.18 h1:g/iMXkfXeJQ7MvnLwroxWsTTNkHtdVJGxIgrAIEG62M=
-github.com/aws/aws-sdk-go v1.49.18/go.mod h1:LF8svs817+Nz+DmiMQKTO3ubZ/6IaTpq3TjupRn3Eqk=
+github.com/aws/aws-sdk-go v1.50.1 h1:AwnLUM7TcH9vMZqA4TcDKmGfLmDW5VXwT5tPH6kXylo=
+github.com/aws/aws-sdk-go v1.50.1/go.mod h1:LF8svs817+Nz+DmiMQKTO3ubZ/6IaTpq3TjupRn3Eqk=
 github.com/benbjohnson/clock v1.1.0 h1:Q92kusRqC1XV2MjkWETPvjJVqKetz1OzxZB7mHJLju8=
 github.com/benbjohnson/clock v1.1.0/go.mod h1:J11/hYXuz8f4ySSvYwY0FKfm+ezbsZBKZxNJlLklBHA=
 github.com/beorn7/perks v0.0.0-20180321164747-3a771d992973/go.mod h1:Dwedo/Wpr24TaqPxmxbtue+5NUziq4I4S80YR8gNf3Q=
@@ -480,10 +480,10 @@ github.com/stretchr/testify v1.8.2/go.mod h1:w2LPCIKwWwSfY2zedu0+kehJoqGctiVI29o
 github.com/stretchr/testify v1.8.4 h1:CcVxjf3Q8PM0mHUKJCdn+eZZtm5yQwehR5yeSVQQcUk=
 github.com/stretchr/testify v1.8.4/go.mod h1:sz/lmYIOXD/1dqDmKjjqLyZ2RngseejIcXlSw2iwfAo=
 github.com/subosito/gotenv v1.2.0/go.mod h1:N0PQaV/YGNqwC0u51sEeR/aUtSLEXKX9iv69rRypqCw=
-github.com/suyuan32/simple-admin-common v1.3.2 h1:5dknnBSCEY38uNTyDB8QPh+vEGoko9kuM+KbuglN5kw=
-github.com/suyuan32/simple-admin-common v1.3.2/go.mod h1:BYATevMjaLfOMpZcVSM8oA7RbhZ22Uqf9OAcuAO5MVk=
-github.com/suyuan32/simple-admin-core v1.3.2 h1:tQ/87BvZVTqtX0e0SabPSweoFxXjAwtVbGFVF98GS5Q=
-github.com/suyuan32/simple-admin-core v1.3.2/go.mod h1:tnp0juK/io2mrc8iJRpJk6ZUnfq/I09lL1Us6DuhzAM=
+github.com/suyuan32/simple-admin-common v1.3.3 h1:61G4HoQrsA8upFL8h7NGQ1Oykcs7VVDax1wNaL062jU=
+github.com/suyuan32/simple-admin-common v1.3.3/go.mod h1:8hEfiYl5BQXXmHzsrzimSVoaSSDJIQ7zPAxd2gDroHI=
+github.com/suyuan32/simple-admin-core v1.3.3 h1:RzjQeZKH04tWyi0MOuWkDuXXaMlyighqWnABP6t1sQI=
+github.com/suyuan32/simple-admin-core v1.3.3/go.mod h1:3GKuCTMJEkO6ZLRL6bX6Rt/jJttbfAqaJT/9OMk7Snw=
 github.com/suyuan32/simple-admin-tools v1.6.4 h1:JZ1mj4MbbpMoV0CGr6zHwU18cdD09dI29kE/LPq/A2c=
 github.com/suyuan32/simple-admin-tools v1.6.4/go.mod h1:F02Swh4+lg6i17gkedxrRuAKPKjUG425wU9q2hCxefQ=
 github.com/tmc/grpc-websocket-proxy v0.0.0-20190109142713-0ad062ec5ee5/go.mod h1:ncp9v5uamzpCO7NfCPTXjqaC+bZgJeR0sMTm6dMHP7U=
