@@ -344,13 +344,14 @@ func (l *InitDatabaseLogic) insertApiData() error {
 
 func (l *InitDatabaseLogic) insertMenuData() error {
 	menuData, err := l.svcCtx.CoreRpc.CreateMenu(l.ctx, &core.MenuInfo{
-		Level:     pointy.GetPointer(uint32(1)),
-		ParentId:  pointy.GetPointer(common.DefaultParentId),
-		Path:      pointy.GetPointer("/fms_dir"),
-		Name:      pointy.GetPointer("FileManagementDirectory"),
-		Component: pointy.GetPointer("LAYOUT"),
-		Sort:      pointy.GetPointer(uint32(3)),
-		Disabled:  pointy.GetPointer(false),
+		Level:       pointy.GetPointer(uint32(1)),
+		ParentId:    pointy.GetPointer(common.DefaultParentId),
+		Path:        pointy.GetPointer("/fms_dir"),
+		Name:        pointy.GetPointer("FileManagementDirectory"),
+		Component:   pointy.GetPointer("LAYOUT"),
+		Sort:        pointy.GetPointer(uint32(3)),
+		Disabled:    pointy.GetPointer(false),
+		ServiceName: pointy.GetPointer("Fms"),
 		Meta: &core.Meta{
 			Title:              pointy.GetPointer("route.fileManagement"),
 			Icon:               pointy.GetPointer("ant-design:folder-open-outlined"),
@@ -370,13 +371,14 @@ func (l *InitDatabaseLogic) insertMenuData() error {
 	}
 
 	_, err = l.svcCtx.CoreRpc.CreateMenu(l.ctx, &core.MenuInfo{
-		Level:     pointy.GetPointer(uint32(2)),
-		ParentId:  pointy.GetPointer(menuData.Id),
-		Path:      pointy.GetPointer("/fms/file"),
-		Name:      pointy.GetPointer("FileManagement"),
-		Component: pointy.GetPointer("/fms/file/index"),
-		Sort:      pointy.GetPointer(uint32(1)),
-		Disabled:  pointy.GetPointer(false),
+		Level:       pointy.GetPointer(uint32(2)),
+		ParentId:    pointy.GetPointer(menuData.Id),
+		Path:        pointy.GetPointer("/fms/file"),
+		Name:        pointy.GetPointer("FileManagement"),
+		Component:   pointy.GetPointer("/fms/file/index"),
+		Sort:        pointy.GetPointer(uint32(1)),
+		Disabled:    pointy.GetPointer(false),
+		ServiceName: pointy.GetPointer("Fms"),
 		Meta: &core.Meta{
 			Title:              pointy.GetPointer("route.fileManagement"),
 			Icon:               pointy.GetPointer("ant-design:folder-open-outlined"),
@@ -396,13 +398,14 @@ func (l *InitDatabaseLogic) insertMenuData() error {
 	}
 
 	_, err = l.svcCtx.CoreRpc.CreateMenu(l.ctx, &core.MenuInfo{
-		Level:     pointy.GetPointer(uint32(2)),
-		ParentId:  pointy.GetPointer(menuData.Id),
-		Path:      pointy.GetPointer("/fms/file_tag"),
-		Name:      pointy.GetPointer("FileTagManagement"),
-		Component: pointy.GetPointer("/fms/fileTag/index"),
-		Sort:      pointy.GetPointer(uint32(2)),
-		Disabled:  pointy.GetPointer(false),
+		Level:       pointy.GetPointer(uint32(2)),
+		ParentId:    pointy.GetPointer(menuData.Id),
+		Path:        pointy.GetPointer("/fms/file_tag"),
+		Name:        pointy.GetPointer("FileTagManagement"),
+		Component:   pointy.GetPointer("/fms/fileTag/index"),
+		Sort:        pointy.GetPointer(uint32(2)),
+		Disabled:    pointy.GetPointer(false),
+		ServiceName: pointy.GetPointer("Fms"),
 		Meta: &core.Meta{
 			Title:              pointy.GetPointer("route.fileTagManagement"),
 			Icon:               pointy.GetPointer("ant-design:book-outlined"),
@@ -422,13 +425,14 @@ func (l *InitDatabaseLogic) insertMenuData() error {
 	}
 
 	_, err = l.svcCtx.CoreRpc.CreateMenu(l.ctx, &core.MenuInfo{
-		Level:     pointy.GetPointer(uint32(2)),
-		ParentId:  pointy.GetPointer(menuData.Id),
-		Path:      pointy.GetPointer("/fms/storage_provider"),
-		Name:      pointy.GetPointer("StorageProviderManagement"),
-		Component: pointy.GetPointer("/fms/storageProvider/index"),
-		Sort:      pointy.GetPointer(uint32(3)),
-		Disabled:  pointy.GetPointer(false),
+		Level:       pointy.GetPointer(uint32(2)),
+		ParentId:    pointy.GetPointer(menuData.Id),
+		Path:        pointy.GetPointer("/fms/storage_provider"),
+		Name:        pointy.GetPointer("StorageProviderManagement"),
+		Component:   pointy.GetPointer("/fms/storageProvider/index"),
+		Sort:        pointy.GetPointer(uint32(3)),
+		Disabled:    pointy.GetPointer(false),
+		ServiceName: pointy.GetPointer("Fms"),
 		Meta: &core.Meta{
 			Title:              pointy.GetPointer("route.storageProviderManagement"),
 			Icon:               pointy.GetPointer("mdi:cloud-outline"),
@@ -448,13 +452,14 @@ func (l *InitDatabaseLogic) insertMenuData() error {
 	}
 
 	_, err = l.svcCtx.CoreRpc.CreateMenu(l.ctx, &core.MenuInfo{
-		Level:     pointy.GetPointer(uint32(2)),
-		ParentId:  pointy.GetPointer(menuData.Id),
-		Path:      pointy.GetPointer("/fms/cloud_file"),
-		Name:      pointy.GetPointer("CloudFileManagement"),
-		Component: pointy.GetPointer("/fms/cloudFile/index"),
-		Sort:      pointy.GetPointer(uint32(4)),
-		Disabled:  pointy.GetPointer(false),
+		Level:       pointy.GetPointer(uint32(2)),
+		ParentId:    pointy.GetPointer(menuData.Id),
+		Path:        pointy.GetPointer("/fms/cloud_file"),
+		Name:        pointy.GetPointer("CloudFileManagement"),
+		Component:   pointy.GetPointer("/fms/cloudFile/index"),
+		Sort:        pointy.GetPointer(uint32(4)),
+		Disabled:    pointy.GetPointer(false),
+		ServiceName: pointy.GetPointer("Fms"),
 		Meta: &core.Meta{
 			Title:              pointy.GetPointer("route.cloudFileManagement"),
 			Icon:               pointy.GetPointer("ant-design:folder-open-outlined"),
@@ -474,13 +479,14 @@ func (l *InitDatabaseLogic) insertMenuData() error {
 	}
 
 	_, err = l.svcCtx.CoreRpc.CreateMenu(l.ctx, &core.MenuInfo{
-		Level:     pointy.GetPointer(uint32(2)),
-		ParentId:  pointy.GetPointer(menuData.Id),
-		Path:      pointy.GetPointer("/fms/cloud_file_tag"),
-		Name:      pointy.GetPointer("CloudFileTagManagement"),
-		Component: pointy.GetPointer("/fms/cloudFileTag/index"),
-		Sort:      pointy.GetPointer(uint32(5)),
-		Disabled:  pointy.GetPointer(false),
+		Level:       pointy.GetPointer(uint32(2)),
+		ParentId:    pointy.GetPointer(menuData.Id),
+		Path:        pointy.GetPointer("/fms/cloud_file_tag"),
+		Name:        pointy.GetPointer("CloudFileTagManagement"),
+		Component:   pointy.GetPointer("/fms/cloudFileTag/index"),
+		Sort:        pointy.GetPointer(uint32(5)),
+		Disabled:    pointy.GetPointer(false),
+		ServiceName: pointy.GetPointer("Fms"),
 		Meta: &core.Meta{
 			Title:              pointy.GetPointer("route.cloudFileTagManagement"),
 			Icon:               pointy.GetPointer("ant-design:book-outlined"),
