@@ -4,18 +4,18 @@ go 1.21.0
 
 require (
 	entgo.io/ent v0.13.0
-	github.com/aws/aws-sdk-go v1.50.21
+	github.com/aws/aws-sdk-go v1.50.22
 	github.com/casbin/casbin/v2 v2.82.0
 	github.com/duke-git/lancet/v2 v2.2.9
 	github.com/gofrs/uuid/v5 v5.0.0
-	github.com/redis/go-redis/v9 v9.5.0
-	github.com/suyuan32/simple-admin-common v1.3.7
-	github.com/suyuan32/simple-admin-core v1.3.7
+	github.com/redis/go-redis/v9 v9.5.1
+	github.com/suyuan32/simple-admin-common v1.3.8
+	github.com/suyuan32/simple-admin-core v1.3.8
 	github.com/zeromicro/go-zero v1.6.2
 	google.golang.org/grpc v1.61.1
 )
 
-replace github.com/zeromicro/go-zero v1.6.2 => github.com/suyuan32/simple-admin-tools v1.6.6
+replace github.com/zeromicro/go-zero v1.6.2 => github.com/suyuan32/simple-admin-tools v1.6.7
 
 require (
 	ariga.io/atlas v0.19.1-0.20240203083654-5948b60a8e43 // indirect
@@ -112,9 +112,9 @@ require (
 	golang.org/x/text v0.14.0 // indirect
 	golang.org/x/time v0.5.0 // indirect
 	google.golang.org/appengine v1.6.8 // indirect
-	google.golang.org/genproto v0.0.0-20240205150955-31a09d347014 // indirect
-	google.golang.org/genproto/googleapis/api v0.0.0-20240213162025-012b6fc9bca9 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240205150955-31a09d347014 // indirect
+	google.golang.org/genproto v0.0.0-20240213162025-012b6fc9bca9 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20240221002015-b0ce06bbee7c // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240213162025-012b6fc9bca9 // indirect
 	google.golang.org/protobuf v1.32.0 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
