@@ -137,6 +137,8 @@ var (
 		{Name: "folder", Type: field.TypeString, Nullable: true, Comment: "The folder in cloud | 云服务目标文件夹"},
 		{Name: "region", Type: field.TypeString, Comment: "The service region | 服务器所在地区"},
 		{Name: "is_default", Type: field.TypeBool, Comment: "Is it the default provider | 是否为默认提供商", Default: false},
+		{Name: "use_cdn", Type: field.TypeBool, Comment: "Does it use CDN | 是否使用 CDN", Default: false},
+		{Name: "cdn_url", Type: field.TypeString, Nullable: true, Comment: "CDN URL | CDN 地址"},
 	}
 	// FmsStorageProvidersTable holds the schema information for the "fms_storage_providers" table.
 	FmsStorageProvidersTable = &schema.Table{

@@ -39,6 +39,10 @@ type StorageProvider struct {
 	Region string `json:"region,omitempty"`
 	// Is it the default provider | 是否为默认提供商
 	IsDefault bool `json:"is_default,omitempty"`
+	// Does it use CDN | 是否使用 CDN
+	UseCdn bool `json:"use_cdn,omitempty"`
+	// CDN URL | CDN 地址
+	CdnURL string `json:"cdn_url,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the StorageProviderQuery when eager-loading is set.
 	Edges        StorageProviderEdges `json:"edges"`
@@ -68,11 +72,11 @@ func (*StorageProvider) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case storageprovider.FieldState, storageprovider.FieldIsDefault:
+		case storageprovider.FieldState, storageprovider.FieldIsDefault, storageprovider.FieldUseCdn:
 			values[i] = new(sql.NullBool)
 		case storageprovider.FieldID:
 			values[i] = new(sql.NullInt64)
-		case storageprovider.FieldName, storageprovider.FieldBucket, storageprovider.FieldSecretID, storageprovider.FieldSecretKey, storageprovider.FieldEndpoint, storageprovider.FieldFolder, storageprovider.FieldRegion:
+		case storageprovider.FieldName, storageprovider.FieldBucket, storageprovider.FieldSecretID, storageprovider.FieldSecretKey, storageprovider.FieldEndpoint, storageprovider.FieldFolder, storageprovider.FieldRegion, storageprovider.FieldCdnURL:
 			values[i] = new(sql.NullString)
 		case storageprovider.FieldCreatedAt, storageprovider.FieldUpdatedAt:
 			values[i] = new(sql.NullTime)
@@ -163,6 +167,18 @@ func (sp *StorageProvider) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				sp.IsDefault = value.Bool
 			}
+		case storageprovider.FieldUseCdn:
+			if value, ok := values[i].(*sql.NullBool); !ok {
+				return fmt.Errorf("unexpected type %T for field use_cdn", values[i])
+			} else if value.Valid {
+				sp.UseCdn = value.Bool
+			}
+		case storageprovider.FieldCdnURL:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field cdn_url", values[i])
+			} else if value.Valid {
+				sp.CdnURL = value.String
+			}
 		default:
 			sp.selectValues.Set(columns[i], values[i])
 		}
@@ -236,6 +252,12 @@ func (sp *StorageProvider) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("is_default=")
 	builder.WriteString(fmt.Sprintf("%v", sp.IsDefault))
+	builder.WriteString(", ")
+	builder.WriteString("use_cdn=")
+	builder.WriteString(fmt.Sprintf("%v", sp.UseCdn))
+	builder.WriteString(", ")
+	builder.WriteString("cdn_url=")
+	builder.WriteString(sp.CdnURL)
 	builder.WriteByte(')')
 	return builder.String()
 }

@@ -43,6 +43,12 @@ func (StorageProvider) Fields() []ent.Field {
 		field.Bool("is_default").Default(false).
 			Comment("Is it the default provider | 是否为默认提供商").
 			Annotations(entsql.WithComments(true)),
+		field.Bool("use_cdn").Default(false).
+			Comment("Does it use CDN | 是否使用 CDN").
+			Annotations(entsql.WithComments(true)),
+		field.String("cdn_url").Optional().
+			Comment("CDN URL | CDN 地址").
+			Annotations(entsql.WithComments(true)),
 	}
 }
 

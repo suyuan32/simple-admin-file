@@ -53,6 +53,8 @@ func (l *GetStorageProviderByIdLogic) GetStorageProviderById(req *types.IDReq) (
 			IsDefault: &data.IsDefault,
 			Folder:    &data.Folder,
 			Endpoint:  &data.Endpoint,
+			UseCdn:    &data.UseCdn,
+			CdnUrl:    &data.CdnURL,
 		},
 	}, nil
 }

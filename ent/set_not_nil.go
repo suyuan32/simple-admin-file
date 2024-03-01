@@ -795,3 +795,51 @@ func (sp *StorageProviderCreate) SetNotNilIsDefault(value *bool) *StorageProvide
 	}
 	return sp
 }
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdate) SetNotNilUseCdn(value *bool) *StorageProviderUpdate {
+	if value != nil {
+		return sp.SetUseCdn(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdateOne) SetNotNilUseCdn(value *bool) *StorageProviderUpdateOne {
+	if value != nil {
+		return sp.SetUseCdn(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderCreate) SetNotNilUseCdn(value *bool) *StorageProviderCreate {
+	if value != nil {
+		return sp.SetUseCdn(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdate) SetNotNilCdnURL(value *string) *StorageProviderUpdate {
+	if value != nil {
+		return sp.SetCdnURL(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderUpdateOne) SetNotNilCdnURL(value *string) *StorageProviderUpdateOne {
+	if value != nil {
+		return sp.SetCdnURL(*value)
+	}
+	return sp
+}
+
+// set field if value's pointer is not nil.
+func (sp *StorageProviderCreate) SetNotNilCdnURL(value *string) *StorageProviderCreate {
+	if value != nil {
+		return sp.SetCdnURL(*value)
+	}
+	return sp
+}

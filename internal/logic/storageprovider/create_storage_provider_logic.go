@@ -37,6 +37,8 @@ func (l *CreateStorageProviderLogic) CreateStorageProvider(req *types.StoragePro
 		SetNotNilIsDefault(req.IsDefault).
 		SetNotNilFolder(req.Folder).
 		SetNotNilEndpoint(req.Endpoint).
+		SetNotNilUseCdn(req.UseCdn).
+		SetNotNilCdnURL(req.CdnUrl).
 		Save(l.ctx)
 
 	if err != nil {

@@ -135,4 +135,8 @@ func init() {
 	storageproviderDescIsDefault := storageproviderFields[7].Descriptor()
 	// storageprovider.DefaultIsDefault holds the default value on creation for the is_default field.
 	storageprovider.DefaultIsDefault = storageproviderDescIsDefault.Default.(bool)
+	// storageproviderDescUseCdn is the schema descriptor for use_cdn field.
+	storageproviderDescUseCdn := storageproviderFields[8].Descriptor()
+	// storageprovider.DefaultUseCdn holds the default value on creation for the use_cdn field.
+	storageprovider.DefaultUseCdn = storageproviderDescUseCdn.Default.(bool)
 }

@@ -19,6 +19,8 @@ type CloudServiceGroup struct {
 		Folder   string
 		Bucket   string
 		Endpoint string
+		UseCdn   bool
+		CdnUrl   string
 	}
 
 	DefaultProvider string
@@ -33,6 +35,8 @@ func NewCloudServiceGroup(db *ent.Client) *CloudServiceGroup {
 		Folder   string
 		Bucket   string
 		Endpoint string
+		UseCdn   bool
+		CdnUrl   string
 	})
 
 	data, err := db.StorageProvider.Query().Where(storageprovider.StateEQ(true)).All(context.Background())
@@ -57,7 +61,9 @@ func NewCloudServiceGroup(db *ent.Client) *CloudServiceGroup {
 			Folder   string
 			Bucket   string
 			Endpoint string
-		}{Id: v.ID, Folder: v.Folder, Bucket: v.Bucket, Endpoint: v.Endpoint}
+			UseCdn   bool
+			CdnUrl   string
+		}{Id: v.ID, Folder: v.Folder, Bucket: v.Bucket, Endpoint: v.Endpoint, UseCdn: v.UseCdn, CdnUrl: v.CdnURL}
 
 		if v.IsDefault {
 			cloudServices.DefaultProvider = v.Name

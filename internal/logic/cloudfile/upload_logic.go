@@ -105,6 +105,10 @@ func (l *UploadLogic) Upload() (resp *types.CloudFileInfoResp, err error) {
 		return nil, err
 	}
 
+	if l.svcCtx.CloudStorage.ProviderData[provider].UseCdn {
+		url = fmt.Sprintf("%s%s", l.svcCtx.CloudStorage.ProviderData[provider].CdnUrl, relativeSrc)
+	}
+
 	// store to database
 	data, err := l.svcCtx.DB.CloudFile.Create().
 		SetName(fileName).
