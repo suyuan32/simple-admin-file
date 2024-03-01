@@ -339,6 +339,10 @@ type StorageProviderInfo struct {
 	Region *string `json:"region,optional"`
 	// Whether is Default | 是否为默认
 	IsDefault *bool `json:"isDefault,optional"`
+	// Does it use CDN | 是否使用 CDN
+	UseCdn *bool `json:"useCdn,optional"`
+	// CDN URL | CDN 地址
+	CdnUrl *string `json:"cdnUrl,optional"`
 }
 
 // The response data of storage provider list | 服务提供商列表数据

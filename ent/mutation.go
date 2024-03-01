@@ -3426,6 +3426,8 @@ type StorageProviderMutation struct {
 	folder            *string
 	region            *string
 	is_default        *bool
+	use_cdn           *bool
+	cdn_url           *string
 	clearedFields     map[string]struct{}
 	cloudfiles        map[uuid.UUID]struct{}
 	removedcloudfiles map[uuid.UUID]struct{}
@@ -3961,6 +3963,91 @@ func (m *StorageProviderMutation) ResetIsDefault() {
 	m.is_default = nil
 }
 
+// SetUseCdn sets the "use_cdn" field.
+func (m *StorageProviderMutation) SetUseCdn(b bool) {
+	m.use_cdn = &b
+}
+
+// UseCdn returns the value of the "use_cdn" field in the mutation.
+func (m *StorageProviderMutation) UseCdn() (r bool, exists bool) {
+	v := m.use_cdn
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldUseCdn returns the old "use_cdn" field's value of the StorageProvider entity.
+// If the StorageProvider object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StorageProviderMutation) OldUseCdn(ctx context.Context) (v bool, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldUseCdn is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldUseCdn requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldUseCdn: %w", err)
+	}
+	return oldValue.UseCdn, nil
+}
+
+// ResetUseCdn resets all changes to the "use_cdn" field.
+func (m *StorageProviderMutation) ResetUseCdn() {
+	m.use_cdn = nil
+}
+
+// SetCdnURL sets the "cdn_url" field.
+func (m *StorageProviderMutation) SetCdnURL(s string) {
+	m.cdn_url = &s
+}
+
+// CdnURL returns the value of the "cdn_url" field in the mutation.
+func (m *StorageProviderMutation) CdnURL() (r string, exists bool) {
+	v := m.cdn_url
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldCdnURL returns the old "cdn_url" field's value of the StorageProvider entity.
+// If the StorageProvider object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *StorageProviderMutation) OldCdnURL(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldCdnURL is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldCdnURL requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldCdnURL: %w", err)
+	}
+	return oldValue.CdnURL, nil
+}
+
+// ClearCdnURL clears the value of the "cdn_url" field.
+func (m *StorageProviderMutation) ClearCdnURL() {
+	m.cdn_url = nil
+	m.clearedFields[storageprovider.FieldCdnURL] = struct{}{}
+}
+
+// CdnURLCleared returns if the "cdn_url" field was cleared in this mutation.
+func (m *StorageProviderMutation) CdnURLCleared() bool {
+	_, ok := m.clearedFields[storageprovider.FieldCdnURL]
+	return ok
+}
+
+// ResetCdnURL resets all changes to the "cdn_url" field.
+func (m *StorageProviderMutation) ResetCdnURL() {
+	m.cdn_url = nil
+	delete(m.clearedFields, storageprovider.FieldCdnURL)
+}
+
 // AddCloudfileIDs adds the "cloudfiles" edge to the CloudFile entity by ids.
 func (m *StorageProviderMutation) AddCloudfileIDs(ids ...uuid.UUID) {
 	if m.cloudfiles == nil {
@@ -4049,7 +4136,7 @@ func (m *StorageProviderMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *StorageProviderMutation) Fields() []string {
-	fields := make([]string, 0, 11)
+	fields := make([]string, 0, 13)
 	if m.created_at != nil {
 		fields = append(fields, storageprovider.FieldCreatedAt)
 	}
@@ -4083,6 +4170,12 @@ func (m *StorageProviderMutation) Fields() []string {
 	if m.is_default != nil {
 		fields = append(fields, storageprovider.FieldIsDefault)
 	}
+	if m.use_cdn != nil {
+		fields = append(fields, storageprovider.FieldUseCdn)
+	}
+	if m.cdn_url != nil {
+		fields = append(fields, storageprovider.FieldCdnURL)
+	}
 	return fields
 }
 
@@ -4113,6 +4206,10 @@ func (m *StorageProviderMutation) Field(name string) (ent.Value, bool) {
 		return m.Region()
 	case storageprovider.FieldIsDefault:
 		return m.IsDefault()
+	case storageprovider.FieldUseCdn:
+		return m.UseCdn()
+	case storageprovider.FieldCdnURL:
+		return m.CdnURL()
 	}
 	return nil, false
 }
@@ -4144,6 +4241,10 @@ func (m *StorageProviderMutation) OldField(ctx context.Context, name string) (en
 		return m.OldRegion(ctx)
 	case storageprovider.FieldIsDefault:
 		return m.OldIsDefault(ctx)
+	case storageprovider.FieldUseCdn:
+		return m.OldUseCdn(ctx)
+	case storageprovider.FieldCdnURL:
+		return m.OldCdnURL(ctx)
 	}
 	return nil, fmt.Errorf("unknown StorageProvider field %s", name)
 }
@@ -4230,6 +4331,20 @@ func (m *StorageProviderMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetIsDefault(v)
 		return nil
+	case storageprovider.FieldUseCdn:
+		v, ok := value.(bool)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetUseCdn(v)
+		return nil
+	case storageprovider.FieldCdnURL:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetCdnURL(v)
+		return nil
 	}
 	return fmt.Errorf("unknown StorageProvider field %s", name)
 }
@@ -4266,6 +4381,9 @@ func (m *StorageProviderMutation) ClearedFields() []string {
 	if m.FieldCleared(storageprovider.FieldFolder) {
 		fields = append(fields, storageprovider.FieldFolder)
 	}
+	if m.FieldCleared(storageprovider.FieldCdnURL) {
+		fields = append(fields, storageprovider.FieldCdnURL)
+	}
 	return fields
 }
 
@@ -4285,6 +4403,9 @@ func (m *StorageProviderMutation) ClearField(name string) error {
 		return nil
 	case storageprovider.FieldFolder:
 		m.ClearFolder()
+		return nil
+	case storageprovider.FieldCdnURL:
+		m.ClearCdnURL()
 		return nil
 	}
 	return fmt.Errorf("unknown StorageProvider nullable field %s", name)
@@ -4326,6 +4447,12 @@ func (m *StorageProviderMutation) ResetField(name string) error {
 		return nil
 	case storageprovider.FieldIsDefault:
 		m.ResetIsDefault()
+		return nil
+	case storageprovider.FieldUseCdn:
+		m.ResetUseCdn()
+		return nil
+	case storageprovider.FieldCdnURL:
+		m.ResetCdnURL()
 		return nil
 	}
 	return fmt.Errorf("unknown StorageProvider field %s", name)

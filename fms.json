@@ -1645,6 +1645,11 @@
           "type": "string",
           "x-go-name": "Bucket"
         },
+        "cdnUrl": {
+          "description": "CDN URL | CDN 地址",
+          "type": "string",
+          "x-go-name": "CdnUrl"
+        },
         "createdAt": {
           "description": "Create date | 创建日期",
           "type": "integer",
@@ -1702,6 +1707,11 @@
           "type": "integer",
           "format": "int64",
           "x-go-name": "UpdatedAt"
+        },
+        "useCdn": {
+          "description": "Does it use CDN | 是否使用 CDN",
+          "type": "boolean",
+          "x-go-name": "UseCdn"
         }
       },
       "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"

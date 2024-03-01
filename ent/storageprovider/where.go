@@ -110,6 +110,16 @@ func IsDefault(v bool) predicate.StorageProvider {
 	return predicate.StorageProvider(sql.FieldEQ(FieldIsDefault, v))
 }
 
+// UseCdn applies equality check predicate on the "use_cdn" field. It's identical to UseCdnEQ.
+func UseCdn(v bool) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldEQ(FieldUseCdn, v))
+}
+
+// CdnURL applies equality check predicate on the "cdn_url" field. It's identical to CdnURLEQ.
+func CdnURL(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldEQ(FieldCdnURL, v))
+}
+
 // CreatedAtEQ applies the EQ predicate on the "created_at" field.
 func CreatedAtEQ(v time.Time) predicate.StorageProvider {
 	return predicate.StorageProvider(sql.FieldEQ(FieldCreatedAt, v))
@@ -683,6 +693,91 @@ func IsDefaultEQ(v bool) predicate.StorageProvider {
 // IsDefaultNEQ applies the NEQ predicate on the "is_default" field.
 func IsDefaultNEQ(v bool) predicate.StorageProvider {
 	return predicate.StorageProvider(sql.FieldNEQ(FieldIsDefault, v))
+}
+
+// UseCdnEQ applies the EQ predicate on the "use_cdn" field.
+func UseCdnEQ(v bool) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldEQ(FieldUseCdn, v))
+}
+
+// UseCdnNEQ applies the NEQ predicate on the "use_cdn" field.
+func UseCdnNEQ(v bool) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldNEQ(FieldUseCdn, v))
+}
+
+// CdnURLEQ applies the EQ predicate on the "cdn_url" field.
+func CdnURLEQ(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldEQ(FieldCdnURL, v))
+}
+
+// CdnURLNEQ applies the NEQ predicate on the "cdn_url" field.
+func CdnURLNEQ(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldNEQ(FieldCdnURL, v))
+}
+
+// CdnURLIn applies the In predicate on the "cdn_url" field.
+func CdnURLIn(vs ...string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldIn(FieldCdnURL, vs...))
+}
+
+// CdnURLNotIn applies the NotIn predicate on the "cdn_url" field.
+func CdnURLNotIn(vs ...string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldNotIn(FieldCdnURL, vs...))
+}
+
+// CdnURLGT applies the GT predicate on the "cdn_url" field.
+func CdnURLGT(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldGT(FieldCdnURL, v))
+}
+
+// CdnURLGTE applies the GTE predicate on the "cdn_url" field.
+func CdnURLGTE(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldGTE(FieldCdnURL, v))
+}
+
+// CdnURLLT applies the LT predicate on the "cdn_url" field.
+func CdnURLLT(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldLT(FieldCdnURL, v))
+}
+
+// CdnURLLTE applies the LTE predicate on the "cdn_url" field.
+func CdnURLLTE(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldLTE(FieldCdnURL, v))
+}
+
+// CdnURLContains applies the Contains predicate on the "cdn_url" field.
+func CdnURLContains(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldContains(FieldCdnURL, v))
+}
+
+// CdnURLHasPrefix applies the HasPrefix predicate on the "cdn_url" field.
+func CdnURLHasPrefix(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldHasPrefix(FieldCdnURL, v))
+}
+
+// CdnURLHasSuffix applies the HasSuffix predicate on the "cdn_url" field.
+func CdnURLHasSuffix(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldHasSuffix(FieldCdnURL, v))
+}
+
+// CdnURLIsNil applies the IsNil predicate on the "cdn_url" field.
+func CdnURLIsNil() predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldIsNull(FieldCdnURL))
+}
+
+// CdnURLNotNil applies the NotNil predicate on the "cdn_url" field.
+func CdnURLNotNil() predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldNotNull(FieldCdnURL))
+}
+
+// CdnURLEqualFold applies the EqualFold predicate on the "cdn_url" field.
+func CdnURLEqualFold(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldEqualFold(FieldCdnURL, v))
+}
+
+// CdnURLContainsFold applies the ContainsFold predicate on the "cdn_url" field.
+func CdnURLContainsFold(v string) predicate.StorageProvider {
+	return predicate.StorageProvider(sql.FieldContainsFold(FieldCdnURL, v))
 }
 
 // HasCloudfiles applies the HasEdge predicate on the "cloudfiles" edge.

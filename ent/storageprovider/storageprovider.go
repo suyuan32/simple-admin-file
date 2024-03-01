@@ -36,6 +36,10 @@ const (
 	FieldRegion = "region"
 	// FieldIsDefault holds the string denoting the is_default field in the database.
 	FieldIsDefault = "is_default"
+	// FieldUseCdn holds the string denoting the use_cdn field in the database.
+	FieldUseCdn = "use_cdn"
+	// FieldCdnURL holds the string denoting the cdn_url field in the database.
+	FieldCdnURL = "cdn_url"
 	// EdgeCloudfiles holds the string denoting the cloudfiles edge name in mutations.
 	EdgeCloudfiles = "cloudfiles"
 	// Table holds the table name of the storageprovider in the database.
@@ -63,6 +67,8 @@ var Columns = []string{
 	FieldFolder,
 	FieldRegion,
 	FieldIsDefault,
+	FieldUseCdn,
+	FieldCdnURL,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -86,6 +92,8 @@ var (
 	DefaultState bool
 	// DefaultIsDefault holds the default value on creation for the "is_default" field.
 	DefaultIsDefault bool
+	// DefaultUseCdn holds the default value on creation for the "use_cdn" field.
+	DefaultUseCdn bool
 )
 
 // OrderOption defines the ordering options for the StorageProvider queries.
@@ -149,6 +157,16 @@ func ByRegion(opts ...sql.OrderTermOption) OrderOption {
 // ByIsDefault orders the results by the is_default field.
 func ByIsDefault(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldIsDefault, opts...).ToFunc()
+}
+
+// ByUseCdn orders the results by the use_cdn field.
+func ByUseCdn(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldUseCdn, opts...).ToFunc()
+}
+
+// ByCdnURL orders the results by the cdn_url field.
+func ByCdnURL(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldCdnURL, opts...).ToFunc()
 }
 
 // ByCloudfilesCount orders the results by cloudfiles count.

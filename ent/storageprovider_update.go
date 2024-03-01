@@ -174,6 +174,40 @@ func (spu *StorageProviderUpdate) SetNillableIsDefault(b *bool) *StorageProvider
 	return spu
 }
 
+// SetUseCdn sets the "use_cdn" field.
+func (spu *StorageProviderUpdate) SetUseCdn(b bool) *StorageProviderUpdate {
+	spu.mutation.SetUseCdn(b)
+	return spu
+}
+
+// SetNillableUseCdn sets the "use_cdn" field if the given value is not nil.
+func (spu *StorageProviderUpdate) SetNillableUseCdn(b *bool) *StorageProviderUpdate {
+	if b != nil {
+		spu.SetUseCdn(*b)
+	}
+	return spu
+}
+
+// SetCdnURL sets the "cdn_url" field.
+func (spu *StorageProviderUpdate) SetCdnURL(s string) *StorageProviderUpdate {
+	spu.mutation.SetCdnURL(s)
+	return spu
+}
+
+// SetNillableCdnURL sets the "cdn_url" field if the given value is not nil.
+func (spu *StorageProviderUpdate) SetNillableCdnURL(s *string) *StorageProviderUpdate {
+	if s != nil {
+		spu.SetCdnURL(*s)
+	}
+	return spu
+}
+
+// ClearCdnURL clears the value of the "cdn_url" field.
+func (spu *StorageProviderUpdate) ClearCdnURL() *StorageProviderUpdate {
+	spu.mutation.ClearCdnURL()
+	return spu
+}
+
 // AddCloudfileIDs adds the "cloudfiles" edge to the CloudFile entity by IDs.
 func (spu *StorageProviderUpdate) AddCloudfileIDs(ids ...uuid.UUID) *StorageProviderUpdate {
 	spu.mutation.AddCloudfileIDs(ids...)
@@ -295,6 +329,15 @@ func (spu *StorageProviderUpdate) sqlSave(ctx context.Context) (n int, err error
 	}
 	if value, ok := spu.mutation.IsDefault(); ok {
 		_spec.SetField(storageprovider.FieldIsDefault, field.TypeBool, value)
+	}
+	if value, ok := spu.mutation.UseCdn(); ok {
+		_spec.SetField(storageprovider.FieldUseCdn, field.TypeBool, value)
+	}
+	if value, ok := spu.mutation.CdnURL(); ok {
+		_spec.SetField(storageprovider.FieldCdnURL, field.TypeString, value)
+	}
+	if spu.mutation.CdnURLCleared() {
+		_spec.ClearField(storageprovider.FieldCdnURL, field.TypeString)
 	}
 	if spu.mutation.CloudfilesCleared() {
 		edge := &sqlgraph.EdgeSpec{
@@ -505,6 +548,40 @@ func (spuo *StorageProviderUpdateOne) SetNillableIsDefault(b *bool) *StorageProv
 	return spuo
 }
 
+// SetUseCdn sets the "use_cdn" field.
+func (spuo *StorageProviderUpdateOne) SetUseCdn(b bool) *StorageProviderUpdateOne {
+	spuo.mutation.SetUseCdn(b)
+	return spuo
+}
+
+// SetNillableUseCdn sets the "use_cdn" field if the given value is not nil.
+func (spuo *StorageProviderUpdateOne) SetNillableUseCdn(b *bool) *StorageProviderUpdateOne {
+	if b != nil {
+		spuo.SetUseCdn(*b)
+	}
+	return spuo
+}
+
+// SetCdnURL sets the "cdn_url" field.
+func (spuo *StorageProviderUpdateOne) SetCdnURL(s string) *StorageProviderUpdateOne {
+	spuo.mutation.SetCdnURL(s)
+	return spuo
+}
+
+// SetNillableCdnURL sets the "cdn_url" field if the given value is not nil.
+func (spuo *StorageProviderUpdateOne) SetNillableCdnURL(s *string) *StorageProviderUpdateOne {
+	if s != nil {
+		spuo.SetCdnURL(*s)
+	}
+	return spuo
+}
+
+// ClearCdnURL clears the value of the "cdn_url" field.
+func (spuo *StorageProviderUpdateOne) ClearCdnURL() *StorageProviderUpdateOne {
+	spuo.mutation.ClearCdnURL()
+	return spuo
+}
+
 // AddCloudfileIDs adds the "cloudfiles" edge to the CloudFile entity by IDs.
 func (spuo *StorageProviderUpdateOne) AddCloudfileIDs(ids ...uuid.UUID) *StorageProviderUpdateOne {
 	spuo.mutation.AddCloudfileIDs(ids...)
@@ -656,6 +733,15 @@ func (spuo *StorageProviderUpdateOne) sqlSave(ctx context.Context) (_node *Stora
 	}
 	if value, ok := spuo.mutation.IsDefault(); ok {
 		_spec.SetField(storageprovider.FieldIsDefault, field.TypeBool, value)
+	}
+	if value, ok := spuo.mutation.UseCdn(); ok {
+		_spec.SetField(storageprovider.FieldUseCdn, field.TypeBool, value)
+	}
+	if value, ok := spuo.mutation.CdnURL(); ok {
+		_spec.SetField(storageprovider.FieldCdnURL, field.TypeString, value)
+	}
+	if spuo.mutation.CdnURLCleared() {
+		_spec.ClearField(storageprovider.FieldCdnURL, field.TypeString)
 	}
 	if spuo.mutation.CloudfilesCleared() {
 		edge := &sqlgraph.EdgeSpec{

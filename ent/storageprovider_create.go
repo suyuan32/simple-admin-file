@@ -128,6 +128,34 @@ func (spc *StorageProviderCreate) SetNillableIsDefault(b *bool) *StorageProvider
 	return spc
 }
 
+// SetUseCdn sets the "use_cdn" field.
+func (spc *StorageProviderCreate) SetUseCdn(b bool) *StorageProviderCreate {
+	spc.mutation.SetUseCdn(b)
+	return spc
+}
+
+// SetNillableUseCdn sets the "use_cdn" field if the given value is not nil.
+func (spc *StorageProviderCreate) SetNillableUseCdn(b *bool) *StorageProviderCreate {
+	if b != nil {
+		spc.SetUseCdn(*b)
+	}
+	return spc
+}
+
+// SetCdnURL sets the "cdn_url" field.
+func (spc *StorageProviderCreate) SetCdnURL(s string) *StorageProviderCreate {
+	spc.mutation.SetCdnURL(s)
+	return spc
+}
+
+// SetNillableCdnURL sets the "cdn_url" field if the given value is not nil.
+func (spc *StorageProviderCreate) SetNillableCdnURL(s *string) *StorageProviderCreate {
+	if s != nil {
+		spc.SetCdnURL(*s)
+	}
+	return spc
+}
+
 // SetID sets the "id" field.
 func (spc *StorageProviderCreate) SetID(u uint64) *StorageProviderCreate {
 	spc.mutation.SetID(u)
@@ -200,6 +228,10 @@ func (spc *StorageProviderCreate) defaults() {
 		v := storageprovider.DefaultIsDefault
 		spc.mutation.SetIsDefault(v)
 	}
+	if _, ok := spc.mutation.UseCdn(); !ok {
+		v := storageprovider.DefaultUseCdn
+		spc.mutation.SetUseCdn(v)
+	}
 }
 
 // check runs all checks and user-defined validators on the builder.
@@ -230,6 +262,9 @@ func (spc *StorageProviderCreate) check() error {
 	}
 	if _, ok := spc.mutation.IsDefault(); !ok {
 		return &ValidationError{Name: "is_default", err: errors.New(`ent: missing required field "StorageProvider.is_default"`)}
+	}
+	if _, ok := spc.mutation.UseCdn(); !ok {
+		return &ValidationError{Name: "use_cdn", err: errors.New(`ent: missing required field "StorageProvider.use_cdn"`)}
 	}
 	return nil
 }
@@ -306,6 +341,14 @@ func (spc *StorageProviderCreate) createSpec() (*StorageProvider, *sqlgraph.Crea
 	if value, ok := spc.mutation.IsDefault(); ok {
 		_spec.SetField(storageprovider.FieldIsDefault, field.TypeBool, value)
 		_node.IsDefault = value
+	}
+	if value, ok := spc.mutation.UseCdn(); ok {
+		_spec.SetField(storageprovider.FieldUseCdn, field.TypeBool, value)
+		_node.UseCdn = value
+	}
+	if value, ok := spc.mutation.CdnURL(); ok {
+		_spec.SetField(storageprovider.FieldCdnURL, field.TypeString, value)
+		_node.CdnURL = value
 	}
 	if nodes := spc.mutation.CloudfilesIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{

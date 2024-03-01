@@ -61,6 +61,8 @@ func (l *GetStorageProviderListLogic) GetStorageProviderList(req *types.StorageP
 				IsDefault: &v.IsDefault,
 				Folder:    &v.Folder,
 				Endpoint:  &v.Endpoint,
+				UseCdn:    &v.UseCdn,
+				CdnUrl:    &v.CdnURL,
 			})
 	}
 

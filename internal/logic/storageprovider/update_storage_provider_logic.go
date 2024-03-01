@@ -37,6 +37,8 @@ func (l *UpdateStorageProviderLogic) UpdateStorageProvider(req *types.StoragePro
 		SetNotNilIsDefault(req.IsDefault).
 		SetNotNilFolder(req.Folder).
 		SetNotNilEndpoint(req.Endpoint).
+		SetNotNilUseCdn(req.UseCdn).
+		SetNotNilCdnURL(req.CdnUrl).
 		Exec(l.ctx)
 
 	if err != nil {
