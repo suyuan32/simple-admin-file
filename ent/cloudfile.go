@@ -57,12 +57,10 @@ type CloudFileEdges struct {
 // StorageProvidersOrErr returns the StorageProviders value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
 func (e CloudFileEdges) StorageProvidersOrErr() (*StorageProvider, error) {
-	if e.loadedTypes[0] {
-		if e.StorageProviders == nil {
-			// Edge was loaded but was not found.
-			return nil, &NotFoundError{label: storageprovider.Label}
-		}
+	if e.StorageProviders != nil {
 		return e.StorageProviders, nil
+	} else if e.loadedTypes[0] {
+		return nil, &NotFoundError{label: storageprovider.Label}
 	}
 	return nil, &NotLoadedError{edge: "storage_providers"}
 }
