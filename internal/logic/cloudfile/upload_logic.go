@@ -20,6 +20,7 @@ import (
 	"github.com/zeromicro/go-zero/core/errorx"
 	"mime/multipart"
 	"net/http"
+	"strconv"
 	"strings"
 	"time"
 
@@ -94,6 +95,17 @@ func (l *UploadLogic) Upload() (resp *types.CloudFileInfoResp, err error) {
 	} else {
 		provider = l.svcCtx.CloudStorage.DefaultProvider
 	}
+
+	var fileTagId uint64
+	if l.r.MultipartForm.Value["tagId"] != nil && l.r.MultipartForm.Value["tagId"][0] != "" {
+		tagId, err := strconv.Atoi(l.r.MultipartForm.Value["tagId"][0])
+		if err != nil {
+			return nil, errorx.NewCodeInvalidArgumentError("wrong tag ID")
+		}
+
+		fileTagId = uint64(tagId)
+	}
+
 	relativeSrc := fmt.Sprintf("%s/%s/%s/%s",
 		l.svcCtx.CloudStorage.ProviderData[provider].Folder,
 		datetime.FormatTimeToStr(time.Now(), "yyyy-mm-dd"),
@@ -110,14 +122,19 @@ func (l *UploadLogic) Upload() (resp *types.CloudFileInfoResp, err error) {
 	}
 
 	// store to database
-	data, err := l.svcCtx.DB.CloudFile.Create().
+	query := l.svcCtx.DB.CloudFile.Create().
 		SetName(fileName).
 		SetFileType(filex.ConvertFileTypeToUint8(fileType)).
 		SetStorageProvidersID(l.svcCtx.CloudStorage.ProviderData[provider].Id).
 		SetURL(url).
 		SetSize(uint64(handler.Size)).
-		SetUserID(userId).
-		Save(l.ctx)
+		SetUserID(userId)
+
+	if fileTagId != 0 {
+		query = query.AddTagIDs(fileTagId)
+	}
+
+	data, err := query.Save(l.ctx)
 
 	if err != nil {
 		return nil, dberrorhandler.DefaultEntError(l.Logger, err, nil)
