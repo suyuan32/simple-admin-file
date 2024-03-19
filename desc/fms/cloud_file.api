@@ -101,7 +101,14 @@ service Fms {
     // Get cloud file by ID | 通过ID获取云文件
     @handler getCloudFileById
     post /cloud_file (UUIDReq) returns (CloudFileInfoResp)
+}
 
+@server(
+    jwt: Auth
+    group: cloudfile
+)
+
+service Fms {
     // Cloud file upload | 上传文件
     @handler upload
     post /cloud_file/upload returns (CloudFileInfoResp)

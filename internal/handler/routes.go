@@ -134,13 +134,19 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Path:    "/cloud_file",
 					Handler: cloudfile.GetCloudFileByIdHandler(serverCtx),
 				},
-				{
-					Method:  http.MethodPost,
-					Path:    "/cloud_file/upload",
-					Handler: cloudfile.UploadHandler(serverCtx),
-				},
 			}...,
 		),
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/cloud_file/upload",
+				Handler: cloudfile.UploadHandler(serverCtx),
+			},
+		},
 		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 	)
 

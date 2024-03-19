@@ -15,6 +15,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strconv"
 	"strings"
 	"time"
 
@@ -139,7 +140,17 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 		md5 = ""
 	}
 
-	err = l.svcCtx.DB.File.Create().
+	var fileTagId uint64
+	if l.r.MultipartForm.Value["tagId"] != nil && l.r.MultipartForm.Value["tagId"][0] != "" {
+		tagId, err := strconv.Atoi(l.r.MultipartForm.Value["tagId"][0])
+		if err != nil {
+			return nil, errorx.NewCodeInvalidArgumentError("wrong tag ID")
+		}
+
+		fileTagId = uint64(tagId)
+	}
+
+	query := l.svcCtx.DB.File.Create().
 		SetID(fileUUID).
 		SetNotNilName(&fileName).
 		SetNotNilFileType(pointy.GetPointer(filex.ConvertFileTypeToUint8(fileType))).
@@ -147,8 +158,13 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 		SetNotNilUserID(&userId).
 		SetNotNilMd5(pointy.GetPointer(md5)).
 		SetNotNilStatus(pointy.GetPointer(uint8(1))).
-		SetNotNilSize(pointy.GetPointer(uint64(handler.Size))).
-		Exec(l.ctx)
+		SetNotNilSize(pointy.GetPointer(uint64(handler.Size)))
+
+	if fileTagId != 0 {
+		query = query.AddTagIDs(fileTagId)
+	}
+
+	err = query.Exec(l.ctx)
 
 	if err != nil {
 		return nil, dberrorhandler.DefaultEntError(l.Logger, err, "upload failed")
