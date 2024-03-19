@@ -41,15 +41,27 @@ func (l *DeleteCloudFileLogic) DeleteCloudFile(req *types.UUIDsReq) (*types.Base
 
 		for _, v := range data {
 			if client, ok := l.svcCtx.CloudStorage.CloudStorage[v.Edges.StorageProviders.Name]; ok {
-				keyData := strings.Split(v.URL, *l.svcCtx.CloudStorage.CloudStorage[v.Edges.StorageProviders.Name].Config.Endpoint)
-				if len(keyData) != 2 {
-					logx.Errorw("failed to find the key of the cloud file", logx.Field("data", req))
-					return nil, errorx.NewCodeInternalError(i18n.Failed)
+				if !l.svcCtx.CloudStorage.ProviderData[v.Edges.StorageProviders.Name].UseCdn {
+					keyData := strings.Split(v.URL, *l.svcCtx.CloudStorage.CloudStorage[v.Edges.StorageProviders.Name].Config.Endpoint)
+					if len(keyData) != 2 {
+						logx.Errorw("failed to find the key of the cloud file", logx.Field("data", req))
+						return nil, errorx.NewCodeInternalError(i18n.Failed)
+					}
+					_, err = client.DeleteObject(&s3.DeleteObjectInput{
+						Bucket: aws.String(l.svcCtx.CloudStorage.ProviderData[v.Edges.StorageProviders.Name].Bucket),
+						Key:    aws.String(keyData[1]),
+					})
+				} else {
+					keyData := strings.TrimPrefix(v.URL, l.svcCtx.CloudStorage.ProviderData[v.Edges.StorageProviders.Name].CdnUrl)
+					if len(keyData) < 2 {
+						logx.Errorw("failed to find the key of the cloud file", logx.Field("data", req))
+						return nil, errorx.NewCodeInternalError(i18n.Failed)
+					}
+					_, err = client.DeleteObject(&s3.DeleteObjectInput{
+						Bucket: aws.String(l.svcCtx.CloudStorage.ProviderData[v.Edges.StorageProviders.Name].Bucket),
+						Key:    aws.String(keyData),
+					})
 				}
-				_, err = client.DeleteObject(&s3.DeleteObjectInput{
-					Bucket: aws.String(l.svcCtx.CloudStorage.ProviderData[v.Edges.StorageProviders.Name].Bucket),
-					Key:    aws.String(keyData[1]),
-				})
 				if err != nil {
 					logx.Errorw("failed to delete the cloud file", logx.Field("detail", err), logx.Field("data", req))
 					return nil, errorx.NewCodeInternalError(i18n.Failed)
