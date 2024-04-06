@@ -24,5 +24,5 @@ cusCMD
 # config file avoid exposing private data
 *_dev.yaml
 
-*_api
-*_rpc
+# *_api
+# *_rpc

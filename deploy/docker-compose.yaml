@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  fms-api-fjpa:
+    image: registry.cn-hangzhou.aliyuncs.com/rabbit1688/fms-api-fjpa:latest
+    container_name: fms-api-fjpa
+    restart: always
+    ports:
+      - "9600:9300"
+    volumes:
+      - /home/fms-file:/home/data/file/public
+
+networks:
+  default:
+    name: promotion_promotion
+    external: true

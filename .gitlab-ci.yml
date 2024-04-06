@@ -6,7 +6,8 @@ stages:
   - info
   - build
   - publish
-  - clean
+  - run
+  # - clean
 
 info-job:
   stage: info
@@ -32,9 +33,17 @@ deploy-job:
     - make publish-docker
     - echo "Docker images successfully published."
 
-clean-job:
-  stage: clean
+docker-run:
+  stage: run
+  environment: production
   script:
-    # 删除所有 none 镜像 | delete all none images
-    - docker images |grep none|awk '{print $3}'|xargs docker rmi
-    - echo "Delete all none images successfully."
+    - echo "run docker images ..."
+    - make docker-run
+    - echo "Docker run successfully."
+
+# clean-job:
+#   stage: clean
+#   script:
+#     # 删除所有 none 镜像 | delete all none images
+#     - docker images |grep none|awk '{print $3}'|xargs docker rmi
+#     - echo "Delete all none images successfully."
