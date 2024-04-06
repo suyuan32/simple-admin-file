@@ -1,4 +1,4 @@
-FROM nginx:1.25.3-alpine
+FROM nginx:1.25.2-alpine
 
 # Define the project name | 定义项目名称
 ARG PROJECT=fms
@@ -24,5 +24,5 @@ COPY deploy/nginx/entrypoint.sh /docker-entrypoint.d
 RUN ["chmod", "+x", "/docker-entrypoint.d/entrypoint.sh"]
 
 EXPOSE 80
-EXPOSE 9102
+EXPOSE 9300
 
