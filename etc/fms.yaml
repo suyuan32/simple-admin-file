@@ -41,7 +41,7 @@ CasbinDatabaseConf:
   Type: postgres
   Host: pgsql
   Port: 5432
-  DBName: core
+  DBName: core_fjpa
   Username: simple_admin
   Password: pg123456
   MaxOpenConn: 100
