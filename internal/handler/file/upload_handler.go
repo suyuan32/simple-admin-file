@@ -1,6 +1,7 @@
 package file
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
@@ -19,6 +20,7 @@ import (
 //  200: UploadResp
 
 func UploadHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+	fmt.Println("=========enter upload file handler")
 	return func(w http.ResponseWriter, r *http.Request) {
 		l := file.NewUploadLogic(r, svcCtx)
 		resp, err := l.Upload()
