@@ -43,6 +43,7 @@ func NewUploadLogic(r *http.Request, svcCtx *svc.ServiceContext) *UploadLogic {
 }
 
 func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
+	fmt.Println("===============enter upload")
 	err = l.r.ParseMultipartForm(l.svcCtx.Config.UploadConf.MaxVideoSize)
 	if err != nil {
 		logx.Error("fail to parse the multipart form")
@@ -70,7 +71,6 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 	}
 
 	fileName, fileSuffix := handler.Filename[:dotIndex], handler.Filename[dotIndex+1:]
-	fmt.Println("==================  fileName", fileName, "fileSuffix", fileSuffix)
 	fileUUID := uuidx.NewUUID()
 	storeFileName := fileUUID.String() + "." + fileSuffix
 	timeString := datetime.FormatTimeToStr(time.Now(), "yyyy-mm-dd")
