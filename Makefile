@@ -72,7 +72,7 @@ docker: # Build the docker image | 构建 docker 镜像
 
 .PHONY: publish-docker
 publish-docker: # Publish docker image | 发布 docker 镜像
-	echo "${DOCKER_PASSWORD}" | docker login --username ${USERNAME} --password-stdin ${REPO}
+	echo "${DOCKER_PASSWORD}" | docker login --username ${DOCKER_USERNAME} --password-stdin https://${REPO}
 	docker tag ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-api:${VERSION} ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-api:latest
 	docker push ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-api:latest
 	@echo "Publish docker successfully"
