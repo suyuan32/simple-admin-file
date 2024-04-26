@@ -67,23 +67,19 @@ tools: # Install the necessary tools | 安装必要的工具
 
 .PHONY: docker
 docker: # Build the docker image | 构建 docker 镜像
-	docker build -f Dockerfile-api -t ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-api:${VERSION} .
-	docker build -f Dockerfile-rpc -t ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-rpc:${VERSION} .
+	docker build -f Dockerfile -t ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-api:${VERSION} .
 	@echo "Build docker successfully"
 
 .PHONY: publish-docker
 publish-docker: # Publish docker image | 发布 docker 镜像
 	echo "${DOCKER_PASSWORD}" | docker login --username ${USERNAME} --password-stdin ${REPO}
 	docker tag ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-api:${VERSION} ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-api:latest
-	docker tag ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-rpc:${VERSION} ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-rpc:latest 
-	docker push ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-rpc:latest
 	docker push ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-api:latest
 	@echo "Publish docker successfully"
 
 .PHONY: docker-run
 docker-run: # Publish docker image | 发布 docker 镜像
 	docker rm -f $(PROJECT_NAME)-$(SERVICE_DASH)-api
-	docker rm -f $(PROJECT_NAME)-$(SERVICE_DASH)-rpc
 	docker-compose -p $(PROJECT_NAME) -f deploy/docker-compose.yaml up -d
 	@echo "docker run successfully"
 
