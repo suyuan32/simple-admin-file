@@ -1,11 +1,11 @@
 Name: fms
 Host: 0.0.0.0
-Port: 9300
+Port: 9500
 MaxBytes: 1073741824 # max content length : 1 gb | 所有类型单个文件最大大小
 Timeout: 300000 # bigger max bytes need longer timeout | 超时时间
 
 Auth:
-  AccessSecret: jS6VKDtsJf3z1n2VKDtsJf3z1n2
+  AccessSecret: jS6VKDtsJf3z1n2VKDtsJfttapp
   AccessExpire: 259200  # Seconds
 
 CROSConf:
@@ -29,7 +29,7 @@ DatabaseConf:
   Type: postgres
   Host: 127.0.0.1
   Port: 5432
-  DBName: fms_fjpa
+  DBName: ttapp_fms
   Username: simple_admin
   Password: "123456"
   MaxOpenConn: 100
@@ -41,7 +41,7 @@ CasbinDatabaseConf:
   Type: postgres
   Host: 127.0.0.1
   Port: 5432
-  DBName: core_fjpa
+  DBName: ttapp_core
   Username: simple_admin
   Password: "123456"
   MaxOpenConn: 100

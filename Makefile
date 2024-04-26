@@ -10,6 +10,12 @@ SERVICE_SNAKE=fms
 # Service name in snake format | 项目名称短杠格式
 SERVICE_DASH=fms
 
+# deploys the project to aliyun docker registry | 部署项目到阿里云镜像仓库
+# Docker project name | docker-compose 项目名称
+PROJECT_NAME=ttapp
+# Docker ALI_NAMESPACE | 阿里云镜像仓库 命名空间
+ALI_NAMESPACE= dou-yin
+
 # The project version, if you don't use git, you should set it manually | 项目版本，如果不使用git请手动设置
 VERSION=$(shell git describe --tags --always)
 
@@ -58,24 +64,28 @@ tools: # Install the necessary tools | 安装必要的工具
 	$(GO) install github.com/golangci/golangci-lint/cmd/golangci-lint@latest;
 	$(GO) install github.com/go-swagger/go-swagger/cmd/swagger@latest
 
+
 .PHONY: docker
 docker: # Build the docker image | 构建 docker 镜像
-	docker build -f Dockerfile -t ${REPO}/${NAMESPACE}/$(SERVICE_DASH)-$(PROJECT_BUILD_SUFFIX):${VERSION} .
+	docker build -f Dockerfile-api -t ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-api:${VERSION} .
+	docker build -f Dockerfile-rpc -t ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-rpc:${VERSION} .
 	@echo "Build docker successfully"
 
 .PHONY: publish-docker
 publish-docker: # Publish docker image | 发布 docker 镜像
-	echo "${DOCKER_PASSWORD}" | docker login --username ${DOCKER_USERNAME} --password-stdin https://${REPO}
-	docker push ${REPO}/${NAMESPACE}/$(SERVICE_DASH)-$(PROJECT_BUILD_SUFFIX):${VERSION}
-	docker tag ${REPO}/${NAMESPACE}/$(SERVICE_DASH)-$(PROJECT_BUILD_SUFFIX):${VERSION} ${REPO}/${NAMESPACE}/$(SERVICE_DASH)-$(PROJECT_BUILD_SUFFIX):latest
+	echo "${DOCKER_PASSWORD}" | docker login --username ${USERNAME} --password-stdin ${REPO}
+	docker tag ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-api:${VERSION} ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-api:latest
+	docker tag ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-rpc:${VERSION} ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-rpc:latest 
+	docker push ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-rpc:latest
+	docker push ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-api:latest
 	@echo "Publish docker successfully"
 
 .PHONY: docker-run
 docker-run: # Publish docker image | 发布 docker 镜像
-	docker rm -f $(SERVICE_DASH)-$(PROJECT_BUILD_SUFFIX)
-	docker-compose -f deploy/docker-compose.yaml up -d
+	docker rm -f $(PROJECT_NAME)-$(SERVICE_DASH)-api
+	docker rm -f $(PROJECT_NAME)-$(SERVICE_DASH)-rpc
+	docker-compose -p $(PROJECT_NAME) -f deploy/docker-compose.yaml up -d
 	@echo "docker run successfully"
-
 
 .PHONY: gen-swagger
 gen-swagger: # Generate swagger file | 生成 swagger 文件

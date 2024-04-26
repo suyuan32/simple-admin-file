@@ -123,6 +123,13 @@ type StatusCodeReq struct {
 	Status uint64 `json:"status" validate:"number"`
 }
 
+// swagger:model InitReq
+type InitReq struct {
+	App      bool `json:"app,optional"`
+	CoreApi  bool `json:"coreApi,optional"`
+	CoreMenu bool `json:"coreMenu,optional"`
+}
+
 // The data when upload finished | 上传完成数据
 // swagger:model UploadInfo
 type UploadInfo struct {

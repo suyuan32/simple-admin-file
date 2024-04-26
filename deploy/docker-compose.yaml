@@ -1,16 +1,16 @@
 version: "3"
 
 services:
-  fms-api-fjpa:
-    image: registry.cn-hangzhou.aliyuncs.com/rabbit1688/fms-api-fjpa:latest
-    container_name: fms-api-fjpa
+  ttapp-fms-api:
+    image: registry.cn-hangzhou.aliyuncs.com/dou-yin/ttapp-fms-api:latest
+    container_name: ttapp-fms-api
     restart: always
     ports:
-      - "9600:9300"
+      - "40002:9500"
     volumes:
       - /home/fms-file:/home/data/file/public
 
 networks:
   default:
-    name: promotion_promotion
+    name: ttapp
     external: true

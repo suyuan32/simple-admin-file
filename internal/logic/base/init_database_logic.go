@@ -2,6 +2,7 @@ package base
 
 import (
 	"context"
+
 	"entgo.io/ent/dialect/sql/schema"
 	"github.com/suyuan32/simple-admin-common/msg/logmsg"
 	"google.golang.org/grpc/codes"
@@ -31,13 +32,16 @@ func NewInitDatabaseLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Init
 	}
 }
 
-func (l *InitDatabaseLogic) InitDatabase() (resp *types.BaseMsgResp, err error) {
-	if err := l.svcCtx.DB.Schema.Create(l.ctx, schema.WithForeignKeys(false)); err != nil {
-		logx.Errorw(logmsg.DatabaseError, logx.Field("detail", err.Error()))
-		return nil, errorx.NewCodeError(errorcode.Internal, err.Error())
+func (l *InitDatabaseLogic) InitDatabase(req *types.InitReq) (resp *types.BaseMsgResp, err error) {
+
+	if req.App {
+		if err := l.svcCtx.DB.Schema.Create(l.ctx, schema.WithForeignKeys(false)); err != nil {
+			logx.Errorw(logmsg.DatabaseError, logx.Field("detail", err.Error()))
+			return nil, errorx.NewCodeError(errorcode.Internal, err.Error())
+		}
 	}
 
-	if l.svcCtx.Config.CoreRpc.Enabled {
+	if req.CoreApi && l.svcCtx.Config.CoreRpc.Enabled {
 		err = l.insertApiData()
 		if err != nil {
 			if status.Code(err) == codes.InvalidArgument {
@@ -46,7 +50,9 @@ func (l *InitDatabaseLogic) InitDatabase() (resp *types.BaseMsgResp, err error) 
 			}
 			return nil, err
 		}
+	}
 
+	if req.CoreMenu && l.svcCtx.Config.CoreRpc.Enabled {
 		err = l.insertMenuData()
 		if err != nil {
 			return nil, err
