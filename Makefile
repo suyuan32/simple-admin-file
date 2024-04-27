@@ -64,22 +64,21 @@ tools: # Install the necessary tools | 安装必要的工具
 	$(GO) install github.com/golangci/golangci-lint/cmd/golangci-lint@latest;
 	$(GO) install github.com/go-swagger/go-swagger/cmd/swagger@latest
 
-
 .PHONY: docker
 docker: # Build the docker image | 构建 docker 镜像
-	docker build -f Dockerfile -t ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-api:${VERSION} .
+	docker build -f Dockerfile -t ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-${PROJECT_BUILD_SUFFIX}:${VERSION} .
 	@echo "Build docker successfully"
 
 .PHONY: publish-docker
 publish-docker: # Publish docker image | 发布 docker 镜像
 	echo "${DOCKER_PASSWORD}" | docker login --username ${DOCKER_USERNAME} --password-stdin https://${REPO}
-	docker tag ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-api:${VERSION} ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-api:latest
-	docker push ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-api:latest
+	docker tag ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-${PROJECT_BUILD_SUFFIX}:${VERSION} ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-${PROJECT_BUILD_SUFFIX}:latest
+	docker push ${REPO}/$(ALI_NAMESPACE)/$(PROJECT_NAME)-$(SERVICE_DASH)-${PROJECT_BUILD_SUFFIX}:latest
 	@echo "Publish docker successfully"
 
 .PHONY: docker-run
 docker-run: # Publish docker image | 发布 docker 镜像
-	docker rm -f $(PROJECT_NAME)-$(SERVICE_DASH)-api
+	docker rm -f $(PROJECT_NAME)-$(SERVICE_DASH)-${PROJECT_BUILD_SUFFIX}
 	docker-compose -p $(PROJECT_NAME) -f deploy/docker-compose.yaml up -d
 	@echo "docker run successfully"
 
