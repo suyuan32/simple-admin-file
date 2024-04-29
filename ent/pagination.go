@@ -114,7 +114,9 @@ func (cf *CloudFileQuery) Page(
 		Size: pageSize,
 	}
 
-	count, err := cf.Clone().Count(ctx)
+	query := cf.Clone()
+	query.ctx.Fields = nil
+	count, err := query.Count(ctx)
 
 	if err != nil {
 		return nil, err
@@ -193,7 +195,9 @@ func (cft *CloudFileTagQuery) Page(
 		Size: pageSize,
 	}
 
-	count, err := cft.Clone().Count(ctx)
+	query := cft.Clone()
+	query.ctx.Fields = nil
+	count, err := query.Count(ctx)
 
 	if err != nil {
 		return nil, err
@@ -272,7 +276,9 @@ func (f *FileQuery) Page(
 		Size: pageSize,
 	}
 
-	count, err := f.Clone().Count(ctx)
+	query := f.Clone()
+	query.ctx.Fields = nil
+	count, err := query.Count(ctx)
 
 	if err != nil {
 		return nil, err
@@ -351,7 +357,9 @@ func (ft *FileTagQuery) Page(
 		Size: pageSize,
 	}
 
-	count, err := ft.Clone().Count(ctx)
+	query := ft.Clone()
+	query.ctx.Fields = nil
+	count, err := query.Count(ctx)
 
 	if err != nil {
 		return nil, err
@@ -430,7 +438,9 @@ func (sp *StorageProviderQuery) Page(
 		Size: pageSize,
 	}
 
-	count, err := sp.Clone().Count(ctx)
+	query := sp.Clone()
+	query.ctx.Fields = nil
+	count, err := query.Count(ctx)
 
 	if err != nil {
 		return nil, err
