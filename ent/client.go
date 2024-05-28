@@ -356,7 +356,7 @@ func (c *CloudFileClient) QueryStorageProviders(cf *CloudFile) *StorageProviderQ
 		step := sqlgraph.NewStep(
 			sqlgraph.From(cloudfile.Table, cloudfile.FieldID, id),
 			sqlgraph.To(storageprovider.Table, storageprovider.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, false, cloudfile.StorageProvidersTable, cloudfile.StorageProvidersColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, cloudfile.StorageProvidersTable, cloudfile.StorageProvidersColumn),
 		)
 		fromV = sqlgraph.Neighbors(cf.driver.Dialect(), step)
 		return fromV, nil
@@ -968,7 +968,7 @@ func (c *StorageProviderClient) QueryCloudfiles(sp *StorageProvider) *CloudFileQ
 		step := sqlgraph.NewStep(
 			sqlgraph.From(storageprovider.Table, storageprovider.FieldID, id),
 			sqlgraph.To(cloudfile.Table, cloudfile.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, true, storageprovider.CloudfilesTable, storageprovider.CloudfilesColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, storageprovider.CloudfilesTable, storageprovider.CloudfilesColumn),
 		)
 		fromV = sqlgraph.Neighbors(sp.driver.Dialect(), step)
 		return fromV, nil

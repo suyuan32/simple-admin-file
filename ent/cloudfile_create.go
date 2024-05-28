@@ -89,6 +89,12 @@ func (cfc *CloudFileCreate) SetFileType(u uint8) *CloudFileCreate {
 	return cfc
 }
 
+// SetStorageProviderID sets the "storage_provider_id" field.
+func (cfc *CloudFileCreate) SetStorageProviderID(u uint64) *CloudFileCreate {
+	cfc.mutation.SetStorageProviderID(u)
+	return cfc
+}
+
 // SetUserID sets the "user_id" field.
 func (cfc *CloudFileCreate) SetUserID(s string) *CloudFileCreate {
 	cfc.mutation.SetUserID(s)
@@ -112,14 +118,6 @@ func (cfc *CloudFileCreate) SetNillableID(u *uuid.UUID) *CloudFileCreate {
 // SetStorageProvidersID sets the "storage_providers" edge to the StorageProvider entity by ID.
 func (cfc *CloudFileCreate) SetStorageProvidersID(id uint64) *CloudFileCreate {
 	cfc.mutation.SetStorageProvidersID(id)
-	return cfc
-}
-
-// SetNillableStorageProvidersID sets the "storage_providers" edge to the StorageProvider entity by ID if the given value is not nil.
-func (cfc *CloudFileCreate) SetNillableStorageProvidersID(id *uint64) *CloudFileCreate {
-	if id != nil {
-		cfc = cfc.SetStorageProvidersID(*id)
-	}
 	return cfc
 }
 
@@ -216,8 +214,14 @@ func (cfc *CloudFileCreate) check() error {
 	if _, ok := cfc.mutation.FileType(); !ok {
 		return &ValidationError{Name: "file_type", err: errors.New(`ent: missing required field "CloudFile.file_type"`)}
 	}
+	if _, ok := cfc.mutation.StorageProviderID(); !ok {
+		return &ValidationError{Name: "storage_provider_id", err: errors.New(`ent: missing required field "CloudFile.storage_provider_id"`)}
+	}
 	if _, ok := cfc.mutation.UserID(); !ok {
 		return &ValidationError{Name: "user_id", err: errors.New(`ent: missing required field "CloudFile.user_id"`)}
+	}
+	if _, ok := cfc.mutation.StorageProvidersID(); !ok {
+		return &ValidationError{Name: "storage_providers", err: errors.New(`ent: missing required edge "CloudFile.storage_providers"`)}
 	}
 	return nil
 }
@@ -289,7 +293,7 @@ func (cfc *CloudFileCreate) createSpec() (*CloudFile, *sqlgraph.CreateSpec) {
 	if nodes := cfc.mutation.StorageProvidersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
-			Inverse: false,
+			Inverse: true,
 			Table:   cloudfile.StorageProvidersTable,
 			Columns: []string{cloudfile.StorageProvidersColumn},
 			Bidi:    false,
@@ -300,7 +304,7 @@ func (cfc *CloudFileCreate) createSpec() (*CloudFile, *sqlgraph.CreateSpec) {
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
-		_node.cloud_file_storage_providers = &nodes[0]
+		_node.StorageProviderID = nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	if nodes := cfc.mutation.TagsIDs(); len(nodes) > 0 {

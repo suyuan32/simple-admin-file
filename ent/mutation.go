@@ -472,6 +472,42 @@ func (m *CloudFileMutation) ResetFileType() {
 	m.addfile_type = nil
 }
 
+// SetStorageProviderID sets the "storage_provider_id" field.
+func (m *CloudFileMutation) SetStorageProviderID(u uint64) {
+	m.storage_providers = &u
+}
+
+// StorageProviderID returns the value of the "storage_provider_id" field in the mutation.
+func (m *CloudFileMutation) StorageProviderID() (r uint64, exists bool) {
+	v := m.storage_providers
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldStorageProviderID returns the old "storage_provider_id" field's value of the CloudFile entity.
+// If the CloudFile object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *CloudFileMutation) OldStorageProviderID(ctx context.Context) (v uint64, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldStorageProviderID is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldStorageProviderID requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldStorageProviderID: %w", err)
+	}
+	return oldValue.StorageProviderID, nil
+}
+
+// ResetStorageProviderID resets all changes to the "storage_provider_id" field.
+func (m *CloudFileMutation) ResetStorageProviderID() {
+	m.storage_providers = nil
+}
+
 // SetUserID sets the "user_id" field.
 func (m *CloudFileMutation) SetUserID(s string) {
 	m.user_id = &s
@@ -516,6 +552,7 @@ func (m *CloudFileMutation) SetStorageProvidersID(id uint64) {
 // ClearStorageProviders clears the "storage_providers" edge to the StorageProvider entity.
 func (m *CloudFileMutation) ClearStorageProviders() {
 	m.clearedstorage_providers = true
+	m.clearedFields[cloudfile.FieldStorageProviderID] = struct{}{}
 }
 
 // StorageProvidersCleared reports if the "storage_providers" edge to the StorageProvider entity was cleared.
@@ -635,7 +672,7 @@ func (m *CloudFileMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *CloudFileMutation) Fields() []string {
-	fields := make([]string, 0, 8)
+	fields := make([]string, 0, 9)
 	if m.created_at != nil {
 		fields = append(fields, cloudfile.FieldCreatedAt)
 	}
@@ -656,6 +693,9 @@ func (m *CloudFileMutation) Fields() []string {
 	}
 	if m.file_type != nil {
 		fields = append(fields, cloudfile.FieldFileType)
+	}
+	if m.storage_providers != nil {
+		fields = append(fields, cloudfile.FieldStorageProviderID)
 	}
 	if m.user_id != nil {
 		fields = append(fields, cloudfile.FieldUserID)
@@ -682,6 +722,8 @@ func (m *CloudFileMutation) Field(name string) (ent.Value, bool) {
 		return m.Size()
 	case cloudfile.FieldFileType:
 		return m.FileType()
+	case cloudfile.FieldStorageProviderID:
+		return m.StorageProviderID()
 	case cloudfile.FieldUserID:
 		return m.UserID()
 	}
@@ -707,6 +749,8 @@ func (m *CloudFileMutation) OldField(ctx context.Context, name string) (ent.Valu
 		return m.OldSize(ctx)
 	case cloudfile.FieldFileType:
 		return m.OldFileType(ctx)
+	case cloudfile.FieldStorageProviderID:
+		return m.OldStorageProviderID(ctx)
 	case cloudfile.FieldUserID:
 		return m.OldUserID(ctx)
 	}
@@ -766,6 +810,13 @@ func (m *CloudFileMutation) SetField(name string, value ent.Value) error {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetFileType(v)
+		return nil
+	case cloudfile.FieldStorageProviderID:
+		v, ok := value.(uint64)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetStorageProviderID(v)
 		return nil
 	case cloudfile.FieldUserID:
 		v, ok := value.(string)
@@ -879,6 +930,9 @@ func (m *CloudFileMutation) ResetField(name string) error {
 		return nil
 	case cloudfile.FieldFileType:
 		m.ResetFileType()
+		return nil
+	case cloudfile.FieldStorageProviderID:
+		m.ResetStorageProviderID()
 		return nil
 	case cloudfile.FieldUserID:
 		m.ResetUserID()

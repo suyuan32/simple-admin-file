@@ -342,7 +342,7 @@ func (spu *StorageProviderUpdate) sqlSave(ctx context.Context) (n int, err error
 	if spu.mutation.CloudfilesCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
-			Inverse: true,
+			Inverse: false,
 			Table:   storageprovider.CloudfilesTable,
 			Columns: []string{storageprovider.CloudfilesColumn},
 			Bidi:    false,
@@ -355,7 +355,7 @@ func (spu *StorageProviderUpdate) sqlSave(ctx context.Context) (n int, err error
 	if nodes := spu.mutation.RemovedCloudfilesIDs(); len(nodes) > 0 && !spu.mutation.CloudfilesCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
-			Inverse: true,
+			Inverse: false,
 			Table:   storageprovider.CloudfilesTable,
 			Columns: []string{storageprovider.CloudfilesColumn},
 			Bidi:    false,
@@ -371,7 +371,7 @@ func (spu *StorageProviderUpdate) sqlSave(ctx context.Context) (n int, err error
 	if nodes := spu.mutation.CloudfilesIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
-			Inverse: true,
+			Inverse: false,
 			Table:   storageprovider.CloudfilesTable,
 			Columns: []string{storageprovider.CloudfilesColumn},
 			Bidi:    false,
@@ -746,7 +746,7 @@ func (spuo *StorageProviderUpdateOne) sqlSave(ctx context.Context) (_node *Stora
 	if spuo.mutation.CloudfilesCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
-			Inverse: true,
+			Inverse: false,
 			Table:   storageprovider.CloudfilesTable,
 			Columns: []string{storageprovider.CloudfilesColumn},
 			Bidi:    false,
@@ -759,7 +759,7 @@ func (spuo *StorageProviderUpdateOne) sqlSave(ctx context.Context) (_node *Stora
 	if nodes := spuo.mutation.RemovedCloudfilesIDs(); len(nodes) > 0 && !spuo.mutation.CloudfilesCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
-			Inverse: true,
+			Inverse: false,
 			Table:   storageprovider.CloudfilesTable,
 			Columns: []string{storageprovider.CloudfilesColumn},
 			Bidi:    false,
@@ -775,7 +775,7 @@ func (spuo *StorageProviderUpdateOne) sqlSave(ctx context.Context) (_node *Stora
 	if nodes := spuo.mutation.CloudfilesIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
-			Inverse: true,
+			Inverse: false,
 			Table:   storageprovider.CloudfilesTable,
 			Columns: []string{storageprovider.CloudfilesColumn},
 			Bidi:    false,

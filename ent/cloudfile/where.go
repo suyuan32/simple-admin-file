@@ -91,6 +91,11 @@ func FileType(v uint8) predicate.CloudFile {
 	return predicate.CloudFile(sql.FieldEQ(FieldFileType, v))
 }
 
+// StorageProviderID applies equality check predicate on the "storage_provider_id" field. It's identical to StorageProviderIDEQ.
+func StorageProviderID(v uint64) predicate.CloudFile {
+	return predicate.CloudFile(sql.FieldEQ(FieldStorageProviderID, v))
+}
+
 // UserID applies equality check predicate on the "user_id" field. It's identical to UserIDEQ.
 func UserID(v string) predicate.CloudFile {
 	return predicate.CloudFile(sql.FieldEQ(FieldUserID, v))
@@ -406,6 +411,26 @@ func FileTypeLTE(v uint8) predicate.CloudFile {
 	return predicate.CloudFile(sql.FieldLTE(FieldFileType, v))
 }
 
+// StorageProviderIDEQ applies the EQ predicate on the "storage_provider_id" field.
+func StorageProviderIDEQ(v uint64) predicate.CloudFile {
+	return predicate.CloudFile(sql.FieldEQ(FieldStorageProviderID, v))
+}
+
+// StorageProviderIDNEQ applies the NEQ predicate on the "storage_provider_id" field.
+func StorageProviderIDNEQ(v uint64) predicate.CloudFile {
+	return predicate.CloudFile(sql.FieldNEQ(FieldStorageProviderID, v))
+}
+
+// StorageProviderIDIn applies the In predicate on the "storage_provider_id" field.
+func StorageProviderIDIn(vs ...uint64) predicate.CloudFile {
+	return predicate.CloudFile(sql.FieldIn(FieldStorageProviderID, vs...))
+}
+
+// StorageProviderIDNotIn applies the NotIn predicate on the "storage_provider_id" field.
+func StorageProviderIDNotIn(vs ...uint64) predicate.CloudFile {
+	return predicate.CloudFile(sql.FieldNotIn(FieldStorageProviderID, vs...))
+}
+
 // UserIDEQ applies the EQ predicate on the "user_id" field.
 func UserIDEQ(v string) predicate.CloudFile {
 	return predicate.CloudFile(sql.FieldEQ(FieldUserID, v))
@@ -476,7 +501,7 @@ func HasStorageProviders() predicate.CloudFile {
 	return predicate.CloudFile(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, false, StorageProvidersTable, StorageProvidersColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, StorageProvidersTable, StorageProvidersColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})

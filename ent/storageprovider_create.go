@@ -353,7 +353,7 @@ func (spc *StorageProviderCreate) createSpec() (*StorageProvider, *sqlgraph.Crea
 	if nodes := spc.mutation.CloudfilesIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
-			Inverse: true,
+			Inverse: false,
 			Table:   storageprovider.CloudfilesTable,
 			Columns: []string{storageprovider.CloudfilesColumn},
 			Bidi:    false,
