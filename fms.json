@@ -1,14 +1,7 @@
 {
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
-  "schemes": [
-    "http",
-    "https"
-  ],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "schemes": ["http", "https"],
   "swagger": "2.0",
   "info": {
     "description": "This is simple admin file manager api doc",
@@ -16,7 +9,7 @@
     "contact": {
       "email": "yuansu.china.work@gmail.com"
     },
-    "version": "1.4.0"
+    "version": "1.4.3"
   },
   "host": "localhost:9102",
   "basePath": "/",
@@ -24,9 +17,7 @@
     "/cloud_file": {
       "post": {
         "description": "Get cloud file by ID | 通过ID获取云文件",
-        "tags": [
-          "cloudfile"
-        ],
+        "tags": ["cloudfile"],
         "summary": "Get cloud file by ID | 通过ID获取云文件",
         "operationId": "GetCloudFileById",
         "parameters": [
@@ -52,9 +43,7 @@
     "/cloud_file/create": {
       "post": {
         "description": "Create cloud file information | 创建云文件",
-        "tags": [
-          "cloudfile"
-        ],
+        "tags": ["cloudfile"],
         "summary": "Create cloud file information | 创建云文件",
         "operationId": "CreateCloudFile",
         "parameters": [
@@ -80,9 +69,7 @@
     "/cloud_file/delete": {
       "post": {
         "description": "Delete cloud file information | 删除云文件信息",
-        "tags": [
-          "cloudfile"
-        ],
+        "tags": ["cloudfile"],
         "summary": "Delete cloud file information | 删除云文件信息",
         "operationId": "DeleteCloudFile",
         "parameters": [
@@ -108,9 +95,7 @@
     "/cloud_file/list": {
       "post": {
         "description": "Get cloud file list | 获取CloudFile列表",
-        "tags": [
-          "cloudfile"
-        ],
+        "tags": ["cloudfile"],
         "summary": "Get cloud file list | 获取CloudFile列表",
         "operationId": "GetCloudFileList",
         "parameters": [
@@ -136,9 +121,7 @@
     "/cloud_file/update": {
       "post": {
         "description": "Update cloud file information | 更新云文件",
-        "tags": [
-          "cloudfile"
-        ],
+        "tags": ["cloudfile"],
         "summary": "Update cloud file information | 更新云文件",
         "operationId": "UpdateCloudFile",
         "parameters": [
@@ -164,9 +147,7 @@
     "/cloud_file/upload": {
       "post": {
         "description": "Cloud file upload | 上传文件",
-        "tags": [
-          "cloudfile"
-        ],
+        "tags": ["cloudfile"],
         "summary": "Cloud file upload | 上传文件",
         "operationId": "Upload",
         "responses": {
@@ -182,9 +163,7 @@
     "/cloud_file_tag": {
       "post": {
         "description": "Get cloud file tag by ID | 通过ID获取云文件标签",
-        "tags": [
-          "cloudfiletag"
-        ],
+        "tags": ["cloudfiletag"],
         "summary": "Get cloud file tag by ID | 通过ID获取云文件标签",
         "operationId": "GetCloudFileTagById",
         "parameters": [
@@ -210,9 +189,7 @@
     "/cloud_file_tag/create": {
       "post": {
         "description": "Create cloud file tag information | 创建云文件标签",
-        "tags": [
-          "cloudfiletag"
-        ],
+        "tags": ["cloudfiletag"],
         "summary": "Create cloud file tag information | 创建云文件标签",
         "operationId": "CreateCloudFileTag",
         "parameters": [
@@ -238,9 +215,7 @@
     "/cloud_file_tag/delete": {
       "post": {
         "description": "Delete cloud file tag information | 删除云文件标签信息",
-        "tags": [
-          "cloudfiletag"
-        ],
+        "tags": ["cloudfiletag"],
         "summary": "Delete cloud file tag information | 删除云文件标签信息",
         "operationId": "DeleteCloudFileTag",
         "parameters": [
@@ -266,9 +241,7 @@
     "/cloud_file_tag/list": {
       "post": {
         "description": "Get cloud file tag list | 获取云文件标签列表",
-        "tags": [
-          "cloudfiletag"
-        ],
+        "tags": ["cloudfiletag"],
         "summary": "Get cloud file tag list | 获取云文件标签列表",
         "operationId": "GetCloudFileTagList",
         "parameters": [
@@ -294,9 +267,7 @@
     "/cloud_file_tag/update": {
       "post": {
         "description": "Update cloud file tag information | 更新云文件标签",
-        "tags": [
-          "cloudfiletag"
-        ],
+        "tags": ["cloudfiletag"],
         "summary": "Update cloud file tag information | 更新云文件标签",
         "operationId": "UpdateCloudFileTag",
         "parameters": [
@@ -322,9 +293,7 @@
     "/file/delete": {
       "post": {
         "description": "Delete file information | 删除文件信息",
-        "tags": [
-          "file"
-        ],
+        "tags": ["file"],
         "summary": "Delete file information | 删除文件信息",
         "operationId": "DeleteFile",
         "parameters": [
@@ -350,9 +319,7 @@
     "/file/download/{id}": {
       "get": {
         "description": "Download file | 下载文件",
-        "tags": [
-          "file"
-        ],
+        "tags": ["file"],
         "summary": "Download file | 下载文件",
         "operationId": "DownloadFile",
         "parameters": [
@@ -374,9 +341,7 @@
     "/file/list": {
       "post": {
         "description": "Get file list | 获取文件列表",
-        "tags": [
-          "file"
-        ],
+        "tags": ["file"],
         "summary": "Get file list | 获取文件列表",
         "operationId": "FileList",
         "parameters": [
@@ -402,9 +367,7 @@
     "/file/status": {
       "post": {
         "description": "Change file public status | 改变文件公开状态",
-        "tags": [
-          "file"
-        ],
+        "tags": ["file"],
         "summary": "Change file public status | 改变文件公开状态",
         "operationId": "ChangePublicStatus",
         "parameters": [
@@ -430,9 +393,7 @@
     "/file/update": {
       "post": {
         "description": "Update file information | 更新文件信息",
-        "tags": [
-          "file"
-        ],
+        "tags": ["file"],
         "summary": "Update file information | 更新文件信息",
         "operationId": "UpdateFile",
         "parameters": [
@@ -458,9 +419,7 @@
     "/file_tag": {
       "post": {
         "description": "Get file tag by ID | 通过ID获取文件标签",
-        "tags": [
-          "filetag"
-        ],
+        "tags": ["filetag"],
         "summary": "Get file tag by ID | 通过ID获取文件标签",
         "operationId": "GetFileTagById",
         "parameters": [
@@ -486,9 +445,7 @@
     "/file_tag/create": {
       "post": {
         "description": "Create file tag information | 创建文件标签",
-        "tags": [
-          "filetag"
-        ],
+        "tags": ["filetag"],
         "summary": "Create file tag information | 创建文件标签",
         "operationId": "CreateFileTag",
         "parameters": [
@@ -514,9 +471,7 @@
     "/file_tag/delete": {
       "post": {
         "description": "Delete file tag information | 删除文件标签信息",
-        "tags": [
-          "filetag"
-        ],
+        "tags": ["filetag"],
         "summary": "Delete file tag information | 删除文件标签信息",
         "operationId": "DeleteFileTag",
         "parameters": [
@@ -542,9 +497,7 @@
     "/file_tag/list": {
       "post": {
         "description": "Get file tag list | 获取文件标签列表",
-        "tags": [
-          "filetag"
-        ],
+        "tags": ["filetag"],
         "summary": "Get file tag list | 获取文件标签列表",
         "operationId": "GetFileTagList",
         "parameters": [
@@ -570,9 +523,7 @@
     "/file_tag/update": {
       "post": {
         "description": "Update file tag information | 更新文件标签",
-        "tags": [
-          "filetag"
-        ],
+        "tags": ["filetag"],
         "summary": "Update file tag information | 更新文件标签",
         "operationId": "UpdateFileTag",
         "parameters": [
@@ -598,9 +549,7 @@
     "/init/database": {
       "post": {
         "description": "Initialize database | 初始化数据库",
-        "tags": [
-          "base"
-        ],
+        "tags": ["base"],
         "summary": "Initialize database | 初始化数据库",
         "operationId": "InitDatabase",
         "parameters": [
@@ -626,9 +575,7 @@
     "/storage_provider": {
       "post": {
         "description": "Get storage provider by ID | 通过ID获取服务提供商",
-        "tags": [
-          "storageprovider"
-        ],
+        "tags": ["storageprovider"],
         "summary": "Get storage provider by ID | 通过ID获取服务提供商",
         "operationId": "GetStorageProviderById",
         "parameters": [
@@ -654,9 +601,7 @@
     "/storage_provider/create": {
       "post": {
         "description": "Create storage provider information | 创建服务提供商",
-        "tags": [
-          "storageprovider"
-        ],
+        "tags": ["storageprovider"],
         "summary": "Create storage provider information | 创建服务提供商",
         "operationId": "CreateStorageProvider",
         "parameters": [
@@ -682,9 +627,7 @@
     "/storage_provider/delete": {
       "post": {
         "description": "Delete storage provider information | 删除服务提供商信息",
-        "tags": [
-          "storageprovider"
-        ],
+        "tags": ["storageprovider"],
         "summary": "Delete storage provider information | 删除服务提供商信息",
         "operationId": "DeleteStorageProvider",
         "parameters": [
@@ -710,9 +653,7 @@
     "/storage_provider/list": {
       "post": {
         "description": "Get storage provider list | 获取服务提供商列表",
-        "tags": [
-          "storageprovider"
-        ],
+        "tags": ["storageprovider"],
         "summary": "Get storage provider list | 获取服务提供商列表",
         "operationId": "GetStorageProviderList",
         "parameters": [
@@ -738,9 +679,7 @@
     "/storage_provider/update": {
       "post": {
         "description": "Update storage provider information | 更新服务提供商",
-        "tags": [
-          "storageprovider"
-        ],
+        "tags": ["storageprovider"],
         "summary": "Update storage provider information | 更新服务提供商",
         "operationId": "UpdateStorageProvider",
         "parameters": [
@@ -766,9 +705,7 @@
     "/upload": {
       "post": {
         "description": "Upload file | 上传文件",
-        "tags": [
-          "file"
-        ],
+        "tags": ["file"],
         "summary": "Upload file | 上传文件",
         "operationId": "Upload",
         "responses": {
@@ -1015,10 +952,7 @@
     "CloudFileListReq": {
       "description": "Get cloud file list request params | 云文件列表请求参数",
       "type": "object",
-      "required": [
-        "page",
-        "pageSize"
-      ],
+      "required": ["page", "pageSize"],
       "properties": {
         "fileType": {
           "description": "File type | 文件类型",
@@ -1176,10 +1110,7 @@
     "CloudFileTagListReq": {
       "description": "Get cloud file tag list request params | 云文件标签列表请求参数",
       "type": "object",
-      "required": [
-        "page",
-        "pageSize"
-      ],
+      "required": ["page", "pageSize"],
       "properties": {
         "name": {
           "description": "Name",
@@ -1326,10 +1257,7 @@
     "FileListReq": {
       "description": "Get file list params | 获取文件列表参数",
       "type": "object",
-      "required": [
-        "page",
-        "pageSize"
-      ],
+      "required": ["page", "pageSize"],
       "properties": {
         "fileName": {
           "description": "File name | 文件名",
@@ -1497,10 +1425,7 @@
     "FileTagListReq": {
       "description": "Get file tag list request params | 文件标签列表请求参数",
       "type": "object",
-      "required": [
-        "page",
-        "pageSize"
-      ],
+      "required": ["page", "pageSize"],
       "properties": {
         "name": {
           "description": "Name",
@@ -1556,9 +1481,7 @@
     "IDPathReq": {
       "description": "Basic ID request | 基础ID地址参数请求",
       "type": "object",
-      "required": [
-        "Id"
-      ],
+      "required": ["Id"],
       "properties": {
         "Id": {
           "description": "ID",
@@ -1571,9 +1494,7 @@
     "IDReq": {
       "description": "Basic ID request | 基础ID参数请求",
       "type": "object",
-      "required": [
-        "id"
-      ],
+      "required": ["id"],
       "properties": {
         "id": {
           "description": "ID",
@@ -1587,9 +1508,7 @@
     "IDsReq": {
       "description": "Basic IDs request | 基础ID数组参数请求",
       "type": "object",
-      "required": [
-        "ids"
-      ],
+      "required": ["ids"],
       "properties": {
         "ids": {
           "description": "IDs",
@@ -1624,10 +1543,7 @@
     "PageInfo": {
       "description": "The page request parameters | 列表请求参数",
       "type": "object",
-      "required": [
-        "page",
-        "pageSize"
-      ],
+      "required": ["page", "pageSize"],
       "properties": {
         "page": {
           "description": "Page number | 第几页",
@@ -1792,10 +1708,7 @@
     "StorageProviderListReq": {
       "description": "Get storage provider list request params | 服务提供商列表请求参数",
       "type": "object",
-      "required": [
-        "page",
-        "pageSize"
-      ],
+      "required": ["page", "pageSize"],
       "properties": {
         "name": {
           "description": "Name | 名称",
@@ -1846,9 +1759,7 @@
     "UUIDPathReq": {
       "description": "Basic path UUID request | 基础UUID地址参数请求",
       "type": "object",
-      "required": [
-        "Id"
-      ],
+      "required": ["Id"],
       "properties": {
         "Id": {
           "description": "ID",
@@ -1860,9 +1771,7 @@
     "UUIDReq": {
       "description": "Basic UUID request | 基础UUID参数请求",
       "type": "object",
-      "required": [
-        "id"
-      ],
+      "required": ["id"],
       "properties": {
         "id": {
           "description": "ID",
@@ -1876,9 +1785,7 @@
     "UUIDsReq": {
       "description": "Basic UUID array request | 基础UUID数组参数请求",
       "type": "object",
-      "required": [
-        "ids"
-      ],
+      "required": ["ids"],
       "properties": {
         "ids": {
           "description": "Ids",
@@ -1894,10 +1801,7 @@
     "UpdateFileReq": {
       "description": "Update file information params | 更新文件信息参数",
       "type": "object",
-      "required": [
-        "id",
-        "name"
-      ],
+      "required": ["id", "name"],
       "properties": {
         "id": {
           "description": "ID",
@@ -1972,9 +1876,7 @@
   },
   "security": [
     {
-      "Token": [
-        "[]"
-      ]
+      "Token": ["[]"]
     }
   ]
 }

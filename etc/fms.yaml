@@ -64,7 +64,7 @@ CoreRpc:
   Endpoints:
     - ttapp-core-rpc:9101
   Enabled: true
-
+##
 # Tracing Analysis
 Telemetry:
   Name: fms-api # 服务名称

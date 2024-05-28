@@ -43,7 +43,6 @@ func NewUploadLogic(r *http.Request, svcCtx *svc.ServiceContext) *UploadLogic {
 }
 
 func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
-	fmt.Println("===============enter upload")
 	err = l.r.ParseMultipartForm(l.svcCtx.Config.UploadConf.MaxVideoSize)
 	if err != nil {
 		logx.Error("fail to parse the multipart form")
