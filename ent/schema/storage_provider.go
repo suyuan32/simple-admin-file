@@ -62,7 +62,7 @@ func (StorageProvider) Mixin() []ent.Mixin {
 // Edges of the StorageProvider.
 func (StorageProvider) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("cloudfiles", CloudFile.Type).Ref("storage_providers"),
+		edge.To("cloudfiles", CloudFile.Type),
 	}
 }
 

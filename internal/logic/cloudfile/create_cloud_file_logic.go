@@ -3,12 +3,14 @@ package cloudfile
 import (
 	"context"
 
+	"github.com/suyuan32/simple-admin-file/ent"
 	"github.com/suyuan32/simple-admin-file/internal/svc"
 	"github.com/suyuan32/simple-admin-file/internal/types"
 	"github.com/suyuan32/simple-admin-file/internal/utils/dberrorhandler"
 
 	"github.com/suyuan32/simple-admin-common/i18n"
 
+	"github.com/zeromicro/go-zero/core/errorx"
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
@@ -27,6 +29,15 @@ func NewCreateCloudFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *C
 }
 
 func (l *CreateCloudFileLogic) CreateCloudFile(req *types.CloudFileInfo) (*types.BaseMsgResp, error) {
+	// check storage provider exist
+	_, err := l.svcCtx.DB.StorageProvider.Get(l.ctx, *req.ProviderId)
+	switch {
+	case ent.IsNotFound(err):
+		return nil, errorx.NewDefaultError(l.svcCtx.Trans.Trans(l.ctx, "i18n.StorageProviderNotExist"))
+	case err != nil:
+		return nil, dberrorhandler.DefaultEntError(l.Logger, err, req)
+	}
+
 	query := l.svcCtx.DB.CloudFile.Create().
 		SetNotNilState(req.State).
 		SetNotNilName(req.Name).
@@ -43,7 +54,7 @@ func (l *CreateCloudFileLogic) CreateCloudFile(req *types.CloudFileInfo) (*types
 		query = query.AddTagIDs(req.TagIds...)
 	}
 
-	_, err := query.Save(l.ctx)
+	_, err = query.Save(l.ctx)
 
 	if err != nil {
 		return nil, dberrorhandler.DefaultEntError(l.Logger, err, req)

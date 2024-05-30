@@ -20,7 +20,7 @@ var (
 		{Name: "size", Type: field.TypeUint64, Comment: "The file's size | 文件大小"},
 		{Name: "file_type", Type: field.TypeUint8, Comment: "The file's type | 文件类型"},
 		{Name: "user_id", Type: field.TypeString, Comment: "The user who upload the file | 上传用户的 ID"},
-		{Name: "cloud_file_storage_providers", Type: field.TypeUint64, Nullable: true},
+		{Name: "storage_provider_id", Type: field.TypeUint64, Comment: "The storage provider who store the file | 文件存储提供商 ID"},
 	}
 	// FmsCloudFilesTable holds the schema information for the "fms_cloud_files" table.
 	FmsCloudFilesTable = &schema.Table{
@@ -29,10 +29,10 @@ var (
 		PrimaryKey: []*schema.Column{FmsCloudFilesColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "fms_cloud_files_fms_storage_providers_storage_providers",
+				Symbol:     "fms_cloud_files_fms_storage_providers_cloudfiles",
 				Columns:    []*schema.Column{FmsCloudFilesColumns[9]},
 				RefColumns: []*schema.Column{FmsStorageProvidersColumns[0]},
-				OnDelete:   schema.SetNull,
+				OnDelete:   schema.NoAction,
 			},
 		},
 		Indexes: []*schema.Index{

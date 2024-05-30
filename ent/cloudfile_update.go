@@ -126,6 +126,20 @@ func (cfu *CloudFileUpdate) AddFileType(u int8) *CloudFileUpdate {
 	return cfu
 }
 
+// SetStorageProviderID sets the "storage_provider_id" field.
+func (cfu *CloudFileUpdate) SetStorageProviderID(u uint64) *CloudFileUpdate {
+	cfu.mutation.SetStorageProviderID(u)
+	return cfu
+}
+
+// SetNillableStorageProviderID sets the "storage_provider_id" field if the given value is not nil.
+func (cfu *CloudFileUpdate) SetNillableStorageProviderID(u *uint64) *CloudFileUpdate {
+	if u != nil {
+		cfu.SetStorageProviderID(*u)
+	}
+	return cfu
+}
+
 // SetUserID sets the "user_id" field.
 func (cfu *CloudFileUpdate) SetUserID(s string) *CloudFileUpdate {
 	cfu.mutation.SetUserID(s)
@@ -143,14 +157,6 @@ func (cfu *CloudFileUpdate) SetNillableUserID(s *string) *CloudFileUpdate {
 // SetStorageProvidersID sets the "storage_providers" edge to the StorageProvider entity by ID.
 func (cfu *CloudFileUpdate) SetStorageProvidersID(id uint64) *CloudFileUpdate {
 	cfu.mutation.SetStorageProvidersID(id)
-	return cfu
-}
-
-// SetNillableStorageProvidersID sets the "storage_providers" edge to the StorageProvider entity by ID if the given value is not nil.
-func (cfu *CloudFileUpdate) SetNillableStorageProvidersID(id *uint64) *CloudFileUpdate {
-	if id != nil {
-		cfu = cfu.SetStorageProvidersID(*id)
-	}
 	return cfu
 }
 
@@ -242,7 +248,23 @@ func (cfu *CloudFileUpdate) defaults() {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (cfu *CloudFileUpdate) check() error {
+	if v, ok := cfu.mutation.StorageProviderID(); ok {
+		if err := cloudfile.StorageProviderIDValidator(v); err != nil {
+			return &ValidationError{Name: "storage_provider_id", err: fmt.Errorf(`ent: validator failed for field "CloudFile.storage_provider_id": %w`, err)}
+		}
+	}
+	if _, ok := cfu.mutation.StorageProvidersID(); cfu.mutation.StorageProvidersCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "CloudFile.storage_providers"`)
+	}
+	return nil
+}
+
 func (cfu *CloudFileUpdate) sqlSave(ctx context.Context) (n int, err error) {
+	if err := cfu.check(); err != nil {
+		return n, err
+	}
 	_spec := sqlgraph.NewUpdateSpec(cloudfile.Table, cloudfile.Columns, sqlgraph.NewFieldSpec(cloudfile.FieldID, field.TypeUUID))
 	if ps := cfu.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
@@ -284,7 +306,7 @@ func (cfu *CloudFileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if cfu.mutation.StorageProvidersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
-			Inverse: false,
+			Inverse: true,
 			Table:   cloudfile.StorageProvidersTable,
 			Columns: []string{cloudfile.StorageProvidersColumn},
 			Bidi:    false,
@@ -297,7 +319,7 @@ func (cfu *CloudFileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if nodes := cfu.mutation.StorageProvidersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
-			Inverse: false,
+			Inverse: true,
 			Table:   cloudfile.StorageProvidersTable,
 			Columns: []string{cloudfile.StorageProvidersColumn},
 			Bidi:    false,
@@ -471,6 +493,20 @@ func (cfuo *CloudFileUpdateOne) AddFileType(u int8) *CloudFileUpdateOne {
 	return cfuo
 }
 
+// SetStorageProviderID sets the "storage_provider_id" field.
+func (cfuo *CloudFileUpdateOne) SetStorageProviderID(u uint64) *CloudFileUpdateOne {
+	cfuo.mutation.SetStorageProviderID(u)
+	return cfuo
+}
+
+// SetNillableStorageProviderID sets the "storage_provider_id" field if the given value is not nil.
+func (cfuo *CloudFileUpdateOne) SetNillableStorageProviderID(u *uint64) *CloudFileUpdateOne {
+	if u != nil {
+		cfuo.SetStorageProviderID(*u)
+	}
+	return cfuo
+}
+
 // SetUserID sets the "user_id" field.
 func (cfuo *CloudFileUpdateOne) SetUserID(s string) *CloudFileUpdateOne {
 	cfuo.mutation.SetUserID(s)
@@ -488,14 +524,6 @@ func (cfuo *CloudFileUpdateOne) SetNillableUserID(s *string) *CloudFileUpdateOne
 // SetStorageProvidersID sets the "storage_providers" edge to the StorageProvider entity by ID.
 func (cfuo *CloudFileUpdateOne) SetStorageProvidersID(id uint64) *CloudFileUpdateOne {
 	cfuo.mutation.SetStorageProvidersID(id)
-	return cfuo
-}
-
-// SetNillableStorageProvidersID sets the "storage_providers" edge to the StorageProvider entity by ID if the given value is not nil.
-func (cfuo *CloudFileUpdateOne) SetNillableStorageProvidersID(id *uint64) *CloudFileUpdateOne {
-	if id != nil {
-		cfuo = cfuo.SetStorageProvidersID(*id)
-	}
 	return cfuo
 }
 
@@ -600,7 +628,23 @@ func (cfuo *CloudFileUpdateOne) defaults() {
 	}
 }
 
+// check runs all checks and user-defined validators on the builder.
+func (cfuo *CloudFileUpdateOne) check() error {
+	if v, ok := cfuo.mutation.StorageProviderID(); ok {
+		if err := cloudfile.StorageProviderIDValidator(v); err != nil {
+			return &ValidationError{Name: "storage_provider_id", err: fmt.Errorf(`ent: validator failed for field "CloudFile.storage_provider_id": %w`, err)}
+		}
+	}
+	if _, ok := cfuo.mutation.StorageProvidersID(); cfuo.mutation.StorageProvidersCleared() && !ok {
+		return errors.New(`ent: clearing a required unique edge "CloudFile.storage_providers"`)
+	}
+	return nil
+}
+
 func (cfuo *CloudFileUpdateOne) sqlSave(ctx context.Context) (_node *CloudFile, err error) {
+	if err := cfuo.check(); err != nil {
+		return _node, err
+	}
 	_spec := sqlgraph.NewUpdateSpec(cloudfile.Table, cloudfile.Columns, sqlgraph.NewFieldSpec(cloudfile.FieldID, field.TypeUUID))
 	id, ok := cfuo.mutation.ID()
 	if !ok {
@@ -659,7 +703,7 @@ func (cfuo *CloudFileUpdateOne) sqlSave(ctx context.Context) (_node *CloudFile, 
 	if cfuo.mutation.StorageProvidersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
-			Inverse: false,
+			Inverse: true,
 			Table:   cloudfile.StorageProvidersTable,
 			Columns: []string{cloudfile.StorageProvidersColumn},
 			Bidi:    false,
@@ -672,7 +716,7 @@ func (cfuo *CloudFileUpdateOne) sqlSave(ctx context.Context) (_node *CloudFile, 
 	if nodes := cfuo.mutation.StorageProvidersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
-			Inverse: false,
+			Inverse: true,
 			Table:   cloudfile.StorageProvidersTable,
 			Columns: []string{cloudfile.StorageProvidersColumn},
 			Bidi:    false,

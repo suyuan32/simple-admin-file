@@ -785,7 +785,7 @@ func HasCloudfiles() predicate.StorageProvider {
 	return predicate.StorageProvider(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, true, CloudfilesTable, CloudfilesColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, CloudfilesTable, CloudfilesColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})

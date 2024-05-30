@@ -29,6 +29,8 @@ const (
 	FieldSize = "size"
 	// FieldFileType holds the string denoting the file_type field in the database.
 	FieldFileType = "file_type"
+	// FieldStorageProviderID holds the string denoting the storage_provider_id field in the database.
+	FieldStorageProviderID = "storage_provider_id"
 	// FieldUserID holds the string denoting the user_id field in the database.
 	FieldUserID = "user_id"
 	// EdgeStorageProviders holds the string denoting the storage_providers edge name in mutations.
@@ -43,7 +45,7 @@ const (
 	// It exists in this package in order to avoid circular dependency with the "storageprovider" package.
 	StorageProvidersInverseTable = "fms_storage_providers"
 	// StorageProvidersColumn is the table column denoting the storage_providers relation/edge.
-	StorageProvidersColumn = "cloud_file_storage_providers"
+	StorageProvidersColumn = "storage_provider_id"
 	// TagsTable is the table that holds the tags relation/edge. The primary key declared below.
 	TagsTable = "cloud_file_tag_cloud_files"
 	// TagsInverseTable is the table name for the CloudFileTag entity.
@@ -61,13 +63,8 @@ var Columns = []string{
 	FieldURL,
 	FieldSize,
 	FieldFileType,
+	FieldStorageProviderID,
 	FieldUserID,
-}
-
-// ForeignKeys holds the SQL foreign-keys that are owned by the "fms_cloud_files"
-// table and are not defined as standalone fields in the schema.
-var ForeignKeys = []string{
-	"cloud_file_storage_providers",
 }
 
 var (
@@ -83,11 +80,6 @@ func ValidColumn(column string) bool {
 			return true
 		}
 	}
-	for i := range ForeignKeys {
-		if column == ForeignKeys[i] {
-			return true
-		}
-	}
 	return false
 }
 
@@ -100,6 +92,8 @@ var (
 	UpdateDefaultUpdatedAt func() time.Time
 	// DefaultState holds the default value on creation for the "state" field.
 	DefaultState bool
+	// StorageProviderIDValidator is a validator for the "storage_provider_id" field. It is called by the builders before save.
+	StorageProviderIDValidator func(uint64) error
 	// DefaultID holds the default value on creation for the "id" field.
 	DefaultID func() uuid.UUID
 )
@@ -147,6 +141,11 @@ func ByFileType(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldFileType, opts...).ToFunc()
 }
 
+// ByStorageProviderID orders the results by the storage_provider_id field.
+func ByStorageProviderID(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldStorageProviderID, opts...).ToFunc()
+}
+
 // ByUserID orders the results by the user_id field.
 func ByUserID(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUserID, opts...).ToFunc()
@@ -176,7 +175,7 @@ func newStorageProvidersStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(StorageProvidersInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.M2O, false, StorageProvidersTable, StorageProvidersColumn),
+		sqlgraph.Edge(sqlgraph.M2O, true, StorageProvidersTable, StorageProvidersColumn),
 	)
 }
 func newTagsStep() *sqlgraph.Step {

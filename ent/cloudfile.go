@@ -34,13 +34,14 @@ type CloudFile struct {
 	Size uint64 `json:"size,omitempty"`
 	// The file's type | 文件类型
 	FileType uint8 `json:"file_type,omitempty"`
+	// The storage provider who store the file | 文件存储提供商 ID
+	StorageProviderID uint64 `json:"storage_provider_id,omitempty"`
 	// The user who upload the file | 上传用户的 ID
 	UserID string `json:"user_id,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the CloudFileQuery when eager-loading is set.
-	Edges                        CloudFileEdges `json:"edges"`
-	cloud_file_storage_providers *uint64
-	selectValues                 sql.SelectValues
+	Edges        CloudFileEdges `json:"edges"`
+	selectValues sql.SelectValues
 }
 
 // CloudFileEdges holds the relations/edges for other nodes in the graph.
@@ -81,7 +82,7 @@ func (*CloudFile) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case cloudfile.FieldState:
 			values[i] = new(sql.NullBool)
-		case cloudfile.FieldSize, cloudfile.FieldFileType:
+		case cloudfile.FieldSize, cloudfile.FieldFileType, cloudfile.FieldStorageProviderID:
 			values[i] = new(sql.NullInt64)
 		case cloudfile.FieldName, cloudfile.FieldURL, cloudfile.FieldUserID:
 			values[i] = new(sql.NullString)
@@ -89,8 +90,6 @@ func (*CloudFile) scanValues(columns []string) ([]any, error) {
 			values[i] = new(sql.NullTime)
 		case cloudfile.FieldID:
 			values[i] = new(uuid.UUID)
-		case cloudfile.ForeignKeys[0]: // cloud_file_storage_providers
-			values[i] = new(sql.NullInt64)
 		default:
 			values[i] = new(sql.UnknownType)
 		}
@@ -154,18 +153,17 @@ func (cf *CloudFile) assignValues(columns []string, values []any) error {
 			} else if value.Valid {
 				cf.FileType = uint8(value.Int64)
 			}
+		case cloudfile.FieldStorageProviderID:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field storage_provider_id", values[i])
+			} else if value.Valid {
+				cf.StorageProviderID = uint64(value.Int64)
+			}
 		case cloudfile.FieldUserID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field user_id", values[i])
 			} else if value.Valid {
 				cf.UserID = value.String
-			}
-		case cloudfile.ForeignKeys[0]:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field cloud_file_storage_providers", value)
-			} else if value.Valid {
-				cf.cloud_file_storage_providers = new(uint64)
-				*cf.cloud_file_storage_providers = uint64(value.Int64)
 			}
 		default:
 			cf.selectValues.Set(columns[i], values[i])
@@ -233,6 +231,9 @@ func (cf *CloudFile) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("file_type=")
 	builder.WriteString(fmt.Sprintf("%v", cf.FileType))
+	builder.WriteString(", ")
+	builder.WriteString("storage_provider_id=")
+	builder.WriteString(fmt.Sprintf("%v", cf.StorageProviderID))
 	builder.WriteString(", ")
 	builder.WriteString("user_id=")
 	builder.WriteString(cf.UserID)

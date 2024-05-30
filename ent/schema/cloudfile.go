@@ -30,6 +30,10 @@ func (CloudFile) Fields() []ent.Field {
 		field.Uint8("file_type").
 			Comment("The file's type | 文件类型").
 			Annotations(entsql.WithComments(true)),
+		field.Uint64("storage_provider_id").
+			Positive().
+			Comment("The storage provider who store the file | 文件存储提供商 ID").
+			Annotations(entsql.WithComments(true)),
 		field.String("user_id").
 			Comment("The user who upload the file | 上传用户的 ID").
 			Annotations(entsql.WithComments(true)),
@@ -39,7 +43,8 @@ func (CloudFile) Fields() []ent.Field {
 // Edges of the CloudFile.
 func (CloudFile) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("storage_providers", StorageProvider.Type).Unique(),
+		edge.From("storage_providers", StorageProvider.Type).Ref("cloudfiles").
+			Field("storage_provider_id").Required().Unique(),
 		edge.From("tags", CloudFileTag.Type).Ref("cloud_files"),
 	}
 }

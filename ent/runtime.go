@@ -39,6 +39,10 @@ func init() {
 	cloudfileDescState := cloudfileMixinFields1[0].Descriptor()
 	// cloudfile.DefaultState holds the default value on creation for the state field.
 	cloudfile.DefaultState = cloudfileDescState.Default.(bool)
+	// cloudfileDescStorageProviderID is the schema descriptor for storage_provider_id field.
+	cloudfileDescStorageProviderID := cloudfileFields[4].Descriptor()
+	// cloudfile.StorageProviderIDValidator is a validator for the "storage_provider_id" field. It is called by the builders before save.
+	cloudfile.StorageProviderIDValidator = cloudfileDescStorageProviderID.Validators[0].(func(uint64) error)
 	// cloudfileDescID is the schema descriptor for id field.
 	cloudfileDescID := cloudfileMixinFields0[0].Descriptor()
 	// cloudfile.DefaultID holds the default value on creation for the id field.

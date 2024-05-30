@@ -27,7 +27,6 @@ type CloudFileQuery struct {
 	predicates           []predicate.CloudFile
 	withStorageProviders *StorageProviderQuery
 	withTags             *CloudFileTagQuery
-	withFKs              bool
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -78,7 +77,7 @@ func (cfq *CloudFileQuery) QueryStorageProviders() *StorageProviderQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(cloudfile.Table, cloudfile.FieldID, selector),
 			sqlgraph.To(storageprovider.Table, storageprovider.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, false, cloudfile.StorageProvidersTable, cloudfile.StorageProvidersColumn),
+			sqlgraph.Edge(sqlgraph.M2O, true, cloudfile.StorageProvidersTable, cloudfile.StorageProvidersColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(cfq.driver.Dialect(), step)
 		return fromU, nil
@@ -407,19 +406,12 @@ func (cfq *CloudFileQuery) prepareQuery(ctx context.Context) error {
 func (cfq *CloudFileQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*CloudFile, error) {
 	var (
 		nodes       = []*CloudFile{}
-		withFKs     = cfq.withFKs
 		_spec       = cfq.querySpec()
 		loadedTypes = [2]bool{
 			cfq.withStorageProviders != nil,
 			cfq.withTags != nil,
 		}
 	)
-	if cfq.withStorageProviders != nil {
-		withFKs = true
-	}
-	if withFKs {
-		_spec.Node.Columns = append(_spec.Node.Columns, cloudfile.ForeignKeys...)
-	}
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*CloudFile).scanValues(nil, columns)
 	}
@@ -458,10 +450,7 @@ func (cfq *CloudFileQuery) loadStorageProviders(ctx context.Context, query *Stor
 	ids := make([]uint64, 0, len(nodes))
 	nodeids := make(map[uint64][]*CloudFile)
 	for i := range nodes {
-		if nodes[i].cloud_file_storage_providers == nil {
-			continue
-		}
-		fk := *nodes[i].cloud_file_storage_providers
+		fk := nodes[i].StorageProviderID
 		if _, ok := nodeids[fk]; !ok {
 			ids = append(ids, fk)
 		}
@@ -478,7 +467,7 @@ func (cfq *CloudFileQuery) loadStorageProviders(ctx context.Context, query *Stor
 	for _, n := range neighbors {
 		nodes, ok := nodeids[n.ID]
 		if !ok {
-			return fmt.Errorf(`unexpected foreign-key "cloud_file_storage_providers" returned %v`, n.ID)
+			return fmt.Errorf(`unexpected foreign-key "storage_provider_id" returned %v`, n.ID)
 		}
 		for i := range nodes {
 			assign(nodes[i], n)
@@ -572,6 +561,9 @@ func (cfq *CloudFileQuery) querySpec() *sqlgraph.QuerySpec {
 			if fields[i] != cloudfile.FieldID {
 				_spec.Node.Columns = append(_spec.Node.Columns, fields[i])
 			}
+		}
+		if cfq.withStorageProviders != nil {
+			_spec.Node.AddColumnOnce(cloudfile.FieldStorageProviderID)
 		}
 	}
 	if ps := cfq.predicates; len(ps) > 0 {

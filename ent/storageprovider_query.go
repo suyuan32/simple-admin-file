@@ -74,7 +74,7 @@ func (spq *StorageProviderQuery) QueryCloudfiles() *CloudFileQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(storageprovider.Table, storageprovider.FieldID, selector),
 			sqlgraph.To(cloudfile.Table, cloudfile.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, true, storageprovider.CloudfilesTable, storageprovider.CloudfilesColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, storageprovider.CloudfilesTable, storageprovider.CloudfilesColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(spq.driver.Dialect(), step)
 		return fromU, nil
@@ -412,7 +412,9 @@ func (spq *StorageProviderQuery) loadCloudfiles(ctx context.Context, query *Clou
 			init(nodes[i])
 		}
 	}
-	query.withFKs = true
+	if len(query.ctx.Fields) > 0 {
+		query.ctx.AppendFieldOnce(cloudfile.FieldStorageProviderID)
+	}
 	query.Where(predicate.CloudFile(func(s *sql.Selector) {
 		s.Where(sql.InValues(s.C(storageprovider.CloudfilesColumn), fks...))
 	}))
@@ -421,13 +423,10 @@ func (spq *StorageProviderQuery) loadCloudfiles(ctx context.Context, query *Clou
 		return err
 	}
 	for _, n := range neighbors {
-		fk := n.cloud_file_storage_providers
-		if fk == nil {
-			return fmt.Errorf(`foreign-key "cloud_file_storage_providers" is nil for node %v`, n.ID)
-		}
-		node, ok := nodeids[*fk]
+		fk := n.StorageProviderID
+		node, ok := nodeids[fk]
 		if !ok {
-			return fmt.Errorf(`unexpected referenced foreign-key "cloud_file_storage_providers" returned %v for node %v`, *fk, n.ID)
+			return fmt.Errorf(`unexpected referenced foreign-key "storage_provider_id" returned %v for node %v`, fk, n.ID)
 		}
 		assign(node, n)
 	}

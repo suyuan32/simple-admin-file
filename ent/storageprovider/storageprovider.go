@@ -50,7 +50,7 @@ const (
 	// It exists in this package in order to avoid circular dependency with the "cloudfile" package.
 	CloudfilesInverseTable = "fms_cloud_files"
 	// CloudfilesColumn is the table column denoting the cloudfiles relation/edge.
-	CloudfilesColumn = "cloud_file_storage_providers"
+	CloudfilesColumn = "storage_provider_id"
 )
 
 // Columns holds all SQL columns for storageprovider fields.
@@ -186,6 +186,6 @@ func newCloudfilesStep() *sqlgraph.Step {
 	return sqlgraph.NewStep(
 		sqlgraph.From(Table, FieldID),
 		sqlgraph.To(CloudfilesInverseTable, FieldID),
-		sqlgraph.Edge(sqlgraph.O2M, true, CloudfilesTable, CloudfilesColumn),
+		sqlgraph.Edge(sqlgraph.O2M, false, CloudfilesTable, CloudfilesColumn),
 	)
 }
