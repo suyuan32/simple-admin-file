@@ -2,6 +2,8 @@ package cloudfile
 
 import (
 	"context"
+	"github.com/suyuan32/simple-admin-file/ent"
+	"github.com/zeromicro/go-zero/core/errorx"
 
 	"github.com/suyuan32/simple-admin-file/internal/svc"
 	"github.com/suyuan32/simple-admin-file/internal/types"
@@ -27,6 +29,15 @@ func NewUpdateCloudFileLogic(ctx context.Context, svcCtx *svc.ServiceContext) *U
 }
 
 func (l *UpdateCloudFileLogic) UpdateCloudFile(req *types.CloudFileInfo) (*types.BaseMsgResp, error) {
+	// check storage provider exist
+	_, err := l.svcCtx.DB.StorageProvider.Get(l.ctx, *req.ProviderId)
+	switch {
+	case ent.IsNotFound(err):
+		return nil, errorx.NewCodeInvalidArgumentError("storage_provider.StorageProviderNotExist")
+	case err != nil:
+		return nil, dberrorhandler.DefaultEntError(l.Logger, err, req)
+	}
+
 	query := l.svcCtx.DB.CloudFile.UpdateOneID(uuidx.ParseUUIDString(*req.Id)).
 		SetNotNilState(req.State).
 		SetNotNilName(req.Name).
@@ -45,7 +56,7 @@ func (l *UpdateCloudFileLogic) UpdateCloudFile(req *types.CloudFileInfo) (*types
 		query.ClearTags()
 	}
 
-	err := query.Exec(l.ctx)
+	err = query.Exec(l.ctx)
 
 	if err != nil {
 		return nil, dberrorhandler.DefaultEntError(l.Logger, err, req)

@@ -28,6 +28,7 @@
 		"alreadyInit": "数据库已被初始化"
 	},
 	"storage_provider": {
-		"hasFileError": "该提供商存在云文件，请先删除该提供商的所有云文件才可删除提供商"
+		"hasFileError": "该提供商存在云文件，请先删除该提供商的所有云文件才可删除提供商",
+		"StorageProviderNotExist": "云存储服务商不存在"
 	}
 }

@@ -33,13 +33,11 @@ func (l *DeleteStorageProviderLogic) DeleteStorageProvider(req *types.IDsReq) (*
 		Count(l.ctx)
 
 	if err != nil {
-		if err != nil {
-			return nil, dberrorhandler.DefaultEntError(l.Logger, err, req)
-		}
+		return nil, dberrorhandler.DefaultEntError(l.Logger, err, req)
 	}
 
 	if check != 0 {
-		return nil, errorx.NewCodeInvalidArgumentError(l.svcCtx.Trans.Trans(l.ctx, "storage_provider.hasFileError"))
+		return nil, errorx.NewCodeInvalidArgumentError("storage_provider.hasFileError")
 	}
 
 	_, err = l.svcCtx.DB.StorageProvider.Delete().Where(storageprovider.IDIn(req.Ids...)).Exec(l.ctx)
