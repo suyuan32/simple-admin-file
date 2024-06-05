@@ -45,15 +45,13 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 	err = l.r.ParseMultipartForm(l.svcCtx.Config.UploadConf.MaxVideoSize)
 	if err != nil {
 		logx.Error("fail to parse the multipart form")
-		return nil, errorx.NewCodeError(errorcode.InvalidArgument,
-			l.svcCtx.Trans.Trans(l.ctx, "file.parseFormFailed"))
+		return nil, errorx.NewCodeInvalidArgumentError("file.parseFormFailed")
 	}
 
 	file, handler, err := l.r.FormFile("file")
 	if err != nil {
 		logx.Error("the value of file cannot be found")
-		return nil, errorx.NewCodeError(errorcode.InvalidArgument,
-			l.svcCtx.Trans.Trans(l.ctx, "file.parseFormFailed"))
+		return nil, errorx.NewCodeInvalidArgumentError("file.parseFormFailed")
 	}
 	defer file.Close()
 
@@ -64,8 +62,7 @@ func (l *UploadLogic) Upload() (resp *types.UploadResp, err error) {
 	// 拒绝无后缀文件
 	if dotIndex == -1 {
 		logx.Errorw("reject the file which does not have suffix")
-		return nil, errorx.NewCodeError(errorcode.InvalidArgument,
-			l.svcCtx.Trans.Trans(l.ctx, "file.wrongTypeError"))
+		return nil, errorx.NewCodeInvalidArgumentError("file.wrongTypeError")
 	}
 
 	fileName, fileSuffix := handler.Filename[:dotIndex], handler.Filename[dotIndex+1:]

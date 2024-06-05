@@ -41,8 +41,8 @@ func (l *InitDatabaseLogic) InitDatabase() (resp *types.BaseMsgResp, err error) 
 		err = l.insertApiData()
 		if err != nil {
 			if status.Code(err) == codes.InvalidArgument {
-				return nil, errorx.NewCodeError(errorcode.InvalidArgument,
-					l.svcCtx.Trans.Trans(l.ctx, "init.alreadyInit"))
+				return nil, errorx.NewCodeInvalidArgumentError(
+					"init.alreadyInit")
 			}
 			return nil, err
 		}
