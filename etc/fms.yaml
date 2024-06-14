@@ -20,6 +20,10 @@ Log:
   KeepDays: 7
   StackCoolDownMillis: 100
 
+I18nConf:
+  Dir:
+
+# DatabaseConf sets the database of file manager service.
 DatabaseConf:
   Type: postgres
   Host: postgresql-server
