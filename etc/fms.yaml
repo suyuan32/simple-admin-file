@@ -24,6 +24,9 @@ RedisConf:
   Host: 10.5.0.3:6379
   Db: 0
 
+I18nConf:
+  Dir:
+
 # DatabaseConf sets the database of file manager service.
 DatabaseConf:
   Type: mysql

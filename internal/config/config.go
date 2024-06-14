@@ -2,6 +2,7 @@ package config
 
 import (
 	"github.com/suyuan32/simple-admin-common/config"
+	"github.com/suyuan32/simple-admin-common/i18n"
 	"github.com/suyuan32/simple-admin-common/plugins/casbin"
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zeromicro/go-zero/zrpc"
@@ -17,6 +18,7 @@ type Config struct {
 	CasbinConf         casbin.CasbinConf
 	CoreRpc            zrpc.RpcClientConf
 	CROSConf           config.CROSConf
+	I18nConf           i18n.Conf
 }
 
 type UploadConf struct {
