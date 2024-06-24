@@ -136,7 +136,7 @@ func (l *InitDatabaseLogic) insertApiData() error {
 		Path:        pointy.GetPointer("/file_tag"),
 		Description: pointy.GetPointer("apiDesc.getFileTagById"),
 		ApiGroup:    pointy.GetPointer("file_tag"),
-		Method:      pointy.GetPointer("Post"),
+		Method:      pointy.GetPointer("POST"),
 	})
 
 	if err != nil {
