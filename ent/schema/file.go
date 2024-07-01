@@ -19,22 +19,17 @@ type File struct {
 func (File) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("name").
-			Comment("File's name | 文件名称").
-			Annotations(entsql.WithComments(true)),
+			Comment("File's name | 文件名称"),
 		field.Uint8("file_type").
-			Comment("File's type | 文件类型").
-			Annotations(entsql.WithComments(true)),
+			Comment("File's type | 文件类型"),
 		field.Uint64("size").
-			Comment("File's size | 文件大小").
-			Annotations(entsql.WithComments(true)),
+			Comment("File's size | 文件大小"),
 		field.String("path").
 			Comment("File's path | 文件路径"),
 		field.String("user_id").
-			Comment("User's UUID | 用户的 UUID").
-			Annotations(entsql.WithComments(true)),
+			Comment("User's UUID | 用户的 UUID"),
 		field.String("md5").
-			Comment("The md5 of the file | 文件的 md5").
-			Annotations(entsql.WithComments(true)),
+			Comment("The md5 of the file | 文件的 md5"),
 	}
 }
 
@@ -61,6 +56,7 @@ func (File) Edges() []ent.Edge {
 
 func (File) Annotations() []schema.Annotation {
 	return []schema.Annotation{
+		entsql.WithComments(true),
 		entsql.Annotation{Table: "fms_files"}, // fms means file management service
 	}
 }

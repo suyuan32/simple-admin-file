@@ -11,7 +11,7 @@ import (
 var (
 	// FmsCloudFilesColumns holds the columns for the "fms_cloud_files" table.
 	FmsCloudFilesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUUID},
+		{Name: "id", Type: field.TypeUUID, Comment: "UUID"},
 		{Name: "created_at", Type: field.TypeTime, Comment: "Create Time | 创建日期"},
 		{Name: "updated_at", Type: field.TypeTime, Comment: "Update Time | 修改日期"},
 		{Name: "state", Type: field.TypeBool, Nullable: true, Comment: "State true: normal false: ban | 状态 true 正常 false 禁用", Default: true},
@@ -72,14 +72,14 @@ var (
 	}
 	// FmsFilesColumns holds the columns for the "fms_files" table.
 	FmsFilesColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeUUID},
+		{Name: "id", Type: field.TypeUUID, Comment: "UUID"},
 		{Name: "created_at", Type: field.TypeTime, Comment: "Create Time | 创建日期"},
 		{Name: "updated_at", Type: field.TypeTime, Comment: "Update Time | 修改日期"},
 		{Name: "status", Type: field.TypeUint8, Nullable: true, Comment: "Status 1: normal 2: ban | 状态 1 正常 2 禁用", Default: 1},
 		{Name: "name", Type: field.TypeString, Comment: "File's name | 文件名称"},
 		{Name: "file_type", Type: field.TypeUint8, Comment: "File's type | 文件类型"},
 		{Name: "size", Type: field.TypeUint64, Comment: "File's size | 文件大小"},
-		{Name: "path", Type: field.TypeString},
+		{Name: "path", Type: field.TypeString, Comment: "File's path | 文件路径"},
 		{Name: "user_id", Type: field.TypeString, Comment: "User's UUID | 用户的 UUID"},
 		{Name: "md5", Type: field.TypeString, Comment: "The md5 of the file | 文件的 md5"},
 	}
