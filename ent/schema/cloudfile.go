@@ -19,20 +19,15 @@ type CloudFile struct {
 func (CloudFile) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("name").
-			Comment("The file's name | 文件名").
-			Annotations(entsql.WithComments(true)),
+			Comment("The file's name | 文件名"),
 		field.String("url").
-			Comment("The file's url | 文件地址").
-			Annotations(entsql.WithComments(true)),
+			Comment("The file's url | 文件地址"),
 		field.Uint64("size").
-			Comment("The file's size | 文件大小").
-			Annotations(entsql.WithComments(true)),
+			Comment("The file's size | 文件大小"),
 		field.Uint8("file_type").
-			Comment("The file's type | 文件类型").
-			Annotations(entsql.WithComments(true)),
+			Comment("The file's type | 文件类型"),
 		field.String("user_id").
-			Comment("The user who upload the file | 上传用户的 ID").
-			Annotations(entsql.WithComments(true)),
+			Comment("The user who upload the file | 上传用户的 ID"),
 	}
 }
 
@@ -63,6 +58,7 @@ func (CloudFile) Indexes() []ent.Index {
 // Annotations of the CloudFile
 func (CloudFile) Annotations() []schema.Annotation {
 	return []schema.Annotation{
+		entsql.WithComments(true),
 		entsql.Annotation{Table: "fms_cloud_files"},
 	}
 }

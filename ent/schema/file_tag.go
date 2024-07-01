@@ -18,11 +18,9 @@ type FileTag struct {
 // Fields of the FileTag.
 func (FileTag) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("name").Comment("FileTag's name | 标签名称").
-			Annotations(entsql.WithComments(true)),
+		field.String("name").Comment("FileTag's name | 标签名称"),
 		field.String("remark").Comment("The remark of tag | 标签的备注").
-			Optional().
-			Annotations(entsql.WithComments(true)),
+			Optional(),
 	}
 }
 
@@ -48,6 +46,7 @@ func (FileTag) Indexes() []ent.Index {
 
 func (FileTag) Annotations() []schema.Annotation {
 	return []schema.Annotation{
+		entsql.WithComments(true),
 		entsql.Annotation{Table: "fms_file_tags"}, // fms means FileTag management service
 	}
 }
