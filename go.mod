@@ -9,8 +9,8 @@ require (
 	github.com/duke-git/lancet/v2 v2.3.1
 	github.com/gofrs/uuid/v5 v5.2.0
 	github.com/redis/go-redis/v9 v9.5.3
-	github.com/suyuan32/simple-admin-common v1.4.8
-	github.com/suyuan32/simple-admin-core v1.4.8
+	github.com/suyuan32/simple-admin-common v1.4.9
+	github.com/suyuan32/simple-admin-core v1.4.9
 	github.com/zeromicro/go-zero v1.6.6
 	google.golang.org/grpc v1.64.0
 )
@@ -82,7 +82,7 @@ require (
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_golang v1.19.1 // indirect
 	github.com/prometheus/client_model v0.6.1 // indirect
-	github.com/prometheus/common v0.54.0 // indirect
+	github.com/prometheus/common v0.55.0 // indirect
 	github.com/prometheus/procfs v0.15.1 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
 	github.com/zclconf/go-cty v1.14.4 // indirect
