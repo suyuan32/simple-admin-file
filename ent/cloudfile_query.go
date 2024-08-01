@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"math"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -111,7 +112,7 @@ func (cfq *CloudFileQuery) QueryTags() *CloudFileTagQuery {
 // First returns the first CloudFile entity from the query.
 // Returns a *NotFoundError when no CloudFile was found.
 func (cfq *CloudFileQuery) First(ctx context.Context) (*CloudFile, error) {
-	nodes, err := cfq.Limit(1).All(setContextOp(ctx, cfq.ctx, "First"))
+	nodes, err := cfq.Limit(1).All(setContextOp(ctx, cfq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +135,7 @@ func (cfq *CloudFileQuery) FirstX(ctx context.Context) *CloudFile {
 // Returns a *NotFoundError when no CloudFile ID was found.
 func (cfq *CloudFileQuery) FirstID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
-	if ids, err = cfq.Limit(1).IDs(setContextOp(ctx, cfq.ctx, "FirstID")); err != nil {
+	if ids, err = cfq.Limit(1).IDs(setContextOp(ctx, cfq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -157,7 +158,7 @@ func (cfq *CloudFileQuery) FirstIDX(ctx context.Context) uuid.UUID {
 // Returns a *NotSingularError when more than one CloudFile entity is found.
 // Returns a *NotFoundError when no CloudFile entities are found.
 func (cfq *CloudFileQuery) Only(ctx context.Context) (*CloudFile, error) {
-	nodes, err := cfq.Limit(2).All(setContextOp(ctx, cfq.ctx, "Only"))
+	nodes, err := cfq.Limit(2).All(setContextOp(ctx, cfq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -185,7 +186,7 @@ func (cfq *CloudFileQuery) OnlyX(ctx context.Context) *CloudFile {
 // Returns a *NotFoundError when no entities are found.
 func (cfq *CloudFileQuery) OnlyID(ctx context.Context) (id uuid.UUID, err error) {
 	var ids []uuid.UUID
-	if ids, err = cfq.Limit(2).IDs(setContextOp(ctx, cfq.ctx, "OnlyID")); err != nil {
+	if ids, err = cfq.Limit(2).IDs(setContextOp(ctx, cfq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -210,7 +211,7 @@ func (cfq *CloudFileQuery) OnlyIDX(ctx context.Context) uuid.UUID {
 
 // All executes the query and returns a list of CloudFiles.
 func (cfq *CloudFileQuery) All(ctx context.Context) ([]*CloudFile, error) {
-	ctx = setContextOp(ctx, cfq.ctx, "All")
+	ctx = setContextOp(ctx, cfq.ctx, ent.OpQueryAll)
 	if err := cfq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
@@ -232,7 +233,7 @@ func (cfq *CloudFileQuery) IDs(ctx context.Context) (ids []uuid.UUID, err error)
 	if cfq.ctx.Unique == nil && cfq.path != nil {
 		cfq.Unique(true)
 	}
-	ctx = setContextOp(ctx, cfq.ctx, "IDs")
+	ctx = setContextOp(ctx, cfq.ctx, ent.OpQueryIDs)
 	if err = cfq.Select(cloudfile.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -250,7 +251,7 @@ func (cfq *CloudFileQuery) IDsX(ctx context.Context) []uuid.UUID {
 
 // Count returns the count of the given query.
 func (cfq *CloudFileQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, cfq.ctx, "Count")
+	ctx = setContextOp(ctx, cfq.ctx, ent.OpQueryCount)
 	if err := cfq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
@@ -268,7 +269,7 @@ func (cfq *CloudFileQuery) CountX(ctx context.Context) int {
 
 // Exist returns true if the query has elements in the graph.
 func (cfq *CloudFileQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, cfq.ctx, "Exist")
+	ctx = setContextOp(ctx, cfq.ctx, ent.OpQueryExist)
 	switch _, err := cfq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
@@ -643,7 +644,7 @@ func (cfgb *CloudFileGroupBy) Aggregate(fns ...AggregateFunc) *CloudFileGroupBy 
 
 // Scan applies the selector query and scans the result into the given value.
 func (cfgb *CloudFileGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, cfgb.build.ctx, "GroupBy")
+	ctx = setContextOp(ctx, cfgb.build.ctx, ent.OpQueryGroupBy)
 	if err := cfgb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
@@ -691,7 +692,7 @@ func (cfs *CloudFileSelect) Aggregate(fns ...AggregateFunc) *CloudFileSelect {
 
 // Scan applies the selector query and scans the result into the given value.
 func (cfs *CloudFileSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, cfs.ctx, "Select")
+	ctx = setContextOp(ctx, cfs.ctx, ent.OpQuerySelect)
 	if err := cfs.prepareQuery(ctx); err != nil {
 		return err
 	}
