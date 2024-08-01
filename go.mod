@@ -3,14 +3,14 @@ module github.com/suyuan32/simple-admin-file
 go 1.22.5
 
 require (
-	entgo.io/ent v0.13.1
+	entgo.io/ent v0.14.0
 	github.com/aws/aws-sdk-go v1.54.1
 	github.com/casbin/casbin/v2 v2.98.0
 	github.com/duke-git/lancet/v2 v2.3.2
 	github.com/gofrs/uuid/v5 v5.2.0
 	github.com/redis/go-redis/v9 v9.6.1
-	github.com/suyuan32/simple-admin-common v1.5.2
-	github.com/suyuan32/simple-admin-core v1.5.2
+	github.com/suyuan32/simple-admin-common v1.5.3
+	github.com/suyuan32/simple-admin-core v1.5.3
 	github.com/zeromicro/go-zero v1.7.0
 	google.golang.org/grpc v1.65.0
 )

@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"math"
 
+	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
@@ -86,7 +87,7 @@ func (ftq *FileTagQuery) QueryFiles() *FileQuery {
 // First returns the first FileTag entity from the query.
 // Returns a *NotFoundError when no FileTag was found.
 func (ftq *FileTagQuery) First(ctx context.Context) (*FileTag, error) {
-	nodes, err := ftq.Limit(1).All(setContextOp(ctx, ftq.ctx, "First"))
+	nodes, err := ftq.Limit(1).All(setContextOp(ctx, ftq.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -109,7 +110,7 @@ func (ftq *FileTagQuery) FirstX(ctx context.Context) *FileTag {
 // Returns a *NotFoundError when no FileTag ID was found.
 func (ftq *FileTagQuery) FirstID(ctx context.Context) (id uint64, err error) {
 	var ids []uint64
-	if ids, err = ftq.Limit(1).IDs(setContextOp(ctx, ftq.ctx, "FirstID")); err != nil {
+	if ids, err = ftq.Limit(1).IDs(setContextOp(ctx, ftq.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -132,7 +133,7 @@ func (ftq *FileTagQuery) FirstIDX(ctx context.Context) uint64 {
 // Returns a *NotSingularError when more than one FileTag entity is found.
 // Returns a *NotFoundError when no FileTag entities are found.
 func (ftq *FileTagQuery) Only(ctx context.Context) (*FileTag, error) {
-	nodes, err := ftq.Limit(2).All(setContextOp(ctx, ftq.ctx, "Only"))
+	nodes, err := ftq.Limit(2).All(setContextOp(ctx, ftq.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -160,7 +161,7 @@ func (ftq *FileTagQuery) OnlyX(ctx context.Context) *FileTag {
 // Returns a *NotFoundError when no entities are found.
 func (ftq *FileTagQuery) OnlyID(ctx context.Context) (id uint64, err error) {
 	var ids []uint64
-	if ids, err = ftq.Limit(2).IDs(setContextOp(ctx, ftq.ctx, "OnlyID")); err != nil {
+	if ids, err = ftq.Limit(2).IDs(setContextOp(ctx, ftq.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -185,7 +186,7 @@ func (ftq *FileTagQuery) OnlyIDX(ctx context.Context) uint64 {
 
 // All executes the query and returns a list of FileTags.
 func (ftq *FileTagQuery) All(ctx context.Context) ([]*FileTag, error) {
-	ctx = setContextOp(ctx, ftq.ctx, "All")
+	ctx = setContextOp(ctx, ftq.ctx, ent.OpQueryAll)
 	if err := ftq.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
@@ -207,7 +208,7 @@ func (ftq *FileTagQuery) IDs(ctx context.Context) (ids []uint64, err error) {
 	if ftq.ctx.Unique == nil && ftq.path != nil {
 		ftq.Unique(true)
 	}
-	ctx = setContextOp(ctx, ftq.ctx, "IDs")
+	ctx = setContextOp(ctx, ftq.ctx, ent.OpQueryIDs)
 	if err = ftq.Select(filetag.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -225,7 +226,7 @@ func (ftq *FileTagQuery) IDsX(ctx context.Context) []uint64 {
 
 // Count returns the count of the given query.
 func (ftq *FileTagQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, ftq.ctx, "Count")
+	ctx = setContextOp(ctx, ftq.ctx, ent.OpQueryCount)
 	if err := ftq.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
@@ -243,7 +244,7 @@ func (ftq *FileTagQuery) CountX(ctx context.Context) int {
 
 // Exist returns true if the query has elements in the graph.
 func (ftq *FileTagQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, ftq.ctx, "Exist")
+	ctx = setContextOp(ctx, ftq.ctx, ent.OpQueryExist)
 	switch _, err := ftq.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
@@ -560,7 +561,7 @@ func (ftgb *FileTagGroupBy) Aggregate(fns ...AggregateFunc) *FileTagGroupBy {
 
 // Scan applies the selector query and scans the result into the given value.
 func (ftgb *FileTagGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, ftgb.build.ctx, "GroupBy")
+	ctx = setContextOp(ctx, ftgb.build.ctx, ent.OpQueryGroupBy)
 	if err := ftgb.build.prepareQuery(ctx); err != nil {
 		return err
 	}
@@ -608,7 +609,7 @@ func (fts *FileTagSelect) Aggregate(fns ...AggregateFunc) *FileTagSelect {
 
 // Scan applies the selector query and scans the result into the given value.
 func (fts *FileTagSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, fts.ctx, "Select")
+	ctx = setContextOp(ctx, fts.ctx, ent.OpQuerySelect)
 	if err := fts.prepareQuery(ctx); err != nil {
 		return err
 	}
