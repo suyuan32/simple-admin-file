@@ -2,9 +2,11 @@ package file
 
 import (
 	"context"
-	"github.com/suyuan32/simple-admin-common/utils/uuidx"
-	file2 "github.com/suyuan32/simple-admin-file/ent/file"
 	"os"
+
+	"github.com/suyuan32/simple-admin-common/utils/uuidx"
+
+	file2 "github.com/suyuan32/simple-admin-file/ent/file"
 
 	"github.com/suyuan32/simple-admin-common/i18n"
 

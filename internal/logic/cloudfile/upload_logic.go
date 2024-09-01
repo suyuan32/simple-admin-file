@@ -4,6 +4,12 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"mime/multipart"
+	"net/http"
+	"strconv"
+	"strings"
+	"time"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/request"
@@ -12,16 +18,12 @@ import (
 	"github.com/suyuan32/simple-admin-common/i18n"
 	"github.com/suyuan32/simple-admin-common/utils/pointy"
 	"github.com/suyuan32/simple-admin-common/utils/uuidx"
+	"github.com/zeromicro/go-zero/core/errorx"
+
 	"github.com/suyuan32/simple-admin-file/internal/svc"
 	"github.com/suyuan32/simple-admin-file/internal/types"
 	"github.com/suyuan32/simple-admin-file/internal/utils/dberrorhandler"
 	"github.com/suyuan32/simple-admin-file/internal/utils/filex"
-	"github.com/zeromicro/go-zero/core/errorx"
-	"mime/multipart"
-	"net/http"
-	"strconv"
-	"strings"
-	"time"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

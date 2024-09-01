@@ -3,6 +3,14 @@ package file
 import (
 	"context"
 	"fmt"
+	"io"
+	"net/http"
+	"os"
+	"path"
+	"strconv"
+	"strings"
+	"time"
+
 	"github.com/duke-git/lancet/v2/datetime"
 	"github.com/duke-git/lancet/v2/fileutil"
 	"github.com/suyuan32/simple-admin-common/enum/errorcode"
@@ -11,13 +19,6 @@ import (
 	"github.com/suyuan32/simple-admin-common/utils/uuidx"
 	"github.com/zeromicro/go-zero/core/errorx"
 	"github.com/zeromicro/go-zero/core/logx"
-	"io"
-	"net/http"
-	"os"
-	"path"
-	"strconv"
-	"strings"
-	"time"
 
 	"github.com/suyuan32/simple-admin-file/internal/svc"
 	"github.com/suyuan32/simple-admin-file/internal/types"
