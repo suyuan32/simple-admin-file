@@ -2,8 +2,9 @@ package file
 
 import (
 	"context"
-	"github.com/suyuan32/simple-admin-common/utils/uuidx"
 	"path"
+
+	"github.com/suyuan32/simple-admin-common/utils/uuidx"
 
 	"github.com/suyuan32/simple-admin-file/internal/utils/dberrorhandler"
 
