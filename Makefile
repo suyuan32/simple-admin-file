@@ -11,7 +11,7 @@ SERVICE_SNAKE=fms
 SERVICE_DASH=fms
 
 # The project version, if you don't use git, you should set it manually | 项目版本，如果不使用git请手动设置
-VERSION=v1.5.6
+VERSION=v1.5.7
 
 # The project file name style | 项目文件命名风格
 PROJECT_STYLE=go_zero
