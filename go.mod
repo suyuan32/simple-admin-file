@@ -9,13 +9,13 @@ require (
 	github.com/duke-git/lancet/v2 v2.3.4
 	github.com/gofrs/uuid/v5 v5.3.0
 	github.com/redis/go-redis/v9 v9.7.0
-	github.com/suyuan32/simple-admin-common v1.6.1
-	github.com/suyuan32/simple-admin-core v1.6.1
-	github.com/zeromicro/go-zero v1.7.5
+	github.com/suyuan32/simple-admin-common v1.6.2
+	github.com/suyuan32/simple-admin-core v1.6.2
+	github.com/zeromicro/go-zero v1.7.6
 	google.golang.org/grpc v1.69.2
 )
 
-replace github.com/zeromicro/go-zero v1.7.5 => github.com/suyuan32/simple-admin-tools v1.7.5
+replace github.com/zeromicro/go-zero v1.7.6 => github.com/suyuan32/simple-admin-tools v1.7.6
 
 require (
 	ariga.io/atlas v0.29.1 // indirect
