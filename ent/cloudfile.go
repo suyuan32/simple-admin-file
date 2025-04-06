@@ -14,7 +14,7 @@ import (
 	"github.com/suyuan32/simple-admin-file/ent/storageprovider"
 )
 
-// CloudFile is the model entity for the CloudFile schema.
+// Cloud File Table | 云文件表
 type CloudFile struct {
 	config `json:"-"`
 	// ID of the ent.

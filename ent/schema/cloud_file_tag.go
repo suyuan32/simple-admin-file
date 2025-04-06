@@ -47,6 +47,7 @@ func (CloudFileTag) Indexes() []ent.Index {
 func (CloudFileTag) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entsql.WithComments(true),
+		schema.Comment("Cloud File's Tags Table | 云文件标签表"),
 		entsql.Annotation{Table: "fms_cloud_file_tags"}, // fms means CloudFileTag management service
 	}
 }

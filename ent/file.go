@@ -13,7 +13,7 @@ import (
 	"github.com/suyuan32/simple-admin-file/ent/file"
 )
 
-// File is the model entity for the File schema.
+// File Table | 文件表
 type File struct {
 	config `json:"-"`
 	// ID of the ent.

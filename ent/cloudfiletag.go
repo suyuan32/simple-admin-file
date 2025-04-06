@@ -12,7 +12,7 @@ import (
 	"github.com/suyuan32/simple-admin-file/ent/cloudfiletag"
 )
 
-// CloudFileTag is the model entity for the CloudFileTag schema.
+// Cloud File's Tags Table | 云文件标签表
 type CloudFileTag struct {
 	config `json:"-"`
 	// ID of the ent.

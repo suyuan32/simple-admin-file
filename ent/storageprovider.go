@@ -12,7 +12,7 @@ import (
 	"github.com/suyuan32/simple-admin-file/ent/storageprovider"
 )
 
-// StorageProvider is the model entity for the StorageProvider schema.
+// Cloud File's Provider Configuration Table | 云文件服务商配置表
 type StorageProvider struct {
 	config `json:"-"`
 	// ID of the ent.
