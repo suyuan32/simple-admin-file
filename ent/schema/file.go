@@ -57,6 +57,7 @@ func (File) Edges() []ent.Edge {
 func (File) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entsql.WithComments(true),
+		schema.Comment("File Table | 文件表"),
 		entsql.Annotation{Table: "fms_files"}, // fms means file management service
 	}
 }

@@ -47,6 +47,7 @@ func (FileTag) Indexes() []ent.Index {
 func (FileTag) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		entsql.WithComments(true),
+		schema.Comment("File's Tags Table | 文件标签表"),
 		entsql.Annotation{Table: "fms_file_tags"}, // fms means FileTag management service
 	}
 }

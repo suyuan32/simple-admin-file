@@ -12,7 +12,7 @@ import (
 	"github.com/suyuan32/simple-admin-file/ent/filetag"
 )
 
-// FileTag is the model entity for the FileTag schema.
+// File's Tags Table | 文件标签表
 type FileTag struct {
 	config `json:"-"`
 	// ID of the ent.
