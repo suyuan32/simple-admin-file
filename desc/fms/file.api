@@ -105,6 +105,12 @@ type (
 		// The file list data | 文件信息列表数据
 		Data []FileInfo `json:"data"`
 	}
+
+    // Delete  file by url request | 通过网址删除文件请求
+    FileDeleteReq {
+        // Url | 文件网址
+        Url string `json:"url"`
+    }
 )
 
 @server(
@@ -133,6 +139,10 @@ service Fms {
 	// Download file | 下载文件
 	@handler downloadFile
 	get /file/download/:id (UUIDPathReq)
+
+    // Delete file information | 删除文件信息
+    @handler deleteFileByUrl
+    post /file/delete_by_url (FileDeleteReq) returns (BaseMsgResp)
 }
 
 @server(
