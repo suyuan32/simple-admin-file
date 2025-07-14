@@ -81,6 +81,14 @@ func (l *InitDatabaseLogic) insertApiData() error {
 		return err
 	}
 
+	_, err = l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
+		ServiceName: pointy.GetPointer("Fms"),
+		Path:        pointy.GetPointer("/file/delete_by_url"),
+		Description: pointy.GetPointer("apiDesc.deleteFile"),
+		ApiGroup:    pointy.GetPointer("file"),
+		Method:      pointy.GetPointer("POST"),
+	})
+
 	// FileTag
 
 	_, err = l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
@@ -276,6 +284,14 @@ func (l *InitDatabaseLogic) insertApiData() error {
 	if err != nil {
 		return err
 	}
+
+	_, err = l.svcCtx.CoreRpc.CreateApi(l.ctx, &core.ApiInfo{
+		ServiceName: pointy.GetPointer("Fms"),
+		Path:        pointy.GetPointer("/cloud_file/delete_by_url"),
+		Description: pointy.GetPointer("apiDesc.deleteFile"),
+		ApiGroup:    pointy.GetPointer("file"),
+		Method:      pointy.GetPointer("POST"),
+	})
 
 	// Cloud file tag
 

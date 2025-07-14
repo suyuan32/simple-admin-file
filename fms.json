@@ -105,6 +105,34 @@
         }
       }
     },
+    "/cloud_file/delete_by_url": {
+      "post": {
+        "description": "Delete cloud file information | 删除云文件信息",
+        "tags": [
+          "cloudfile"
+        ],
+        "summary": "Delete cloud file information | 删除云文件信息",
+        "operationId": "DeleteCloudFileByUrl",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/CloudFileDeleteReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "BaseMsgResp",
+            "schema": {
+              "$ref": "#/definitions/BaseMsgResp"
+            }
+          }
+        }
+      }
+    },
     "/cloud_file/list": {
       "post": {
         "description": "Get cloud file list | 获取CloudFile列表",
@@ -334,6 +362,34 @@
             "schema": {
               "type": "object",
               "$ref": "#/definitions/UUIDsReq"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "BaseMsgResp",
+            "schema": {
+              "$ref": "#/definitions/BaseMsgResp"
+            }
+          }
+        }
+      }
+    },
+    "/file/delete_by_url": {
+      "post": {
+        "description": "Delete file information | 删除文件信息",
+        "tags": [
+          "file"
+        ],
+        "summary": "Delete file information | 删除文件信息",
+        "operationId": "DeleteFileByUrl",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/FileDeleteReq"
             }
           }
         ],
@@ -881,6 +937,18 @@
       },
       "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"
     },
+    "CloudFileDeleteReq": {
+      "description": "Delete cloud file by url request | 通过网址删除云文件请求",
+      "type": "object",
+      "properties": {
+        "url": {
+          "description": "Url | 文件网址",
+          "type": "string",
+          "x-go-name": "Url"
+        }
+      },
+      "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"
+    },
     "CloudFileInfo": {
       "description": "The response data of cloud file information | 云文件信息",
       "type": "object",
@@ -1218,6 +1286,18 @@
           "description": "Message | 提示信息",
           "type": "string",
           "x-go-name": "Msg"
+        }
+      },
+      "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"
+    },
+    "FileDeleteReq": {
+      "description": "Delete  file by url request | 通过网址删除文件请求",
+      "type": "object",
+      "properties": {
+        "url": {
+          "description": "Url | 文件网址",
+          "type": "string",
+          "x-go-name": "Url"
         }
       },
       "x-go-package": "github.com/suyuan32/simple-admin-file/internal/types"

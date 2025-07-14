@@ -73,6 +73,12 @@ type (
         // CloudFile information | 云文件数据
         Data CloudFileInfo `json:"data"`
     }
+
+    // Delete cloud file by url request | 通过网址删除云文件请求
+    CloudFileDeleteReq {
+        // Url | 文件网址
+        Url string `json:"url"`
+    }
 )
 
 @server(
@@ -101,6 +107,10 @@ service Fms {
     // Get cloud file by ID | 通过ID获取云文件
     @handler getCloudFileById
     post /cloud_file (UUIDReq) returns (CloudFileInfoResp)
+
+    // Delete cloud file information | 删除云文件信息
+    @handler deleteCloudFileByUrl
+    post /cloud_file/delete_by_url (CloudFileDeleteReq) returns (BaseMsgResp)
 }
 
 @server(

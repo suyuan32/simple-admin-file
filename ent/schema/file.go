@@ -44,6 +44,7 @@ func (File) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("user_id"),
 		index.Fields("file_type"),
+		index.Fields("path"),
 	}
 }
 

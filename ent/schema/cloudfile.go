@@ -52,6 +52,7 @@ func (CloudFile) Indexes() []ent.Index {
 	return []ent.Index{
 		index.Fields("name"),
 		index.Fields("file_type"),
+		index.Fields("url"),
 	}
 }
 

@@ -209,6 +209,13 @@ type FileListInfo struct {
 	Data []FileInfo `json:"data"`
 }
 
+// Delete  file by url request | 通过网址删除文件请求
+// swagger:model FileDeleteReq
+type FileDeleteReq struct {
+	// Url | 文件网址
+	Url string `json:"url"`
+}
+
 // The response data of file tag information | 文件标签信息
 // swagger:model FileTagInfo
 type FileTagInfo struct {
@@ -315,6 +322,13 @@ type CloudFileInfoResp struct {
 	BaseDataInfo
 	// CloudFile information | 云文件数据
 	Data CloudFileInfo `json:"data"`
+}
+
+// Delete cloud file by url request | 通过网址删除云文件请求
+// swagger:model CloudFileDeleteReq
+type CloudFileDeleteReq struct {
+	// Url | 文件网址
+	Url string `json:"url"`
 }
 
 // The response data of storage provider information | 服务提供商信息
