@@ -100,7 +100,7 @@ func (*CloudFile) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the CloudFile fields.
-func (cf *CloudFile) assignValues(columns []string, values []any) error {
+func (_m *CloudFile) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -110,65 +110,65 @@ func (cf *CloudFile) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*uuid.UUID); !ok {
 				return fmt.Errorf("unexpected type %T for field id", values[i])
 			} else if value != nil {
-				cf.ID = *value
+				_m.ID = *value
 			}
 		case cloudfile.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				cf.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case cloudfile.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				cf.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		case cloudfile.FieldState:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field state", values[i])
 			} else if value.Valid {
-				cf.State = value.Bool
+				_m.State = value.Bool
 			}
 		case cloudfile.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				cf.Name = value.String
+				_m.Name = value.String
 			}
 		case cloudfile.FieldURL:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field url", values[i])
 			} else if value.Valid {
-				cf.URL = value.String
+				_m.URL = value.String
 			}
 		case cloudfile.FieldSize:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field size", values[i])
 			} else if value.Valid {
-				cf.Size = uint64(value.Int64)
+				_m.Size = uint64(value.Int64)
 			}
 		case cloudfile.FieldFileType:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field file_type", values[i])
 			} else if value.Valid {
-				cf.FileType = uint8(value.Int64)
+				_m.FileType = uint8(value.Int64)
 			}
 		case cloudfile.FieldUserID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field user_id", values[i])
 			} else if value.Valid {
-				cf.UserID = value.String
+				_m.UserID = value.String
 			}
 		case cloudfile.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for edge-field cloud_file_storage_providers", value)
 			} else if value.Valid {
-				cf.cloud_file_storage_providers = new(uint64)
-				*cf.cloud_file_storage_providers = uint64(value.Int64)
+				_m.cloud_file_storage_providers = new(uint64)
+				*_m.cloud_file_storage_providers = uint64(value.Int64)
 			}
 		default:
-			cf.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -176,66 +176,66 @@ func (cf *CloudFile) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the CloudFile.
 // This includes values selected through modifiers, order, etc.
-func (cf *CloudFile) Value(name string) (ent.Value, error) {
-	return cf.selectValues.Get(name)
+func (_m *CloudFile) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryStorageProviders queries the "storage_providers" edge of the CloudFile entity.
-func (cf *CloudFile) QueryStorageProviders() *StorageProviderQuery {
-	return NewCloudFileClient(cf.config).QueryStorageProviders(cf)
+func (_m *CloudFile) QueryStorageProviders() *StorageProviderQuery {
+	return NewCloudFileClient(_m.config).QueryStorageProviders(_m)
 }
 
 // QueryTags queries the "tags" edge of the CloudFile entity.
-func (cf *CloudFile) QueryTags() *CloudFileTagQuery {
-	return NewCloudFileClient(cf.config).QueryTags(cf)
+func (_m *CloudFile) QueryTags() *CloudFileTagQuery {
+	return NewCloudFileClient(_m.config).QueryTags(_m)
 }
 
 // Update returns a builder for updating this CloudFile.
 // Note that you need to call CloudFile.Unwrap() before calling this method if this CloudFile
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (cf *CloudFile) Update() *CloudFileUpdateOne {
-	return NewCloudFileClient(cf.config).UpdateOne(cf)
+func (_m *CloudFile) Update() *CloudFileUpdateOne {
+	return NewCloudFileClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the CloudFile entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (cf *CloudFile) Unwrap() *CloudFile {
-	_tx, ok := cf.config.driver.(*txDriver)
+func (_m *CloudFile) Unwrap() *CloudFile {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: CloudFile is not a transactional entity")
 	}
-	cf.config.driver = _tx.drv
-	return cf
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (cf *CloudFile) String() string {
+func (_m *CloudFile) String() string {
 	var builder strings.Builder
 	builder.WriteString("CloudFile(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", cf.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("created_at=")
-	builder.WriteString(cf.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(cf.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("state=")
-	builder.WriteString(fmt.Sprintf("%v", cf.State))
+	builder.WriteString(fmt.Sprintf("%v", _m.State))
 	builder.WriteString(", ")
 	builder.WriteString("name=")
-	builder.WriteString(cf.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("url=")
-	builder.WriteString(cf.URL)
+	builder.WriteString(_m.URL)
 	builder.WriteString(", ")
 	builder.WriteString("size=")
-	builder.WriteString(fmt.Sprintf("%v", cf.Size))
+	builder.WriteString(fmt.Sprintf("%v", _m.Size))
 	builder.WriteString(", ")
 	builder.WriteString("file_type=")
-	builder.WriteString(fmt.Sprintf("%v", cf.FileType))
+	builder.WriteString(fmt.Sprintf("%v", _m.FileType))
 	builder.WriteString(", ")
 	builder.WriteString("user_id=")
-	builder.WriteString(cf.UserID)
+	builder.WriteString(_m.UserID)
 	builder.WriteByte(')')
 	return builder.String()
 }

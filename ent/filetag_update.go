@@ -25,128 +25,128 @@ type FileTagUpdate struct {
 }
 
 // Where appends a list predicates to the FileTagUpdate builder.
-func (ftu *FileTagUpdate) Where(ps ...predicate.FileTag) *FileTagUpdate {
-	ftu.mutation.Where(ps...)
-	return ftu
+func (_u *FileTagUpdate) Where(ps ...predicate.FileTag) *FileTagUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ftu *FileTagUpdate) SetUpdatedAt(t time.Time) *FileTagUpdate {
-	ftu.mutation.SetUpdatedAt(t)
-	return ftu
+func (_u *FileTagUpdate) SetUpdatedAt(v time.Time) *FileTagUpdate {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (ftu *FileTagUpdate) SetStatus(u uint8) *FileTagUpdate {
-	ftu.mutation.ResetStatus()
-	ftu.mutation.SetStatus(u)
-	return ftu
+func (_u *FileTagUpdate) SetStatus(v uint8) *FileTagUpdate {
+	_u.mutation.ResetStatus()
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (ftu *FileTagUpdate) SetNillableStatus(u *uint8) *FileTagUpdate {
-	if u != nil {
-		ftu.SetStatus(*u)
+func (_u *FileTagUpdate) SetNillableStatus(v *uint8) *FileTagUpdate {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return ftu
+	return _u
 }
 
-// AddStatus adds u to the "status" field.
-func (ftu *FileTagUpdate) AddStatus(u int8) *FileTagUpdate {
-	ftu.mutation.AddStatus(u)
-	return ftu
+// AddStatus adds value to the "status" field.
+func (_u *FileTagUpdate) AddStatus(v int8) *FileTagUpdate {
+	_u.mutation.AddStatus(v)
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (ftu *FileTagUpdate) ClearStatus() *FileTagUpdate {
-	ftu.mutation.ClearStatus()
-	return ftu
+func (_u *FileTagUpdate) ClearStatus() *FileTagUpdate {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // SetName sets the "name" field.
-func (ftu *FileTagUpdate) SetName(s string) *FileTagUpdate {
-	ftu.mutation.SetName(s)
-	return ftu
+func (_u *FileTagUpdate) SetName(v string) *FileTagUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (ftu *FileTagUpdate) SetNillableName(s *string) *FileTagUpdate {
-	if s != nil {
-		ftu.SetName(*s)
+func (_u *FileTagUpdate) SetNillableName(v *string) *FileTagUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return ftu
+	return _u
 }
 
 // SetRemark sets the "remark" field.
-func (ftu *FileTagUpdate) SetRemark(s string) *FileTagUpdate {
-	ftu.mutation.SetRemark(s)
-	return ftu
+func (_u *FileTagUpdate) SetRemark(v string) *FileTagUpdate {
+	_u.mutation.SetRemark(v)
+	return _u
 }
 
 // SetNillableRemark sets the "remark" field if the given value is not nil.
-func (ftu *FileTagUpdate) SetNillableRemark(s *string) *FileTagUpdate {
-	if s != nil {
-		ftu.SetRemark(*s)
+func (_u *FileTagUpdate) SetNillableRemark(v *string) *FileTagUpdate {
+	if v != nil {
+		_u.SetRemark(*v)
 	}
-	return ftu
+	return _u
 }
 
 // ClearRemark clears the value of the "remark" field.
-func (ftu *FileTagUpdate) ClearRemark() *FileTagUpdate {
-	ftu.mutation.ClearRemark()
-	return ftu
+func (_u *FileTagUpdate) ClearRemark() *FileTagUpdate {
+	_u.mutation.ClearRemark()
+	return _u
 }
 
 // AddFileIDs adds the "files" edge to the File entity by IDs.
-func (ftu *FileTagUpdate) AddFileIDs(ids ...uuid.UUID) *FileTagUpdate {
-	ftu.mutation.AddFileIDs(ids...)
-	return ftu
+func (_u *FileTagUpdate) AddFileIDs(ids ...uuid.UUID) *FileTagUpdate {
+	_u.mutation.AddFileIDs(ids...)
+	return _u
 }
 
 // AddFiles adds the "files" edges to the File entity.
-func (ftu *FileTagUpdate) AddFiles(f ...*File) *FileTagUpdate {
-	ids := make([]uuid.UUID, len(f))
-	for i := range f {
-		ids[i] = f[i].ID
+func (_u *FileTagUpdate) AddFiles(v ...*File) *FileTagUpdate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return ftu.AddFileIDs(ids...)
+	return _u.AddFileIDs(ids...)
 }
 
 // Mutation returns the FileTagMutation object of the builder.
-func (ftu *FileTagUpdate) Mutation() *FileTagMutation {
-	return ftu.mutation
+func (_u *FileTagUpdate) Mutation() *FileTagMutation {
+	return _u.mutation
 }
 
 // ClearFiles clears all "files" edges to the File entity.
-func (ftu *FileTagUpdate) ClearFiles() *FileTagUpdate {
-	ftu.mutation.ClearFiles()
-	return ftu
+func (_u *FileTagUpdate) ClearFiles() *FileTagUpdate {
+	_u.mutation.ClearFiles()
+	return _u
 }
 
 // RemoveFileIDs removes the "files" edge to File entities by IDs.
-func (ftu *FileTagUpdate) RemoveFileIDs(ids ...uuid.UUID) *FileTagUpdate {
-	ftu.mutation.RemoveFileIDs(ids...)
-	return ftu
+func (_u *FileTagUpdate) RemoveFileIDs(ids ...uuid.UUID) *FileTagUpdate {
+	_u.mutation.RemoveFileIDs(ids...)
+	return _u
 }
 
 // RemoveFiles removes "files" edges to File entities.
-func (ftu *FileTagUpdate) RemoveFiles(f ...*File) *FileTagUpdate {
-	ids := make([]uuid.UUID, len(f))
-	for i := range f {
-		ids[i] = f[i].ID
+func (_u *FileTagUpdate) RemoveFiles(v ...*File) *FileTagUpdate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return ftu.RemoveFileIDs(ids...)
+	return _u.RemoveFileIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (ftu *FileTagUpdate) Save(ctx context.Context) (int, error) {
-	ftu.defaults()
-	return withHooks(ctx, ftu.sqlSave, ftu.mutation, ftu.hooks)
+func (_u *FileTagUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ftu *FileTagUpdate) SaveX(ctx context.Context) int {
-	affected, err := ftu.Save(ctx)
+func (_u *FileTagUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -154,57 +154,57 @@ func (ftu *FileTagUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (ftu *FileTagUpdate) Exec(ctx context.Context) error {
-	_, err := ftu.Save(ctx)
+func (_u *FileTagUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ftu *FileTagUpdate) ExecX(ctx context.Context) {
-	if err := ftu.Exec(ctx); err != nil {
+func (_u *FileTagUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ftu *FileTagUpdate) defaults() {
-	if _, ok := ftu.mutation.UpdatedAt(); !ok {
+func (_u *FileTagUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := filetag.UpdateDefaultUpdatedAt()
-		ftu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (ftu *FileTagUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *FileTagUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(filetag.Table, filetag.Columns, sqlgraph.NewFieldSpec(filetag.FieldID, field.TypeUint64))
-	if ps := ftu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ftu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(filetag.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if value, ok := ftu.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(filetag.FieldStatus, field.TypeUint8, value)
 	}
-	if value, ok := ftu.mutation.AddedStatus(); ok {
+	if value, ok := _u.mutation.AddedStatus(); ok {
 		_spec.AddField(filetag.FieldStatus, field.TypeUint8, value)
 	}
-	if ftu.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(filetag.FieldStatus, field.TypeUint8)
 	}
-	if value, ok := ftu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(filetag.FieldName, field.TypeString, value)
 	}
-	if value, ok := ftu.mutation.Remark(); ok {
+	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(filetag.FieldRemark, field.TypeString, value)
 	}
-	if ftu.mutation.RemarkCleared() {
+	if _u.mutation.RemarkCleared() {
 		_spec.ClearField(filetag.FieldRemark, field.TypeString)
 	}
-	if ftu.mutation.FilesCleared() {
+	if _u.mutation.FilesCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2M,
 			Inverse: false,
@@ -217,7 +217,7 @@ func (ftu *FileTagUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := ftu.mutation.RemovedFilesIDs(); len(nodes) > 0 && !ftu.mutation.FilesCleared() {
+	if nodes := _u.mutation.RemovedFilesIDs(); len(nodes) > 0 && !_u.mutation.FilesCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2M,
 			Inverse: false,
@@ -233,7 +233,7 @@ func (ftu *FileTagUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := ftu.mutation.FilesIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.FilesIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2M,
 			Inverse: false,
@@ -249,7 +249,7 @@ func (ftu *FileTagUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, ftu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{filetag.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -257,8 +257,8 @@ func (ftu *FileTagUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	ftu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // FileTagUpdateOne is the builder for updating a single FileTag entity.
@@ -270,135 +270,135 @@ type FileTagUpdateOne struct {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (ftuo *FileTagUpdateOne) SetUpdatedAt(t time.Time) *FileTagUpdateOne {
-	ftuo.mutation.SetUpdatedAt(t)
-	return ftuo
+func (_u *FileTagUpdateOne) SetUpdatedAt(v time.Time) *FileTagUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetStatus sets the "status" field.
-func (ftuo *FileTagUpdateOne) SetStatus(u uint8) *FileTagUpdateOne {
-	ftuo.mutation.ResetStatus()
-	ftuo.mutation.SetStatus(u)
-	return ftuo
+func (_u *FileTagUpdateOne) SetStatus(v uint8) *FileTagUpdateOne {
+	_u.mutation.ResetStatus()
+	_u.mutation.SetStatus(v)
+	return _u
 }
 
 // SetNillableStatus sets the "status" field if the given value is not nil.
-func (ftuo *FileTagUpdateOne) SetNillableStatus(u *uint8) *FileTagUpdateOne {
-	if u != nil {
-		ftuo.SetStatus(*u)
+func (_u *FileTagUpdateOne) SetNillableStatus(v *uint8) *FileTagUpdateOne {
+	if v != nil {
+		_u.SetStatus(*v)
 	}
-	return ftuo
+	return _u
 }
 
-// AddStatus adds u to the "status" field.
-func (ftuo *FileTagUpdateOne) AddStatus(u int8) *FileTagUpdateOne {
-	ftuo.mutation.AddStatus(u)
-	return ftuo
+// AddStatus adds value to the "status" field.
+func (_u *FileTagUpdateOne) AddStatus(v int8) *FileTagUpdateOne {
+	_u.mutation.AddStatus(v)
+	return _u
 }
 
 // ClearStatus clears the value of the "status" field.
-func (ftuo *FileTagUpdateOne) ClearStatus() *FileTagUpdateOne {
-	ftuo.mutation.ClearStatus()
-	return ftuo
+func (_u *FileTagUpdateOne) ClearStatus() *FileTagUpdateOne {
+	_u.mutation.ClearStatus()
+	return _u
 }
 
 // SetName sets the "name" field.
-func (ftuo *FileTagUpdateOne) SetName(s string) *FileTagUpdateOne {
-	ftuo.mutation.SetName(s)
-	return ftuo
+func (_u *FileTagUpdateOne) SetName(v string) *FileTagUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (ftuo *FileTagUpdateOne) SetNillableName(s *string) *FileTagUpdateOne {
-	if s != nil {
-		ftuo.SetName(*s)
+func (_u *FileTagUpdateOne) SetNillableName(v *string) *FileTagUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return ftuo
+	return _u
 }
 
 // SetRemark sets the "remark" field.
-func (ftuo *FileTagUpdateOne) SetRemark(s string) *FileTagUpdateOne {
-	ftuo.mutation.SetRemark(s)
-	return ftuo
+func (_u *FileTagUpdateOne) SetRemark(v string) *FileTagUpdateOne {
+	_u.mutation.SetRemark(v)
+	return _u
 }
 
 // SetNillableRemark sets the "remark" field if the given value is not nil.
-func (ftuo *FileTagUpdateOne) SetNillableRemark(s *string) *FileTagUpdateOne {
-	if s != nil {
-		ftuo.SetRemark(*s)
+func (_u *FileTagUpdateOne) SetNillableRemark(v *string) *FileTagUpdateOne {
+	if v != nil {
+		_u.SetRemark(*v)
 	}
-	return ftuo
+	return _u
 }
 
 // ClearRemark clears the value of the "remark" field.
-func (ftuo *FileTagUpdateOne) ClearRemark() *FileTagUpdateOne {
-	ftuo.mutation.ClearRemark()
-	return ftuo
+func (_u *FileTagUpdateOne) ClearRemark() *FileTagUpdateOne {
+	_u.mutation.ClearRemark()
+	return _u
 }
 
 // AddFileIDs adds the "files" edge to the File entity by IDs.
-func (ftuo *FileTagUpdateOne) AddFileIDs(ids ...uuid.UUID) *FileTagUpdateOne {
-	ftuo.mutation.AddFileIDs(ids...)
-	return ftuo
+func (_u *FileTagUpdateOne) AddFileIDs(ids ...uuid.UUID) *FileTagUpdateOne {
+	_u.mutation.AddFileIDs(ids...)
+	return _u
 }
 
 // AddFiles adds the "files" edges to the File entity.
-func (ftuo *FileTagUpdateOne) AddFiles(f ...*File) *FileTagUpdateOne {
-	ids := make([]uuid.UUID, len(f))
-	for i := range f {
-		ids[i] = f[i].ID
+func (_u *FileTagUpdateOne) AddFiles(v ...*File) *FileTagUpdateOne {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return ftuo.AddFileIDs(ids...)
+	return _u.AddFileIDs(ids...)
 }
 
 // Mutation returns the FileTagMutation object of the builder.
-func (ftuo *FileTagUpdateOne) Mutation() *FileTagMutation {
-	return ftuo.mutation
+func (_u *FileTagUpdateOne) Mutation() *FileTagMutation {
+	return _u.mutation
 }
 
 // ClearFiles clears all "files" edges to the File entity.
-func (ftuo *FileTagUpdateOne) ClearFiles() *FileTagUpdateOne {
-	ftuo.mutation.ClearFiles()
-	return ftuo
+func (_u *FileTagUpdateOne) ClearFiles() *FileTagUpdateOne {
+	_u.mutation.ClearFiles()
+	return _u
 }
 
 // RemoveFileIDs removes the "files" edge to File entities by IDs.
-func (ftuo *FileTagUpdateOne) RemoveFileIDs(ids ...uuid.UUID) *FileTagUpdateOne {
-	ftuo.mutation.RemoveFileIDs(ids...)
-	return ftuo
+func (_u *FileTagUpdateOne) RemoveFileIDs(ids ...uuid.UUID) *FileTagUpdateOne {
+	_u.mutation.RemoveFileIDs(ids...)
+	return _u
 }
 
 // RemoveFiles removes "files" edges to File entities.
-func (ftuo *FileTagUpdateOne) RemoveFiles(f ...*File) *FileTagUpdateOne {
-	ids := make([]uuid.UUID, len(f))
-	for i := range f {
-		ids[i] = f[i].ID
+func (_u *FileTagUpdateOne) RemoveFiles(v ...*File) *FileTagUpdateOne {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return ftuo.RemoveFileIDs(ids...)
+	return _u.RemoveFileIDs(ids...)
 }
 
 // Where appends a list predicates to the FileTagUpdate builder.
-func (ftuo *FileTagUpdateOne) Where(ps ...predicate.FileTag) *FileTagUpdateOne {
-	ftuo.mutation.Where(ps...)
-	return ftuo
+func (_u *FileTagUpdateOne) Where(ps ...predicate.FileTag) *FileTagUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (ftuo *FileTagUpdateOne) Select(field string, fields ...string) *FileTagUpdateOne {
-	ftuo.fields = append([]string{field}, fields...)
-	return ftuo
+func (_u *FileTagUpdateOne) Select(field string, fields ...string) *FileTagUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated FileTag entity.
-func (ftuo *FileTagUpdateOne) Save(ctx context.Context) (*FileTag, error) {
-	ftuo.defaults()
-	return withHooks(ctx, ftuo.sqlSave, ftuo.mutation, ftuo.hooks)
+func (_u *FileTagUpdateOne) Save(ctx context.Context) (*FileTag, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (ftuo *FileTagUpdateOne) SaveX(ctx context.Context) *FileTag {
-	node, err := ftuo.Save(ctx)
+func (_u *FileTagUpdateOne) SaveX(ctx context.Context) *FileTag {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -406,34 +406,34 @@ func (ftuo *FileTagUpdateOne) SaveX(ctx context.Context) *FileTag {
 }
 
 // Exec executes the query on the entity.
-func (ftuo *FileTagUpdateOne) Exec(ctx context.Context) error {
-	_, err := ftuo.Save(ctx)
+func (_u *FileTagUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ftuo *FileTagUpdateOne) ExecX(ctx context.Context) {
-	if err := ftuo.Exec(ctx); err != nil {
+func (_u *FileTagUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (ftuo *FileTagUpdateOne) defaults() {
-	if _, ok := ftuo.mutation.UpdatedAt(); !ok {
+func (_u *FileTagUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := filetag.UpdateDefaultUpdatedAt()
-		ftuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (ftuo *FileTagUpdateOne) sqlSave(ctx context.Context) (_node *FileTag, err error) {
+func (_u *FileTagUpdateOne) sqlSave(ctx context.Context) (_node *FileTag, err error) {
 	_spec := sqlgraph.NewUpdateSpec(filetag.Table, filetag.Columns, sqlgraph.NewFieldSpec(filetag.FieldID, field.TypeUint64))
-	id, ok := ftuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "FileTag.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := ftuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, filetag.FieldID)
 		for _, f := range fields {
@@ -445,35 +445,35 @@ func (ftuo *FileTagUpdateOne) sqlSave(ctx context.Context) (_node *FileTag, err 
 			}
 		}
 	}
-	if ps := ftuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := ftuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(filetag.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if value, ok := ftuo.mutation.Status(); ok {
+	if value, ok := _u.mutation.Status(); ok {
 		_spec.SetField(filetag.FieldStatus, field.TypeUint8, value)
 	}
-	if value, ok := ftuo.mutation.AddedStatus(); ok {
+	if value, ok := _u.mutation.AddedStatus(); ok {
 		_spec.AddField(filetag.FieldStatus, field.TypeUint8, value)
 	}
-	if ftuo.mutation.StatusCleared() {
+	if _u.mutation.StatusCleared() {
 		_spec.ClearField(filetag.FieldStatus, field.TypeUint8)
 	}
-	if value, ok := ftuo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(filetag.FieldName, field.TypeString, value)
 	}
-	if value, ok := ftuo.mutation.Remark(); ok {
+	if value, ok := _u.mutation.Remark(); ok {
 		_spec.SetField(filetag.FieldRemark, field.TypeString, value)
 	}
-	if ftuo.mutation.RemarkCleared() {
+	if _u.mutation.RemarkCleared() {
 		_spec.ClearField(filetag.FieldRemark, field.TypeString)
 	}
-	if ftuo.mutation.FilesCleared() {
+	if _u.mutation.FilesCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2M,
 			Inverse: false,
@@ -486,7 +486,7 @@ func (ftuo *FileTagUpdateOne) sqlSave(ctx context.Context) (_node *FileTag, err 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := ftuo.mutation.RemovedFilesIDs(); len(nodes) > 0 && !ftuo.mutation.FilesCleared() {
+	if nodes := _u.mutation.RemovedFilesIDs(); len(nodes) > 0 && !_u.mutation.FilesCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2M,
 			Inverse: false,
@@ -502,7 +502,7 @@ func (ftuo *FileTagUpdateOne) sqlSave(ctx context.Context) (_node *FileTag, err 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := ftuo.mutation.FilesIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.FilesIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2M,
 			Inverse: false,
@@ -518,10 +518,10 @@ func (ftuo *FileTagUpdateOne) sqlSave(ctx context.Context) (_node *FileTag, err 
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &FileTag{config: ftuo.config}
+	_node = &FileTag{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, ftuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{filetag.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -529,6 +529,6 @@ func (ftuo *FileTagUpdateOne) sqlSave(ctx context.Context) (_node *FileTag, err 
 		}
 		return nil, err
 	}
-	ftuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

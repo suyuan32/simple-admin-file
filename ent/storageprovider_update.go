@@ -25,239 +25,239 @@ type StorageProviderUpdate struct {
 }
 
 // Where appends a list predicates to the StorageProviderUpdate builder.
-func (spu *StorageProviderUpdate) Where(ps ...predicate.StorageProvider) *StorageProviderUpdate {
-	spu.mutation.Where(ps...)
-	return spu
+func (_u *StorageProviderUpdate) Where(ps ...predicate.StorageProvider) *StorageProviderUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (spu *StorageProviderUpdate) SetUpdatedAt(t time.Time) *StorageProviderUpdate {
-	spu.mutation.SetUpdatedAt(t)
-	return spu
+func (_u *StorageProviderUpdate) SetUpdatedAt(v time.Time) *StorageProviderUpdate {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetState sets the "state" field.
-func (spu *StorageProviderUpdate) SetState(b bool) *StorageProviderUpdate {
-	spu.mutation.SetState(b)
-	return spu
+func (_u *StorageProviderUpdate) SetState(v bool) *StorageProviderUpdate {
+	_u.mutation.SetState(v)
+	return _u
 }
 
 // SetNillableState sets the "state" field if the given value is not nil.
-func (spu *StorageProviderUpdate) SetNillableState(b *bool) *StorageProviderUpdate {
-	if b != nil {
-		spu.SetState(*b)
+func (_u *StorageProviderUpdate) SetNillableState(v *bool) *StorageProviderUpdate {
+	if v != nil {
+		_u.SetState(*v)
 	}
-	return spu
+	return _u
 }
 
 // ClearState clears the value of the "state" field.
-func (spu *StorageProviderUpdate) ClearState() *StorageProviderUpdate {
-	spu.mutation.ClearState()
-	return spu
+func (_u *StorageProviderUpdate) ClearState() *StorageProviderUpdate {
+	_u.mutation.ClearState()
+	return _u
 }
 
 // SetName sets the "name" field.
-func (spu *StorageProviderUpdate) SetName(s string) *StorageProviderUpdate {
-	spu.mutation.SetName(s)
-	return spu
+func (_u *StorageProviderUpdate) SetName(v string) *StorageProviderUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (spu *StorageProviderUpdate) SetNillableName(s *string) *StorageProviderUpdate {
-	if s != nil {
-		spu.SetName(*s)
+func (_u *StorageProviderUpdate) SetNillableName(v *string) *StorageProviderUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return spu
+	return _u
 }
 
 // SetBucket sets the "bucket" field.
-func (spu *StorageProviderUpdate) SetBucket(s string) *StorageProviderUpdate {
-	spu.mutation.SetBucket(s)
-	return spu
+func (_u *StorageProviderUpdate) SetBucket(v string) *StorageProviderUpdate {
+	_u.mutation.SetBucket(v)
+	return _u
 }
 
 // SetNillableBucket sets the "bucket" field if the given value is not nil.
-func (spu *StorageProviderUpdate) SetNillableBucket(s *string) *StorageProviderUpdate {
-	if s != nil {
-		spu.SetBucket(*s)
+func (_u *StorageProviderUpdate) SetNillableBucket(v *string) *StorageProviderUpdate {
+	if v != nil {
+		_u.SetBucket(*v)
 	}
-	return spu
+	return _u
 }
 
 // SetSecretID sets the "secret_id" field.
-func (spu *StorageProviderUpdate) SetSecretID(s string) *StorageProviderUpdate {
-	spu.mutation.SetSecretID(s)
-	return spu
+func (_u *StorageProviderUpdate) SetSecretID(v string) *StorageProviderUpdate {
+	_u.mutation.SetSecretID(v)
+	return _u
 }
 
 // SetNillableSecretID sets the "secret_id" field if the given value is not nil.
-func (spu *StorageProviderUpdate) SetNillableSecretID(s *string) *StorageProviderUpdate {
-	if s != nil {
-		spu.SetSecretID(*s)
+func (_u *StorageProviderUpdate) SetNillableSecretID(v *string) *StorageProviderUpdate {
+	if v != nil {
+		_u.SetSecretID(*v)
 	}
-	return spu
+	return _u
 }
 
 // SetSecretKey sets the "secret_key" field.
-func (spu *StorageProviderUpdate) SetSecretKey(s string) *StorageProviderUpdate {
-	spu.mutation.SetSecretKey(s)
-	return spu
+func (_u *StorageProviderUpdate) SetSecretKey(v string) *StorageProviderUpdate {
+	_u.mutation.SetSecretKey(v)
+	return _u
 }
 
 // SetNillableSecretKey sets the "secret_key" field if the given value is not nil.
-func (spu *StorageProviderUpdate) SetNillableSecretKey(s *string) *StorageProviderUpdate {
-	if s != nil {
-		spu.SetSecretKey(*s)
+func (_u *StorageProviderUpdate) SetNillableSecretKey(v *string) *StorageProviderUpdate {
+	if v != nil {
+		_u.SetSecretKey(*v)
 	}
-	return spu
+	return _u
 }
 
 // SetEndpoint sets the "endpoint" field.
-func (spu *StorageProviderUpdate) SetEndpoint(s string) *StorageProviderUpdate {
-	spu.mutation.SetEndpoint(s)
-	return spu
+func (_u *StorageProviderUpdate) SetEndpoint(v string) *StorageProviderUpdate {
+	_u.mutation.SetEndpoint(v)
+	return _u
 }
 
 // SetNillableEndpoint sets the "endpoint" field if the given value is not nil.
-func (spu *StorageProviderUpdate) SetNillableEndpoint(s *string) *StorageProviderUpdate {
-	if s != nil {
-		spu.SetEndpoint(*s)
+func (_u *StorageProviderUpdate) SetNillableEndpoint(v *string) *StorageProviderUpdate {
+	if v != nil {
+		_u.SetEndpoint(*v)
 	}
-	return spu
+	return _u
 }
 
 // SetFolder sets the "folder" field.
-func (spu *StorageProviderUpdate) SetFolder(s string) *StorageProviderUpdate {
-	spu.mutation.SetFolder(s)
-	return spu
+func (_u *StorageProviderUpdate) SetFolder(v string) *StorageProviderUpdate {
+	_u.mutation.SetFolder(v)
+	return _u
 }
 
 // SetNillableFolder sets the "folder" field if the given value is not nil.
-func (spu *StorageProviderUpdate) SetNillableFolder(s *string) *StorageProviderUpdate {
-	if s != nil {
-		spu.SetFolder(*s)
+func (_u *StorageProviderUpdate) SetNillableFolder(v *string) *StorageProviderUpdate {
+	if v != nil {
+		_u.SetFolder(*v)
 	}
-	return spu
+	return _u
 }
 
 // ClearFolder clears the value of the "folder" field.
-func (spu *StorageProviderUpdate) ClearFolder() *StorageProviderUpdate {
-	spu.mutation.ClearFolder()
-	return spu
+func (_u *StorageProviderUpdate) ClearFolder() *StorageProviderUpdate {
+	_u.mutation.ClearFolder()
+	return _u
 }
 
 // SetRegion sets the "region" field.
-func (spu *StorageProviderUpdate) SetRegion(s string) *StorageProviderUpdate {
-	spu.mutation.SetRegion(s)
-	return spu
+func (_u *StorageProviderUpdate) SetRegion(v string) *StorageProviderUpdate {
+	_u.mutation.SetRegion(v)
+	return _u
 }
 
 // SetNillableRegion sets the "region" field if the given value is not nil.
-func (spu *StorageProviderUpdate) SetNillableRegion(s *string) *StorageProviderUpdate {
-	if s != nil {
-		spu.SetRegion(*s)
+func (_u *StorageProviderUpdate) SetNillableRegion(v *string) *StorageProviderUpdate {
+	if v != nil {
+		_u.SetRegion(*v)
 	}
-	return spu
+	return _u
 }
 
 // SetIsDefault sets the "is_default" field.
-func (spu *StorageProviderUpdate) SetIsDefault(b bool) *StorageProviderUpdate {
-	spu.mutation.SetIsDefault(b)
-	return spu
+func (_u *StorageProviderUpdate) SetIsDefault(v bool) *StorageProviderUpdate {
+	_u.mutation.SetIsDefault(v)
+	return _u
 }
 
 // SetNillableIsDefault sets the "is_default" field if the given value is not nil.
-func (spu *StorageProviderUpdate) SetNillableIsDefault(b *bool) *StorageProviderUpdate {
-	if b != nil {
-		spu.SetIsDefault(*b)
+func (_u *StorageProviderUpdate) SetNillableIsDefault(v *bool) *StorageProviderUpdate {
+	if v != nil {
+		_u.SetIsDefault(*v)
 	}
-	return spu
+	return _u
 }
 
 // SetUseCdn sets the "use_cdn" field.
-func (spu *StorageProviderUpdate) SetUseCdn(b bool) *StorageProviderUpdate {
-	spu.mutation.SetUseCdn(b)
-	return spu
+func (_u *StorageProviderUpdate) SetUseCdn(v bool) *StorageProviderUpdate {
+	_u.mutation.SetUseCdn(v)
+	return _u
 }
 
 // SetNillableUseCdn sets the "use_cdn" field if the given value is not nil.
-func (spu *StorageProviderUpdate) SetNillableUseCdn(b *bool) *StorageProviderUpdate {
-	if b != nil {
-		spu.SetUseCdn(*b)
+func (_u *StorageProviderUpdate) SetNillableUseCdn(v *bool) *StorageProviderUpdate {
+	if v != nil {
+		_u.SetUseCdn(*v)
 	}
-	return spu
+	return _u
 }
 
 // SetCdnURL sets the "cdn_url" field.
-func (spu *StorageProviderUpdate) SetCdnURL(s string) *StorageProviderUpdate {
-	spu.mutation.SetCdnURL(s)
-	return spu
+func (_u *StorageProviderUpdate) SetCdnURL(v string) *StorageProviderUpdate {
+	_u.mutation.SetCdnURL(v)
+	return _u
 }
 
 // SetNillableCdnURL sets the "cdn_url" field if the given value is not nil.
-func (spu *StorageProviderUpdate) SetNillableCdnURL(s *string) *StorageProviderUpdate {
-	if s != nil {
-		spu.SetCdnURL(*s)
+func (_u *StorageProviderUpdate) SetNillableCdnURL(v *string) *StorageProviderUpdate {
+	if v != nil {
+		_u.SetCdnURL(*v)
 	}
-	return spu
+	return _u
 }
 
 // ClearCdnURL clears the value of the "cdn_url" field.
-func (spu *StorageProviderUpdate) ClearCdnURL() *StorageProviderUpdate {
-	spu.mutation.ClearCdnURL()
-	return spu
+func (_u *StorageProviderUpdate) ClearCdnURL() *StorageProviderUpdate {
+	_u.mutation.ClearCdnURL()
+	return _u
 }
 
 // AddCloudfileIDs adds the "cloudfiles" edge to the CloudFile entity by IDs.
-func (spu *StorageProviderUpdate) AddCloudfileIDs(ids ...uuid.UUID) *StorageProviderUpdate {
-	spu.mutation.AddCloudfileIDs(ids...)
-	return spu
+func (_u *StorageProviderUpdate) AddCloudfileIDs(ids ...uuid.UUID) *StorageProviderUpdate {
+	_u.mutation.AddCloudfileIDs(ids...)
+	return _u
 }
 
 // AddCloudfiles adds the "cloudfiles" edges to the CloudFile entity.
-func (spu *StorageProviderUpdate) AddCloudfiles(c ...*CloudFile) *StorageProviderUpdate {
-	ids := make([]uuid.UUID, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_u *StorageProviderUpdate) AddCloudfiles(v ...*CloudFile) *StorageProviderUpdate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return spu.AddCloudfileIDs(ids...)
+	return _u.AddCloudfileIDs(ids...)
 }
 
 // Mutation returns the StorageProviderMutation object of the builder.
-func (spu *StorageProviderUpdate) Mutation() *StorageProviderMutation {
-	return spu.mutation
+func (_u *StorageProviderUpdate) Mutation() *StorageProviderMutation {
+	return _u.mutation
 }
 
 // ClearCloudfiles clears all "cloudfiles" edges to the CloudFile entity.
-func (spu *StorageProviderUpdate) ClearCloudfiles() *StorageProviderUpdate {
-	spu.mutation.ClearCloudfiles()
-	return spu
+func (_u *StorageProviderUpdate) ClearCloudfiles() *StorageProviderUpdate {
+	_u.mutation.ClearCloudfiles()
+	return _u
 }
 
 // RemoveCloudfileIDs removes the "cloudfiles" edge to CloudFile entities by IDs.
-func (spu *StorageProviderUpdate) RemoveCloudfileIDs(ids ...uuid.UUID) *StorageProviderUpdate {
-	spu.mutation.RemoveCloudfileIDs(ids...)
-	return spu
+func (_u *StorageProviderUpdate) RemoveCloudfileIDs(ids ...uuid.UUID) *StorageProviderUpdate {
+	_u.mutation.RemoveCloudfileIDs(ids...)
+	return _u
 }
 
 // RemoveCloudfiles removes "cloudfiles" edges to CloudFile entities.
-func (spu *StorageProviderUpdate) RemoveCloudfiles(c ...*CloudFile) *StorageProviderUpdate {
-	ids := make([]uuid.UUID, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_u *StorageProviderUpdate) RemoveCloudfiles(v ...*CloudFile) *StorageProviderUpdate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return spu.RemoveCloudfileIDs(ids...)
+	return _u.RemoveCloudfileIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (spu *StorageProviderUpdate) Save(ctx context.Context) (int, error) {
-	spu.defaults()
-	return withHooks(ctx, spu.sqlSave, spu.mutation, spu.hooks)
+func (_u *StorageProviderUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (spu *StorageProviderUpdate) SaveX(ctx context.Context) int {
-	affected, err := spu.Save(ctx)
+func (_u *StorageProviderUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -265,81 +265,81 @@ func (spu *StorageProviderUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (spu *StorageProviderUpdate) Exec(ctx context.Context) error {
-	_, err := spu.Save(ctx)
+func (_u *StorageProviderUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (spu *StorageProviderUpdate) ExecX(ctx context.Context) {
-	if err := spu.Exec(ctx); err != nil {
+func (_u *StorageProviderUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (spu *StorageProviderUpdate) defaults() {
-	if _, ok := spu.mutation.UpdatedAt(); !ok {
+func (_u *StorageProviderUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := storageprovider.UpdateDefaultUpdatedAt()
-		spu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (spu *StorageProviderUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *StorageProviderUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(storageprovider.Table, storageprovider.Columns, sqlgraph.NewFieldSpec(storageprovider.FieldID, field.TypeUint64))
-	if ps := spu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := spu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(storageprovider.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if value, ok := spu.mutation.State(); ok {
+	if value, ok := _u.mutation.State(); ok {
 		_spec.SetField(storageprovider.FieldState, field.TypeBool, value)
 	}
-	if spu.mutation.StateCleared() {
+	if _u.mutation.StateCleared() {
 		_spec.ClearField(storageprovider.FieldState, field.TypeBool)
 	}
-	if value, ok := spu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(storageprovider.FieldName, field.TypeString, value)
 	}
-	if value, ok := spu.mutation.Bucket(); ok {
+	if value, ok := _u.mutation.Bucket(); ok {
 		_spec.SetField(storageprovider.FieldBucket, field.TypeString, value)
 	}
-	if value, ok := spu.mutation.SecretID(); ok {
+	if value, ok := _u.mutation.SecretID(); ok {
 		_spec.SetField(storageprovider.FieldSecretID, field.TypeString, value)
 	}
-	if value, ok := spu.mutation.SecretKey(); ok {
+	if value, ok := _u.mutation.SecretKey(); ok {
 		_spec.SetField(storageprovider.FieldSecretKey, field.TypeString, value)
 	}
-	if value, ok := spu.mutation.Endpoint(); ok {
+	if value, ok := _u.mutation.Endpoint(); ok {
 		_spec.SetField(storageprovider.FieldEndpoint, field.TypeString, value)
 	}
-	if value, ok := spu.mutation.Folder(); ok {
+	if value, ok := _u.mutation.Folder(); ok {
 		_spec.SetField(storageprovider.FieldFolder, field.TypeString, value)
 	}
-	if spu.mutation.FolderCleared() {
+	if _u.mutation.FolderCleared() {
 		_spec.ClearField(storageprovider.FieldFolder, field.TypeString)
 	}
-	if value, ok := spu.mutation.Region(); ok {
+	if value, ok := _u.mutation.Region(); ok {
 		_spec.SetField(storageprovider.FieldRegion, field.TypeString, value)
 	}
-	if value, ok := spu.mutation.IsDefault(); ok {
+	if value, ok := _u.mutation.IsDefault(); ok {
 		_spec.SetField(storageprovider.FieldIsDefault, field.TypeBool, value)
 	}
-	if value, ok := spu.mutation.UseCdn(); ok {
+	if value, ok := _u.mutation.UseCdn(); ok {
 		_spec.SetField(storageprovider.FieldUseCdn, field.TypeBool, value)
 	}
-	if value, ok := spu.mutation.CdnURL(); ok {
+	if value, ok := _u.mutation.CdnURL(); ok {
 		_spec.SetField(storageprovider.FieldCdnURL, field.TypeString, value)
 	}
-	if spu.mutation.CdnURLCleared() {
+	if _u.mutation.CdnURLCleared() {
 		_spec.ClearField(storageprovider.FieldCdnURL, field.TypeString)
 	}
-	if spu.mutation.CloudfilesCleared() {
+	if _u.mutation.CloudfilesCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: true,
@@ -352,7 +352,7 @@ func (spu *StorageProviderUpdate) sqlSave(ctx context.Context) (n int, err error
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := spu.mutation.RemovedCloudfilesIDs(); len(nodes) > 0 && !spu.mutation.CloudfilesCleared() {
+	if nodes := _u.mutation.RemovedCloudfilesIDs(); len(nodes) > 0 && !_u.mutation.CloudfilesCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: true,
@@ -368,7 +368,7 @@ func (spu *StorageProviderUpdate) sqlSave(ctx context.Context) (n int, err error
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := spu.mutation.CloudfilesIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.CloudfilesIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: true,
@@ -384,7 +384,7 @@ func (spu *StorageProviderUpdate) sqlSave(ctx context.Context) (n int, err error
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, spu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{storageprovider.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -392,8 +392,8 @@ func (spu *StorageProviderUpdate) sqlSave(ctx context.Context) (n int, err error
 		}
 		return 0, err
 	}
-	spu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // StorageProviderUpdateOne is the builder for updating a single StorageProvider entity.
@@ -405,246 +405,246 @@ type StorageProviderUpdateOne struct {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (spuo *StorageProviderUpdateOne) SetUpdatedAt(t time.Time) *StorageProviderUpdateOne {
-	spuo.mutation.SetUpdatedAt(t)
-	return spuo
+func (_u *StorageProviderUpdateOne) SetUpdatedAt(v time.Time) *StorageProviderUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetState sets the "state" field.
-func (spuo *StorageProviderUpdateOne) SetState(b bool) *StorageProviderUpdateOne {
-	spuo.mutation.SetState(b)
-	return spuo
+func (_u *StorageProviderUpdateOne) SetState(v bool) *StorageProviderUpdateOne {
+	_u.mutation.SetState(v)
+	return _u
 }
 
 // SetNillableState sets the "state" field if the given value is not nil.
-func (spuo *StorageProviderUpdateOne) SetNillableState(b *bool) *StorageProviderUpdateOne {
-	if b != nil {
-		spuo.SetState(*b)
+func (_u *StorageProviderUpdateOne) SetNillableState(v *bool) *StorageProviderUpdateOne {
+	if v != nil {
+		_u.SetState(*v)
 	}
-	return spuo
+	return _u
 }
 
 // ClearState clears the value of the "state" field.
-func (spuo *StorageProviderUpdateOne) ClearState() *StorageProviderUpdateOne {
-	spuo.mutation.ClearState()
-	return spuo
+func (_u *StorageProviderUpdateOne) ClearState() *StorageProviderUpdateOne {
+	_u.mutation.ClearState()
+	return _u
 }
 
 // SetName sets the "name" field.
-func (spuo *StorageProviderUpdateOne) SetName(s string) *StorageProviderUpdateOne {
-	spuo.mutation.SetName(s)
-	return spuo
+func (_u *StorageProviderUpdateOne) SetName(v string) *StorageProviderUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (spuo *StorageProviderUpdateOne) SetNillableName(s *string) *StorageProviderUpdateOne {
-	if s != nil {
-		spuo.SetName(*s)
+func (_u *StorageProviderUpdateOne) SetNillableName(v *string) *StorageProviderUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return spuo
+	return _u
 }
 
 // SetBucket sets the "bucket" field.
-func (spuo *StorageProviderUpdateOne) SetBucket(s string) *StorageProviderUpdateOne {
-	spuo.mutation.SetBucket(s)
-	return spuo
+func (_u *StorageProviderUpdateOne) SetBucket(v string) *StorageProviderUpdateOne {
+	_u.mutation.SetBucket(v)
+	return _u
 }
 
 // SetNillableBucket sets the "bucket" field if the given value is not nil.
-func (spuo *StorageProviderUpdateOne) SetNillableBucket(s *string) *StorageProviderUpdateOne {
-	if s != nil {
-		spuo.SetBucket(*s)
+func (_u *StorageProviderUpdateOne) SetNillableBucket(v *string) *StorageProviderUpdateOne {
+	if v != nil {
+		_u.SetBucket(*v)
 	}
-	return spuo
+	return _u
 }
 
 // SetSecretID sets the "secret_id" field.
-func (spuo *StorageProviderUpdateOne) SetSecretID(s string) *StorageProviderUpdateOne {
-	spuo.mutation.SetSecretID(s)
-	return spuo
+func (_u *StorageProviderUpdateOne) SetSecretID(v string) *StorageProviderUpdateOne {
+	_u.mutation.SetSecretID(v)
+	return _u
 }
 
 // SetNillableSecretID sets the "secret_id" field if the given value is not nil.
-func (spuo *StorageProviderUpdateOne) SetNillableSecretID(s *string) *StorageProviderUpdateOne {
-	if s != nil {
-		spuo.SetSecretID(*s)
+func (_u *StorageProviderUpdateOne) SetNillableSecretID(v *string) *StorageProviderUpdateOne {
+	if v != nil {
+		_u.SetSecretID(*v)
 	}
-	return spuo
+	return _u
 }
 
 // SetSecretKey sets the "secret_key" field.
-func (spuo *StorageProviderUpdateOne) SetSecretKey(s string) *StorageProviderUpdateOne {
-	spuo.mutation.SetSecretKey(s)
-	return spuo
+func (_u *StorageProviderUpdateOne) SetSecretKey(v string) *StorageProviderUpdateOne {
+	_u.mutation.SetSecretKey(v)
+	return _u
 }
 
 // SetNillableSecretKey sets the "secret_key" field if the given value is not nil.
-func (spuo *StorageProviderUpdateOne) SetNillableSecretKey(s *string) *StorageProviderUpdateOne {
-	if s != nil {
-		spuo.SetSecretKey(*s)
+func (_u *StorageProviderUpdateOne) SetNillableSecretKey(v *string) *StorageProviderUpdateOne {
+	if v != nil {
+		_u.SetSecretKey(*v)
 	}
-	return spuo
+	return _u
 }
 
 // SetEndpoint sets the "endpoint" field.
-func (spuo *StorageProviderUpdateOne) SetEndpoint(s string) *StorageProviderUpdateOne {
-	spuo.mutation.SetEndpoint(s)
-	return spuo
+func (_u *StorageProviderUpdateOne) SetEndpoint(v string) *StorageProviderUpdateOne {
+	_u.mutation.SetEndpoint(v)
+	return _u
 }
 
 // SetNillableEndpoint sets the "endpoint" field if the given value is not nil.
-func (spuo *StorageProviderUpdateOne) SetNillableEndpoint(s *string) *StorageProviderUpdateOne {
-	if s != nil {
-		spuo.SetEndpoint(*s)
+func (_u *StorageProviderUpdateOne) SetNillableEndpoint(v *string) *StorageProviderUpdateOne {
+	if v != nil {
+		_u.SetEndpoint(*v)
 	}
-	return spuo
+	return _u
 }
 
 // SetFolder sets the "folder" field.
-func (spuo *StorageProviderUpdateOne) SetFolder(s string) *StorageProviderUpdateOne {
-	spuo.mutation.SetFolder(s)
-	return spuo
+func (_u *StorageProviderUpdateOne) SetFolder(v string) *StorageProviderUpdateOne {
+	_u.mutation.SetFolder(v)
+	return _u
 }
 
 // SetNillableFolder sets the "folder" field if the given value is not nil.
-func (spuo *StorageProviderUpdateOne) SetNillableFolder(s *string) *StorageProviderUpdateOne {
-	if s != nil {
-		spuo.SetFolder(*s)
+func (_u *StorageProviderUpdateOne) SetNillableFolder(v *string) *StorageProviderUpdateOne {
+	if v != nil {
+		_u.SetFolder(*v)
 	}
-	return spuo
+	return _u
 }
 
 // ClearFolder clears the value of the "folder" field.
-func (spuo *StorageProviderUpdateOne) ClearFolder() *StorageProviderUpdateOne {
-	spuo.mutation.ClearFolder()
-	return spuo
+func (_u *StorageProviderUpdateOne) ClearFolder() *StorageProviderUpdateOne {
+	_u.mutation.ClearFolder()
+	return _u
 }
 
 // SetRegion sets the "region" field.
-func (spuo *StorageProviderUpdateOne) SetRegion(s string) *StorageProviderUpdateOne {
-	spuo.mutation.SetRegion(s)
-	return spuo
+func (_u *StorageProviderUpdateOne) SetRegion(v string) *StorageProviderUpdateOne {
+	_u.mutation.SetRegion(v)
+	return _u
 }
 
 // SetNillableRegion sets the "region" field if the given value is not nil.
-func (spuo *StorageProviderUpdateOne) SetNillableRegion(s *string) *StorageProviderUpdateOne {
-	if s != nil {
-		spuo.SetRegion(*s)
+func (_u *StorageProviderUpdateOne) SetNillableRegion(v *string) *StorageProviderUpdateOne {
+	if v != nil {
+		_u.SetRegion(*v)
 	}
-	return spuo
+	return _u
 }
 
 // SetIsDefault sets the "is_default" field.
-func (spuo *StorageProviderUpdateOne) SetIsDefault(b bool) *StorageProviderUpdateOne {
-	spuo.mutation.SetIsDefault(b)
-	return spuo
+func (_u *StorageProviderUpdateOne) SetIsDefault(v bool) *StorageProviderUpdateOne {
+	_u.mutation.SetIsDefault(v)
+	return _u
 }
 
 // SetNillableIsDefault sets the "is_default" field if the given value is not nil.
-func (spuo *StorageProviderUpdateOne) SetNillableIsDefault(b *bool) *StorageProviderUpdateOne {
-	if b != nil {
-		spuo.SetIsDefault(*b)
+func (_u *StorageProviderUpdateOne) SetNillableIsDefault(v *bool) *StorageProviderUpdateOne {
+	if v != nil {
+		_u.SetIsDefault(*v)
 	}
-	return spuo
+	return _u
 }
 
 // SetUseCdn sets the "use_cdn" field.
-func (spuo *StorageProviderUpdateOne) SetUseCdn(b bool) *StorageProviderUpdateOne {
-	spuo.mutation.SetUseCdn(b)
-	return spuo
+func (_u *StorageProviderUpdateOne) SetUseCdn(v bool) *StorageProviderUpdateOne {
+	_u.mutation.SetUseCdn(v)
+	return _u
 }
 
 // SetNillableUseCdn sets the "use_cdn" field if the given value is not nil.
-func (spuo *StorageProviderUpdateOne) SetNillableUseCdn(b *bool) *StorageProviderUpdateOne {
-	if b != nil {
-		spuo.SetUseCdn(*b)
+func (_u *StorageProviderUpdateOne) SetNillableUseCdn(v *bool) *StorageProviderUpdateOne {
+	if v != nil {
+		_u.SetUseCdn(*v)
 	}
-	return spuo
+	return _u
 }
 
 // SetCdnURL sets the "cdn_url" field.
-func (spuo *StorageProviderUpdateOne) SetCdnURL(s string) *StorageProviderUpdateOne {
-	spuo.mutation.SetCdnURL(s)
-	return spuo
+func (_u *StorageProviderUpdateOne) SetCdnURL(v string) *StorageProviderUpdateOne {
+	_u.mutation.SetCdnURL(v)
+	return _u
 }
 
 // SetNillableCdnURL sets the "cdn_url" field if the given value is not nil.
-func (spuo *StorageProviderUpdateOne) SetNillableCdnURL(s *string) *StorageProviderUpdateOne {
-	if s != nil {
-		spuo.SetCdnURL(*s)
+func (_u *StorageProviderUpdateOne) SetNillableCdnURL(v *string) *StorageProviderUpdateOne {
+	if v != nil {
+		_u.SetCdnURL(*v)
 	}
-	return spuo
+	return _u
 }
 
 // ClearCdnURL clears the value of the "cdn_url" field.
-func (spuo *StorageProviderUpdateOne) ClearCdnURL() *StorageProviderUpdateOne {
-	spuo.mutation.ClearCdnURL()
-	return spuo
+func (_u *StorageProviderUpdateOne) ClearCdnURL() *StorageProviderUpdateOne {
+	_u.mutation.ClearCdnURL()
+	return _u
 }
 
 // AddCloudfileIDs adds the "cloudfiles" edge to the CloudFile entity by IDs.
-func (spuo *StorageProviderUpdateOne) AddCloudfileIDs(ids ...uuid.UUID) *StorageProviderUpdateOne {
-	spuo.mutation.AddCloudfileIDs(ids...)
-	return spuo
+func (_u *StorageProviderUpdateOne) AddCloudfileIDs(ids ...uuid.UUID) *StorageProviderUpdateOne {
+	_u.mutation.AddCloudfileIDs(ids...)
+	return _u
 }
 
 // AddCloudfiles adds the "cloudfiles" edges to the CloudFile entity.
-func (spuo *StorageProviderUpdateOne) AddCloudfiles(c ...*CloudFile) *StorageProviderUpdateOne {
-	ids := make([]uuid.UUID, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_u *StorageProviderUpdateOne) AddCloudfiles(v ...*CloudFile) *StorageProviderUpdateOne {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return spuo.AddCloudfileIDs(ids...)
+	return _u.AddCloudfileIDs(ids...)
 }
 
 // Mutation returns the StorageProviderMutation object of the builder.
-func (spuo *StorageProviderUpdateOne) Mutation() *StorageProviderMutation {
-	return spuo.mutation
+func (_u *StorageProviderUpdateOne) Mutation() *StorageProviderMutation {
+	return _u.mutation
 }
 
 // ClearCloudfiles clears all "cloudfiles" edges to the CloudFile entity.
-func (spuo *StorageProviderUpdateOne) ClearCloudfiles() *StorageProviderUpdateOne {
-	spuo.mutation.ClearCloudfiles()
-	return spuo
+func (_u *StorageProviderUpdateOne) ClearCloudfiles() *StorageProviderUpdateOne {
+	_u.mutation.ClearCloudfiles()
+	return _u
 }
 
 // RemoveCloudfileIDs removes the "cloudfiles" edge to CloudFile entities by IDs.
-func (spuo *StorageProviderUpdateOne) RemoveCloudfileIDs(ids ...uuid.UUID) *StorageProviderUpdateOne {
-	spuo.mutation.RemoveCloudfileIDs(ids...)
-	return spuo
+func (_u *StorageProviderUpdateOne) RemoveCloudfileIDs(ids ...uuid.UUID) *StorageProviderUpdateOne {
+	_u.mutation.RemoveCloudfileIDs(ids...)
+	return _u
 }
 
 // RemoveCloudfiles removes "cloudfiles" edges to CloudFile entities.
-func (spuo *StorageProviderUpdateOne) RemoveCloudfiles(c ...*CloudFile) *StorageProviderUpdateOne {
-	ids := make([]uuid.UUID, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_u *StorageProviderUpdateOne) RemoveCloudfiles(v ...*CloudFile) *StorageProviderUpdateOne {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return spuo.RemoveCloudfileIDs(ids...)
+	return _u.RemoveCloudfileIDs(ids...)
 }
 
 // Where appends a list predicates to the StorageProviderUpdate builder.
-func (spuo *StorageProviderUpdateOne) Where(ps ...predicate.StorageProvider) *StorageProviderUpdateOne {
-	spuo.mutation.Where(ps...)
-	return spuo
+func (_u *StorageProviderUpdateOne) Where(ps ...predicate.StorageProvider) *StorageProviderUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (spuo *StorageProviderUpdateOne) Select(field string, fields ...string) *StorageProviderUpdateOne {
-	spuo.fields = append([]string{field}, fields...)
-	return spuo
+func (_u *StorageProviderUpdateOne) Select(field string, fields ...string) *StorageProviderUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated StorageProvider entity.
-func (spuo *StorageProviderUpdateOne) Save(ctx context.Context) (*StorageProvider, error) {
-	spuo.defaults()
-	return withHooks(ctx, spuo.sqlSave, spuo.mutation, spuo.hooks)
+func (_u *StorageProviderUpdateOne) Save(ctx context.Context) (*StorageProvider, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (spuo *StorageProviderUpdateOne) SaveX(ctx context.Context) *StorageProvider {
-	node, err := spuo.Save(ctx)
+func (_u *StorageProviderUpdateOne) SaveX(ctx context.Context) *StorageProvider {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -652,34 +652,34 @@ func (spuo *StorageProviderUpdateOne) SaveX(ctx context.Context) *StorageProvide
 }
 
 // Exec executes the query on the entity.
-func (spuo *StorageProviderUpdateOne) Exec(ctx context.Context) error {
-	_, err := spuo.Save(ctx)
+func (_u *StorageProviderUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (spuo *StorageProviderUpdateOne) ExecX(ctx context.Context) {
-	if err := spuo.Exec(ctx); err != nil {
+func (_u *StorageProviderUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (spuo *StorageProviderUpdateOne) defaults() {
-	if _, ok := spuo.mutation.UpdatedAt(); !ok {
+func (_u *StorageProviderUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := storageprovider.UpdateDefaultUpdatedAt()
-		spuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (spuo *StorageProviderUpdateOne) sqlSave(ctx context.Context) (_node *StorageProvider, err error) {
+func (_u *StorageProviderUpdateOne) sqlSave(ctx context.Context) (_node *StorageProvider, err error) {
 	_spec := sqlgraph.NewUpdateSpec(storageprovider.Table, storageprovider.Columns, sqlgraph.NewFieldSpec(storageprovider.FieldID, field.TypeUint64))
-	id, ok := spuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "StorageProvider.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := spuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, storageprovider.FieldID)
 		for _, f := range fields {
@@ -691,59 +691,59 @@ func (spuo *StorageProviderUpdateOne) sqlSave(ctx context.Context) (_node *Stora
 			}
 		}
 	}
-	if ps := spuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := spuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(storageprovider.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if value, ok := spuo.mutation.State(); ok {
+	if value, ok := _u.mutation.State(); ok {
 		_spec.SetField(storageprovider.FieldState, field.TypeBool, value)
 	}
-	if spuo.mutation.StateCleared() {
+	if _u.mutation.StateCleared() {
 		_spec.ClearField(storageprovider.FieldState, field.TypeBool)
 	}
-	if value, ok := spuo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(storageprovider.FieldName, field.TypeString, value)
 	}
-	if value, ok := spuo.mutation.Bucket(); ok {
+	if value, ok := _u.mutation.Bucket(); ok {
 		_spec.SetField(storageprovider.FieldBucket, field.TypeString, value)
 	}
-	if value, ok := spuo.mutation.SecretID(); ok {
+	if value, ok := _u.mutation.SecretID(); ok {
 		_spec.SetField(storageprovider.FieldSecretID, field.TypeString, value)
 	}
-	if value, ok := spuo.mutation.SecretKey(); ok {
+	if value, ok := _u.mutation.SecretKey(); ok {
 		_spec.SetField(storageprovider.FieldSecretKey, field.TypeString, value)
 	}
-	if value, ok := spuo.mutation.Endpoint(); ok {
+	if value, ok := _u.mutation.Endpoint(); ok {
 		_spec.SetField(storageprovider.FieldEndpoint, field.TypeString, value)
 	}
-	if value, ok := spuo.mutation.Folder(); ok {
+	if value, ok := _u.mutation.Folder(); ok {
 		_spec.SetField(storageprovider.FieldFolder, field.TypeString, value)
 	}
-	if spuo.mutation.FolderCleared() {
+	if _u.mutation.FolderCleared() {
 		_spec.ClearField(storageprovider.FieldFolder, field.TypeString)
 	}
-	if value, ok := spuo.mutation.Region(); ok {
+	if value, ok := _u.mutation.Region(); ok {
 		_spec.SetField(storageprovider.FieldRegion, field.TypeString, value)
 	}
-	if value, ok := spuo.mutation.IsDefault(); ok {
+	if value, ok := _u.mutation.IsDefault(); ok {
 		_spec.SetField(storageprovider.FieldIsDefault, field.TypeBool, value)
 	}
-	if value, ok := spuo.mutation.UseCdn(); ok {
+	if value, ok := _u.mutation.UseCdn(); ok {
 		_spec.SetField(storageprovider.FieldUseCdn, field.TypeBool, value)
 	}
-	if value, ok := spuo.mutation.CdnURL(); ok {
+	if value, ok := _u.mutation.CdnURL(); ok {
 		_spec.SetField(storageprovider.FieldCdnURL, field.TypeString, value)
 	}
-	if spuo.mutation.CdnURLCleared() {
+	if _u.mutation.CdnURLCleared() {
 		_spec.ClearField(storageprovider.FieldCdnURL, field.TypeString)
 	}
-	if spuo.mutation.CloudfilesCleared() {
+	if _u.mutation.CloudfilesCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: true,
@@ -756,7 +756,7 @@ func (spuo *StorageProviderUpdateOne) sqlSave(ctx context.Context) (_node *Stora
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := spuo.mutation.RemovedCloudfilesIDs(); len(nodes) > 0 && !spuo.mutation.CloudfilesCleared() {
+	if nodes := _u.mutation.RemovedCloudfilesIDs(); len(nodes) > 0 && !_u.mutation.CloudfilesCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: true,
@@ -772,7 +772,7 @@ func (spuo *StorageProviderUpdateOne) sqlSave(ctx context.Context) (_node *Stora
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := spuo.mutation.CloudfilesIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.CloudfilesIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: true,
@@ -788,10 +788,10 @@ func (spuo *StorageProviderUpdateOne) sqlSave(ctx context.Context) (_node *Stora
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &StorageProvider{config: spuo.config}
+	_node = &StorageProvider{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, spuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{storageprovider.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -799,6 +799,6 @@ func (spuo *StorageProviderUpdateOne) sqlSave(ctx context.Context) (_node *Stora
 		}
 		return nil, err
 	}
-	spuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }
