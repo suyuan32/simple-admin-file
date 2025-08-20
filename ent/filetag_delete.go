@@ -20,56 +20,56 @@ type FileTagDelete struct {
 }
 
 // Where appends a list predicates to the FileTagDelete builder.
-func (ftd *FileTagDelete) Where(ps ...predicate.FileTag) *FileTagDelete {
-	ftd.mutation.Where(ps...)
-	return ftd
+func (_d *FileTagDelete) Where(ps ...predicate.FileTag) *FileTagDelete {
+	_d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (ftd *FileTagDelete) Exec(ctx context.Context) (int, error) {
-	return withHooks(ctx, ftd.sqlExec, ftd.mutation, ftd.hooks)
+func (_d *FileTagDelete) Exec(ctx context.Context) (int, error) {
+	return withHooks(ctx, _d.sqlExec, _d.mutation, _d.hooks)
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ftd *FileTagDelete) ExecX(ctx context.Context) int {
-	n, err := ftd.Exec(ctx)
+func (_d *FileTagDelete) ExecX(ctx context.Context) int {
+	n, err := _d.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (ftd *FileTagDelete) sqlExec(ctx context.Context) (int, error) {
+func (_d *FileTagDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := sqlgraph.NewDeleteSpec(filetag.Table, sqlgraph.NewFieldSpec(filetag.FieldID, field.TypeUint64))
-	if ps := ftd.mutation.predicates; len(ps) > 0 {
+	if ps := _d.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, ftd.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, _d.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
-	ftd.mutation.done = true
+	_d.mutation.done = true
 	return affected, err
 }
 
 // FileTagDeleteOne is the builder for deleting a single FileTag entity.
 type FileTagDeleteOne struct {
-	ftd *FileTagDelete
+	_d *FileTagDelete
 }
 
 // Where appends a list predicates to the FileTagDelete builder.
-func (ftdo *FileTagDeleteOne) Where(ps ...predicate.FileTag) *FileTagDeleteOne {
-	ftdo.ftd.mutation.Where(ps...)
-	return ftdo
+func (_d *FileTagDeleteOne) Where(ps ...predicate.FileTag) *FileTagDeleteOne {
+	_d._d.mutation.Where(ps...)
+	return _d
 }
 
 // Exec executes the deletion query.
-func (ftdo *FileTagDeleteOne) Exec(ctx context.Context) error {
-	n, err := ftdo.ftd.Exec(ctx)
+func (_d *FileTagDeleteOne) Exec(ctx context.Context) error {
+	n, err := _d._d.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
@@ -81,8 +81,8 @@ func (ftdo *FileTagDeleteOne) Exec(ctx context.Context) error {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ftdo *FileTagDeleteOne) ExecX(ctx context.Context) {
-	if err := ftdo.Exec(ctx); err != nil {
+func (_d *FileTagDeleteOne) ExecX(ctx context.Context) {
+	if err := _d.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

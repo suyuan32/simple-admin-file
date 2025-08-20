@@ -295,8 +295,8 @@ func (c *CloudFileClient) Update() *CloudFileUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *CloudFileClient) UpdateOne(cf *CloudFile) *CloudFileUpdateOne {
-	mutation := newCloudFileMutation(c.config, OpUpdateOne, withCloudFile(cf))
+func (c *CloudFileClient) UpdateOne(_m *CloudFile) *CloudFileUpdateOne {
+	mutation := newCloudFileMutation(c.config, OpUpdateOne, withCloudFile(_m))
 	return &CloudFileUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -313,8 +313,8 @@ func (c *CloudFileClient) Delete() *CloudFileDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *CloudFileClient) DeleteOne(cf *CloudFile) *CloudFileDeleteOne {
-	return c.DeleteOneID(cf.ID)
+func (c *CloudFileClient) DeleteOne(_m *CloudFile) *CloudFileDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -349,32 +349,32 @@ func (c *CloudFileClient) GetX(ctx context.Context, id uuid.UUID) *CloudFile {
 }
 
 // QueryStorageProviders queries the storage_providers edge of a CloudFile.
-func (c *CloudFileClient) QueryStorageProviders(cf *CloudFile) *StorageProviderQuery {
+func (c *CloudFileClient) QueryStorageProviders(_m *CloudFile) *StorageProviderQuery {
 	query := (&StorageProviderClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := cf.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(cloudfile.Table, cloudfile.FieldID, id),
 			sqlgraph.To(storageprovider.Table, storageprovider.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, false, cloudfile.StorageProvidersTable, cloudfile.StorageProvidersColumn),
 		)
-		fromV = sqlgraph.Neighbors(cf.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // QueryTags queries the tags edge of a CloudFile.
-func (c *CloudFileClient) QueryTags(cf *CloudFile) *CloudFileTagQuery {
+func (c *CloudFileClient) QueryTags(_m *CloudFile) *CloudFileTagQuery {
 	query := (&CloudFileTagClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := cf.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(cloudfile.Table, cloudfile.FieldID, id),
 			sqlgraph.To(cloudfiletag.Table, cloudfiletag.FieldID),
 			sqlgraph.Edge(sqlgraph.M2M, true, cloudfile.TagsTable, cloudfile.TagsPrimaryKey...),
 		)
-		fromV = sqlgraph.Neighbors(cf.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -460,8 +460,8 @@ func (c *CloudFileTagClient) Update() *CloudFileTagUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *CloudFileTagClient) UpdateOne(cft *CloudFileTag) *CloudFileTagUpdateOne {
-	mutation := newCloudFileTagMutation(c.config, OpUpdateOne, withCloudFileTag(cft))
+func (c *CloudFileTagClient) UpdateOne(_m *CloudFileTag) *CloudFileTagUpdateOne {
+	mutation := newCloudFileTagMutation(c.config, OpUpdateOne, withCloudFileTag(_m))
 	return &CloudFileTagUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -478,8 +478,8 @@ func (c *CloudFileTagClient) Delete() *CloudFileTagDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *CloudFileTagClient) DeleteOne(cft *CloudFileTag) *CloudFileTagDeleteOne {
-	return c.DeleteOneID(cft.ID)
+func (c *CloudFileTagClient) DeleteOne(_m *CloudFileTag) *CloudFileTagDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -514,16 +514,16 @@ func (c *CloudFileTagClient) GetX(ctx context.Context, id uint64) *CloudFileTag 
 }
 
 // QueryCloudFiles queries the cloud_files edge of a CloudFileTag.
-func (c *CloudFileTagClient) QueryCloudFiles(cft *CloudFileTag) *CloudFileQuery {
+func (c *CloudFileTagClient) QueryCloudFiles(_m *CloudFileTag) *CloudFileQuery {
 	query := (&CloudFileClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := cft.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(cloudfiletag.Table, cloudfiletag.FieldID, id),
 			sqlgraph.To(cloudfile.Table, cloudfile.FieldID),
 			sqlgraph.Edge(sqlgraph.M2M, false, cloudfiletag.CloudFilesTable, cloudfiletag.CloudFilesPrimaryKey...),
 		)
-		fromV = sqlgraph.Neighbors(cft.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -609,8 +609,8 @@ func (c *FileClient) Update() *FileUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *FileClient) UpdateOne(f *File) *FileUpdateOne {
-	mutation := newFileMutation(c.config, OpUpdateOne, withFile(f))
+func (c *FileClient) UpdateOne(_m *File) *FileUpdateOne {
+	mutation := newFileMutation(c.config, OpUpdateOne, withFile(_m))
 	return &FileUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -627,8 +627,8 @@ func (c *FileClient) Delete() *FileDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *FileClient) DeleteOne(f *File) *FileDeleteOne {
-	return c.DeleteOneID(f.ID)
+func (c *FileClient) DeleteOne(_m *File) *FileDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -663,16 +663,16 @@ func (c *FileClient) GetX(ctx context.Context, id uuid.UUID) *File {
 }
 
 // QueryTags queries the tags edge of a File.
-func (c *FileClient) QueryTags(f *File) *FileTagQuery {
+func (c *FileClient) QueryTags(_m *File) *FileTagQuery {
 	query := (&FileTagClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := f.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(file.Table, file.FieldID, id),
 			sqlgraph.To(filetag.Table, filetag.FieldID),
 			sqlgraph.Edge(sqlgraph.M2M, true, file.TagsTable, file.TagsPrimaryKey...),
 		)
-		fromV = sqlgraph.Neighbors(f.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -758,8 +758,8 @@ func (c *FileTagClient) Update() *FileTagUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *FileTagClient) UpdateOne(ft *FileTag) *FileTagUpdateOne {
-	mutation := newFileTagMutation(c.config, OpUpdateOne, withFileTag(ft))
+func (c *FileTagClient) UpdateOne(_m *FileTag) *FileTagUpdateOne {
+	mutation := newFileTagMutation(c.config, OpUpdateOne, withFileTag(_m))
 	return &FileTagUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -776,8 +776,8 @@ func (c *FileTagClient) Delete() *FileTagDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *FileTagClient) DeleteOne(ft *FileTag) *FileTagDeleteOne {
-	return c.DeleteOneID(ft.ID)
+func (c *FileTagClient) DeleteOne(_m *FileTag) *FileTagDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -812,16 +812,16 @@ func (c *FileTagClient) GetX(ctx context.Context, id uint64) *FileTag {
 }
 
 // QueryFiles queries the files edge of a FileTag.
-func (c *FileTagClient) QueryFiles(ft *FileTag) *FileQuery {
+func (c *FileTagClient) QueryFiles(_m *FileTag) *FileQuery {
 	query := (&FileClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := ft.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(filetag.Table, filetag.FieldID, id),
 			sqlgraph.To(file.Table, file.FieldID),
 			sqlgraph.Edge(sqlgraph.M2M, false, filetag.FilesTable, filetag.FilesPrimaryKey...),
 		)
-		fromV = sqlgraph.Neighbors(ft.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
@@ -907,8 +907,8 @@ func (c *StorageProviderClient) Update() *StorageProviderUpdate {
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *StorageProviderClient) UpdateOne(sp *StorageProvider) *StorageProviderUpdateOne {
-	mutation := newStorageProviderMutation(c.config, OpUpdateOne, withStorageProvider(sp))
+func (c *StorageProviderClient) UpdateOne(_m *StorageProvider) *StorageProviderUpdateOne {
+	mutation := newStorageProviderMutation(c.config, OpUpdateOne, withStorageProvider(_m))
 	return &StorageProviderUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
@@ -925,8 +925,8 @@ func (c *StorageProviderClient) Delete() *StorageProviderDelete {
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *StorageProviderClient) DeleteOne(sp *StorageProvider) *StorageProviderDeleteOne {
-	return c.DeleteOneID(sp.ID)
+func (c *StorageProviderClient) DeleteOne(_m *StorageProvider) *StorageProviderDeleteOne {
+	return c.DeleteOneID(_m.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
@@ -961,16 +961,16 @@ func (c *StorageProviderClient) GetX(ctx context.Context, id uint64) *StoragePro
 }
 
 // QueryCloudfiles queries the cloudfiles edge of a StorageProvider.
-func (c *StorageProviderClient) QueryCloudfiles(sp *StorageProvider) *CloudFileQuery {
+func (c *StorageProviderClient) QueryCloudfiles(_m *StorageProvider) *CloudFileQuery {
 	query := (&CloudFileClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := sp.ID
+		id := _m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(storageprovider.Table, storageprovider.FieldID, id),
 			sqlgraph.To(cloudfile.Table, cloudfile.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, true, storageprovider.CloudfilesTable, storageprovider.CloudfilesColumn),
 		)
-		fromV = sqlgraph.Neighbors(sp.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(_m.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query

@@ -32,44 +32,44 @@ type CloudFileTagQuery struct {
 }
 
 // Where adds a new predicate for the CloudFileTagQuery builder.
-func (cftq *CloudFileTagQuery) Where(ps ...predicate.CloudFileTag) *CloudFileTagQuery {
-	cftq.predicates = append(cftq.predicates, ps...)
-	return cftq
+func (_q *CloudFileTagQuery) Where(ps ...predicate.CloudFileTag) *CloudFileTagQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (cftq *CloudFileTagQuery) Limit(limit int) *CloudFileTagQuery {
-	cftq.ctx.Limit = &limit
-	return cftq
+func (_q *CloudFileTagQuery) Limit(limit int) *CloudFileTagQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (cftq *CloudFileTagQuery) Offset(offset int) *CloudFileTagQuery {
-	cftq.ctx.Offset = &offset
-	return cftq
+func (_q *CloudFileTagQuery) Offset(offset int) *CloudFileTagQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (cftq *CloudFileTagQuery) Unique(unique bool) *CloudFileTagQuery {
-	cftq.ctx.Unique = &unique
-	return cftq
+func (_q *CloudFileTagQuery) Unique(unique bool) *CloudFileTagQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (cftq *CloudFileTagQuery) Order(o ...cloudfiletag.OrderOption) *CloudFileTagQuery {
-	cftq.order = append(cftq.order, o...)
-	return cftq
+func (_q *CloudFileTagQuery) Order(o ...cloudfiletag.OrderOption) *CloudFileTagQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // QueryCloudFiles chains the current query on the "cloud_files" edge.
-func (cftq *CloudFileTagQuery) QueryCloudFiles() *CloudFileQuery {
-	query := (&CloudFileClient{config: cftq.config}).Query()
+func (_q *CloudFileTagQuery) QueryCloudFiles() *CloudFileQuery {
+	query := (&CloudFileClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := cftq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := cftq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -78,7 +78,7 @@ func (cftq *CloudFileTagQuery) QueryCloudFiles() *CloudFileQuery {
 			sqlgraph.To(cloudfile.Table, cloudfile.FieldID),
 			sqlgraph.Edge(sqlgraph.M2M, false, cloudfiletag.CloudFilesTable, cloudfiletag.CloudFilesPrimaryKey...),
 		)
-		fromU = sqlgraph.SetNeighbors(cftq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
@@ -86,8 +86,8 @@ func (cftq *CloudFileTagQuery) QueryCloudFiles() *CloudFileQuery {
 
 // First returns the first CloudFileTag entity from the query.
 // Returns a *NotFoundError when no CloudFileTag was found.
-func (cftq *CloudFileTagQuery) First(ctx context.Context) (*CloudFileTag, error) {
-	nodes, err := cftq.Limit(1).All(setContextOp(ctx, cftq.ctx, ent.OpQueryFirst))
+func (_q *CloudFileTagQuery) First(ctx context.Context) (*CloudFileTag, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -98,8 +98,8 @@ func (cftq *CloudFileTagQuery) First(ctx context.Context) (*CloudFileTag, error)
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (cftq *CloudFileTagQuery) FirstX(ctx context.Context) *CloudFileTag {
-	node, err := cftq.First(ctx)
+func (_q *CloudFileTagQuery) FirstX(ctx context.Context) *CloudFileTag {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -108,9 +108,9 @@ func (cftq *CloudFileTagQuery) FirstX(ctx context.Context) *CloudFileTag {
 
 // FirstID returns the first CloudFileTag ID from the query.
 // Returns a *NotFoundError when no CloudFileTag ID was found.
-func (cftq *CloudFileTagQuery) FirstID(ctx context.Context) (id uint64, err error) {
+func (_q *CloudFileTagQuery) FirstID(ctx context.Context) (id uint64, err error) {
 	var ids []uint64
-	if ids, err = cftq.Limit(1).IDs(setContextOp(ctx, cftq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -121,8 +121,8 @@ func (cftq *CloudFileTagQuery) FirstID(ctx context.Context) (id uint64, err erro
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (cftq *CloudFileTagQuery) FirstIDX(ctx context.Context) uint64 {
-	id, err := cftq.FirstID(ctx)
+func (_q *CloudFileTagQuery) FirstIDX(ctx context.Context) uint64 {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -132,8 +132,8 @@ func (cftq *CloudFileTagQuery) FirstIDX(ctx context.Context) uint64 {
 // Only returns a single CloudFileTag entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one CloudFileTag entity is found.
 // Returns a *NotFoundError when no CloudFileTag entities are found.
-func (cftq *CloudFileTagQuery) Only(ctx context.Context) (*CloudFileTag, error) {
-	nodes, err := cftq.Limit(2).All(setContextOp(ctx, cftq.ctx, ent.OpQueryOnly))
+func (_q *CloudFileTagQuery) Only(ctx context.Context) (*CloudFileTag, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -148,8 +148,8 @@ func (cftq *CloudFileTagQuery) Only(ctx context.Context) (*CloudFileTag, error) 
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (cftq *CloudFileTagQuery) OnlyX(ctx context.Context) *CloudFileTag {
-	node, err := cftq.Only(ctx)
+func (_q *CloudFileTagQuery) OnlyX(ctx context.Context) *CloudFileTag {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -159,9 +159,9 @@ func (cftq *CloudFileTagQuery) OnlyX(ctx context.Context) *CloudFileTag {
 // OnlyID is like Only, but returns the only CloudFileTag ID in the query.
 // Returns a *NotSingularError when more than one CloudFileTag ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (cftq *CloudFileTagQuery) OnlyID(ctx context.Context) (id uint64, err error) {
+func (_q *CloudFileTagQuery) OnlyID(ctx context.Context) (id uint64, err error) {
 	var ids []uint64
-	if ids, err = cftq.Limit(2).IDs(setContextOp(ctx, cftq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -176,8 +176,8 @@ func (cftq *CloudFileTagQuery) OnlyID(ctx context.Context) (id uint64, err error
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (cftq *CloudFileTagQuery) OnlyIDX(ctx context.Context) uint64 {
-	id, err := cftq.OnlyID(ctx)
+func (_q *CloudFileTagQuery) OnlyIDX(ctx context.Context) uint64 {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -185,18 +185,18 @@ func (cftq *CloudFileTagQuery) OnlyIDX(ctx context.Context) uint64 {
 }
 
 // All executes the query and returns a list of CloudFileTags.
-func (cftq *CloudFileTagQuery) All(ctx context.Context) ([]*CloudFileTag, error) {
-	ctx = setContextOp(ctx, cftq.ctx, ent.OpQueryAll)
-	if err := cftq.prepareQuery(ctx); err != nil {
+func (_q *CloudFileTagQuery) All(ctx context.Context) ([]*CloudFileTag, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*CloudFileTag, *CloudFileTagQuery]()
-	return withInterceptors[[]*CloudFileTag](ctx, cftq, qr, cftq.inters)
+	return withInterceptors[[]*CloudFileTag](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (cftq *CloudFileTagQuery) AllX(ctx context.Context) []*CloudFileTag {
-	nodes, err := cftq.All(ctx)
+func (_q *CloudFileTagQuery) AllX(ctx context.Context) []*CloudFileTag {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -204,20 +204,20 @@ func (cftq *CloudFileTagQuery) AllX(ctx context.Context) []*CloudFileTag {
 }
 
 // IDs executes the query and returns a list of CloudFileTag IDs.
-func (cftq *CloudFileTagQuery) IDs(ctx context.Context) (ids []uint64, err error) {
-	if cftq.ctx.Unique == nil && cftq.path != nil {
-		cftq.Unique(true)
+func (_q *CloudFileTagQuery) IDs(ctx context.Context) (ids []uint64, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, cftq.ctx, ent.OpQueryIDs)
-	if err = cftq.Select(cloudfiletag.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(cloudfiletag.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (cftq *CloudFileTagQuery) IDsX(ctx context.Context) []uint64 {
-	ids, err := cftq.IDs(ctx)
+func (_q *CloudFileTagQuery) IDsX(ctx context.Context) []uint64 {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -225,17 +225,17 @@ func (cftq *CloudFileTagQuery) IDsX(ctx context.Context) []uint64 {
 }
 
 // Count returns the count of the given query.
-func (cftq *CloudFileTagQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, cftq.ctx, ent.OpQueryCount)
-	if err := cftq.prepareQuery(ctx); err != nil {
+func (_q *CloudFileTagQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, cftq, querierCount[*CloudFileTagQuery](), cftq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*CloudFileTagQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (cftq *CloudFileTagQuery) CountX(ctx context.Context) int {
-	count, err := cftq.Count(ctx)
+func (_q *CloudFileTagQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -243,9 +243,9 @@ func (cftq *CloudFileTagQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (cftq *CloudFileTagQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, cftq.ctx, ent.OpQueryExist)
-	switch _, err := cftq.FirstID(ctx); {
+func (_q *CloudFileTagQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -256,8 +256,8 @@ func (cftq *CloudFileTagQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (cftq *CloudFileTagQuery) ExistX(ctx context.Context) bool {
-	exist, err := cftq.Exist(ctx)
+func (_q *CloudFileTagQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -266,32 +266,32 @@ func (cftq *CloudFileTagQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the CloudFileTagQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (cftq *CloudFileTagQuery) Clone() *CloudFileTagQuery {
-	if cftq == nil {
+func (_q *CloudFileTagQuery) Clone() *CloudFileTagQuery {
+	if _q == nil {
 		return nil
 	}
 	return &CloudFileTagQuery{
-		config:         cftq.config,
-		ctx:            cftq.ctx.Clone(),
-		order:          append([]cloudfiletag.OrderOption{}, cftq.order...),
-		inters:         append([]Interceptor{}, cftq.inters...),
-		predicates:     append([]predicate.CloudFileTag{}, cftq.predicates...),
-		withCloudFiles: cftq.withCloudFiles.Clone(),
+		config:         _q.config,
+		ctx:            _q.ctx.Clone(),
+		order:          append([]cloudfiletag.OrderOption{}, _q.order...),
+		inters:         append([]Interceptor{}, _q.inters...),
+		predicates:     append([]predicate.CloudFileTag{}, _q.predicates...),
+		withCloudFiles: _q.withCloudFiles.Clone(),
 		// clone intermediate query.
-		sql:  cftq.sql.Clone(),
-		path: cftq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
 // WithCloudFiles tells the query-builder to eager-load the nodes that are connected to
 // the "cloud_files" edge. The optional arguments are used to configure the query builder of the edge.
-func (cftq *CloudFileTagQuery) WithCloudFiles(opts ...func(*CloudFileQuery)) *CloudFileTagQuery {
-	query := (&CloudFileClient{config: cftq.config}).Query()
+func (_q *CloudFileTagQuery) WithCloudFiles(opts ...func(*CloudFileQuery)) *CloudFileTagQuery {
+	query := (&CloudFileClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	cftq.withCloudFiles = query
-	return cftq
+	_q.withCloudFiles = query
+	return _q
 }
 
 // GroupBy is used to group vertices by one or more fields/columns.
@@ -308,10 +308,10 @@ func (cftq *CloudFileTagQuery) WithCloudFiles(opts ...func(*CloudFileQuery)) *Cl
 //		GroupBy(cloudfiletag.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (cftq *CloudFileTagQuery) GroupBy(field string, fields ...string) *CloudFileTagGroupBy {
-	cftq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &CloudFileTagGroupBy{build: cftq}
-	grbuild.flds = &cftq.ctx.Fields
+func (_q *CloudFileTagQuery) GroupBy(field string, fields ...string) *CloudFileTagGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &CloudFileTagGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = cloudfiletag.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -329,58 +329,58 @@ func (cftq *CloudFileTagQuery) GroupBy(field string, fields ...string) *CloudFil
 //	client.CloudFileTag.Query().
 //		Select(cloudfiletag.FieldCreatedAt).
 //		Scan(ctx, &v)
-func (cftq *CloudFileTagQuery) Select(fields ...string) *CloudFileTagSelect {
-	cftq.ctx.Fields = append(cftq.ctx.Fields, fields...)
-	sbuild := &CloudFileTagSelect{CloudFileTagQuery: cftq}
+func (_q *CloudFileTagQuery) Select(fields ...string) *CloudFileTagSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &CloudFileTagSelect{CloudFileTagQuery: _q}
 	sbuild.label = cloudfiletag.Label
-	sbuild.flds, sbuild.scan = &cftq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a CloudFileTagSelect configured with the given aggregations.
-func (cftq *CloudFileTagQuery) Aggregate(fns ...AggregateFunc) *CloudFileTagSelect {
-	return cftq.Select().Aggregate(fns...)
+func (_q *CloudFileTagQuery) Aggregate(fns ...AggregateFunc) *CloudFileTagSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (cftq *CloudFileTagQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range cftq.inters {
+func (_q *CloudFileTagQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, cftq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range cftq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !cloudfiletag.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if cftq.path != nil {
-		prev, err := cftq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		cftq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (cftq *CloudFileTagQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*CloudFileTag, error) {
+func (_q *CloudFileTagQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*CloudFileTag, error) {
 	var (
 		nodes       = []*CloudFileTag{}
-		_spec       = cftq.querySpec()
+		_spec       = _q.querySpec()
 		loadedTypes = [1]bool{
-			cftq.withCloudFiles != nil,
+			_q.withCloudFiles != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*CloudFileTag).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &CloudFileTag{config: cftq.config}
+		node := &CloudFileTag{config: _q.config}
 		nodes = append(nodes, node)
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
@@ -388,14 +388,14 @@ func (cftq *CloudFileTagQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, cftq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := cftq.withCloudFiles; query != nil {
-		if err := cftq.loadCloudFiles(ctx, query, nodes,
+	if query := _q.withCloudFiles; query != nil {
+		if err := _q.loadCloudFiles(ctx, query, nodes,
 			func(n *CloudFileTag) { n.Edges.CloudFiles = []*CloudFile{} },
 			func(n *CloudFileTag, e *CloudFile) { n.Edges.CloudFiles = append(n.Edges.CloudFiles, e) }); err != nil {
 			return nil, err
@@ -404,7 +404,7 @@ func (cftq *CloudFileTagQuery) sqlAll(ctx context.Context, hooks ...queryHook) (
 	return nodes, nil
 }
 
-func (cftq *CloudFileTagQuery) loadCloudFiles(ctx context.Context, query *CloudFileQuery, nodes []*CloudFileTag, init func(*CloudFileTag), assign func(*CloudFileTag, *CloudFile)) error {
+func (_q *CloudFileTagQuery) loadCloudFiles(ctx context.Context, query *CloudFileQuery, nodes []*CloudFileTag, init func(*CloudFileTag), assign func(*CloudFileTag, *CloudFile)) error {
 	edgeIDs := make([]driver.Value, len(nodes))
 	byID := make(map[uint64]*CloudFileTag)
 	nids := make(map[uuid.UUID]map[*CloudFileTag]struct{})
@@ -466,24 +466,24 @@ func (cftq *CloudFileTagQuery) loadCloudFiles(ctx context.Context, query *CloudF
 	return nil
 }
 
-func (cftq *CloudFileTagQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := cftq.querySpec()
-	_spec.Node.Columns = cftq.ctx.Fields
-	if len(cftq.ctx.Fields) > 0 {
-		_spec.Unique = cftq.ctx.Unique != nil && *cftq.ctx.Unique
+func (_q *CloudFileTagQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, cftq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (cftq *CloudFileTagQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *CloudFileTagQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(cloudfiletag.Table, cloudfiletag.Columns, sqlgraph.NewFieldSpec(cloudfiletag.FieldID, field.TypeUint64))
-	_spec.From = cftq.sql
-	if unique := cftq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if cftq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := cftq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, cloudfiletag.FieldID)
 		for i := range fields {
@@ -492,20 +492,20 @@ func (cftq *CloudFileTagQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := cftq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := cftq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := cftq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := cftq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -515,33 +515,33 @@ func (cftq *CloudFileTagQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (cftq *CloudFileTagQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(cftq.driver.Dialect())
+func (_q *CloudFileTagQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(cloudfiletag.Table)
-	columns := cftq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = cloudfiletag.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if cftq.sql != nil {
-		selector = cftq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if cftq.ctx.Unique != nil && *cftq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range cftq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range cftq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := cftq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := cftq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -554,41 +554,41 @@ type CloudFileTagGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (cftgb *CloudFileTagGroupBy) Aggregate(fns ...AggregateFunc) *CloudFileTagGroupBy {
-	cftgb.fns = append(cftgb.fns, fns...)
-	return cftgb
+func (_g *CloudFileTagGroupBy) Aggregate(fns ...AggregateFunc) *CloudFileTagGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (cftgb *CloudFileTagGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, cftgb.build.ctx, ent.OpQueryGroupBy)
-	if err := cftgb.build.prepareQuery(ctx); err != nil {
+func (_g *CloudFileTagGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*CloudFileTagQuery, *CloudFileTagGroupBy](ctx, cftgb.build, cftgb, cftgb.build.inters, v)
+	return scanWithInterceptors[*CloudFileTagQuery, *CloudFileTagGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (cftgb *CloudFileTagGroupBy) sqlScan(ctx context.Context, root *CloudFileTagQuery, v any) error {
+func (_g *CloudFileTagGroupBy) sqlScan(ctx context.Context, root *CloudFileTagQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(cftgb.fns))
-	for _, fn := range cftgb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*cftgb.flds)+len(cftgb.fns))
-		for _, f := range *cftgb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*cftgb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := cftgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -602,27 +602,27 @@ type CloudFileTagSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (cfts *CloudFileTagSelect) Aggregate(fns ...AggregateFunc) *CloudFileTagSelect {
-	cfts.fns = append(cfts.fns, fns...)
-	return cfts
+func (_s *CloudFileTagSelect) Aggregate(fns ...AggregateFunc) *CloudFileTagSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (cfts *CloudFileTagSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, cfts.ctx, ent.OpQuerySelect)
-	if err := cfts.prepareQuery(ctx); err != nil {
+func (_s *CloudFileTagSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*CloudFileTagQuery, *CloudFileTagSelect](ctx, cfts.CloudFileTagQuery, cfts, cfts.inters, v)
+	return scanWithInterceptors[*CloudFileTagQuery, *CloudFileTagSelect](ctx, _s.CloudFileTagQuery, _s, _s.inters, v)
 }
 
-func (cfts *CloudFileTagSelect) sqlScan(ctx context.Context, root *CloudFileTagQuery, v any) error {
+func (_s *CloudFileTagSelect) sqlScan(ctx context.Context, root *CloudFileTagQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(cfts.fns))
-	for _, fn := range cfts.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*cfts.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -630,7 +630,7 @@ func (cfts *CloudFileTagSelect) sqlScan(ctx context.Context, root *CloudFileTagQ
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := cfts.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

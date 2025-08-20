@@ -89,7 +89,7 @@ func (*StorageProvider) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the StorageProvider fields.
-func (sp *StorageProvider) assignValues(columns []string, values []any) error {
+func (_m *StorageProvider) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -100,87 +100,87 @@ func (sp *StorageProvider) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			sp.ID = uint64(value.Int64)
+			_m.ID = uint64(value.Int64)
 		case storageprovider.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				sp.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case storageprovider.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				sp.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		case storageprovider.FieldState:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field state", values[i])
 			} else if value.Valid {
-				sp.State = value.Bool
+				_m.State = value.Bool
 			}
 		case storageprovider.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				sp.Name = value.String
+				_m.Name = value.String
 			}
 		case storageprovider.FieldBucket:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field bucket", values[i])
 			} else if value.Valid {
-				sp.Bucket = value.String
+				_m.Bucket = value.String
 			}
 		case storageprovider.FieldSecretID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field secret_id", values[i])
 			} else if value.Valid {
-				sp.SecretID = value.String
+				_m.SecretID = value.String
 			}
 		case storageprovider.FieldSecretKey:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field secret_key", values[i])
 			} else if value.Valid {
-				sp.SecretKey = value.String
+				_m.SecretKey = value.String
 			}
 		case storageprovider.FieldEndpoint:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field endpoint", values[i])
 			} else if value.Valid {
-				sp.Endpoint = value.String
+				_m.Endpoint = value.String
 			}
 		case storageprovider.FieldFolder:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field folder", values[i])
 			} else if value.Valid {
-				sp.Folder = value.String
+				_m.Folder = value.String
 			}
 		case storageprovider.FieldRegion:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field region", values[i])
 			} else if value.Valid {
-				sp.Region = value.String
+				_m.Region = value.String
 			}
 		case storageprovider.FieldIsDefault:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field is_default", values[i])
 			} else if value.Valid {
-				sp.IsDefault = value.Bool
+				_m.IsDefault = value.Bool
 			}
 		case storageprovider.FieldUseCdn:
 			if value, ok := values[i].(*sql.NullBool); !ok {
 				return fmt.Errorf("unexpected type %T for field use_cdn", values[i])
 			} else if value.Valid {
-				sp.UseCdn = value.Bool
+				_m.UseCdn = value.Bool
 			}
 		case storageprovider.FieldCdnURL:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field cdn_url", values[i])
 			} else if value.Valid {
-				sp.CdnURL = value.String
+				_m.CdnURL = value.String
 			}
 		default:
-			sp.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -188,76 +188,76 @@ func (sp *StorageProvider) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the StorageProvider.
 // This includes values selected through modifiers, order, etc.
-func (sp *StorageProvider) Value(name string) (ent.Value, error) {
-	return sp.selectValues.Get(name)
+func (_m *StorageProvider) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryCloudfiles queries the "cloudfiles" edge of the StorageProvider entity.
-func (sp *StorageProvider) QueryCloudfiles() *CloudFileQuery {
-	return NewStorageProviderClient(sp.config).QueryCloudfiles(sp)
+func (_m *StorageProvider) QueryCloudfiles() *CloudFileQuery {
+	return NewStorageProviderClient(_m.config).QueryCloudfiles(_m)
 }
 
 // Update returns a builder for updating this StorageProvider.
 // Note that you need to call StorageProvider.Unwrap() before calling this method if this StorageProvider
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (sp *StorageProvider) Update() *StorageProviderUpdateOne {
-	return NewStorageProviderClient(sp.config).UpdateOne(sp)
+func (_m *StorageProvider) Update() *StorageProviderUpdateOne {
+	return NewStorageProviderClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the StorageProvider entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (sp *StorageProvider) Unwrap() *StorageProvider {
-	_tx, ok := sp.config.driver.(*txDriver)
+func (_m *StorageProvider) Unwrap() *StorageProvider {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: StorageProvider is not a transactional entity")
 	}
-	sp.config.driver = _tx.drv
-	return sp
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (sp *StorageProvider) String() string {
+func (_m *StorageProvider) String() string {
 	var builder strings.Builder
 	builder.WriteString("StorageProvider(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", sp.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("created_at=")
-	builder.WriteString(sp.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(sp.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("state=")
-	builder.WriteString(fmt.Sprintf("%v", sp.State))
+	builder.WriteString(fmt.Sprintf("%v", _m.State))
 	builder.WriteString(", ")
 	builder.WriteString("name=")
-	builder.WriteString(sp.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("bucket=")
-	builder.WriteString(sp.Bucket)
+	builder.WriteString(_m.Bucket)
 	builder.WriteString(", ")
 	builder.WriteString("secret_id=")
-	builder.WriteString(sp.SecretID)
+	builder.WriteString(_m.SecretID)
 	builder.WriteString(", ")
 	builder.WriteString("secret_key=")
-	builder.WriteString(sp.SecretKey)
+	builder.WriteString(_m.SecretKey)
 	builder.WriteString(", ")
 	builder.WriteString("endpoint=")
-	builder.WriteString(sp.Endpoint)
+	builder.WriteString(_m.Endpoint)
 	builder.WriteString(", ")
 	builder.WriteString("folder=")
-	builder.WriteString(sp.Folder)
+	builder.WriteString(_m.Folder)
 	builder.WriteString(", ")
 	builder.WriteString("region=")
-	builder.WriteString(sp.Region)
+	builder.WriteString(_m.Region)
 	builder.WriteString(", ")
 	builder.WriteString("is_default=")
-	builder.WriteString(fmt.Sprintf("%v", sp.IsDefault))
+	builder.WriteString(fmt.Sprintf("%v", _m.IsDefault))
 	builder.WriteString(", ")
 	builder.WriteString("use_cdn=")
-	builder.WriteString(fmt.Sprintf("%v", sp.UseCdn))
+	builder.WriteString(fmt.Sprintf("%v", _m.UseCdn))
 	builder.WriteString(", ")
 	builder.WriteString("cdn_url=")
-	builder.WriteString(sp.CdnURL)
+	builder.WriteString(_m.CdnURL)
 	builder.WriteByte(')')
 	return builder.String()
 }

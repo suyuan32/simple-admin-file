@@ -71,7 +71,7 @@ func (*CloudFileTag) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the CloudFileTag fields.
-func (cft *CloudFileTag) assignValues(columns []string, values []any) error {
+func (_m *CloudFileTag) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -82,39 +82,39 @@ func (cft *CloudFileTag) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			cft.ID = uint64(value.Int64)
+			_m.ID = uint64(value.Int64)
 		case cloudfiletag.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				cft.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case cloudfiletag.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				cft.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		case cloudfiletag.FieldStatus:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				cft.Status = uint8(value.Int64)
+				_m.Status = uint8(value.Int64)
 			}
 		case cloudfiletag.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				cft.Name = value.String
+				_m.Name = value.String
 			}
 		case cloudfiletag.FieldRemark:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field remark", values[i])
 			} else if value.Valid {
-				cft.Remark = value.String
+				_m.Remark = value.String
 			}
 		default:
-			cft.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -122,52 +122,52 @@ func (cft *CloudFileTag) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the CloudFileTag.
 // This includes values selected through modifiers, order, etc.
-func (cft *CloudFileTag) Value(name string) (ent.Value, error) {
-	return cft.selectValues.Get(name)
+func (_m *CloudFileTag) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryCloudFiles queries the "cloud_files" edge of the CloudFileTag entity.
-func (cft *CloudFileTag) QueryCloudFiles() *CloudFileQuery {
-	return NewCloudFileTagClient(cft.config).QueryCloudFiles(cft)
+func (_m *CloudFileTag) QueryCloudFiles() *CloudFileQuery {
+	return NewCloudFileTagClient(_m.config).QueryCloudFiles(_m)
 }
 
 // Update returns a builder for updating this CloudFileTag.
 // Note that you need to call CloudFileTag.Unwrap() before calling this method if this CloudFileTag
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (cft *CloudFileTag) Update() *CloudFileTagUpdateOne {
-	return NewCloudFileTagClient(cft.config).UpdateOne(cft)
+func (_m *CloudFileTag) Update() *CloudFileTagUpdateOne {
+	return NewCloudFileTagClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the CloudFileTag entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (cft *CloudFileTag) Unwrap() *CloudFileTag {
-	_tx, ok := cft.config.driver.(*txDriver)
+func (_m *CloudFileTag) Unwrap() *CloudFileTag {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: CloudFileTag is not a transactional entity")
 	}
-	cft.config.driver = _tx.drv
-	return cft
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (cft *CloudFileTag) String() string {
+func (_m *CloudFileTag) String() string {
 	var builder strings.Builder
 	builder.WriteString("CloudFileTag(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", cft.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("created_at=")
-	builder.WriteString(cft.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(cft.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(fmt.Sprintf("%v", cft.Status))
+	builder.WriteString(fmt.Sprintf("%v", _m.Status))
 	builder.WriteString(", ")
 	builder.WriteString("name=")
-	builder.WriteString(cft.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("remark=")
-	builder.WriteString(cft.Remark)
+	builder.WriteString(_m.Remark)
 	builder.WriteByte(')')
 	return builder.String()
 }

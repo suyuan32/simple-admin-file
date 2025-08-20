@@ -32,44 +32,44 @@ type FileTagQuery struct {
 }
 
 // Where adds a new predicate for the FileTagQuery builder.
-func (ftq *FileTagQuery) Where(ps ...predicate.FileTag) *FileTagQuery {
-	ftq.predicates = append(ftq.predicates, ps...)
-	return ftq
+func (_q *FileTagQuery) Where(ps ...predicate.FileTag) *FileTagQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (ftq *FileTagQuery) Limit(limit int) *FileTagQuery {
-	ftq.ctx.Limit = &limit
-	return ftq
+func (_q *FileTagQuery) Limit(limit int) *FileTagQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (ftq *FileTagQuery) Offset(offset int) *FileTagQuery {
-	ftq.ctx.Offset = &offset
-	return ftq
+func (_q *FileTagQuery) Offset(offset int) *FileTagQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (ftq *FileTagQuery) Unique(unique bool) *FileTagQuery {
-	ftq.ctx.Unique = &unique
-	return ftq
+func (_q *FileTagQuery) Unique(unique bool) *FileTagQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (ftq *FileTagQuery) Order(o ...filetag.OrderOption) *FileTagQuery {
-	ftq.order = append(ftq.order, o...)
-	return ftq
+func (_q *FileTagQuery) Order(o ...filetag.OrderOption) *FileTagQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // QueryFiles chains the current query on the "files" edge.
-func (ftq *FileTagQuery) QueryFiles() *FileQuery {
-	query := (&FileClient{config: ftq.config}).Query()
+func (_q *FileTagQuery) QueryFiles() *FileQuery {
+	query := (&FileClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := ftq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := ftq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -78,7 +78,7 @@ func (ftq *FileTagQuery) QueryFiles() *FileQuery {
 			sqlgraph.To(file.Table, file.FieldID),
 			sqlgraph.Edge(sqlgraph.M2M, false, filetag.FilesTable, filetag.FilesPrimaryKey...),
 		)
-		fromU = sqlgraph.SetNeighbors(ftq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
@@ -86,8 +86,8 @@ func (ftq *FileTagQuery) QueryFiles() *FileQuery {
 
 // First returns the first FileTag entity from the query.
 // Returns a *NotFoundError when no FileTag was found.
-func (ftq *FileTagQuery) First(ctx context.Context) (*FileTag, error) {
-	nodes, err := ftq.Limit(1).All(setContextOp(ctx, ftq.ctx, ent.OpQueryFirst))
+func (_q *FileTagQuery) First(ctx context.Context) (*FileTag, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -98,8 +98,8 @@ func (ftq *FileTagQuery) First(ctx context.Context) (*FileTag, error) {
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (ftq *FileTagQuery) FirstX(ctx context.Context) *FileTag {
-	node, err := ftq.First(ctx)
+func (_q *FileTagQuery) FirstX(ctx context.Context) *FileTag {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -108,9 +108,9 @@ func (ftq *FileTagQuery) FirstX(ctx context.Context) *FileTag {
 
 // FirstID returns the first FileTag ID from the query.
 // Returns a *NotFoundError when no FileTag ID was found.
-func (ftq *FileTagQuery) FirstID(ctx context.Context) (id uint64, err error) {
+func (_q *FileTagQuery) FirstID(ctx context.Context) (id uint64, err error) {
 	var ids []uint64
-	if ids, err = ftq.Limit(1).IDs(setContextOp(ctx, ftq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -121,8 +121,8 @@ func (ftq *FileTagQuery) FirstID(ctx context.Context) (id uint64, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (ftq *FileTagQuery) FirstIDX(ctx context.Context) uint64 {
-	id, err := ftq.FirstID(ctx)
+func (_q *FileTagQuery) FirstIDX(ctx context.Context) uint64 {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -132,8 +132,8 @@ func (ftq *FileTagQuery) FirstIDX(ctx context.Context) uint64 {
 // Only returns a single FileTag entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one FileTag entity is found.
 // Returns a *NotFoundError when no FileTag entities are found.
-func (ftq *FileTagQuery) Only(ctx context.Context) (*FileTag, error) {
-	nodes, err := ftq.Limit(2).All(setContextOp(ctx, ftq.ctx, ent.OpQueryOnly))
+func (_q *FileTagQuery) Only(ctx context.Context) (*FileTag, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -148,8 +148,8 @@ func (ftq *FileTagQuery) Only(ctx context.Context) (*FileTag, error) {
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (ftq *FileTagQuery) OnlyX(ctx context.Context) *FileTag {
-	node, err := ftq.Only(ctx)
+func (_q *FileTagQuery) OnlyX(ctx context.Context) *FileTag {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -159,9 +159,9 @@ func (ftq *FileTagQuery) OnlyX(ctx context.Context) *FileTag {
 // OnlyID is like Only, but returns the only FileTag ID in the query.
 // Returns a *NotSingularError when more than one FileTag ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (ftq *FileTagQuery) OnlyID(ctx context.Context) (id uint64, err error) {
+func (_q *FileTagQuery) OnlyID(ctx context.Context) (id uint64, err error) {
 	var ids []uint64
-	if ids, err = ftq.Limit(2).IDs(setContextOp(ctx, ftq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -176,8 +176,8 @@ func (ftq *FileTagQuery) OnlyID(ctx context.Context) (id uint64, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (ftq *FileTagQuery) OnlyIDX(ctx context.Context) uint64 {
-	id, err := ftq.OnlyID(ctx)
+func (_q *FileTagQuery) OnlyIDX(ctx context.Context) uint64 {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -185,18 +185,18 @@ func (ftq *FileTagQuery) OnlyIDX(ctx context.Context) uint64 {
 }
 
 // All executes the query and returns a list of FileTags.
-func (ftq *FileTagQuery) All(ctx context.Context) ([]*FileTag, error) {
-	ctx = setContextOp(ctx, ftq.ctx, ent.OpQueryAll)
-	if err := ftq.prepareQuery(ctx); err != nil {
+func (_q *FileTagQuery) All(ctx context.Context) ([]*FileTag, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*FileTag, *FileTagQuery]()
-	return withInterceptors[[]*FileTag](ctx, ftq, qr, ftq.inters)
+	return withInterceptors[[]*FileTag](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (ftq *FileTagQuery) AllX(ctx context.Context) []*FileTag {
-	nodes, err := ftq.All(ctx)
+func (_q *FileTagQuery) AllX(ctx context.Context) []*FileTag {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -204,20 +204,20 @@ func (ftq *FileTagQuery) AllX(ctx context.Context) []*FileTag {
 }
 
 // IDs executes the query and returns a list of FileTag IDs.
-func (ftq *FileTagQuery) IDs(ctx context.Context) (ids []uint64, err error) {
-	if ftq.ctx.Unique == nil && ftq.path != nil {
-		ftq.Unique(true)
+func (_q *FileTagQuery) IDs(ctx context.Context) (ids []uint64, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, ftq.ctx, ent.OpQueryIDs)
-	if err = ftq.Select(filetag.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(filetag.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (ftq *FileTagQuery) IDsX(ctx context.Context) []uint64 {
-	ids, err := ftq.IDs(ctx)
+func (_q *FileTagQuery) IDsX(ctx context.Context) []uint64 {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -225,17 +225,17 @@ func (ftq *FileTagQuery) IDsX(ctx context.Context) []uint64 {
 }
 
 // Count returns the count of the given query.
-func (ftq *FileTagQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, ftq.ctx, ent.OpQueryCount)
-	if err := ftq.prepareQuery(ctx); err != nil {
+func (_q *FileTagQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, ftq, querierCount[*FileTagQuery](), ftq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*FileTagQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (ftq *FileTagQuery) CountX(ctx context.Context) int {
-	count, err := ftq.Count(ctx)
+func (_q *FileTagQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -243,9 +243,9 @@ func (ftq *FileTagQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (ftq *FileTagQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, ftq.ctx, ent.OpQueryExist)
-	switch _, err := ftq.FirstID(ctx); {
+func (_q *FileTagQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -256,8 +256,8 @@ func (ftq *FileTagQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (ftq *FileTagQuery) ExistX(ctx context.Context) bool {
-	exist, err := ftq.Exist(ctx)
+func (_q *FileTagQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -266,32 +266,32 @@ func (ftq *FileTagQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the FileTagQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (ftq *FileTagQuery) Clone() *FileTagQuery {
-	if ftq == nil {
+func (_q *FileTagQuery) Clone() *FileTagQuery {
+	if _q == nil {
 		return nil
 	}
 	return &FileTagQuery{
-		config:     ftq.config,
-		ctx:        ftq.ctx.Clone(),
-		order:      append([]filetag.OrderOption{}, ftq.order...),
-		inters:     append([]Interceptor{}, ftq.inters...),
-		predicates: append([]predicate.FileTag{}, ftq.predicates...),
-		withFiles:  ftq.withFiles.Clone(),
+		config:     _q.config,
+		ctx:        _q.ctx.Clone(),
+		order:      append([]filetag.OrderOption{}, _q.order...),
+		inters:     append([]Interceptor{}, _q.inters...),
+		predicates: append([]predicate.FileTag{}, _q.predicates...),
+		withFiles:  _q.withFiles.Clone(),
 		// clone intermediate query.
-		sql:  ftq.sql.Clone(),
-		path: ftq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
 // WithFiles tells the query-builder to eager-load the nodes that are connected to
 // the "files" edge. The optional arguments are used to configure the query builder of the edge.
-func (ftq *FileTagQuery) WithFiles(opts ...func(*FileQuery)) *FileTagQuery {
-	query := (&FileClient{config: ftq.config}).Query()
+func (_q *FileTagQuery) WithFiles(opts ...func(*FileQuery)) *FileTagQuery {
+	query := (&FileClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	ftq.withFiles = query
-	return ftq
+	_q.withFiles = query
+	return _q
 }
 
 // GroupBy is used to group vertices by one or more fields/columns.
@@ -308,10 +308,10 @@ func (ftq *FileTagQuery) WithFiles(opts ...func(*FileQuery)) *FileTagQuery {
 //		GroupBy(filetag.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (ftq *FileTagQuery) GroupBy(field string, fields ...string) *FileTagGroupBy {
-	ftq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &FileTagGroupBy{build: ftq}
-	grbuild.flds = &ftq.ctx.Fields
+func (_q *FileTagQuery) GroupBy(field string, fields ...string) *FileTagGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &FileTagGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = filetag.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -329,58 +329,58 @@ func (ftq *FileTagQuery) GroupBy(field string, fields ...string) *FileTagGroupBy
 //	client.FileTag.Query().
 //		Select(filetag.FieldCreatedAt).
 //		Scan(ctx, &v)
-func (ftq *FileTagQuery) Select(fields ...string) *FileTagSelect {
-	ftq.ctx.Fields = append(ftq.ctx.Fields, fields...)
-	sbuild := &FileTagSelect{FileTagQuery: ftq}
+func (_q *FileTagQuery) Select(fields ...string) *FileTagSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &FileTagSelect{FileTagQuery: _q}
 	sbuild.label = filetag.Label
-	sbuild.flds, sbuild.scan = &ftq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a FileTagSelect configured with the given aggregations.
-func (ftq *FileTagQuery) Aggregate(fns ...AggregateFunc) *FileTagSelect {
-	return ftq.Select().Aggregate(fns...)
+func (_q *FileTagQuery) Aggregate(fns ...AggregateFunc) *FileTagSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (ftq *FileTagQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range ftq.inters {
+func (_q *FileTagQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, ftq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range ftq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !filetag.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if ftq.path != nil {
-		prev, err := ftq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		ftq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (ftq *FileTagQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*FileTag, error) {
+func (_q *FileTagQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*FileTag, error) {
 	var (
 		nodes       = []*FileTag{}
-		_spec       = ftq.querySpec()
+		_spec       = _q.querySpec()
 		loadedTypes = [1]bool{
-			ftq.withFiles != nil,
+			_q.withFiles != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*FileTag).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &FileTag{config: ftq.config}
+		node := &FileTag{config: _q.config}
 		nodes = append(nodes, node)
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
@@ -388,14 +388,14 @@ func (ftq *FileTagQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Fil
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, ftq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := ftq.withFiles; query != nil {
-		if err := ftq.loadFiles(ctx, query, nodes,
+	if query := _q.withFiles; query != nil {
+		if err := _q.loadFiles(ctx, query, nodes,
 			func(n *FileTag) { n.Edges.Files = []*File{} },
 			func(n *FileTag, e *File) { n.Edges.Files = append(n.Edges.Files, e) }); err != nil {
 			return nil, err
@@ -404,7 +404,7 @@ func (ftq *FileTagQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Fil
 	return nodes, nil
 }
 
-func (ftq *FileTagQuery) loadFiles(ctx context.Context, query *FileQuery, nodes []*FileTag, init func(*FileTag), assign func(*FileTag, *File)) error {
+func (_q *FileTagQuery) loadFiles(ctx context.Context, query *FileQuery, nodes []*FileTag, init func(*FileTag), assign func(*FileTag, *File)) error {
 	edgeIDs := make([]driver.Value, len(nodes))
 	byID := make(map[uint64]*FileTag)
 	nids := make(map[uuid.UUID]map[*FileTag]struct{})
@@ -466,24 +466,24 @@ func (ftq *FileTagQuery) loadFiles(ctx context.Context, query *FileQuery, nodes 
 	return nil
 }
 
-func (ftq *FileTagQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := ftq.querySpec()
-	_spec.Node.Columns = ftq.ctx.Fields
-	if len(ftq.ctx.Fields) > 0 {
-		_spec.Unique = ftq.ctx.Unique != nil && *ftq.ctx.Unique
+func (_q *FileTagQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, ftq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (ftq *FileTagQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *FileTagQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(filetag.Table, filetag.Columns, sqlgraph.NewFieldSpec(filetag.FieldID, field.TypeUint64))
-	_spec.From = ftq.sql
-	if unique := ftq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if ftq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := ftq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, filetag.FieldID)
 		for i := range fields {
@@ -492,20 +492,20 @@ func (ftq *FileTagQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := ftq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := ftq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := ftq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := ftq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -515,33 +515,33 @@ func (ftq *FileTagQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (ftq *FileTagQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(ftq.driver.Dialect())
+func (_q *FileTagQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(filetag.Table)
-	columns := ftq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = filetag.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if ftq.sql != nil {
-		selector = ftq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if ftq.ctx.Unique != nil && *ftq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range ftq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range ftq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := ftq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := ftq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -554,41 +554,41 @@ type FileTagGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (ftgb *FileTagGroupBy) Aggregate(fns ...AggregateFunc) *FileTagGroupBy {
-	ftgb.fns = append(ftgb.fns, fns...)
-	return ftgb
+func (_g *FileTagGroupBy) Aggregate(fns ...AggregateFunc) *FileTagGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (ftgb *FileTagGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, ftgb.build.ctx, ent.OpQueryGroupBy)
-	if err := ftgb.build.prepareQuery(ctx); err != nil {
+func (_g *FileTagGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*FileTagQuery, *FileTagGroupBy](ctx, ftgb.build, ftgb, ftgb.build.inters, v)
+	return scanWithInterceptors[*FileTagQuery, *FileTagGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (ftgb *FileTagGroupBy) sqlScan(ctx context.Context, root *FileTagQuery, v any) error {
+func (_g *FileTagGroupBy) sqlScan(ctx context.Context, root *FileTagQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(ftgb.fns))
-	for _, fn := range ftgb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*ftgb.flds)+len(ftgb.fns))
-		for _, f := range *ftgb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*ftgb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := ftgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -602,27 +602,27 @@ type FileTagSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (fts *FileTagSelect) Aggregate(fns ...AggregateFunc) *FileTagSelect {
-	fts.fns = append(fts.fns, fns...)
-	return fts
+func (_s *FileTagSelect) Aggregate(fns ...AggregateFunc) *FileTagSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (fts *FileTagSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, fts.ctx, ent.OpQuerySelect)
-	if err := fts.prepareQuery(ctx); err != nil {
+func (_s *FileTagSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*FileTagQuery, *FileTagSelect](ctx, fts.FileTagQuery, fts, fts.inters, v)
+	return scanWithInterceptors[*FileTagQuery, *FileTagSelect](ctx, _s.FileTagQuery, _s, _s.inters, v)
 }
 
-func (fts *FileTagSelect) sqlScan(ctx context.Context, root *FileTagQuery, v any) error {
+func (_s *FileTagSelect) sqlScan(ctx context.Context, root *FileTagQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(fts.fns))
-	for _, fn := range fts.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*fts.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -630,7 +630,7 @@ func (fts *FileTagSelect) sqlScan(ctx context.Context, root *FileTagQuery, v any
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := fts.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

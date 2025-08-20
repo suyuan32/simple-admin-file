@@ -23,174 +23,174 @@ type StorageProviderCreate struct {
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (spc *StorageProviderCreate) SetCreatedAt(t time.Time) *StorageProviderCreate {
-	spc.mutation.SetCreatedAt(t)
-	return spc
+func (_c *StorageProviderCreate) SetCreatedAt(v time.Time) *StorageProviderCreate {
+	_c.mutation.SetCreatedAt(v)
+	return _c
 }
 
 // SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
-func (spc *StorageProviderCreate) SetNillableCreatedAt(t *time.Time) *StorageProviderCreate {
-	if t != nil {
-		spc.SetCreatedAt(*t)
+func (_c *StorageProviderCreate) SetNillableCreatedAt(v *time.Time) *StorageProviderCreate {
+	if v != nil {
+		_c.SetCreatedAt(*v)
 	}
-	return spc
+	return _c
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (spc *StorageProviderCreate) SetUpdatedAt(t time.Time) *StorageProviderCreate {
-	spc.mutation.SetUpdatedAt(t)
-	return spc
+func (_c *StorageProviderCreate) SetUpdatedAt(v time.Time) *StorageProviderCreate {
+	_c.mutation.SetUpdatedAt(v)
+	return _c
 }
 
 // SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
-func (spc *StorageProviderCreate) SetNillableUpdatedAt(t *time.Time) *StorageProviderCreate {
-	if t != nil {
-		spc.SetUpdatedAt(*t)
+func (_c *StorageProviderCreate) SetNillableUpdatedAt(v *time.Time) *StorageProviderCreate {
+	if v != nil {
+		_c.SetUpdatedAt(*v)
 	}
-	return spc
+	return _c
 }
 
 // SetState sets the "state" field.
-func (spc *StorageProviderCreate) SetState(b bool) *StorageProviderCreate {
-	spc.mutation.SetState(b)
-	return spc
+func (_c *StorageProviderCreate) SetState(v bool) *StorageProviderCreate {
+	_c.mutation.SetState(v)
+	return _c
 }
 
 // SetNillableState sets the "state" field if the given value is not nil.
-func (spc *StorageProviderCreate) SetNillableState(b *bool) *StorageProviderCreate {
-	if b != nil {
-		spc.SetState(*b)
+func (_c *StorageProviderCreate) SetNillableState(v *bool) *StorageProviderCreate {
+	if v != nil {
+		_c.SetState(*v)
 	}
-	return spc
+	return _c
 }
 
 // SetName sets the "name" field.
-func (spc *StorageProviderCreate) SetName(s string) *StorageProviderCreate {
-	spc.mutation.SetName(s)
-	return spc
+func (_c *StorageProviderCreate) SetName(v string) *StorageProviderCreate {
+	_c.mutation.SetName(v)
+	return _c
 }
 
 // SetBucket sets the "bucket" field.
-func (spc *StorageProviderCreate) SetBucket(s string) *StorageProviderCreate {
-	spc.mutation.SetBucket(s)
-	return spc
+func (_c *StorageProviderCreate) SetBucket(v string) *StorageProviderCreate {
+	_c.mutation.SetBucket(v)
+	return _c
 }
 
 // SetSecretID sets the "secret_id" field.
-func (spc *StorageProviderCreate) SetSecretID(s string) *StorageProviderCreate {
-	spc.mutation.SetSecretID(s)
-	return spc
+func (_c *StorageProviderCreate) SetSecretID(v string) *StorageProviderCreate {
+	_c.mutation.SetSecretID(v)
+	return _c
 }
 
 // SetSecretKey sets the "secret_key" field.
-func (spc *StorageProviderCreate) SetSecretKey(s string) *StorageProviderCreate {
-	spc.mutation.SetSecretKey(s)
-	return spc
+func (_c *StorageProviderCreate) SetSecretKey(v string) *StorageProviderCreate {
+	_c.mutation.SetSecretKey(v)
+	return _c
 }
 
 // SetEndpoint sets the "endpoint" field.
-func (spc *StorageProviderCreate) SetEndpoint(s string) *StorageProviderCreate {
-	spc.mutation.SetEndpoint(s)
-	return spc
+func (_c *StorageProviderCreate) SetEndpoint(v string) *StorageProviderCreate {
+	_c.mutation.SetEndpoint(v)
+	return _c
 }
 
 // SetFolder sets the "folder" field.
-func (spc *StorageProviderCreate) SetFolder(s string) *StorageProviderCreate {
-	spc.mutation.SetFolder(s)
-	return spc
+func (_c *StorageProviderCreate) SetFolder(v string) *StorageProviderCreate {
+	_c.mutation.SetFolder(v)
+	return _c
 }
 
 // SetNillableFolder sets the "folder" field if the given value is not nil.
-func (spc *StorageProviderCreate) SetNillableFolder(s *string) *StorageProviderCreate {
-	if s != nil {
-		spc.SetFolder(*s)
+func (_c *StorageProviderCreate) SetNillableFolder(v *string) *StorageProviderCreate {
+	if v != nil {
+		_c.SetFolder(*v)
 	}
-	return spc
+	return _c
 }
 
 // SetRegion sets the "region" field.
-func (spc *StorageProviderCreate) SetRegion(s string) *StorageProviderCreate {
-	spc.mutation.SetRegion(s)
-	return spc
+func (_c *StorageProviderCreate) SetRegion(v string) *StorageProviderCreate {
+	_c.mutation.SetRegion(v)
+	return _c
 }
 
 // SetIsDefault sets the "is_default" field.
-func (spc *StorageProviderCreate) SetIsDefault(b bool) *StorageProviderCreate {
-	spc.mutation.SetIsDefault(b)
-	return spc
+func (_c *StorageProviderCreate) SetIsDefault(v bool) *StorageProviderCreate {
+	_c.mutation.SetIsDefault(v)
+	return _c
 }
 
 // SetNillableIsDefault sets the "is_default" field if the given value is not nil.
-func (spc *StorageProviderCreate) SetNillableIsDefault(b *bool) *StorageProviderCreate {
-	if b != nil {
-		spc.SetIsDefault(*b)
+func (_c *StorageProviderCreate) SetNillableIsDefault(v *bool) *StorageProviderCreate {
+	if v != nil {
+		_c.SetIsDefault(*v)
 	}
-	return spc
+	return _c
 }
 
 // SetUseCdn sets the "use_cdn" field.
-func (spc *StorageProviderCreate) SetUseCdn(b bool) *StorageProviderCreate {
-	spc.mutation.SetUseCdn(b)
-	return spc
+func (_c *StorageProviderCreate) SetUseCdn(v bool) *StorageProviderCreate {
+	_c.mutation.SetUseCdn(v)
+	return _c
 }
 
 // SetNillableUseCdn sets the "use_cdn" field if the given value is not nil.
-func (spc *StorageProviderCreate) SetNillableUseCdn(b *bool) *StorageProviderCreate {
-	if b != nil {
-		spc.SetUseCdn(*b)
+func (_c *StorageProviderCreate) SetNillableUseCdn(v *bool) *StorageProviderCreate {
+	if v != nil {
+		_c.SetUseCdn(*v)
 	}
-	return spc
+	return _c
 }
 
 // SetCdnURL sets the "cdn_url" field.
-func (spc *StorageProviderCreate) SetCdnURL(s string) *StorageProviderCreate {
-	spc.mutation.SetCdnURL(s)
-	return spc
+func (_c *StorageProviderCreate) SetCdnURL(v string) *StorageProviderCreate {
+	_c.mutation.SetCdnURL(v)
+	return _c
 }
 
 // SetNillableCdnURL sets the "cdn_url" field if the given value is not nil.
-func (spc *StorageProviderCreate) SetNillableCdnURL(s *string) *StorageProviderCreate {
-	if s != nil {
-		spc.SetCdnURL(*s)
+func (_c *StorageProviderCreate) SetNillableCdnURL(v *string) *StorageProviderCreate {
+	if v != nil {
+		_c.SetCdnURL(*v)
 	}
-	return spc
+	return _c
 }
 
 // SetID sets the "id" field.
-func (spc *StorageProviderCreate) SetID(u uint64) *StorageProviderCreate {
-	spc.mutation.SetID(u)
-	return spc
+func (_c *StorageProviderCreate) SetID(v uint64) *StorageProviderCreate {
+	_c.mutation.SetID(v)
+	return _c
 }
 
 // AddCloudfileIDs adds the "cloudfiles" edge to the CloudFile entity by IDs.
-func (spc *StorageProviderCreate) AddCloudfileIDs(ids ...uuid.UUID) *StorageProviderCreate {
-	spc.mutation.AddCloudfileIDs(ids...)
-	return spc
+func (_c *StorageProviderCreate) AddCloudfileIDs(ids ...uuid.UUID) *StorageProviderCreate {
+	_c.mutation.AddCloudfileIDs(ids...)
+	return _c
 }
 
 // AddCloudfiles adds the "cloudfiles" edges to the CloudFile entity.
-func (spc *StorageProviderCreate) AddCloudfiles(c ...*CloudFile) *StorageProviderCreate {
-	ids := make([]uuid.UUID, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_c *StorageProviderCreate) AddCloudfiles(v ...*CloudFile) *StorageProviderCreate {
+	ids := make([]uuid.UUID, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return spc.AddCloudfileIDs(ids...)
+	return _c.AddCloudfileIDs(ids...)
 }
 
 // Mutation returns the StorageProviderMutation object of the builder.
-func (spc *StorageProviderCreate) Mutation() *StorageProviderMutation {
-	return spc.mutation
+func (_c *StorageProviderCreate) Mutation() *StorageProviderMutation {
+	return _c.mutation
 }
 
 // Save creates the StorageProvider in the database.
-func (spc *StorageProviderCreate) Save(ctx context.Context) (*StorageProvider, error) {
-	spc.defaults()
-	return withHooks(ctx, spc.sqlSave, spc.mutation, spc.hooks)
+func (_c *StorageProviderCreate) Save(ctx context.Context) (*StorageProvider, error) {
+	_c.defaults()
+	return withHooks(ctx, _c.sqlSave, _c.mutation, _c.hooks)
 }
 
 // SaveX calls Save and panics if Save returns an error.
-func (spc *StorageProviderCreate) SaveX(ctx context.Context) *StorageProvider {
-	v, err := spc.Save(ctx)
+func (_c *StorageProviderCreate) SaveX(ctx context.Context) *StorageProvider {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -198,83 +198,83 @@ func (spc *StorageProviderCreate) SaveX(ctx context.Context) *StorageProvider {
 }
 
 // Exec executes the query.
-func (spc *StorageProviderCreate) Exec(ctx context.Context) error {
-	_, err := spc.Save(ctx)
+func (_c *StorageProviderCreate) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (spc *StorageProviderCreate) ExecX(ctx context.Context) {
-	if err := spc.Exec(ctx); err != nil {
+func (_c *StorageProviderCreate) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (spc *StorageProviderCreate) defaults() {
-	if _, ok := spc.mutation.CreatedAt(); !ok {
+func (_c *StorageProviderCreate) defaults() {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		v := storageprovider.DefaultCreatedAt()
-		spc.mutation.SetCreatedAt(v)
+		_c.mutation.SetCreatedAt(v)
 	}
-	if _, ok := spc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		v := storageprovider.DefaultUpdatedAt()
-		spc.mutation.SetUpdatedAt(v)
+		_c.mutation.SetUpdatedAt(v)
 	}
-	if _, ok := spc.mutation.State(); !ok {
+	if _, ok := _c.mutation.State(); !ok {
 		v := storageprovider.DefaultState
-		spc.mutation.SetState(v)
+		_c.mutation.SetState(v)
 	}
-	if _, ok := spc.mutation.IsDefault(); !ok {
+	if _, ok := _c.mutation.IsDefault(); !ok {
 		v := storageprovider.DefaultIsDefault
-		spc.mutation.SetIsDefault(v)
+		_c.mutation.SetIsDefault(v)
 	}
-	if _, ok := spc.mutation.UseCdn(); !ok {
+	if _, ok := _c.mutation.UseCdn(); !ok {
 		v := storageprovider.DefaultUseCdn
-		spc.mutation.SetUseCdn(v)
+		_c.mutation.SetUseCdn(v)
 	}
 }
 
 // check runs all checks and user-defined validators on the builder.
-func (spc *StorageProviderCreate) check() error {
-	if _, ok := spc.mutation.CreatedAt(); !ok {
+func (_c *StorageProviderCreate) check() error {
+	if _, ok := _c.mutation.CreatedAt(); !ok {
 		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "StorageProvider.created_at"`)}
 	}
-	if _, ok := spc.mutation.UpdatedAt(); !ok {
+	if _, ok := _c.mutation.UpdatedAt(); !ok {
 		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "StorageProvider.updated_at"`)}
 	}
-	if _, ok := spc.mutation.Name(); !ok {
+	if _, ok := _c.mutation.Name(); !ok {
 		return &ValidationError{Name: "name", err: errors.New(`ent: missing required field "StorageProvider.name"`)}
 	}
-	if _, ok := spc.mutation.Bucket(); !ok {
+	if _, ok := _c.mutation.Bucket(); !ok {
 		return &ValidationError{Name: "bucket", err: errors.New(`ent: missing required field "StorageProvider.bucket"`)}
 	}
-	if _, ok := spc.mutation.SecretID(); !ok {
+	if _, ok := _c.mutation.SecretID(); !ok {
 		return &ValidationError{Name: "secret_id", err: errors.New(`ent: missing required field "StorageProvider.secret_id"`)}
 	}
-	if _, ok := spc.mutation.SecretKey(); !ok {
+	if _, ok := _c.mutation.SecretKey(); !ok {
 		return &ValidationError{Name: "secret_key", err: errors.New(`ent: missing required field "StorageProvider.secret_key"`)}
 	}
-	if _, ok := spc.mutation.Endpoint(); !ok {
+	if _, ok := _c.mutation.Endpoint(); !ok {
 		return &ValidationError{Name: "endpoint", err: errors.New(`ent: missing required field "StorageProvider.endpoint"`)}
 	}
-	if _, ok := spc.mutation.Region(); !ok {
+	if _, ok := _c.mutation.Region(); !ok {
 		return &ValidationError{Name: "region", err: errors.New(`ent: missing required field "StorageProvider.region"`)}
 	}
-	if _, ok := spc.mutation.IsDefault(); !ok {
+	if _, ok := _c.mutation.IsDefault(); !ok {
 		return &ValidationError{Name: "is_default", err: errors.New(`ent: missing required field "StorageProvider.is_default"`)}
 	}
-	if _, ok := spc.mutation.UseCdn(); !ok {
+	if _, ok := _c.mutation.UseCdn(); !ok {
 		return &ValidationError{Name: "use_cdn", err: errors.New(`ent: missing required field "StorageProvider.use_cdn"`)}
 	}
 	return nil
 }
 
-func (spc *StorageProviderCreate) sqlSave(ctx context.Context) (*StorageProvider, error) {
-	if err := spc.check(); err != nil {
+func (_c *StorageProviderCreate) sqlSave(ctx context.Context) (*StorageProvider, error) {
+	if err := _c.check(); err != nil {
 		return nil, err
 	}
-	_node, _spec := spc.createSpec()
-	if err := sqlgraph.CreateNode(ctx, spc.driver, _spec); err != nil {
+	_node, _spec := _c.createSpec()
+	if err := sqlgraph.CreateNode(ctx, _c.driver, _spec); err != nil {
 		if sqlgraph.IsConstraintError(err) {
 			err = &ConstraintError{msg: err.Error(), wrap: err}
 		}
@@ -284,73 +284,73 @@ func (spc *StorageProviderCreate) sqlSave(ctx context.Context) (*StorageProvider
 		id := _spec.ID.Value.(int64)
 		_node.ID = uint64(id)
 	}
-	spc.mutation.id = &_node.ID
-	spc.mutation.done = true
+	_c.mutation.id = &_node.ID
+	_c.mutation.done = true
 	return _node, nil
 }
 
-func (spc *StorageProviderCreate) createSpec() (*StorageProvider, *sqlgraph.CreateSpec) {
+func (_c *StorageProviderCreate) createSpec() (*StorageProvider, *sqlgraph.CreateSpec) {
 	var (
-		_node = &StorageProvider{config: spc.config}
+		_node = &StorageProvider{config: _c.config}
 		_spec = sqlgraph.NewCreateSpec(storageprovider.Table, sqlgraph.NewFieldSpec(storageprovider.FieldID, field.TypeUint64))
 	)
-	if id, ok := spc.mutation.ID(); ok {
+	if id, ok := _c.mutation.ID(); ok {
 		_node.ID = id
 		_spec.ID.Value = id
 	}
-	if value, ok := spc.mutation.CreatedAt(); ok {
+	if value, ok := _c.mutation.CreatedAt(); ok {
 		_spec.SetField(storageprovider.FieldCreatedAt, field.TypeTime, value)
 		_node.CreatedAt = value
 	}
-	if value, ok := spc.mutation.UpdatedAt(); ok {
+	if value, ok := _c.mutation.UpdatedAt(); ok {
 		_spec.SetField(storageprovider.FieldUpdatedAt, field.TypeTime, value)
 		_node.UpdatedAt = value
 	}
-	if value, ok := spc.mutation.State(); ok {
+	if value, ok := _c.mutation.State(); ok {
 		_spec.SetField(storageprovider.FieldState, field.TypeBool, value)
 		_node.State = value
 	}
-	if value, ok := spc.mutation.Name(); ok {
+	if value, ok := _c.mutation.Name(); ok {
 		_spec.SetField(storageprovider.FieldName, field.TypeString, value)
 		_node.Name = value
 	}
-	if value, ok := spc.mutation.Bucket(); ok {
+	if value, ok := _c.mutation.Bucket(); ok {
 		_spec.SetField(storageprovider.FieldBucket, field.TypeString, value)
 		_node.Bucket = value
 	}
-	if value, ok := spc.mutation.SecretID(); ok {
+	if value, ok := _c.mutation.SecretID(); ok {
 		_spec.SetField(storageprovider.FieldSecretID, field.TypeString, value)
 		_node.SecretID = value
 	}
-	if value, ok := spc.mutation.SecretKey(); ok {
+	if value, ok := _c.mutation.SecretKey(); ok {
 		_spec.SetField(storageprovider.FieldSecretKey, field.TypeString, value)
 		_node.SecretKey = value
 	}
-	if value, ok := spc.mutation.Endpoint(); ok {
+	if value, ok := _c.mutation.Endpoint(); ok {
 		_spec.SetField(storageprovider.FieldEndpoint, field.TypeString, value)
 		_node.Endpoint = value
 	}
-	if value, ok := spc.mutation.Folder(); ok {
+	if value, ok := _c.mutation.Folder(); ok {
 		_spec.SetField(storageprovider.FieldFolder, field.TypeString, value)
 		_node.Folder = value
 	}
-	if value, ok := spc.mutation.Region(); ok {
+	if value, ok := _c.mutation.Region(); ok {
 		_spec.SetField(storageprovider.FieldRegion, field.TypeString, value)
 		_node.Region = value
 	}
-	if value, ok := spc.mutation.IsDefault(); ok {
+	if value, ok := _c.mutation.IsDefault(); ok {
 		_spec.SetField(storageprovider.FieldIsDefault, field.TypeBool, value)
 		_node.IsDefault = value
 	}
-	if value, ok := spc.mutation.UseCdn(); ok {
+	if value, ok := _c.mutation.UseCdn(); ok {
 		_spec.SetField(storageprovider.FieldUseCdn, field.TypeBool, value)
 		_node.UseCdn = value
 	}
-	if value, ok := spc.mutation.CdnURL(); ok {
+	if value, ok := _c.mutation.CdnURL(); ok {
 		_spec.SetField(storageprovider.FieldCdnURL, field.TypeString, value)
 		_node.CdnURL = value
 	}
-	if nodes := spc.mutation.CloudfilesIDs(); len(nodes) > 0 {
+	if nodes := _c.mutation.CloudfilesIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.O2M,
 			Inverse: true,
@@ -377,16 +377,16 @@ type StorageProviderCreateBulk struct {
 }
 
 // Save creates the StorageProvider entities in the database.
-func (spcb *StorageProviderCreateBulk) Save(ctx context.Context) ([]*StorageProvider, error) {
-	if spcb.err != nil {
-		return nil, spcb.err
+func (_c *StorageProviderCreateBulk) Save(ctx context.Context) ([]*StorageProvider, error) {
+	if _c.err != nil {
+		return nil, _c.err
 	}
-	specs := make([]*sqlgraph.CreateSpec, len(spcb.builders))
-	nodes := make([]*StorageProvider, len(spcb.builders))
-	mutators := make([]Mutator, len(spcb.builders))
-	for i := range spcb.builders {
+	specs := make([]*sqlgraph.CreateSpec, len(_c.builders))
+	nodes := make([]*StorageProvider, len(_c.builders))
+	mutators := make([]Mutator, len(_c.builders))
+	for i := range _c.builders {
 		func(i int, root context.Context) {
-			builder := spcb.builders[i]
+			builder := _c.builders[i]
 			builder.defaults()
 			var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
 				mutation, ok := m.(*StorageProviderMutation)
@@ -400,11 +400,11 @@ func (spcb *StorageProviderCreateBulk) Save(ctx context.Context) ([]*StorageProv
 				var err error
 				nodes[i], specs[i] = builder.createSpec()
 				if i < len(mutators)-1 {
-					_, err = mutators[i+1].Mutate(root, spcb.builders[i+1].mutation)
+					_, err = mutators[i+1].Mutate(root, _c.builders[i+1].mutation)
 				} else {
 					spec := &sqlgraph.BatchCreateSpec{Nodes: specs}
 					// Invoke the actual operation on the latest mutation in the chain.
-					if err = sqlgraph.BatchCreate(ctx, spcb.driver, spec); err != nil {
+					if err = sqlgraph.BatchCreate(ctx, _c.driver, spec); err != nil {
 						if sqlgraph.IsConstraintError(err) {
 							err = &ConstraintError{msg: err.Error(), wrap: err}
 						}
@@ -428,7 +428,7 @@ func (spcb *StorageProviderCreateBulk) Save(ctx context.Context) ([]*StorageProv
 		}(i, ctx)
 	}
 	if len(mutators) > 0 {
-		if _, err := mutators[0].Mutate(ctx, spcb.builders[0].mutation); err != nil {
+		if _, err := mutators[0].Mutate(ctx, _c.builders[0].mutation); err != nil {
 			return nil, err
 		}
 	}
@@ -436,8 +436,8 @@ func (spcb *StorageProviderCreateBulk) Save(ctx context.Context) ([]*StorageProv
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (spcb *StorageProviderCreateBulk) SaveX(ctx context.Context) []*StorageProvider {
-	v, err := spcb.Save(ctx)
+func (_c *StorageProviderCreateBulk) SaveX(ctx context.Context) []*StorageProvider {
+	v, err := _c.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -445,14 +445,14 @@ func (spcb *StorageProviderCreateBulk) SaveX(ctx context.Context) []*StorageProv
 }
 
 // Exec executes the query.
-func (spcb *StorageProviderCreateBulk) Exec(ctx context.Context) error {
-	_, err := spcb.Save(ctx)
+func (_c *StorageProviderCreateBulk) Exec(ctx context.Context) error {
+	_, err := _c.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (spcb *StorageProviderCreateBulk) ExecX(ctx context.Context) {
-	if err := spcb.Exec(ctx); err != nil {
+func (_c *StorageProviderCreateBulk) ExecX(ctx context.Context) {
+	if err := _c.Exec(ctx); err != nil {
 		panic(err)
 	}
 }

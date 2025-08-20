@@ -25,196 +25,196 @@ type CloudFileUpdate struct {
 }
 
 // Where appends a list predicates to the CloudFileUpdate builder.
-func (cfu *CloudFileUpdate) Where(ps ...predicate.CloudFile) *CloudFileUpdate {
-	cfu.mutation.Where(ps...)
-	return cfu
+func (_u *CloudFileUpdate) Where(ps ...predicate.CloudFile) *CloudFileUpdate {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (cfu *CloudFileUpdate) SetUpdatedAt(t time.Time) *CloudFileUpdate {
-	cfu.mutation.SetUpdatedAt(t)
-	return cfu
+func (_u *CloudFileUpdate) SetUpdatedAt(v time.Time) *CloudFileUpdate {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetState sets the "state" field.
-func (cfu *CloudFileUpdate) SetState(b bool) *CloudFileUpdate {
-	cfu.mutation.SetState(b)
-	return cfu
+func (_u *CloudFileUpdate) SetState(v bool) *CloudFileUpdate {
+	_u.mutation.SetState(v)
+	return _u
 }
 
 // SetNillableState sets the "state" field if the given value is not nil.
-func (cfu *CloudFileUpdate) SetNillableState(b *bool) *CloudFileUpdate {
-	if b != nil {
-		cfu.SetState(*b)
+func (_u *CloudFileUpdate) SetNillableState(v *bool) *CloudFileUpdate {
+	if v != nil {
+		_u.SetState(*v)
 	}
-	return cfu
+	return _u
 }
 
 // ClearState clears the value of the "state" field.
-func (cfu *CloudFileUpdate) ClearState() *CloudFileUpdate {
-	cfu.mutation.ClearState()
-	return cfu
+func (_u *CloudFileUpdate) ClearState() *CloudFileUpdate {
+	_u.mutation.ClearState()
+	return _u
 }
 
 // SetName sets the "name" field.
-func (cfu *CloudFileUpdate) SetName(s string) *CloudFileUpdate {
-	cfu.mutation.SetName(s)
-	return cfu
+func (_u *CloudFileUpdate) SetName(v string) *CloudFileUpdate {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (cfu *CloudFileUpdate) SetNillableName(s *string) *CloudFileUpdate {
-	if s != nil {
-		cfu.SetName(*s)
+func (_u *CloudFileUpdate) SetNillableName(v *string) *CloudFileUpdate {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return cfu
+	return _u
 }
 
 // SetURL sets the "url" field.
-func (cfu *CloudFileUpdate) SetURL(s string) *CloudFileUpdate {
-	cfu.mutation.SetURL(s)
-	return cfu
+func (_u *CloudFileUpdate) SetURL(v string) *CloudFileUpdate {
+	_u.mutation.SetURL(v)
+	return _u
 }
 
 // SetNillableURL sets the "url" field if the given value is not nil.
-func (cfu *CloudFileUpdate) SetNillableURL(s *string) *CloudFileUpdate {
-	if s != nil {
-		cfu.SetURL(*s)
+func (_u *CloudFileUpdate) SetNillableURL(v *string) *CloudFileUpdate {
+	if v != nil {
+		_u.SetURL(*v)
 	}
-	return cfu
+	return _u
 }
 
 // SetSize sets the "size" field.
-func (cfu *CloudFileUpdate) SetSize(u uint64) *CloudFileUpdate {
-	cfu.mutation.ResetSize()
-	cfu.mutation.SetSize(u)
-	return cfu
+func (_u *CloudFileUpdate) SetSize(v uint64) *CloudFileUpdate {
+	_u.mutation.ResetSize()
+	_u.mutation.SetSize(v)
+	return _u
 }
 
 // SetNillableSize sets the "size" field if the given value is not nil.
-func (cfu *CloudFileUpdate) SetNillableSize(u *uint64) *CloudFileUpdate {
-	if u != nil {
-		cfu.SetSize(*u)
+func (_u *CloudFileUpdate) SetNillableSize(v *uint64) *CloudFileUpdate {
+	if v != nil {
+		_u.SetSize(*v)
 	}
-	return cfu
+	return _u
 }
 
-// AddSize adds u to the "size" field.
-func (cfu *CloudFileUpdate) AddSize(u int64) *CloudFileUpdate {
-	cfu.mutation.AddSize(u)
-	return cfu
+// AddSize adds value to the "size" field.
+func (_u *CloudFileUpdate) AddSize(v int64) *CloudFileUpdate {
+	_u.mutation.AddSize(v)
+	return _u
 }
 
 // SetFileType sets the "file_type" field.
-func (cfu *CloudFileUpdate) SetFileType(u uint8) *CloudFileUpdate {
-	cfu.mutation.ResetFileType()
-	cfu.mutation.SetFileType(u)
-	return cfu
+func (_u *CloudFileUpdate) SetFileType(v uint8) *CloudFileUpdate {
+	_u.mutation.ResetFileType()
+	_u.mutation.SetFileType(v)
+	return _u
 }
 
 // SetNillableFileType sets the "file_type" field if the given value is not nil.
-func (cfu *CloudFileUpdate) SetNillableFileType(u *uint8) *CloudFileUpdate {
-	if u != nil {
-		cfu.SetFileType(*u)
+func (_u *CloudFileUpdate) SetNillableFileType(v *uint8) *CloudFileUpdate {
+	if v != nil {
+		_u.SetFileType(*v)
 	}
-	return cfu
+	return _u
 }
 
-// AddFileType adds u to the "file_type" field.
-func (cfu *CloudFileUpdate) AddFileType(u int8) *CloudFileUpdate {
-	cfu.mutation.AddFileType(u)
-	return cfu
+// AddFileType adds value to the "file_type" field.
+func (_u *CloudFileUpdate) AddFileType(v int8) *CloudFileUpdate {
+	_u.mutation.AddFileType(v)
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (cfu *CloudFileUpdate) SetUserID(s string) *CloudFileUpdate {
-	cfu.mutation.SetUserID(s)
-	return cfu
+func (_u *CloudFileUpdate) SetUserID(v string) *CloudFileUpdate {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (cfu *CloudFileUpdate) SetNillableUserID(s *string) *CloudFileUpdate {
-	if s != nil {
-		cfu.SetUserID(*s)
+func (_u *CloudFileUpdate) SetNillableUserID(v *string) *CloudFileUpdate {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return cfu
+	return _u
 }
 
 // SetStorageProvidersID sets the "storage_providers" edge to the StorageProvider entity by ID.
-func (cfu *CloudFileUpdate) SetStorageProvidersID(id uint64) *CloudFileUpdate {
-	cfu.mutation.SetStorageProvidersID(id)
-	return cfu
+func (_u *CloudFileUpdate) SetStorageProvidersID(id uint64) *CloudFileUpdate {
+	_u.mutation.SetStorageProvidersID(id)
+	return _u
 }
 
 // SetNillableStorageProvidersID sets the "storage_providers" edge to the StorageProvider entity by ID if the given value is not nil.
-func (cfu *CloudFileUpdate) SetNillableStorageProvidersID(id *uint64) *CloudFileUpdate {
+func (_u *CloudFileUpdate) SetNillableStorageProvidersID(id *uint64) *CloudFileUpdate {
 	if id != nil {
-		cfu = cfu.SetStorageProvidersID(*id)
+		_u = _u.SetStorageProvidersID(*id)
 	}
-	return cfu
+	return _u
 }
 
 // SetStorageProviders sets the "storage_providers" edge to the StorageProvider entity.
-func (cfu *CloudFileUpdate) SetStorageProviders(s *StorageProvider) *CloudFileUpdate {
-	return cfu.SetStorageProvidersID(s.ID)
+func (_u *CloudFileUpdate) SetStorageProviders(v *StorageProvider) *CloudFileUpdate {
+	return _u.SetStorageProvidersID(v.ID)
 }
 
 // AddTagIDs adds the "tags" edge to the CloudFileTag entity by IDs.
-func (cfu *CloudFileUpdate) AddTagIDs(ids ...uint64) *CloudFileUpdate {
-	cfu.mutation.AddTagIDs(ids...)
-	return cfu
+func (_u *CloudFileUpdate) AddTagIDs(ids ...uint64) *CloudFileUpdate {
+	_u.mutation.AddTagIDs(ids...)
+	return _u
 }
 
 // AddTags adds the "tags" edges to the CloudFileTag entity.
-func (cfu *CloudFileUpdate) AddTags(c ...*CloudFileTag) *CloudFileUpdate {
-	ids := make([]uint64, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_u *CloudFileUpdate) AddTags(v ...*CloudFileTag) *CloudFileUpdate {
+	ids := make([]uint64, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cfu.AddTagIDs(ids...)
+	return _u.AddTagIDs(ids...)
 }
 
 // Mutation returns the CloudFileMutation object of the builder.
-func (cfu *CloudFileUpdate) Mutation() *CloudFileMutation {
-	return cfu.mutation
+func (_u *CloudFileUpdate) Mutation() *CloudFileMutation {
+	return _u.mutation
 }
 
 // ClearStorageProviders clears the "storage_providers" edge to the StorageProvider entity.
-func (cfu *CloudFileUpdate) ClearStorageProviders() *CloudFileUpdate {
-	cfu.mutation.ClearStorageProviders()
-	return cfu
+func (_u *CloudFileUpdate) ClearStorageProviders() *CloudFileUpdate {
+	_u.mutation.ClearStorageProviders()
+	return _u
 }
 
 // ClearTags clears all "tags" edges to the CloudFileTag entity.
-func (cfu *CloudFileUpdate) ClearTags() *CloudFileUpdate {
-	cfu.mutation.ClearTags()
-	return cfu
+func (_u *CloudFileUpdate) ClearTags() *CloudFileUpdate {
+	_u.mutation.ClearTags()
+	return _u
 }
 
 // RemoveTagIDs removes the "tags" edge to CloudFileTag entities by IDs.
-func (cfu *CloudFileUpdate) RemoveTagIDs(ids ...uint64) *CloudFileUpdate {
-	cfu.mutation.RemoveTagIDs(ids...)
-	return cfu
+func (_u *CloudFileUpdate) RemoveTagIDs(ids ...uint64) *CloudFileUpdate {
+	_u.mutation.RemoveTagIDs(ids...)
+	return _u
 }
 
 // RemoveTags removes "tags" edges to CloudFileTag entities.
-func (cfu *CloudFileUpdate) RemoveTags(c ...*CloudFileTag) *CloudFileUpdate {
-	ids := make([]uint64, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_u *CloudFileUpdate) RemoveTags(v ...*CloudFileTag) *CloudFileUpdate {
+	ids := make([]uint64, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cfu.RemoveTagIDs(ids...)
+	return _u.RemoveTagIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
-func (cfu *CloudFileUpdate) Save(ctx context.Context) (int, error) {
-	cfu.defaults()
-	return withHooks(ctx, cfu.sqlSave, cfu.mutation, cfu.hooks)
+func (_u *CloudFileUpdate) Save(ctx context.Context) (int, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (cfu *CloudFileUpdate) SaveX(ctx context.Context) int {
-	affected, err := cfu.Save(ctx)
+func (_u *CloudFileUpdate) SaveX(ctx context.Context) int {
+	affected, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -222,66 +222,66 @@ func (cfu *CloudFileUpdate) SaveX(ctx context.Context) int {
 }
 
 // Exec executes the query.
-func (cfu *CloudFileUpdate) Exec(ctx context.Context) error {
-	_, err := cfu.Save(ctx)
+func (_u *CloudFileUpdate) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cfu *CloudFileUpdate) ExecX(ctx context.Context) {
-	if err := cfu.Exec(ctx); err != nil {
+func (_u *CloudFileUpdate) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (cfu *CloudFileUpdate) defaults() {
-	if _, ok := cfu.mutation.UpdatedAt(); !ok {
+func (_u *CloudFileUpdate) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := cloudfile.UpdateDefaultUpdatedAt()
-		cfu.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (cfu *CloudFileUpdate) sqlSave(ctx context.Context) (n int, err error) {
+func (_u *CloudFileUpdate) sqlSave(ctx context.Context) (_node int, err error) {
 	_spec := sqlgraph.NewUpdateSpec(cloudfile.Table, cloudfile.Columns, sqlgraph.NewFieldSpec(cloudfile.FieldID, field.TypeUUID))
-	if ps := cfu.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := cfu.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(cloudfile.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if value, ok := cfu.mutation.State(); ok {
+	if value, ok := _u.mutation.State(); ok {
 		_spec.SetField(cloudfile.FieldState, field.TypeBool, value)
 	}
-	if cfu.mutation.StateCleared() {
+	if _u.mutation.StateCleared() {
 		_spec.ClearField(cloudfile.FieldState, field.TypeBool)
 	}
-	if value, ok := cfu.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(cloudfile.FieldName, field.TypeString, value)
 	}
-	if value, ok := cfu.mutation.URL(); ok {
+	if value, ok := _u.mutation.URL(); ok {
 		_spec.SetField(cloudfile.FieldURL, field.TypeString, value)
 	}
-	if value, ok := cfu.mutation.Size(); ok {
+	if value, ok := _u.mutation.Size(); ok {
 		_spec.SetField(cloudfile.FieldSize, field.TypeUint64, value)
 	}
-	if value, ok := cfu.mutation.AddedSize(); ok {
+	if value, ok := _u.mutation.AddedSize(); ok {
 		_spec.AddField(cloudfile.FieldSize, field.TypeUint64, value)
 	}
-	if value, ok := cfu.mutation.FileType(); ok {
+	if value, ok := _u.mutation.FileType(); ok {
 		_spec.SetField(cloudfile.FieldFileType, field.TypeUint8, value)
 	}
-	if value, ok := cfu.mutation.AddedFileType(); ok {
+	if value, ok := _u.mutation.AddedFileType(); ok {
 		_spec.AddField(cloudfile.FieldFileType, field.TypeUint8, value)
 	}
-	if value, ok := cfu.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(cloudfile.FieldUserID, field.TypeString, value)
 	}
-	if cfu.mutation.StorageProvidersCleared() {
+	if _u.mutation.StorageProvidersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -294,7 +294,7 @@ func (cfu *CloudFileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cfu.mutation.StorageProvidersIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.StorageProvidersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -310,7 +310,7 @@ func (cfu *CloudFileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if cfu.mutation.TagsCleared() {
+	if _u.mutation.TagsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2M,
 			Inverse: true,
@@ -323,7 +323,7 @@ func (cfu *CloudFileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cfu.mutation.RemovedTagsIDs(); len(nodes) > 0 && !cfu.mutation.TagsCleared() {
+	if nodes := _u.mutation.RemovedTagsIDs(); len(nodes) > 0 && !_u.mutation.TagsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2M,
 			Inverse: true,
@@ -339,7 +339,7 @@ func (cfu *CloudFileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cfu.mutation.TagsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.TagsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2M,
 			Inverse: true,
@@ -355,7 +355,7 @@ func (cfu *CloudFileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if n, err = sqlgraph.UpdateNodes(ctx, cfu.driver, _spec); err != nil {
+	if _node, err = sqlgraph.UpdateNodes(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{cloudfile.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -363,8 +363,8 @@ func (cfu *CloudFileUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		return 0, err
 	}
-	cfu.mutation.done = true
-	return n, nil
+	_u.mutation.done = true
+	return _node, nil
 }
 
 // CloudFileUpdateOne is the builder for updating a single CloudFile entity.
@@ -376,203 +376,203 @@ type CloudFileUpdateOne struct {
 }
 
 // SetUpdatedAt sets the "updated_at" field.
-func (cfuo *CloudFileUpdateOne) SetUpdatedAt(t time.Time) *CloudFileUpdateOne {
-	cfuo.mutation.SetUpdatedAt(t)
-	return cfuo
+func (_u *CloudFileUpdateOne) SetUpdatedAt(v time.Time) *CloudFileUpdateOne {
+	_u.mutation.SetUpdatedAt(v)
+	return _u
 }
 
 // SetState sets the "state" field.
-func (cfuo *CloudFileUpdateOne) SetState(b bool) *CloudFileUpdateOne {
-	cfuo.mutation.SetState(b)
-	return cfuo
+func (_u *CloudFileUpdateOne) SetState(v bool) *CloudFileUpdateOne {
+	_u.mutation.SetState(v)
+	return _u
 }
 
 // SetNillableState sets the "state" field if the given value is not nil.
-func (cfuo *CloudFileUpdateOne) SetNillableState(b *bool) *CloudFileUpdateOne {
-	if b != nil {
-		cfuo.SetState(*b)
+func (_u *CloudFileUpdateOne) SetNillableState(v *bool) *CloudFileUpdateOne {
+	if v != nil {
+		_u.SetState(*v)
 	}
-	return cfuo
+	return _u
 }
 
 // ClearState clears the value of the "state" field.
-func (cfuo *CloudFileUpdateOne) ClearState() *CloudFileUpdateOne {
-	cfuo.mutation.ClearState()
-	return cfuo
+func (_u *CloudFileUpdateOne) ClearState() *CloudFileUpdateOne {
+	_u.mutation.ClearState()
+	return _u
 }
 
 // SetName sets the "name" field.
-func (cfuo *CloudFileUpdateOne) SetName(s string) *CloudFileUpdateOne {
-	cfuo.mutation.SetName(s)
-	return cfuo
+func (_u *CloudFileUpdateOne) SetName(v string) *CloudFileUpdateOne {
+	_u.mutation.SetName(v)
+	return _u
 }
 
 // SetNillableName sets the "name" field if the given value is not nil.
-func (cfuo *CloudFileUpdateOne) SetNillableName(s *string) *CloudFileUpdateOne {
-	if s != nil {
-		cfuo.SetName(*s)
+func (_u *CloudFileUpdateOne) SetNillableName(v *string) *CloudFileUpdateOne {
+	if v != nil {
+		_u.SetName(*v)
 	}
-	return cfuo
+	return _u
 }
 
 // SetURL sets the "url" field.
-func (cfuo *CloudFileUpdateOne) SetURL(s string) *CloudFileUpdateOne {
-	cfuo.mutation.SetURL(s)
-	return cfuo
+func (_u *CloudFileUpdateOne) SetURL(v string) *CloudFileUpdateOne {
+	_u.mutation.SetURL(v)
+	return _u
 }
 
 // SetNillableURL sets the "url" field if the given value is not nil.
-func (cfuo *CloudFileUpdateOne) SetNillableURL(s *string) *CloudFileUpdateOne {
-	if s != nil {
-		cfuo.SetURL(*s)
+func (_u *CloudFileUpdateOne) SetNillableURL(v *string) *CloudFileUpdateOne {
+	if v != nil {
+		_u.SetURL(*v)
 	}
-	return cfuo
+	return _u
 }
 
 // SetSize sets the "size" field.
-func (cfuo *CloudFileUpdateOne) SetSize(u uint64) *CloudFileUpdateOne {
-	cfuo.mutation.ResetSize()
-	cfuo.mutation.SetSize(u)
-	return cfuo
+func (_u *CloudFileUpdateOne) SetSize(v uint64) *CloudFileUpdateOne {
+	_u.mutation.ResetSize()
+	_u.mutation.SetSize(v)
+	return _u
 }
 
 // SetNillableSize sets the "size" field if the given value is not nil.
-func (cfuo *CloudFileUpdateOne) SetNillableSize(u *uint64) *CloudFileUpdateOne {
-	if u != nil {
-		cfuo.SetSize(*u)
+func (_u *CloudFileUpdateOne) SetNillableSize(v *uint64) *CloudFileUpdateOne {
+	if v != nil {
+		_u.SetSize(*v)
 	}
-	return cfuo
+	return _u
 }
 
-// AddSize adds u to the "size" field.
-func (cfuo *CloudFileUpdateOne) AddSize(u int64) *CloudFileUpdateOne {
-	cfuo.mutation.AddSize(u)
-	return cfuo
+// AddSize adds value to the "size" field.
+func (_u *CloudFileUpdateOne) AddSize(v int64) *CloudFileUpdateOne {
+	_u.mutation.AddSize(v)
+	return _u
 }
 
 // SetFileType sets the "file_type" field.
-func (cfuo *CloudFileUpdateOne) SetFileType(u uint8) *CloudFileUpdateOne {
-	cfuo.mutation.ResetFileType()
-	cfuo.mutation.SetFileType(u)
-	return cfuo
+func (_u *CloudFileUpdateOne) SetFileType(v uint8) *CloudFileUpdateOne {
+	_u.mutation.ResetFileType()
+	_u.mutation.SetFileType(v)
+	return _u
 }
 
 // SetNillableFileType sets the "file_type" field if the given value is not nil.
-func (cfuo *CloudFileUpdateOne) SetNillableFileType(u *uint8) *CloudFileUpdateOne {
-	if u != nil {
-		cfuo.SetFileType(*u)
+func (_u *CloudFileUpdateOne) SetNillableFileType(v *uint8) *CloudFileUpdateOne {
+	if v != nil {
+		_u.SetFileType(*v)
 	}
-	return cfuo
+	return _u
 }
 
-// AddFileType adds u to the "file_type" field.
-func (cfuo *CloudFileUpdateOne) AddFileType(u int8) *CloudFileUpdateOne {
-	cfuo.mutation.AddFileType(u)
-	return cfuo
+// AddFileType adds value to the "file_type" field.
+func (_u *CloudFileUpdateOne) AddFileType(v int8) *CloudFileUpdateOne {
+	_u.mutation.AddFileType(v)
+	return _u
 }
 
 // SetUserID sets the "user_id" field.
-func (cfuo *CloudFileUpdateOne) SetUserID(s string) *CloudFileUpdateOne {
-	cfuo.mutation.SetUserID(s)
-	return cfuo
+func (_u *CloudFileUpdateOne) SetUserID(v string) *CloudFileUpdateOne {
+	_u.mutation.SetUserID(v)
+	return _u
 }
 
 // SetNillableUserID sets the "user_id" field if the given value is not nil.
-func (cfuo *CloudFileUpdateOne) SetNillableUserID(s *string) *CloudFileUpdateOne {
-	if s != nil {
-		cfuo.SetUserID(*s)
+func (_u *CloudFileUpdateOne) SetNillableUserID(v *string) *CloudFileUpdateOne {
+	if v != nil {
+		_u.SetUserID(*v)
 	}
-	return cfuo
+	return _u
 }
 
 // SetStorageProvidersID sets the "storage_providers" edge to the StorageProvider entity by ID.
-func (cfuo *CloudFileUpdateOne) SetStorageProvidersID(id uint64) *CloudFileUpdateOne {
-	cfuo.mutation.SetStorageProvidersID(id)
-	return cfuo
+func (_u *CloudFileUpdateOne) SetStorageProvidersID(id uint64) *CloudFileUpdateOne {
+	_u.mutation.SetStorageProvidersID(id)
+	return _u
 }
 
 // SetNillableStorageProvidersID sets the "storage_providers" edge to the StorageProvider entity by ID if the given value is not nil.
-func (cfuo *CloudFileUpdateOne) SetNillableStorageProvidersID(id *uint64) *CloudFileUpdateOne {
+func (_u *CloudFileUpdateOne) SetNillableStorageProvidersID(id *uint64) *CloudFileUpdateOne {
 	if id != nil {
-		cfuo = cfuo.SetStorageProvidersID(*id)
+		_u = _u.SetStorageProvidersID(*id)
 	}
-	return cfuo
+	return _u
 }
 
 // SetStorageProviders sets the "storage_providers" edge to the StorageProvider entity.
-func (cfuo *CloudFileUpdateOne) SetStorageProviders(s *StorageProvider) *CloudFileUpdateOne {
-	return cfuo.SetStorageProvidersID(s.ID)
+func (_u *CloudFileUpdateOne) SetStorageProviders(v *StorageProvider) *CloudFileUpdateOne {
+	return _u.SetStorageProvidersID(v.ID)
 }
 
 // AddTagIDs adds the "tags" edge to the CloudFileTag entity by IDs.
-func (cfuo *CloudFileUpdateOne) AddTagIDs(ids ...uint64) *CloudFileUpdateOne {
-	cfuo.mutation.AddTagIDs(ids...)
-	return cfuo
+func (_u *CloudFileUpdateOne) AddTagIDs(ids ...uint64) *CloudFileUpdateOne {
+	_u.mutation.AddTagIDs(ids...)
+	return _u
 }
 
 // AddTags adds the "tags" edges to the CloudFileTag entity.
-func (cfuo *CloudFileUpdateOne) AddTags(c ...*CloudFileTag) *CloudFileUpdateOne {
-	ids := make([]uint64, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_u *CloudFileUpdateOne) AddTags(v ...*CloudFileTag) *CloudFileUpdateOne {
+	ids := make([]uint64, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cfuo.AddTagIDs(ids...)
+	return _u.AddTagIDs(ids...)
 }
 
 // Mutation returns the CloudFileMutation object of the builder.
-func (cfuo *CloudFileUpdateOne) Mutation() *CloudFileMutation {
-	return cfuo.mutation
+func (_u *CloudFileUpdateOne) Mutation() *CloudFileMutation {
+	return _u.mutation
 }
 
 // ClearStorageProviders clears the "storage_providers" edge to the StorageProvider entity.
-func (cfuo *CloudFileUpdateOne) ClearStorageProviders() *CloudFileUpdateOne {
-	cfuo.mutation.ClearStorageProviders()
-	return cfuo
+func (_u *CloudFileUpdateOne) ClearStorageProviders() *CloudFileUpdateOne {
+	_u.mutation.ClearStorageProviders()
+	return _u
 }
 
 // ClearTags clears all "tags" edges to the CloudFileTag entity.
-func (cfuo *CloudFileUpdateOne) ClearTags() *CloudFileUpdateOne {
-	cfuo.mutation.ClearTags()
-	return cfuo
+func (_u *CloudFileUpdateOne) ClearTags() *CloudFileUpdateOne {
+	_u.mutation.ClearTags()
+	return _u
 }
 
 // RemoveTagIDs removes the "tags" edge to CloudFileTag entities by IDs.
-func (cfuo *CloudFileUpdateOne) RemoveTagIDs(ids ...uint64) *CloudFileUpdateOne {
-	cfuo.mutation.RemoveTagIDs(ids...)
-	return cfuo
+func (_u *CloudFileUpdateOne) RemoveTagIDs(ids ...uint64) *CloudFileUpdateOne {
+	_u.mutation.RemoveTagIDs(ids...)
+	return _u
 }
 
 // RemoveTags removes "tags" edges to CloudFileTag entities.
-func (cfuo *CloudFileUpdateOne) RemoveTags(c ...*CloudFileTag) *CloudFileUpdateOne {
-	ids := make([]uint64, len(c))
-	for i := range c {
-		ids[i] = c[i].ID
+func (_u *CloudFileUpdateOne) RemoveTags(v ...*CloudFileTag) *CloudFileUpdateOne {
+	ids := make([]uint64, len(v))
+	for i := range v {
+		ids[i] = v[i].ID
 	}
-	return cfuo.RemoveTagIDs(ids...)
+	return _u.RemoveTagIDs(ids...)
 }
 
 // Where appends a list predicates to the CloudFileUpdate builder.
-func (cfuo *CloudFileUpdateOne) Where(ps ...predicate.CloudFile) *CloudFileUpdateOne {
-	cfuo.mutation.Where(ps...)
-	return cfuo
+func (_u *CloudFileUpdateOne) Where(ps ...predicate.CloudFile) *CloudFileUpdateOne {
+	_u.mutation.Where(ps...)
+	return _u
 }
 
 // Select allows selecting one or more fields (columns) of the returned entity.
 // The default is selecting all fields defined in the entity schema.
-func (cfuo *CloudFileUpdateOne) Select(field string, fields ...string) *CloudFileUpdateOne {
-	cfuo.fields = append([]string{field}, fields...)
-	return cfuo
+func (_u *CloudFileUpdateOne) Select(field string, fields ...string) *CloudFileUpdateOne {
+	_u.fields = append([]string{field}, fields...)
+	return _u
 }
 
 // Save executes the query and returns the updated CloudFile entity.
-func (cfuo *CloudFileUpdateOne) Save(ctx context.Context) (*CloudFile, error) {
-	cfuo.defaults()
-	return withHooks(ctx, cfuo.sqlSave, cfuo.mutation, cfuo.hooks)
+func (_u *CloudFileUpdateOne) Save(ctx context.Context) (*CloudFile, error) {
+	_u.defaults()
+	return withHooks(ctx, _u.sqlSave, _u.mutation, _u.hooks)
 }
 
 // SaveX is like Save, but panics if an error occurs.
-func (cfuo *CloudFileUpdateOne) SaveX(ctx context.Context) *CloudFile {
-	node, err := cfuo.Save(ctx)
+func (_u *CloudFileUpdateOne) SaveX(ctx context.Context) *CloudFile {
+	node, err := _u.Save(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -580,34 +580,34 @@ func (cfuo *CloudFileUpdateOne) SaveX(ctx context.Context) *CloudFile {
 }
 
 // Exec executes the query on the entity.
-func (cfuo *CloudFileUpdateOne) Exec(ctx context.Context) error {
-	_, err := cfuo.Save(ctx)
+func (_u *CloudFileUpdateOne) Exec(ctx context.Context) error {
+	_, err := _u.Save(ctx)
 	return err
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (cfuo *CloudFileUpdateOne) ExecX(ctx context.Context) {
-	if err := cfuo.Exec(ctx); err != nil {
+func (_u *CloudFileUpdateOne) ExecX(ctx context.Context) {
+	if err := _u.Exec(ctx); err != nil {
 		panic(err)
 	}
 }
 
 // defaults sets the default values of the builder before save.
-func (cfuo *CloudFileUpdateOne) defaults() {
-	if _, ok := cfuo.mutation.UpdatedAt(); !ok {
+func (_u *CloudFileUpdateOne) defaults() {
+	if _, ok := _u.mutation.UpdatedAt(); !ok {
 		v := cloudfile.UpdateDefaultUpdatedAt()
-		cfuo.mutation.SetUpdatedAt(v)
+		_u.mutation.SetUpdatedAt(v)
 	}
 }
 
-func (cfuo *CloudFileUpdateOne) sqlSave(ctx context.Context) (_node *CloudFile, err error) {
+func (_u *CloudFileUpdateOne) sqlSave(ctx context.Context) (_node *CloudFile, err error) {
 	_spec := sqlgraph.NewUpdateSpec(cloudfile.Table, cloudfile.Columns, sqlgraph.NewFieldSpec(cloudfile.FieldID, field.TypeUUID))
-	id, ok := cfuo.mutation.ID()
+	id, ok := _u.mutation.ID()
 	if !ok {
 		return nil, &ValidationError{Name: "id", err: errors.New(`ent: missing "CloudFile.id" for update`)}
 	}
 	_spec.Node.ID.Value = id
-	if fields := cfuo.fields; len(fields) > 0 {
+	if fields := _u.fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, cloudfile.FieldID)
 		for _, f := range fields {
@@ -619,44 +619,44 @@ func (cfuo *CloudFileUpdateOne) sqlSave(ctx context.Context) (_node *CloudFile, 
 			}
 		}
 	}
-	if ps := cfuo.mutation.predicates; len(ps) > 0 {
+	if ps := _u.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if value, ok := cfuo.mutation.UpdatedAt(); ok {
+	if value, ok := _u.mutation.UpdatedAt(); ok {
 		_spec.SetField(cloudfile.FieldUpdatedAt, field.TypeTime, value)
 	}
-	if value, ok := cfuo.mutation.State(); ok {
+	if value, ok := _u.mutation.State(); ok {
 		_spec.SetField(cloudfile.FieldState, field.TypeBool, value)
 	}
-	if cfuo.mutation.StateCleared() {
+	if _u.mutation.StateCleared() {
 		_spec.ClearField(cloudfile.FieldState, field.TypeBool)
 	}
-	if value, ok := cfuo.mutation.Name(); ok {
+	if value, ok := _u.mutation.Name(); ok {
 		_spec.SetField(cloudfile.FieldName, field.TypeString, value)
 	}
-	if value, ok := cfuo.mutation.URL(); ok {
+	if value, ok := _u.mutation.URL(); ok {
 		_spec.SetField(cloudfile.FieldURL, field.TypeString, value)
 	}
-	if value, ok := cfuo.mutation.Size(); ok {
+	if value, ok := _u.mutation.Size(); ok {
 		_spec.SetField(cloudfile.FieldSize, field.TypeUint64, value)
 	}
-	if value, ok := cfuo.mutation.AddedSize(); ok {
+	if value, ok := _u.mutation.AddedSize(); ok {
 		_spec.AddField(cloudfile.FieldSize, field.TypeUint64, value)
 	}
-	if value, ok := cfuo.mutation.FileType(); ok {
+	if value, ok := _u.mutation.FileType(); ok {
 		_spec.SetField(cloudfile.FieldFileType, field.TypeUint8, value)
 	}
-	if value, ok := cfuo.mutation.AddedFileType(); ok {
+	if value, ok := _u.mutation.AddedFileType(); ok {
 		_spec.AddField(cloudfile.FieldFileType, field.TypeUint8, value)
 	}
-	if value, ok := cfuo.mutation.UserID(); ok {
+	if value, ok := _u.mutation.UserID(); ok {
 		_spec.SetField(cloudfile.FieldUserID, field.TypeString, value)
 	}
-	if cfuo.mutation.StorageProvidersCleared() {
+	if _u.mutation.StorageProvidersCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -669,7 +669,7 @@ func (cfuo *CloudFileUpdateOne) sqlSave(ctx context.Context) (_node *CloudFile, 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cfuo.mutation.StorageProvidersIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.StorageProvidersIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
@@ -685,7 +685,7 @@ func (cfuo *CloudFileUpdateOne) sqlSave(ctx context.Context) (_node *CloudFile, 
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if cfuo.mutation.TagsCleared() {
+	if _u.mutation.TagsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2M,
 			Inverse: true,
@@ -698,7 +698,7 @@ func (cfuo *CloudFileUpdateOne) sqlSave(ctx context.Context) (_node *CloudFile, 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cfuo.mutation.RemovedTagsIDs(); len(nodes) > 0 && !cfuo.mutation.TagsCleared() {
+	if nodes := _u.mutation.RemovedTagsIDs(); len(nodes) > 0 && !_u.mutation.TagsCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2M,
 			Inverse: true,
@@ -714,7 +714,7 @@ func (cfuo *CloudFileUpdateOne) sqlSave(ctx context.Context) (_node *CloudFile, 
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := cfuo.mutation.TagsIDs(); len(nodes) > 0 {
+	if nodes := _u.mutation.TagsIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2M,
 			Inverse: true,
@@ -730,10 +730,10 @@ func (cfuo *CloudFileUpdateOne) sqlSave(ctx context.Context) (_node *CloudFile, 
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	_node = &CloudFile{config: cfuo.config}
+	_node = &CloudFile{config: _u.config}
 	_spec.Assign = _node.assignValues
 	_spec.ScanValues = _node.scanValues
-	if err = sqlgraph.UpdateNode(ctx, cfuo.driver, _spec); err != nil {
+	if err = sqlgraph.UpdateNode(ctx, _u.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
 			err = &NotFoundError{cloudfile.Label}
 		} else if sqlgraph.IsConstraintError(err) {
@@ -741,6 +741,6 @@ func (cfuo *CloudFileUpdateOne) sqlSave(ctx context.Context) (_node *CloudFile, 
 		}
 		return nil, err
 	}
-	cfuo.mutation.done = true
+	_u.mutation.done = true
 	return _node, nil
 }

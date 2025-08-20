@@ -31,44 +31,44 @@ type StorageProviderQuery struct {
 }
 
 // Where adds a new predicate for the StorageProviderQuery builder.
-func (spq *StorageProviderQuery) Where(ps ...predicate.StorageProvider) *StorageProviderQuery {
-	spq.predicates = append(spq.predicates, ps...)
-	return spq
+func (_q *StorageProviderQuery) Where(ps ...predicate.StorageProvider) *StorageProviderQuery {
+	_q.predicates = append(_q.predicates, ps...)
+	return _q
 }
 
 // Limit the number of records to be returned by this query.
-func (spq *StorageProviderQuery) Limit(limit int) *StorageProviderQuery {
-	spq.ctx.Limit = &limit
-	return spq
+func (_q *StorageProviderQuery) Limit(limit int) *StorageProviderQuery {
+	_q.ctx.Limit = &limit
+	return _q
 }
 
 // Offset to start from.
-func (spq *StorageProviderQuery) Offset(offset int) *StorageProviderQuery {
-	spq.ctx.Offset = &offset
-	return spq
+func (_q *StorageProviderQuery) Offset(offset int) *StorageProviderQuery {
+	_q.ctx.Offset = &offset
+	return _q
 }
 
 // Unique configures the query builder to filter duplicate records on query.
 // By default, unique is set to true, and can be disabled using this method.
-func (spq *StorageProviderQuery) Unique(unique bool) *StorageProviderQuery {
-	spq.ctx.Unique = &unique
-	return spq
+func (_q *StorageProviderQuery) Unique(unique bool) *StorageProviderQuery {
+	_q.ctx.Unique = &unique
+	return _q
 }
 
 // Order specifies how the records should be ordered.
-func (spq *StorageProviderQuery) Order(o ...storageprovider.OrderOption) *StorageProviderQuery {
-	spq.order = append(spq.order, o...)
-	return spq
+func (_q *StorageProviderQuery) Order(o ...storageprovider.OrderOption) *StorageProviderQuery {
+	_q.order = append(_q.order, o...)
+	return _q
 }
 
 // QueryCloudfiles chains the current query on the "cloudfiles" edge.
-func (spq *StorageProviderQuery) QueryCloudfiles() *CloudFileQuery {
-	query := (&CloudFileClient{config: spq.config}).Query()
+func (_q *StorageProviderQuery) QueryCloudfiles() *CloudFileQuery {
+	query := (&CloudFileClient{config: _q.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
-		if err := spq.prepareQuery(ctx); err != nil {
+		if err := _q.prepareQuery(ctx); err != nil {
 			return nil, err
 		}
-		selector := spq.sqlQuery(ctx)
+		selector := _q.sqlQuery(ctx)
 		if err := selector.Err(); err != nil {
 			return nil, err
 		}
@@ -77,7 +77,7 @@ func (spq *StorageProviderQuery) QueryCloudfiles() *CloudFileQuery {
 			sqlgraph.To(cloudfile.Table, cloudfile.FieldID),
 			sqlgraph.Edge(sqlgraph.O2M, true, storageprovider.CloudfilesTable, storageprovider.CloudfilesColumn),
 		)
-		fromU = sqlgraph.SetNeighbors(spq.driver.Dialect(), step)
+		fromU = sqlgraph.SetNeighbors(_q.driver.Dialect(), step)
 		return fromU, nil
 	}
 	return query
@@ -85,8 +85,8 @@ func (spq *StorageProviderQuery) QueryCloudfiles() *CloudFileQuery {
 
 // First returns the first StorageProvider entity from the query.
 // Returns a *NotFoundError when no StorageProvider was found.
-func (spq *StorageProviderQuery) First(ctx context.Context) (*StorageProvider, error) {
-	nodes, err := spq.Limit(1).All(setContextOp(ctx, spq.ctx, ent.OpQueryFirst))
+func (_q *StorageProviderQuery) First(ctx context.Context) (*StorageProvider, error) {
+	nodes, err := _q.Limit(1).All(setContextOp(ctx, _q.ctx, ent.OpQueryFirst))
 	if err != nil {
 		return nil, err
 	}
@@ -97,8 +97,8 @@ func (spq *StorageProviderQuery) First(ctx context.Context) (*StorageProvider, e
 }
 
 // FirstX is like First, but panics if an error occurs.
-func (spq *StorageProviderQuery) FirstX(ctx context.Context) *StorageProvider {
-	node, err := spq.First(ctx)
+func (_q *StorageProviderQuery) FirstX(ctx context.Context) *StorageProvider {
+	node, err := _q.First(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -107,9 +107,9 @@ func (spq *StorageProviderQuery) FirstX(ctx context.Context) *StorageProvider {
 
 // FirstID returns the first StorageProvider ID from the query.
 // Returns a *NotFoundError when no StorageProvider ID was found.
-func (spq *StorageProviderQuery) FirstID(ctx context.Context) (id uint64, err error) {
+func (_q *StorageProviderQuery) FirstID(ctx context.Context) (id uint64, err error) {
 	var ids []uint64
-	if ids, err = spq.Limit(1).IDs(setContextOp(ctx, spq.ctx, ent.OpQueryFirstID)); err != nil {
+	if ids, err = _q.Limit(1).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryFirstID)); err != nil {
 		return
 	}
 	if len(ids) == 0 {
@@ -120,8 +120,8 @@ func (spq *StorageProviderQuery) FirstID(ctx context.Context) (id uint64, err er
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (spq *StorageProviderQuery) FirstIDX(ctx context.Context) uint64 {
-	id, err := spq.FirstID(ctx)
+func (_q *StorageProviderQuery) FirstIDX(ctx context.Context) uint64 {
+	id, err := _q.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
 	}
@@ -131,8 +131,8 @@ func (spq *StorageProviderQuery) FirstIDX(ctx context.Context) uint64 {
 // Only returns a single StorageProvider entity found by the query, ensuring it only returns one.
 // Returns a *NotSingularError when more than one StorageProvider entity is found.
 // Returns a *NotFoundError when no StorageProvider entities are found.
-func (spq *StorageProviderQuery) Only(ctx context.Context) (*StorageProvider, error) {
-	nodes, err := spq.Limit(2).All(setContextOp(ctx, spq.ctx, ent.OpQueryOnly))
+func (_q *StorageProviderQuery) Only(ctx context.Context) (*StorageProvider, error) {
+	nodes, err := _q.Limit(2).All(setContextOp(ctx, _q.ctx, ent.OpQueryOnly))
 	if err != nil {
 		return nil, err
 	}
@@ -147,8 +147,8 @@ func (spq *StorageProviderQuery) Only(ctx context.Context) (*StorageProvider, er
 }
 
 // OnlyX is like Only, but panics if an error occurs.
-func (spq *StorageProviderQuery) OnlyX(ctx context.Context) *StorageProvider {
-	node, err := spq.Only(ctx)
+func (_q *StorageProviderQuery) OnlyX(ctx context.Context) *StorageProvider {
+	node, err := _q.Only(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -158,9 +158,9 @@ func (spq *StorageProviderQuery) OnlyX(ctx context.Context) *StorageProvider {
 // OnlyID is like Only, but returns the only StorageProvider ID in the query.
 // Returns a *NotSingularError when more than one StorageProvider ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (spq *StorageProviderQuery) OnlyID(ctx context.Context) (id uint64, err error) {
+func (_q *StorageProviderQuery) OnlyID(ctx context.Context) (id uint64, err error) {
 	var ids []uint64
-	if ids, err = spq.Limit(2).IDs(setContextOp(ctx, spq.ctx, ent.OpQueryOnlyID)); err != nil {
+	if ids, err = _q.Limit(2).IDs(setContextOp(ctx, _q.ctx, ent.OpQueryOnlyID)); err != nil {
 		return
 	}
 	switch len(ids) {
@@ -175,8 +175,8 @@ func (spq *StorageProviderQuery) OnlyID(ctx context.Context) (id uint64, err err
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (spq *StorageProviderQuery) OnlyIDX(ctx context.Context) uint64 {
-	id, err := spq.OnlyID(ctx)
+func (_q *StorageProviderQuery) OnlyIDX(ctx context.Context) uint64 {
+	id, err := _q.OnlyID(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -184,18 +184,18 @@ func (spq *StorageProviderQuery) OnlyIDX(ctx context.Context) uint64 {
 }
 
 // All executes the query and returns a list of StorageProviders.
-func (spq *StorageProviderQuery) All(ctx context.Context) ([]*StorageProvider, error) {
-	ctx = setContextOp(ctx, spq.ctx, ent.OpQueryAll)
-	if err := spq.prepareQuery(ctx); err != nil {
+func (_q *StorageProviderQuery) All(ctx context.Context) ([]*StorageProvider, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryAll)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return nil, err
 	}
 	qr := querierAll[[]*StorageProvider, *StorageProviderQuery]()
-	return withInterceptors[[]*StorageProvider](ctx, spq, qr, spq.inters)
+	return withInterceptors[[]*StorageProvider](ctx, _q, qr, _q.inters)
 }
 
 // AllX is like All, but panics if an error occurs.
-func (spq *StorageProviderQuery) AllX(ctx context.Context) []*StorageProvider {
-	nodes, err := spq.All(ctx)
+func (_q *StorageProviderQuery) AllX(ctx context.Context) []*StorageProvider {
+	nodes, err := _q.All(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -203,20 +203,20 @@ func (spq *StorageProviderQuery) AllX(ctx context.Context) []*StorageProvider {
 }
 
 // IDs executes the query and returns a list of StorageProvider IDs.
-func (spq *StorageProviderQuery) IDs(ctx context.Context) (ids []uint64, err error) {
-	if spq.ctx.Unique == nil && spq.path != nil {
-		spq.Unique(true)
+func (_q *StorageProviderQuery) IDs(ctx context.Context) (ids []uint64, err error) {
+	if _q.ctx.Unique == nil && _q.path != nil {
+		_q.Unique(true)
 	}
-	ctx = setContextOp(ctx, spq.ctx, ent.OpQueryIDs)
-	if err = spq.Select(storageprovider.FieldID).Scan(ctx, &ids); err != nil {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryIDs)
+	if err = _q.Select(storageprovider.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
 	return ids, nil
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (spq *StorageProviderQuery) IDsX(ctx context.Context) []uint64 {
-	ids, err := spq.IDs(ctx)
+func (_q *StorageProviderQuery) IDsX(ctx context.Context) []uint64 {
+	ids, err := _q.IDs(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -224,17 +224,17 @@ func (spq *StorageProviderQuery) IDsX(ctx context.Context) []uint64 {
 }
 
 // Count returns the count of the given query.
-func (spq *StorageProviderQuery) Count(ctx context.Context) (int, error) {
-	ctx = setContextOp(ctx, spq.ctx, ent.OpQueryCount)
-	if err := spq.prepareQuery(ctx); err != nil {
+func (_q *StorageProviderQuery) Count(ctx context.Context) (int, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryCount)
+	if err := _q.prepareQuery(ctx); err != nil {
 		return 0, err
 	}
-	return withInterceptors[int](ctx, spq, querierCount[*StorageProviderQuery](), spq.inters)
+	return withInterceptors[int](ctx, _q, querierCount[*StorageProviderQuery](), _q.inters)
 }
 
 // CountX is like Count, but panics if an error occurs.
-func (spq *StorageProviderQuery) CountX(ctx context.Context) int {
-	count, err := spq.Count(ctx)
+func (_q *StorageProviderQuery) CountX(ctx context.Context) int {
+	count, err := _q.Count(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -242,9 +242,9 @@ func (spq *StorageProviderQuery) CountX(ctx context.Context) int {
 }
 
 // Exist returns true if the query has elements in the graph.
-func (spq *StorageProviderQuery) Exist(ctx context.Context) (bool, error) {
-	ctx = setContextOp(ctx, spq.ctx, ent.OpQueryExist)
-	switch _, err := spq.FirstID(ctx); {
+func (_q *StorageProviderQuery) Exist(ctx context.Context) (bool, error) {
+	ctx = setContextOp(ctx, _q.ctx, ent.OpQueryExist)
+	switch _, err := _q.FirstID(ctx); {
 	case IsNotFound(err):
 		return false, nil
 	case err != nil:
@@ -255,8 +255,8 @@ func (spq *StorageProviderQuery) Exist(ctx context.Context) (bool, error) {
 }
 
 // ExistX is like Exist, but panics if an error occurs.
-func (spq *StorageProviderQuery) ExistX(ctx context.Context) bool {
-	exist, err := spq.Exist(ctx)
+func (_q *StorageProviderQuery) ExistX(ctx context.Context) bool {
+	exist, err := _q.Exist(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -265,32 +265,32 @@ func (spq *StorageProviderQuery) ExistX(ctx context.Context) bool {
 
 // Clone returns a duplicate of the StorageProviderQuery builder, including all associated steps. It can be
 // used to prepare common query builders and use them differently after the clone is made.
-func (spq *StorageProviderQuery) Clone() *StorageProviderQuery {
-	if spq == nil {
+func (_q *StorageProviderQuery) Clone() *StorageProviderQuery {
+	if _q == nil {
 		return nil
 	}
 	return &StorageProviderQuery{
-		config:         spq.config,
-		ctx:            spq.ctx.Clone(),
-		order:          append([]storageprovider.OrderOption{}, spq.order...),
-		inters:         append([]Interceptor{}, spq.inters...),
-		predicates:     append([]predicate.StorageProvider{}, spq.predicates...),
-		withCloudfiles: spq.withCloudfiles.Clone(),
+		config:         _q.config,
+		ctx:            _q.ctx.Clone(),
+		order:          append([]storageprovider.OrderOption{}, _q.order...),
+		inters:         append([]Interceptor{}, _q.inters...),
+		predicates:     append([]predicate.StorageProvider{}, _q.predicates...),
+		withCloudfiles: _q.withCloudfiles.Clone(),
 		// clone intermediate query.
-		sql:  spq.sql.Clone(),
-		path: spq.path,
+		sql:  _q.sql.Clone(),
+		path: _q.path,
 	}
 }
 
 // WithCloudfiles tells the query-builder to eager-load the nodes that are connected to
 // the "cloudfiles" edge. The optional arguments are used to configure the query builder of the edge.
-func (spq *StorageProviderQuery) WithCloudfiles(opts ...func(*CloudFileQuery)) *StorageProviderQuery {
-	query := (&CloudFileClient{config: spq.config}).Query()
+func (_q *StorageProviderQuery) WithCloudfiles(opts ...func(*CloudFileQuery)) *StorageProviderQuery {
+	query := (&CloudFileClient{config: _q.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
-	spq.withCloudfiles = query
-	return spq
+	_q.withCloudfiles = query
+	return _q
 }
 
 // GroupBy is used to group vertices by one or more fields/columns.
@@ -307,10 +307,10 @@ func (spq *StorageProviderQuery) WithCloudfiles(opts ...func(*CloudFileQuery)) *
 //		GroupBy(storageprovider.FieldCreatedAt).
 //		Aggregate(ent.Count()).
 //		Scan(ctx, &v)
-func (spq *StorageProviderQuery) GroupBy(field string, fields ...string) *StorageProviderGroupBy {
-	spq.ctx.Fields = append([]string{field}, fields...)
-	grbuild := &StorageProviderGroupBy{build: spq}
-	grbuild.flds = &spq.ctx.Fields
+func (_q *StorageProviderQuery) GroupBy(field string, fields ...string) *StorageProviderGroupBy {
+	_q.ctx.Fields = append([]string{field}, fields...)
+	grbuild := &StorageProviderGroupBy{build: _q}
+	grbuild.flds = &_q.ctx.Fields
 	grbuild.label = storageprovider.Label
 	grbuild.scan = grbuild.Scan
 	return grbuild
@@ -328,58 +328,58 @@ func (spq *StorageProviderQuery) GroupBy(field string, fields ...string) *Storag
 //	client.StorageProvider.Query().
 //		Select(storageprovider.FieldCreatedAt).
 //		Scan(ctx, &v)
-func (spq *StorageProviderQuery) Select(fields ...string) *StorageProviderSelect {
-	spq.ctx.Fields = append(spq.ctx.Fields, fields...)
-	sbuild := &StorageProviderSelect{StorageProviderQuery: spq}
+func (_q *StorageProviderQuery) Select(fields ...string) *StorageProviderSelect {
+	_q.ctx.Fields = append(_q.ctx.Fields, fields...)
+	sbuild := &StorageProviderSelect{StorageProviderQuery: _q}
 	sbuild.label = storageprovider.Label
-	sbuild.flds, sbuild.scan = &spq.ctx.Fields, sbuild.Scan
+	sbuild.flds, sbuild.scan = &_q.ctx.Fields, sbuild.Scan
 	return sbuild
 }
 
 // Aggregate returns a StorageProviderSelect configured with the given aggregations.
-func (spq *StorageProviderQuery) Aggregate(fns ...AggregateFunc) *StorageProviderSelect {
-	return spq.Select().Aggregate(fns...)
+func (_q *StorageProviderQuery) Aggregate(fns ...AggregateFunc) *StorageProviderSelect {
+	return _q.Select().Aggregate(fns...)
 }
 
-func (spq *StorageProviderQuery) prepareQuery(ctx context.Context) error {
-	for _, inter := range spq.inters {
+func (_q *StorageProviderQuery) prepareQuery(ctx context.Context) error {
+	for _, inter := range _q.inters {
 		if inter == nil {
 			return fmt.Errorf("ent: uninitialized interceptor (forgotten import ent/runtime?)")
 		}
 		if trv, ok := inter.(Traverser); ok {
-			if err := trv.Traverse(ctx, spq); err != nil {
+			if err := trv.Traverse(ctx, _q); err != nil {
 				return err
 			}
 		}
 	}
-	for _, f := range spq.ctx.Fields {
+	for _, f := range _q.ctx.Fields {
 		if !storageprovider.ValidColumn(f) {
 			return &ValidationError{Name: f, err: fmt.Errorf("ent: invalid field %q for query", f)}
 		}
 	}
-	if spq.path != nil {
-		prev, err := spq.path(ctx)
+	if _q.path != nil {
+		prev, err := _q.path(ctx)
 		if err != nil {
 			return err
 		}
-		spq.sql = prev
+		_q.sql = prev
 	}
 	return nil
 }
 
-func (spq *StorageProviderQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*StorageProvider, error) {
+func (_q *StorageProviderQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*StorageProvider, error) {
 	var (
 		nodes       = []*StorageProvider{}
-		_spec       = spq.querySpec()
+		_spec       = _q.querySpec()
 		loadedTypes = [1]bool{
-			spq.withCloudfiles != nil,
+			_q.withCloudfiles != nil,
 		}
 	)
 	_spec.ScanValues = func(columns []string) ([]any, error) {
 		return (*StorageProvider).scanValues(nil, columns)
 	}
 	_spec.Assign = func(columns []string, values []any) error {
-		node := &StorageProvider{config: spq.config}
+		node := &StorageProvider{config: _q.config}
 		nodes = append(nodes, node)
 		node.Edges.loadedTypes = loadedTypes
 		return node.assignValues(columns, values)
@@ -387,14 +387,14 @@ func (spq *StorageProviderQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 	for i := range hooks {
 		hooks[i](ctx, _spec)
 	}
-	if err := sqlgraph.QueryNodes(ctx, spq.driver, _spec); err != nil {
+	if err := sqlgraph.QueryNodes(ctx, _q.driver, _spec); err != nil {
 		return nil, err
 	}
 	if len(nodes) == 0 {
 		return nodes, nil
 	}
-	if query := spq.withCloudfiles; query != nil {
-		if err := spq.loadCloudfiles(ctx, query, nodes,
+	if query := _q.withCloudfiles; query != nil {
+		if err := _q.loadCloudfiles(ctx, query, nodes,
 			func(n *StorageProvider) { n.Edges.Cloudfiles = []*CloudFile{} },
 			func(n *StorageProvider, e *CloudFile) { n.Edges.Cloudfiles = append(n.Edges.Cloudfiles, e) }); err != nil {
 			return nil, err
@@ -403,7 +403,7 @@ func (spq *StorageProviderQuery) sqlAll(ctx context.Context, hooks ...queryHook)
 	return nodes, nil
 }
 
-func (spq *StorageProviderQuery) loadCloudfiles(ctx context.Context, query *CloudFileQuery, nodes []*StorageProvider, init func(*StorageProvider), assign func(*StorageProvider, *CloudFile)) error {
+func (_q *StorageProviderQuery) loadCloudfiles(ctx context.Context, query *CloudFileQuery, nodes []*StorageProvider, init func(*StorageProvider), assign func(*StorageProvider, *CloudFile)) error {
 	fks := make([]driver.Value, 0, len(nodes))
 	nodeids := make(map[uint64]*StorageProvider)
 	for i := range nodes {
@@ -435,24 +435,24 @@ func (spq *StorageProviderQuery) loadCloudfiles(ctx context.Context, query *Clou
 	return nil
 }
 
-func (spq *StorageProviderQuery) sqlCount(ctx context.Context) (int, error) {
-	_spec := spq.querySpec()
-	_spec.Node.Columns = spq.ctx.Fields
-	if len(spq.ctx.Fields) > 0 {
-		_spec.Unique = spq.ctx.Unique != nil && *spq.ctx.Unique
+func (_q *StorageProviderQuery) sqlCount(ctx context.Context) (int, error) {
+	_spec := _q.querySpec()
+	_spec.Node.Columns = _q.ctx.Fields
+	if len(_q.ctx.Fields) > 0 {
+		_spec.Unique = _q.ctx.Unique != nil && *_q.ctx.Unique
 	}
-	return sqlgraph.CountNodes(ctx, spq.driver, _spec)
+	return sqlgraph.CountNodes(ctx, _q.driver, _spec)
 }
 
-func (spq *StorageProviderQuery) querySpec() *sqlgraph.QuerySpec {
+func (_q *StorageProviderQuery) querySpec() *sqlgraph.QuerySpec {
 	_spec := sqlgraph.NewQuerySpec(storageprovider.Table, storageprovider.Columns, sqlgraph.NewFieldSpec(storageprovider.FieldID, field.TypeUint64))
-	_spec.From = spq.sql
-	if unique := spq.ctx.Unique; unique != nil {
+	_spec.From = _q.sql
+	if unique := _q.ctx.Unique; unique != nil {
 		_spec.Unique = *unique
-	} else if spq.path != nil {
+	} else if _q.path != nil {
 		_spec.Unique = true
 	}
-	if fields := spq.ctx.Fields; len(fields) > 0 {
+	if fields := _q.ctx.Fields; len(fields) > 0 {
 		_spec.Node.Columns = make([]string, 0, len(fields))
 		_spec.Node.Columns = append(_spec.Node.Columns, storageprovider.FieldID)
 		for i := range fields {
@@ -461,20 +461,20 @@ func (spq *StorageProviderQuery) querySpec() *sqlgraph.QuerySpec {
 			}
 		}
 	}
-	if ps := spq.predicates; len(ps) > 0 {
+	if ps := _q.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	if limit := spq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		_spec.Limit = *limit
 	}
-	if offset := spq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		_spec.Offset = *offset
 	}
-	if ps := spq.order; len(ps) > 0 {
+	if ps := _q.order; len(ps) > 0 {
 		_spec.Order = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
@@ -484,33 +484,33 @@ func (spq *StorageProviderQuery) querySpec() *sqlgraph.QuerySpec {
 	return _spec
 }
 
-func (spq *StorageProviderQuery) sqlQuery(ctx context.Context) *sql.Selector {
-	builder := sql.Dialect(spq.driver.Dialect())
+func (_q *StorageProviderQuery) sqlQuery(ctx context.Context) *sql.Selector {
+	builder := sql.Dialect(_q.driver.Dialect())
 	t1 := builder.Table(storageprovider.Table)
-	columns := spq.ctx.Fields
+	columns := _q.ctx.Fields
 	if len(columns) == 0 {
 		columns = storageprovider.Columns
 	}
 	selector := builder.Select(t1.Columns(columns...)...).From(t1)
-	if spq.sql != nil {
-		selector = spq.sql
+	if _q.sql != nil {
+		selector = _q.sql
 		selector.Select(selector.Columns(columns...)...)
 	}
-	if spq.ctx.Unique != nil && *spq.ctx.Unique {
+	if _q.ctx.Unique != nil && *_q.ctx.Unique {
 		selector.Distinct()
 	}
-	for _, p := range spq.predicates {
+	for _, p := range _q.predicates {
 		p(selector)
 	}
-	for _, p := range spq.order {
+	for _, p := range _q.order {
 		p(selector)
 	}
-	if offset := spq.ctx.Offset; offset != nil {
+	if offset := _q.ctx.Offset; offset != nil {
 		// limit is mandatory for offset clause. We start
 		// with default value, and override it below if needed.
 		selector.Offset(*offset).Limit(math.MaxInt32)
 	}
-	if limit := spq.ctx.Limit; limit != nil {
+	if limit := _q.ctx.Limit; limit != nil {
 		selector.Limit(*limit)
 	}
 	return selector
@@ -523,41 +523,41 @@ type StorageProviderGroupBy struct {
 }
 
 // Aggregate adds the given aggregation functions to the group-by query.
-func (spgb *StorageProviderGroupBy) Aggregate(fns ...AggregateFunc) *StorageProviderGroupBy {
-	spgb.fns = append(spgb.fns, fns...)
-	return spgb
+func (_g *StorageProviderGroupBy) Aggregate(fns ...AggregateFunc) *StorageProviderGroupBy {
+	_g.fns = append(_g.fns, fns...)
+	return _g
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (spgb *StorageProviderGroupBy) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, spgb.build.ctx, ent.OpQueryGroupBy)
-	if err := spgb.build.prepareQuery(ctx); err != nil {
+func (_g *StorageProviderGroupBy) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _g.build.ctx, ent.OpQueryGroupBy)
+	if err := _g.build.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*StorageProviderQuery, *StorageProviderGroupBy](ctx, spgb.build, spgb, spgb.build.inters, v)
+	return scanWithInterceptors[*StorageProviderQuery, *StorageProviderGroupBy](ctx, _g.build, _g, _g.build.inters, v)
 }
 
-func (spgb *StorageProviderGroupBy) sqlScan(ctx context.Context, root *StorageProviderQuery, v any) error {
+func (_g *StorageProviderGroupBy) sqlScan(ctx context.Context, root *StorageProviderQuery, v any) error {
 	selector := root.sqlQuery(ctx).Select()
-	aggregation := make([]string, 0, len(spgb.fns))
-	for _, fn := range spgb.fns {
+	aggregation := make([]string, 0, len(_g.fns))
+	for _, fn := range _g.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
 	if len(selector.SelectedColumns()) == 0 {
-		columns := make([]string, 0, len(*spgb.flds)+len(spgb.fns))
-		for _, f := range *spgb.flds {
+		columns := make([]string, 0, len(*_g.flds)+len(_g.fns))
+		for _, f := range *_g.flds {
 			columns = append(columns, selector.C(f))
 		}
 		columns = append(columns, aggregation...)
 		selector.Select(columns...)
 	}
-	selector.GroupBy(selector.Columns(*spgb.flds...)...)
+	selector.GroupBy(selector.Columns(*_g.flds...)...)
 	if err := selector.Err(); err != nil {
 		return err
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := spgb.build.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _g.build.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()
@@ -571,27 +571,27 @@ type StorageProviderSelect struct {
 }
 
 // Aggregate adds the given aggregation functions to the selector query.
-func (sps *StorageProviderSelect) Aggregate(fns ...AggregateFunc) *StorageProviderSelect {
-	sps.fns = append(sps.fns, fns...)
-	return sps
+func (_s *StorageProviderSelect) Aggregate(fns ...AggregateFunc) *StorageProviderSelect {
+	_s.fns = append(_s.fns, fns...)
+	return _s
 }
 
 // Scan applies the selector query and scans the result into the given value.
-func (sps *StorageProviderSelect) Scan(ctx context.Context, v any) error {
-	ctx = setContextOp(ctx, sps.ctx, ent.OpQuerySelect)
-	if err := sps.prepareQuery(ctx); err != nil {
+func (_s *StorageProviderSelect) Scan(ctx context.Context, v any) error {
+	ctx = setContextOp(ctx, _s.ctx, ent.OpQuerySelect)
+	if err := _s.prepareQuery(ctx); err != nil {
 		return err
 	}
-	return scanWithInterceptors[*StorageProviderQuery, *StorageProviderSelect](ctx, sps.StorageProviderQuery, sps, sps.inters, v)
+	return scanWithInterceptors[*StorageProviderQuery, *StorageProviderSelect](ctx, _s.StorageProviderQuery, _s, _s.inters, v)
 }
 
-func (sps *StorageProviderSelect) sqlScan(ctx context.Context, root *StorageProviderQuery, v any) error {
+func (_s *StorageProviderSelect) sqlScan(ctx context.Context, root *StorageProviderQuery, v any) error {
 	selector := root.sqlQuery(ctx)
-	aggregation := make([]string, 0, len(sps.fns))
-	for _, fn := range sps.fns {
+	aggregation := make([]string, 0, len(_s.fns))
+	for _, fn := range _s.fns {
 		aggregation = append(aggregation, fn(selector))
 	}
-	switch n := len(*sps.selector.flds); {
+	switch n := len(*_s.selector.flds); {
 	case n == 0 && len(aggregation) > 0:
 		selector.Select(aggregation...)
 	case n != 0 && len(aggregation) > 0:
@@ -599,7 +599,7 @@ func (sps *StorageProviderSelect) sqlScan(ctx context.Context, root *StorageProv
 	}
 	rows := &sql.Rows{}
 	query, args := selector.Query()
-	if err := sps.driver.Query(ctx, query, args, rows); err != nil {
+	if err := _s.driver.Query(ctx, query, args, rows); err != nil {
 		return err
 	}
 	defer rows.Close()

@@ -71,7 +71,7 @@ func (*FileTag) scanValues(columns []string) ([]any, error) {
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
 // to the FileTag fields.
-func (ft *FileTag) assignValues(columns []string, values []any) error {
+func (_m *FileTag) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
@@ -82,39 +82,39 @@ func (ft *FileTag) assignValues(columns []string, values []any) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			ft.ID = uint64(value.Int64)
+			_m.ID = uint64(value.Int64)
 		case filetag.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				ft.CreatedAt = value.Time
+				_m.CreatedAt = value.Time
 			}
 		case filetag.FieldUpdatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field updated_at", values[i])
 			} else if value.Valid {
-				ft.UpdatedAt = value.Time
+				_m.UpdatedAt = value.Time
 			}
 		case filetag.FieldStatus:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field status", values[i])
 			} else if value.Valid {
-				ft.Status = uint8(value.Int64)
+				_m.Status = uint8(value.Int64)
 			}
 		case filetag.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				ft.Name = value.String
+				_m.Name = value.String
 			}
 		case filetag.FieldRemark:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field remark", values[i])
 			} else if value.Valid {
-				ft.Remark = value.String
+				_m.Remark = value.String
 			}
 		default:
-			ft.selectValues.Set(columns[i], values[i])
+			_m.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
@@ -122,52 +122,52 @@ func (ft *FileTag) assignValues(columns []string, values []any) error {
 
 // Value returns the ent.Value that was dynamically selected and assigned to the FileTag.
 // This includes values selected through modifiers, order, etc.
-func (ft *FileTag) Value(name string) (ent.Value, error) {
-	return ft.selectValues.Get(name)
+func (_m *FileTag) Value(name string) (ent.Value, error) {
+	return _m.selectValues.Get(name)
 }
 
 // QueryFiles queries the "files" edge of the FileTag entity.
-func (ft *FileTag) QueryFiles() *FileQuery {
-	return NewFileTagClient(ft.config).QueryFiles(ft)
+func (_m *FileTag) QueryFiles() *FileQuery {
+	return NewFileTagClient(_m.config).QueryFiles(_m)
 }
 
 // Update returns a builder for updating this FileTag.
 // Note that you need to call FileTag.Unwrap() before calling this method if this FileTag
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (ft *FileTag) Update() *FileTagUpdateOne {
-	return NewFileTagClient(ft.config).UpdateOne(ft)
+func (_m *FileTag) Update() *FileTagUpdateOne {
+	return NewFileTagClient(_m.config).UpdateOne(_m)
 }
 
 // Unwrap unwraps the FileTag entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (ft *FileTag) Unwrap() *FileTag {
-	_tx, ok := ft.config.driver.(*txDriver)
+func (_m *FileTag) Unwrap() *FileTag {
+	_tx, ok := _m.config.driver.(*txDriver)
 	if !ok {
 		panic("ent: FileTag is not a transactional entity")
 	}
-	ft.config.driver = _tx.drv
-	return ft
+	_m.config.driver = _tx.drv
+	return _m
 }
 
 // String implements the fmt.Stringer.
-func (ft *FileTag) String() string {
+func (_m *FileTag) String() string {
 	var builder strings.Builder
 	builder.WriteString("FileTag(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", ft.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", _m.ID))
 	builder.WriteString("created_at=")
-	builder.WriteString(ft.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("updated_at=")
-	builder.WriteString(ft.UpdatedAt.Format(time.ANSIC))
+	builder.WriteString(_m.UpdatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("status=")
-	builder.WriteString(fmt.Sprintf("%v", ft.Status))
+	builder.WriteString(fmt.Sprintf("%v", _m.Status))
 	builder.WriteString(", ")
 	builder.WriteString("name=")
-	builder.WriteString(ft.Name)
+	builder.WriteString(_m.Name)
 	builder.WriteString(", ")
 	builder.WriteString("remark=")
-	builder.WriteString(ft.Remark)
+	builder.WriteString(_m.Remark)
 	builder.WriteByte(')')
 	return builder.String()
 }
