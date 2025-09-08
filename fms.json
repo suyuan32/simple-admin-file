@@ -1109,6 +1109,11 @@
           "format": "uint64",
           "x-go-name": "ProviderId"
         },
+        "providerName": {
+          "description": "Provider name | 提供商名称",
+          "type": "string",
+          "x-go-name": "ProviderName"
+        },
         "tagIds": {
           "description": "Tag ID | 标签 ID",
           "type": "array",

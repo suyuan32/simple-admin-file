@@ -47,6 +47,9 @@ func (l *GetCloudFileListLogic) GetCloudFileList(req *types.CloudFileListReq) (*
 	if req.FileType != nil && *req.FileType != 0 {
 		predicates = append(predicates, cloudfile.FileTypeEQ(*req.FileType))
 	}
+	if req.ProviderName != nil {
+		predicates = append(predicates, cloudfile.HasStorageProvidersWith(storageprovider.NameEQ(*req.ProviderName)))
+	}
 	data, err := l.svcCtx.DB.CloudFile.Query().Where(predicates...).WithStorageProviders().WithTags().
 		Page(l.ctx, req.Page, req.PageSize)
 
