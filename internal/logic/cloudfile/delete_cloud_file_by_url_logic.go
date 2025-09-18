@@ -3,12 +3,11 @@ package cloudfile
 import (
 	"context"
 
-	"github.com/suyuan32/simple-admin-file/ent/cloudfile"
+	"github.com/zeromicro/go-zero/core/logx"
+
 	"github.com/suyuan32/simple-admin-file/internal/svc"
 	"github.com/suyuan32/simple-admin-file/internal/types"
-	"github.com/suyuan32/simple-admin-file/internal/utils/dberrorhandler"
-
-	"github.com/zeromicro/go-zero/core/logx"
+	"github.com/suyuan32/simple-admin-file/internal/utils/filex"
 )
 
 type DeleteCloudFileByUrlLogic struct {
@@ -26,11 +25,11 @@ func NewDeleteCloudFileByUrlLogic(ctx context.Context, svcCtx *svc.ServiceContex
 }
 
 func (l *DeleteCloudFileByUrlLogic) DeleteCloudFileByUrl(req *types.CloudFileDeleteReq) (resp *types.BaseMsgResp, err error) {
-	data, err := l.svcCtx.DB.CloudFile.Query().Where(cloudfile.URLEQ(req.Url)).Only(l.ctx)
+	fileId, err := filex.ConvertUrlStringToFileUUID(req.Url)
 	if err != nil {
-		return nil, dberrorhandler.DefaultEntError(l.Logger, err, req)
+		return nil, err
 	}
 
 	logic := NewDeleteCloudFileLogic(l.ctx, l.svcCtx)
-	return logic.DeleteCloudFile(&types.UUIDsReq{Ids: []string{data.ID.String()}})
+	return logic.DeleteCloudFile(&types.UUIDsReq{Ids: []string{fileId}})
 }
