@@ -64,6 +64,9 @@ type (
 
         // File type | 文件类型
         FileType *uint8 `json:"fileType,optional"`
+
+        // Provider name | 提供商名称
+        ProviderName *string `json:"providerName,optional"`
     }
 
     // CloudFile information response | 云文件信息返回体
@@ -108,7 +111,7 @@ service Fms {
     @handler getCloudFileById
     post /cloud_file (UUIDReq) returns (CloudFileInfoResp)
 
-    // Delete cloud file information | 删除云文件信息
+    // Delete cloud file information by url | 通过地址删除云文件信息
     @handler deleteCloudFileByUrl
     post /cloud_file/delete_by_url (CloudFileDeleteReq) returns (BaseMsgResp)
 }

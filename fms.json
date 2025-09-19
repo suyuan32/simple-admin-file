@@ -107,11 +107,11 @@
     },
     "/cloud_file/delete_by_url": {
       "post": {
-        "description": "Delete cloud file information | 删除云文件信息",
+        "description": "Delete cloud file information by url | 通过地址删除云文件信息",
         "tags": [
           "cloudfile"
         ],
-        "summary": "Delete cloud file information | 删除云文件信息",
+        "summary": "Delete cloud file information by url | 通过地址删除云文件信息",
         "operationId": "DeleteCloudFileByUrl",
         "parameters": [
           {
@@ -1108,6 +1108,11 @@
           "type": "integer",
           "format": "uint64",
           "x-go-name": "ProviderId"
+        },
+        "providerName": {
+          "description": "Provider name | 提供商名称",
+          "type": "string",
+          "x-go-name": "ProviderName"
         },
         "tagIds": {
           "description": "Tag ID | 标签 ID",

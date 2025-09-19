@@ -12,9 +12,9 @@ import (
 
 // swagger:route post /cloud_file/delete_by_url cloudfile DeleteCloudFileByUrl
 //
-// Delete cloud file information | 删除云文件信息
+// Delete cloud file information by url | 通过地址删除云文件信息
 //
-// Delete cloud file information | 删除云文件信息
+// Delete cloud file information by url | 通过地址删除云文件信息
 //
 // Parameters:
 //  + name: body

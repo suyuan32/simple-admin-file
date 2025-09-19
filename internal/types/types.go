@@ -314,6 +314,8 @@ type CloudFileListReq struct {
 	TagIds []uint64 `json:"tagIds,optional"`
 	// File type | 文件类型
 	FileType *uint8 `json:"fileType,optional"`
+	// Provider name | 提供商名称
+	ProviderName *string `json:"providerName,optional"`
 }
 
 // CloudFile information response | 云文件信息返回体
