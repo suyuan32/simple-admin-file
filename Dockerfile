@@ -1,4 +1,4 @@
-FROM nginx:1.27.0-alpine
+FROM nginx:1.29-alpine
 
 # Define the project name | 定义项目名称
 ARG PROJECT=fms
