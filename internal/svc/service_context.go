@@ -27,11 +27,16 @@ type ServiceContext struct {
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
-	db := ent.NewClient(
-		ent.Log(logx.Info), // logger
+	entOpts := []ent.Option{
+		ent.Log(logx.Info),
 		ent.Driver(c.DatabaseConf.NewNoCacheDriver()),
-		ent.Debug(), // debug mode
-	)
+	}
+
+	if c.DatabaseConf.Debug {
+		entOpts = append(entOpts, ent.Debug())
+	}
+
+	db := ent.NewClient(entOpts...)
 
 	rds := c.RedisConf.MustNewUniversalRedis()
 
