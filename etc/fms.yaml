@@ -34,6 +34,7 @@ DatabaseConf:
   MaxOpenConn: 100
   SSLMode: disable
   CacheTime: 5
+  Debug: false
 
 RedisConf:
   Host: redis-server:6379
