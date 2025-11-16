@@ -9,8 +9,8 @@ require (
 	github.com/duke-git/lancet/v2 v2.3.8
 	github.com/gofrs/uuid/v5 v5.4.0
 	github.com/redis/go-redis/v9 v9.16.0
-	github.com/suyuan32/simple-admin-common v1.7.5-0.20251116062349-9b830da9f930
-	github.com/suyuan32/simple-admin-core v1.7.4
+	github.com/suyuan32/simple-admin-common v1.7.5
+	github.com/suyuan32/simple-admin-core v1.7.5
 	github.com/zeromicro/go-zero v1.9.2
 	google.golang.org/grpc v1.76.0
 )

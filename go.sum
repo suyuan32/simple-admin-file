@@ -48,8 +48,7 @@ github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc h1:U9qPSI2PIWSS1
 github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f h1:lO4WD4F/rVNCu3HqELle0jiPLLBs70cWOduZpkS1E78=
 github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f/go.mod h1:cuUVRXasLTGF7a8hSLbxyZXjz+1KgoB3wDUb6vlszIc=
-github.com/duke-git/lancet/v2 v2.3.7 h1:nnNBA9KyoqwbPm4nFmEFVIbXeAmpqf6IDCH45+HHHNs=
-github.com/duke-git/lancet/v2 v2.3.7/go.mod h1:zGa2R4xswg6EG9I6WnyubDbFO/+A/RROxIbXcwryTsc=
+github.com/duke-git/lancet/v2 v2.3.8 h1:dlkqn6Nj2LRWFuObNxttkMHxrFeaV6T26JR8jbEVbPg=
 github.com/duke-git/lancet/v2 v2.3.8/go.mod h1:zGa2R4xswg6EG9I6WnyubDbFO/+A/RROxIbXcwryTsc=
 github.com/emicklei/go-restful/v3 v3.13.0 h1:C4Bl2xDndpU6nJ4bc1jXd+uTmYPVUwkD6bFY/oTyCes=
 github.com/emicklei/go-restful/v3 v3.13.0/go.mod h1:6n3XBCmQQb25CM2LCACGz8ukIrRry+4bhvbpWn3mrbc=
@@ -227,10 +226,10 @@ github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UV
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/stretchr/testify v1.11.1 h1:7s2iGBzp5EwR7/aIZr8ao5+dra3wiQyKjjFuvgVKu7U=
 github.com/stretchr/testify v1.11.1/go.mod h1:wZwfW3scLgRK+23gO65QZefKpKQRnfz6sD981Nm4B6U=
-github.com/suyuan32/simple-admin-common v1.7.5-0.20251116062349-9b830da9f930 h1:aiMQrm3NCIJ5DeIdsKchGm5JKTdq6oQGiR9yJDljxGg=
-github.com/suyuan32/simple-admin-common v1.7.5-0.20251116062349-9b830da9f930/go.mod h1:/Aw5m7NtkL/SsmbyWBjEBPmFxuJHS9Q2EIGExkt+wDo=
-github.com/suyuan32/simple-admin-core v1.7.4 h1:ikgHqNxw1oUf2wnyjFjq5PS1VOWm23sfRzXoRbVnaa8=
-github.com/suyuan32/simple-admin-core v1.7.4/go.mod h1:yWVod50RBHLoaDAsaBpJVrtdEl8MxNVswxyeyLWy0fs=
+github.com/suyuan32/simple-admin-common v1.7.5 h1:jaAvbw4ksrYas1bi19ucwXLxk/RJknd61ZeBWY2L+R0=
+github.com/suyuan32/simple-admin-common v1.7.5/go.mod h1:/Aw5m7NtkL/SsmbyWBjEBPmFxuJHS9Q2EIGExkt+wDo=
+github.com/suyuan32/simple-admin-core v1.7.5 h1:0Tzal4YW/o9T5FfTjFYUddy4xsZhVQ9uS1o+lqraswI=
+github.com/suyuan32/simple-admin-core v1.7.5/go.mod h1:jJgegp3yBVqD/haOnZQgzFUVqgA7yGizHduVCZK1a4k=
 github.com/suyuan32/simple-admin-tools v1.9.2 h1:hW3ntOsbMxd0WiLtRe0dXVGJodw/Ko6zUZ088DAgE90=
 github.com/suyuan32/simple-admin-tools v1.9.2/go.mod h1:wSERQASItUz+AHcF/JJ57mC3qaQ3iPbkK/NpeIPmJG8=
 github.com/x448/float16 v0.8.4 h1:qLwI1I70+NjRFUR3zs1JPUCgaCXSh3SW62uAKT1mSBM=
