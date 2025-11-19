@@ -5,6 +5,7 @@ import (
 	"path"
 
 	"github.com/suyuan32/simple-admin-common/enum/errorcode"
+	"github.com/suyuan32/simple-admin-common/i18n"
 	"github.com/suyuan32/simple-admin-common/utils/uuidx"
 	"github.com/zeromicro/go-zero/core/errorx"
 
@@ -51,7 +52,8 @@ func (l *DownloadFileLogic) DownloadFile(req *types.UUIDPathReq) (filePath strin
 			logx.Errorw("unauthorized download attempt", logx.Field("fileName", file.Name),
 				logx.Field("fileOwner", file.UserID),
 				logx.Field("requestUser", currentUserId))
-			return "", errorx.NewCodeError(errorcode.PermissionDenied, "file.permissionDenied")
+			return "", errorx.NewCodeError(errorcode.PermissionDenied,
+				l.svcCtx.Trans.Trans(l.ctx, "file.permissionDenied"))
 		}
 
 		logx.Infow("private download", logx.Field("fileName", file.Name),
