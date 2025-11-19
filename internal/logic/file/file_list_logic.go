@@ -40,6 +40,18 @@ func NewFileListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FileList
 
 func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListResp, err error) {
 	var predicates []predicate.File
+	currentUserId := l.ctx.Value("userId").(string)
+
+	// Privacy filter: show public files (status=1) OR private files (status=2) owned by current user
+	// 隐私过滤：显示公开文件 (status=1) 或 当前用户自己的私有文件 (status=2)
+	privacyPredicate := file.Or(
+		file.StatusEQ(1), // public files
+		file.And(
+			file.StatusEQ(2),          // private files
+			file.UserIDEQ(currentUserId), // owned by current user
+		),
+	)
+	predicates = append(predicates, privacyPredicate)
 
 	if req.FileType != nil && *req.FileType != 0 {
 		predicates = append(predicates, file.FileTypeEQ(*req.FileType))
@@ -80,6 +92,15 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 	resp.Data.Total = files.PageDetails.Total
 
 	for _, v := range files.List {
+		// Only return public path for public files (status=1)
+		// Private files (status=2) should be downloaded via API
+		var publicPath *string
+		if v.Status == 1 {
+			publicPath = pointy.GetPointer(l.svcCtx.Config.UploadConf.ServerURL + v.Path)
+		} else {
+			publicPath = pointy.GetPointer("")
+		}
+
 		resp.Data.Data = append(resp.Data.Data, types.FileInfo{
 			BaseUUIDInfo: types.BaseUUIDInfo{
 				Id:        pointy.GetPointer(v.ID.String()),
@@ -93,7 +114,7 @@ func (l *FileListLogic) FileList(req *types.FileListReq) (resp *types.FileListRe
 			Path:       &v.Path,
 			Status:     &v.Status,
 			FileTagIds: l.getFileTagIds(v.Edges.Tags),
-			PublicPath: pointy.GetPointer(l.svcCtx.Config.UploadConf.ServerURL + v.Path),
+			PublicPath: publicPath,
 		})
 	}
 
