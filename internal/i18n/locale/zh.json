@@ -21,7 +21,8 @@
 	"file": {
 		"overSizeError": "文件大小超过限定值",
 		"wrongTypeError": "错误的文件类型",
-		"parseFormFailed": "无法处理提交数据"
+		"parseFormFailed": "无法处理提交数据",
+		"permissionDenied": "无权访问此文件"
 	},
 	"init": {
 		"initializeIsRunning": "正在初始化...",

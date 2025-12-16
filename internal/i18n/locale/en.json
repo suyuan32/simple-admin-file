@@ -22,7 +22,8 @@
 	"file": {
 		"overSizeError": " The file is over size",
 		"wrongTypeError": "The file type is illegal",
-		"parseFormFailed": "Failed to parse multiform data"
+		"parseFormFailed": "Failed to parse multiform data",
+		"permissionDenied": "Permission denied to access this file"
 	},
 	"init": {
 		"alreadyInit": "The database had been initialized.",
