@@ -143,7 +143,7 @@ func (l *UploadLogic) Upload() (resp *types.CloudFileInfoResp, err error) {
 	return &types.CloudFileInfoResp{
 		BaseDataInfo: types.BaseDataInfo{
 			Code: 0,
-			Msg:  i18n.Success,
+			Msg:  l.svcCtx.Trans.Trans(l.ctx, i18n.Success),
 			Data: "",
 		},
 		Data: types.CloudFileInfo{
