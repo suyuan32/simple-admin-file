@@ -116,7 +116,7 @@ func (l *UploadLogic) Upload() (resp *types.CloudFileInfoResp, err error) {
 		return nil, err
 	}
 
-	if l.svcCtx.CloudStorage.ProviderData[provider].UseCdn {
+	if l.svcCtx.CloudStorage.ProviderData[provider].UseCdn && l.svcCtx.CloudStorage.ProviderData[provider].CdnUrl != "" {
 		url = fmt.Sprintf("%s%s", l.svcCtx.CloudStorage.ProviderData[provider].CdnUrl, relativeSrc)
 	}
 
