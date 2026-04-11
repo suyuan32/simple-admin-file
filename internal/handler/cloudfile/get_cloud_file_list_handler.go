@@ -10,21 +10,6 @@ import (
 	"github.com/suyuan32/simple-admin-file/internal/types"
 )
 
-// swagger:route post /cloud_file/list cloudfile GetCloudFileList
-//
-// Get cloud file list | 获取CloudFile列表
-//
-// Get cloud file list | 获取CloudFile列表
-//
-// Parameters:
-//  + name: body
-//    require: true
-//    in: body
-//    type: CloudFileListReq
-//
-// Responses:
-//  200: CloudFileListResp
-
 func GetCloudFileListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.CloudFileListReq

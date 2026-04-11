@@ -10,21 +10,6 @@ import (
 	"github.com/suyuan32/simple-admin-file/internal/types"
 )
 
-// swagger:route post /file/delete_by_url file DeleteFileByUrl
-//
-// Delete file information | 删除文件信息
-//
-// Delete file information | 删除文件信息
-//
-// Parameters:
-//  + name: body
-//    require: true
-//    in: body
-//    type: FileDeleteReq
-//
-// Responses:
-//  200: BaseMsgResp
-
 func DeleteFileByUrlHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.FileDeleteReq

@@ -10,21 +10,6 @@ import (
 	"github.com/suyuan32/simple-admin-file/internal/types"
 )
 
-// swagger:route post /cloud_file/create cloudfile CreateCloudFile
-//
-// Create cloud file information | 创建云文件
-//
-// Create cloud file information | 创建云文件
-//
-// Parameters:
-//  + name: body
-//    require: true
-//    in: body
-//    type: CloudFileInfo
-//
-// Responses:
-//  200: BaseMsgResp
-
 func CreateCloudFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.CloudFileInfo

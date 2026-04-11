@@ -10,21 +10,6 @@ import (
 	"github.com/suyuan32/simple-admin-file/internal/types"
 )
 
-// swagger:route post /file/list file FileList
-//
-// Get file list | 获取文件列表
-//
-// Get file list | 获取文件列表
-//
-// Parameters:
-//  + name: body
-//    require: true
-//    in: body
-//    type: FileListReq
-//
-// Responses:
-//  200: FileListResp
-
 func FileListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.FileListReq

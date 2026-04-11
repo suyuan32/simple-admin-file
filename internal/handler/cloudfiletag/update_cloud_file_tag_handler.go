@@ -10,21 +10,6 @@ import (
 	"github.com/suyuan32/simple-admin-file/internal/types"
 )
 
-// swagger:route post /cloud_file_tag/update cloudfiletag UpdateCloudFileTag
-//
-// Update cloud file tag information | 更新云文件标签
-//
-// Update cloud file tag information | 更新云文件标签
-//
-// Parameters:
-//  + name: body
-//    require: true
-//    in: body
-//    type: CloudFileTagInfo
-//
-// Responses:
-//  200: BaseMsgResp
-
 func UpdateCloudFileTagHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.CloudFileTagInfo

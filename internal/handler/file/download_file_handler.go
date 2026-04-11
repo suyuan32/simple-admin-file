@@ -12,20 +12,6 @@ import (
 	"github.com/suyuan32/simple-admin-file/internal/types"
 )
 
-// swagger:route get /file/download/{id} file DownloadFile
-//
-// Download file | 下载文件
-//
-// Download file | 下载文件
-//
-// Parameters:
-//  + name: id
-//    require: true
-//    in: path
-//
-// Responses:
-//  200: BaseMsgResp
-
 func DownloadFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.UUIDPathReq

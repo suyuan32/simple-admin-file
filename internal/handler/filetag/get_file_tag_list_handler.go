@@ -10,21 +10,6 @@ import (
 	"github.com/suyuan32/simple-admin-file/internal/types"
 )
 
-// swagger:route post /file_tag/list filetag GetFileTagList
-//
-// Get file tag list | 获取文件标签列表
-//
-// Get file tag list | 获取文件标签列表
-//
-// Parameters:
-//  + name: body
-//    require: true
-//    in: body
-//    type: FileTagListReq
-//
-// Responses:
-//  200: FileTagListResp
-
 func GetFileTagListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.FileTagListReq

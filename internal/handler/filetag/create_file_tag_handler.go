@@ -10,21 +10,6 @@ import (
 	"github.com/suyuan32/simple-admin-file/internal/types"
 )
 
-// swagger:route post /file_tag/create filetag CreateFileTag
-//
-// Create file tag information | 创建文件标签
-//
-// Create file tag information | 创建文件标签
-//
-// Parameters:
-//  + name: body
-//    require: true
-//    in: body
-//    type: FileTagInfo
-//
-// Responses:
-//  200: BaseMsgResp
-
 func CreateFileTagHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.FileTagInfo

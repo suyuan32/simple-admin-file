@@ -10,21 +10,6 @@ import (
 	"github.com/suyuan32/simple-admin-file/internal/types"
 )
 
-// swagger:route post /cloud_file cloudfile GetCloudFileById
-//
-// Get cloud file by ID | 通过ID获取云文件
-//
-// Get cloud file by ID | 通过ID获取云文件
-//
-// Parameters:
-//  + name: body
-//    require: true
-//    in: body
-//    type: UUIDReq
-//
-// Responses:
-//  200: CloudFileInfoResp
-
 func GetCloudFileByIdHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.UUIDReq
