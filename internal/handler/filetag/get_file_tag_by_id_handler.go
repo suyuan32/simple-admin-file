@@ -10,21 +10,6 @@ import (
 	"github.com/suyuan32/simple-admin-file/internal/types"
 )
 
-// swagger:route post /file_tag filetag GetFileTagById
-//
-// Get file tag by ID | 通过ID获取文件标签
-//
-// Get file tag by ID | 通过ID获取文件标签
-//
-// Parameters:
-//  + name: body
-//    require: true
-//    in: body
-//    type: IDReq
-//
-// Responses:
-//  200: FileTagInfoResp
-
 func GetFileTagByIdHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.IDReq

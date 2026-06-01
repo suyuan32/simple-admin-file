@@ -10,21 +10,6 @@ import (
 	"github.com/suyuan32/simple-admin-file/internal/types"
 )
 
-// swagger:route post /storage_provider/list storageprovider GetStorageProviderList
-//
-// Get storage provider list | 获取服务提供商列表
-//
-// Get storage provider list | 获取服务提供商列表
-//
-// Parameters:
-//  + name: body
-//    require: true
-//    in: body
-//    type: StorageProviderListReq
-//
-// Responses:
-//  200: StorageProviderListResp
-
 func GetStorageProviderListHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.StorageProviderListReq

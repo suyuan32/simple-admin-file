@@ -9,15 +9,6 @@ import (
 	"github.com/suyuan32/simple-admin-file/internal/svc"
 )
 
-// swagger:route post /upload file Upload
-//
-// Upload file | 上传文件
-//
-// Upload file | 上传文件
-//
-// Responses:
-//  200: UploadResp
-
 func UploadHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		l := file.NewUploadLogic(r, svcCtx)

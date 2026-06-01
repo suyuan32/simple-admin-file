@@ -10,21 +10,6 @@ import (
 	"github.com/suyuan32/simple-admin-file/internal/types"
 )
 
-// swagger:route post /storage_provider storageprovider GetStorageProviderById
-//
-// Get storage provider by ID | 通过ID获取服务提供商
-//
-// Get storage provider by ID | 通过ID获取服务提供商
-//
-// Parameters:
-//  + name: body
-//    require: true
-//    in: body
-//    type: IDReq
-//
-// Responses:
-//  200: StorageProviderInfoResp
-
 func GetStorageProviderByIdHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.IDReq

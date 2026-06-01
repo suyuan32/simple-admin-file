@@ -10,21 +10,6 @@ import (
 	"github.com/suyuan32/simple-admin-file/internal/types"
 )
 
-// swagger:route post /cloud_file/delete cloudfile DeleteCloudFile
-//
-// Delete cloud file information | 删除云文件信息
-//
-// Delete cloud file information | 删除云文件信息
-//
-// Parameters:
-//  + name: body
-//    require: true
-//    in: body
-//    type: UUIDsReq
-//
-// Responses:
-//  200: BaseMsgResp
-
 func DeleteCloudFileHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.UUIDsReq

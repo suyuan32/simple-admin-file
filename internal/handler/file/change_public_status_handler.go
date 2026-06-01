@@ -10,21 +10,6 @@ import (
 	"github.com/suyuan32/simple-admin-file/internal/types"
 )
 
-// swagger:route post /file/status file ChangePublicStatus
-//
-// Change file public status | 改变文件公开状态
-//
-// Change file public status | 改变文件公开状态
-//
-// Parameters:
-//  + name: body
-//    require: true
-//    in: body
-//    type: StatusCodeReq
-//
-// Responses:
-//  200: BaseMsgResp
-
 func ChangePublicStatusHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.StatusCodeReq

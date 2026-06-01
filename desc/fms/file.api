@@ -114,7 +114,7 @@ type (
 )
 
 @server(
-	jwt : Auth
+	jwt: Auth
 	group: file
 	middleware: Authority
 )
@@ -146,7 +146,7 @@ service Fms {
 }
 
 @server(
-	jwt : Auth
+	jwt: Auth
 	group: file
 )
 
